@@ -3,7 +3,7 @@ image: ubuntu:focal
 before_install:
   - apt update && apt install -y wget
   - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-  - nvm install $NODE_VERSION
+  - nvm install 16
 
 install:
   - npm install
@@ -14,10 +14,11 @@ script:
 cache:
   - node_modules
 
-before_deploy: 
+before_deploy:
   - apt update && apt install -y wget
   - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
   - nvm install 16
   - npm install
+
 deploy:
   - node index.js
