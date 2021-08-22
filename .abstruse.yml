@@ -1,0 +1,18 @@
+image: ubuntu:focal
+
+before_install:
+  - apt update && apt install -y wget
+  - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+  - nvm install $NODE_VERSION
+
+install:
+  - npm install
+
+script:
+  - if [[ "$SCRIPT" ]]; then npm run $SCRIPT; fi
+
+cache:
+  - node_modules
+
+deploy:
+  - node index.js
