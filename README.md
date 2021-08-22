@@ -1,4 +1,4 @@
 ![Zumito banner](/assets/images/banner.png?raw=true)
-# Zumito
+# Zumito 🧃
 Multipurpose discord bot
 
