@@ -41,7 +41,7 @@ module.exports = {
             // }
         }
 
-        let prefix = settings.prefix || process.env.botPrefix;
+        let prefix = settings.prefix || process.env.BOTPREFIX;
 
         //const args = message.content.slice(prefix.length).split(/ +/);
         if (prefix === undefined) return console.error('prefix is undefined');

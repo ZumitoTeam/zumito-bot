@@ -7,7 +7,7 @@ var LocalStorage = require('node-localstorage').LocalStorage;   // Load local st
 const {loadCommands} = require('./utils/data.js');
 
 
-console.logLevel = process.env.logLevel || 3;
+console.logLevel = process.env.LOGLEVEL || 3;
 
 const client = new Client({ 
     intents: [
@@ -19,7 +19,7 @@ const client = new Client({
     ]
 });
 
-if (process.env.debug == true || process.env.debug == 'true') {
+if (process.env.DEBUG == true || process.env.DEBUG == 'true') {
     let {initializeDebug} = require('./utils/debug.js');
     initializeDebug(client);
 }
@@ -94,4 +94,4 @@ client.once('ready', () => {
 
 });
 
-client.login(process.env.token)
+client.login(process.env.TOKEN)

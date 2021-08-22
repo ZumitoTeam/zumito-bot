@@ -3,8 +3,8 @@ const Discord = require('discord.js');
 const fs = require("fs");
 var read = require('fs-readdir-recursive')
 const commandFiles = read('./commands');//fs.readdirSync('./commands');//.filter(file => file.endsWith('.js'));
-const owner = process.env.Owner;
-const prefix = process.env.botPrefix;
+const owner = process.env.OWNER;
+const prefix = process.env.BOTPREFIX;
 const { t } = require('localizify');
 const { sendTimedMessage } = require("../../utils/messages.js");
 
