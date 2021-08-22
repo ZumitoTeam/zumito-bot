@@ -3,6 +3,11 @@ const {default: localizify, t} = require('localizify');         // Load localiza
 const {MessageEmbed} = require('discord.js');
 const config = require('../../config.js');      // Load bot config
 
+// Import chatbot libraries
+const cleverbot = require("cleverbot-free");
+const Derieri = require('derieri');
+const chatbot = require("espchatbotapi")
+
 module.exports = {
     // we want a message event
     event: "messageCreate",
@@ -47,32 +52,29 @@ module.exports = {
         if (message.mentions.users.size) {
             if (message.mentions.users.first().id == client.user.id && message.content.startsWith('<')) {
                 if (args.length == 0) {
-                    return message.lineReply(`my prefix is \`${prefix}\``);
+                    return message.reply(`my prefix is \`${prefix}\``);
                     //return message.reply(`my prefix is \`\`${prefix}\`\``)
                 } else {
-                    message.channel.startTyping();
+                    message.channel.sendTyping();
                     var text = args.join(' ');
                     try {
                         var response = await cleverbot(text);
-                        message.lineReply(response);
-                        message.channel.stopTyping();
+                        message.reply(response);
                     } catch (e) {
                         console.warn('cleverbot down');
                         try {
                             var response = await deri.reply(text);
-                            message.lineReply(response);
-                            message.channel.stopTyping();
+                            message.reply(response);
                         } catch (e) {
                             console.warn('Derieri down');
-                            message.lineReply(t("Sorry, my brain es exceeded, please try to talk me in a few minutes."));
-                            message.channel.stopTyping();
+                            message.reply(t("Sorry, my brain es exceeded, please try to talk me in a few minutes."));
                             // try {
                             // 	var response = await chatbot.hablar(text);
-                            // 	message.lineReply(response);
+                            // 	message.reply(response);
                             // 	message.channel.stopTyping();
                             // } catch(e) {
                             // 	console.warn('espchatbotapi down');
-                            // 	message.lineReply(t("Sorry, my brain es exceeded, please try to talk me in a few minutes."));
+                            // 	message.reply(t("Sorry, my brain es exceeded, please try to talk me in a few minutes."));
                             // 	message.channel.stopTyping();
                             // }
                         }
