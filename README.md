@@ -1,0 +1,2 @@
+# Zumito
+Multipurpose discord bot
