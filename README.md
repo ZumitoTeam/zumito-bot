@@ -7,6 +7,12 @@ Multipurpose discord bot
   * [Getting started](#getting-started)
     + [Setup project](#setup-project)
     + [Start bot](#start-bot)
+  * [Contributing](#contributing)
+    + [Submiting bug or error](#submiting-bug-or-error)
+    + [Submiting ideas](#submiting-ideas)
+    + [Translating](#translating)
+    + [Coding](#coding)
+
 
 # Development
 ## Project requeriments
