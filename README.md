@@ -51,4 +51,4 @@ Knowledge of a language is a great way to open doors to the whole world, so if y
 More info here coming soon.
 ### Coding
 If you can code you can do almost everithing you want, just sumbit a pull request and we will review as fast as we can.
-If you want to contribute coding but you don't know what, you can check the [projects tab](https://github.com/fernandomema/Zumito/projects). There is a lot of things to implement or fix. Feel free to open te task issue, assign to you and/or ask for more details on that task.
+If you want to contribute coding but you don't know what, you can check the [projects tab](https://github.com/fernandomema/Zumito/projects). There is a lot of things to implement or fix. Feel free to open te task issue, assign to you and/or [ask for more details](https://github.com/fernandomema/Zumito/discussions/new) on that task.
