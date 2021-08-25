@@ -1,6 +1,12 @@
 ![Zumito banner](/assets/images/banner.png?raw=true)
 # Zumito 🧃
 Multipurpose discord bot
+- [Zumito 🧃](#zumito---)
+- [Development](#development)
+  * [Project requeriments](#project-requeriments)
+  * [Getting started](#getting-started)
+    + [Setup project](#setup-project)
+    + [Start bot](#start-bot)
 
 # Development
 ## Project requeriments
