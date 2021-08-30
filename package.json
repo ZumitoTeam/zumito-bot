@@ -24,6 +24,7 @@
     "axios": "^0.21.1",
     "better-logging": "^4.5.0",
     "chalk": "^4.1.2",
+    "bufferutil": "^4.0.3",
     "chokidar": "^3.5.2",
     "cleverbot-free": "^1.1.6",
     "derieri": "^0.0.4",
@@ -38,7 +39,8 @@
     "mongodb": "^4.1.0",
     "node-fetch": "^2.6.1",
     "node-localstorage": "^2.2.1",
-    "remote-file-size": "^3.0.5"
+    "remote-file-size": "^3.0.5",
+    "utf-8-validate": "^5.0.5"
   },
   "devDependencies": {
     "@jsdevtools/version-bump-prompt": "^6.1.0"
