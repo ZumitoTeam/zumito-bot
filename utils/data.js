@@ -174,19 +174,26 @@ module.exports = {
                 commands.push(...module.exports.loadCommands(client, fullPath));
             } else {
                 delete require.cache[require.resolve(fullPath)];
-                const command = require(`${fullPath}`);
-                command.category = fullPath.substring(fullPath.indexOf('/') + 1, fullPath.lastIndexOf('/'));
-                commands.push(command);
-                // set a new item in the Collection
-                // with the key as the command name and the value as the exported module
-                client.commands.set(command.name, command);
-                //console.debug(`Loading: ${file}`)
-                // set if there aliase !== null
-                // // with the key as the each of command aliases and the value as the exported module
-                command.aliases.map(e=>{
-                    // console.log(e);
-                    client.commands.set(e, command);
-                })
+                let command;
+                try {
+                    command = require(`${fullPath}`);
+                } catch(error) {
+                    console.error('Error loading ' + fullPath + ' command');
+                }
+                if (command !== undefined) {
+                    command.category = fullPath.substring(fullPath.indexOf('/') + 1, fullPath.lastIndexOf('/'));
+                    commands.push(command);
+                    // set a new item in the Collection
+                    // with the key as the command name and the value as the exported module
+                    client.commands.set(command.name, command);
+                    //console.debug(`Loading: ${file}`)
+                    if (command.aliases !== undefined) {
+                        // with the key as the each of command aliases and the value as the exported module
+                        command.aliases.map(e=>{
+                            client.commands.set(e, command);
+                        })
+                    }
+                }
             }  
         });
         return commands;
