@@ -51,7 +51,7 @@ module.exports = {
                     .setThumbnail('https://crafatar.com/renders/head/' + encodeURIComponent(uuidData.id))
                     .setDescription('**information:**')
                     .addField('Name: ', ranks[metadata.player.newPackageRank] + metadata.player.displayname, true)
-                    .addField('Status', 'Ofline', true)
+                    .addField('Status', 'Ofline', true);
     
                 //.setTitle(ranks[metadata.player.newPackageRank] + metadata.player.displayname)
                 //.addField("Karma: ", '0')
@@ -101,7 +101,7 @@ module.exports = {
                             .setThumbnail('https://crafatar.com/renders/head/' + encodeURIComponent(uuidData.id))
                             .setDescription('**information:**')
                             .addField('Name: ', ranks[metadata.player.newPackageRank] + metadata.player.displayname, true)
-                            .addField('Status', 'Ofline', true)
+                            .addField('Status', 'Ofline', true);
                         await message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
                     }
                     break;
