@@ -63,13 +63,13 @@ fs.readdir('./events/discord', (err, files) => { // We use the method readdir to
 client.once('ready', () => {
 	console.info(client.user.username + ' is Ready!');
 
-	// Activities 
+    // Activities 
 	setInterval(async () => {
         const { getBotVersion } = require("./utils/data.js");
 		client.user.setPresence({
 			status: "online",
 			activity: {
-				name: 'tl-help 🌷 V'+getBotVersion() + ' 🌷 tulipo.ga',
+				name: 'Zumito 🧃'+getBotVersion(),
 				type: "PLAYING" // https://discord.js.org/#/docs/main/stable/typedef/ActivityType
 			}
 		});

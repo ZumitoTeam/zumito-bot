@@ -1,6 +1,7 @@
 ![Zumito banner](/assets/images/banner.png?raw=true)
 # Zumito 🧃
 [![CodeFactor](https://www.codefactor.io/repository/github/fernandomema/zumito/badge)](https://www.codefactor.io/repository/github/fernandomema/zumito)
+![GitHub Repo stars](https://img.shields.io/github/stars/fernandomema/zumito)
 
 Multipurpose discord bot
 - [Zumito 🧃](#zumito---)

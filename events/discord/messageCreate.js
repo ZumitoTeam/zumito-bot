@@ -2,6 +2,7 @@ const {splitCommandLine} = require('../../utils/utils.js');
 const {default: localizify, t} = require('localizify');         // Load localization library
 const {MessageEmbed} = require('discord.js');
 const config = require('../../config.js');      // Load bot config
+const {getErrorEmbed} = require('../../utils/debug.js');
 
 // Import chatbot libraries
 const cleverbot = require("cleverbot-free");
@@ -144,8 +145,19 @@ module.exports = {
 
 
         // if no command like this do nothing
-        if (!client.commands.has(command)) return;
-        var comid = client.commands.get(command);
+        var comid;
+        if (!client.commands.has(command)){
+            var commandList = Array.from(client.commands.keys());
+            var autocorrect = require('autocorrect')({words: commandList})
+            var correctedCommand = autocorrect(command);
+            if (client.commands.has(correctedCommand)) {
+                comid = client.commands.get(correctedCommand);
+            } else {
+                return;
+            }
+        } else {
+            comid = client.commands.get(command);
+        }
 
         // check if user is not rate limited
         // if (rateLimiter.take(message.author.id)) {
@@ -181,7 +193,7 @@ module.exports = {
 
         try {
             localizify.setLocale(settings.lang || 'en');
-            await comid.execute(client, message, args);
+            await comid.execute(client, message, args)
             if (message.channel.type != 'dm' && !message.deleted && settings.deleteCommands) {
                 try {
                     message.delete().catch(function () {
@@ -195,19 +207,31 @@ module.exports = {
 
             }
         } catch (error) {
-            console.error(error.name, error.message, error.stack, Object.getOwnPropertyNames(error));
-            const embed = new MessageEmbed()
-                .setTitle("Error running command")
-                .setColor(config.embeds.color)
-                .setDescription("There is an error running your command. Please contact developers to solve this issue.")
-                .setTimestamp()
-                .addField('Command:', (comid.name || 'not defined'))
-                .addField('Arguments:', (args.toString() || 'none'))
-                .addField('Error:', (error.name || 'not defined'))
-                .addField('Error message:', (error.message || 'not defined'))
-                //.addField('stack:', (error.stack ? error.stack.toString() : 'none'))
-
-            message.reply({embeds: [embed]});
+            //var error = parseError(error);
+            //console.error(error.name, error.message, error.stack, Object.getOwnPropertyNames(error));
+            // const embed = new MessageEmbed()
+            //     .setTitle("Error running command")
+            //     .setColor(config.embeds.color)
+            //     .setDescription("There is an error running your command. Please contact developers to solve this issue.")
+            //     .setTimestamp()
+            //     .addField('Command:', (comid.name || 'not defined'))
+            //     .addField('Arguments:', (args.toString() || 'none'))
+            //     .addField('Error:', (error.name || 'not defined'))
+            //     .addField('Error message:', (error.message || 'not defined'));
+            //     if (error.possibleSolutions !== undefined) {
+            //         error.possibleSolutions.forEach((solution) => {
+            //             embed.addField('Posible solution:', solution);
+            //         });
+            //     }
+            //     //.addField('stack:', (error.stack ? error.stack.toString() : 'none'))
+            
+            //console.log(1, error);
+            message.reply({embeds: [getErrorEmbed({
+                name: error.name,
+                message: error.message,
+                comid: comid,
+                args: args
+            }, true)]});
             //message.reply('there was an error trying to execute that command!');
         }
 

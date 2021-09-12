@@ -1,6 +1,9 @@
 var chokidar = require('chokidar');
 const path = require('path');
 const {loadCommands} = require('../utils/data.js');
+const { MessageEmbed } = require('discord.js');
+const config = require('../config.js');
+const chalk = require('chalk');
 
 module.exports = {
     initializeDebug(client) {
@@ -13,7 +16,7 @@ module.exports = {
     }, 
 
     onChange(file) {
-        console.debug('Updated ' + file + ' command');
+        console.debug('[🔄 ] Command ' + chalk.blue(file.replace(/^.*[\\\/]/, '').split('.').slice(0, -1).join('.')) + ' reloaded');
         loadCommands(module.exports.client, path.resolve(__dirname + '/../commands'));
     },
 
@@ -24,5 +27,39 @@ module.exports = {
 
     onError(error) {
         console.error(error);
+    },
+
+    parseError(error) {
+        error.possibleSolutions = [];
+        if (/(?:^|(?<= ))(MessageEmbed|Discord|MessageActionRow|MessageButton|MessageSelectMenu)(?:(?= )|$) is not defined/gm.test(error.message)) {
+            error.possibleSolutions.push('const { ' + error.message.split(" ")[0] + ' } = require(\'discord.js\');');
+        } else if (error.message.includes('A custom id and url cannot both be specified')) {
+            error.possibleSolutions.push("Remove .setCustomId(...) or .setURL(...)");
+        }
+        return error;
+    },
+
+    getErrorEmbed(error, parse) {
+        let parsedError;
+        if (parse) {
+            parsedError = module.exports.parseError(error);
+        } else {
+            parsedError = error;
+        }
+        let embed = new MessageEmbed()
+        .setTitle("Error running command")
+        .setColor(config.embeds.color)
+        .setDescription("There is an error running your command. Please contact developers to solve this issue.")
+        .setTimestamp()
+        .addField('Command:', (error.comid.name || 'not defined'))
+        .addField('Arguments:', (error.args.toString() || 'none'))
+        .addField('Error:', (error.name || 'not defined'))
+        .addField('Error message:', (error.message || 'not defined'));
+        if (error.possibleSolutions !== undefined) {
+            error.possibleSolutions.forEach((solution) => {
+                embed.addField('Posible solution:', solution);
+            });
+        }
+        return embed;
     }
 }
