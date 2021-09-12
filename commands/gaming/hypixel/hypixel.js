@@ -23,10 +23,10 @@ module.exports = {
             "MVP": "[MVP] ",
             "MVP_PLUS": "[MVP+] ",
             "MVP_PLUS_PLUS": "[MVP++] "
-        }
+        };
         let ranksicon = {
 
-        }
+        };
         if (args[0] === undefined) return await message.reply(t('Player username is mandatory.'));
         const uuidData = await fetch('https://api.mojang.com/users/profiles/minecraft/' + (args.join(' ')))
             .then(res => res.json())
