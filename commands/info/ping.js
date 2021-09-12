@@ -1,3 +1,7 @@
+const { Discord, MessageActionRow, MessageEmbed, MessageButton } = require('discord.js');
+const config = require('../../config.js');
+
+// export module
 // export module
 module.exports = {
 	name : "ping",
@@ -9,6 +13,6 @@ module.exports = {
 	nsfw : false,
 	execute(client,message,args){
 		const dt = new Date(message.createdTimestamp);
-		return message.channel.send(`pong \`\`${new Date() - dt}ms\`\` | ws : \`\`${client.ws.ping}ms\`\``);
+		return message.channel.send(`pong \`${new Date() - dt}ms\` | ws : \`${client.ws.ping}ms\``);
 	}
 }

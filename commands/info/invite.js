@@ -1,40 +1,52 @@
 // init require
-const Discord = require('discord.js');
+const { Discord, MessageActionRow, MessageEmbed, MessageButton } = require('discord.js');
 const { getFooter } = require("../../utils/data.js");
 const {default: localizify, t} = require('localizify');
+const config = require('../../config.js');
 
 // export module
 module.exports = {
 	name : "invite",
 	description : "Get tulipo invite urls",
 	aliases : [],
-	ussage : null,
-	hidden : false,
-	admin : true,
-	nsfw : false,
-	async execute(client,message,args){
-		return message.author.send({
-			"embeds":  [{
-				"color": 16711680,
-				"description": t("Here is the invitation link so that I can join any server you manage.") + "<:tulipo_happy:813820074359521320>\n**"+t("Invitation")+"**:\n**-** ["+t("Invitation")+"](https://tulipo.ga/invite) **-**\n\n**"+t("Note")+":**\n**1**. "+t("It is recommended to leave the `Administrator` permission enabled to avoid any future conflicts with permissions.")+"\n**2**. "+t('You must have the `Server administration` permission enabled on the server where you want to invite Tulipo.'),
-				"timestamp": "",
-				"url": "",
-				"author": {
-				  "name": t("Invitation"),
-				  "url": "",
-				  "icon_url": "https://media.discordapp.net/attachments/813104993091190814/813819667255787570/tulipo_happy.png"
-				},
-				"image": {
-				  "url": ""
-				},
-				"thumbnail": {
-				  "url": "https://media.discordapp.net/attachments/813104993091190814/813819667255787570/tulipo_happy.png"
-				},
-				"footer": {
-					"text": getFooter(message.member.user.tag),
-					"icon_url": message.member.user.displayAvatarURL({dynamic: true} )
-				},
-			  }]
-		  });
-	}
+	ussage : '',
+	examples:[], 
+	hidden : true,
+	admin : false,
+    nsfw : false,
+
+    async execute(client, message, args){
+
+
+		var embed = new MessageEmbed()
+		.setColor(config.embeds.color)
+		.setAuthor('Invitation', 'https://media.discordapp.net/attachments/752920872318271504/879505103067967518/zumito.png')
+		.setDescription('Here is the invitation link for you to invite me to your server. <:juice_face:879047636194316300>')
+		.setImage('https://media.discordapp.net/attachments/752920872318271504/879505391900295168/zumito_banner.png?width=1144&height=572')
+
+		const row = new MessageActionRow()
+		.addComponents(
+			new MessageButton()
+			.setLabel('Invite')
+			.setStyle('LINK')
+			.setURL('https://zumito.ga/invite')
+			.setEmoji('879047987177852978'),
+
+			new MessageButton()
+			.setLabel('Support')
+			.setStyle('LINK')
+			.setURL('https://zumito.ga/server')
+			.setEmoji('879509411285045279'),
+
+			new MessageButton()
+			.setLabel('Website')
+			.setStyle('LINK')
+			.setURL('https://zumito.ga/')
+			.setEmoji('879510323676200980')
+			);
+
+		await message.channel.send({ components: [row], embeds: [embed] });
+
+	 } 
+
 }

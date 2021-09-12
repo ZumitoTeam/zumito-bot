@@ -183,10 +183,12 @@ module.exports = {
                 //console.debug(`Loading: ${file}`)
                 // set if there aliase !== null
                 // // with the key as the each of command aliases and the value as the exported module
-                command.aliases.map(e=>{
-                    // console.log(e);
-                    client.commands.set(e, command);
-                })
+                if (command.aliases !== undefined) {
+                    command.aliases.map(e=>{
+                        // console.log(e);
+                        client.commands.set(e, command);
+                    })
+                }
             }  
         });
         return commands;

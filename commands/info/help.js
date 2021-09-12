@@ -1,5 +1,6 @@
 // init require
 const Discord = require('discord.js');
+const {MessageActionRow, MessageSelectMenu  } = require('discord.js');
 const fs = require("fs");
 var read = require('fs-readdir-recursive')
 const commandFiles = read('./commands');//fs.readdirSync('./commands');//.filter(file => file.endsWith('.js'));
@@ -7,6 +8,8 @@ const owner = process.env.OWNER;
 const prefix = process.env.BOTPREFIX;
 const { t } = require('localizify');
 const { sendTimedMessage } = require("../../utils/messages.js");
+const config = require('../../config.js');
+const { getConfig } = require("../../utils/data.js");
 
 // export module
 module.exports = {
@@ -25,6 +28,10 @@ module.exports = {
 		let user = message.mentions.users.size ? message.mentions.users.first() : message.author;
 		var util = client.util;
 		const embed = new Discord.MessageEmbed();
+
+		const { getConfig } = require("../../utils/data.js");
+		settings = await getConfig(message.guild);
+		let prefix = settings.prefix || process.env.BOTPREFIX;
 
 		if (!args[0]) {
 			// var folder = '';
@@ -67,18 +74,18 @@ module.exports = {
             // }
             
 			// return message.author.send(embed);
-			sendTimedMessage(message.channel, t('Help sended to DM'), 7);
-			return message.author.send({
+			//sendTimedMessage(message.channel, t('Help sended to DM'), 7);
+			return message.reply({
 				"embeds": [{
 					"title": "",
-					"color": 16711680,
-					"description": "",
+					"color": config.embeds.color,
+					"description": "", //"» Hello thank you for inviting me to your server here is my menu so you can learn more about me.",
 					"timestamp": "",
-					"url": "https://tulipo.ga/",
+					"url": "https://zumito.ga/",
 					"author": {
-					  "name": "Tulipo",
+					  "name": "Commands of Zumito",
 					  "url": "",
-					  "icon_url": "https://cdn.discordapp.com/attachments/813104993091190814/813819667255787570/tulipo_happy.png"
+					  "icon_url": "https://media.discordapp.net/attachments/879845851416121365/879915560698253382/879047636194316300.png"
 					},
 					"image": {
 					  "url": ""
@@ -92,28 +99,43 @@ module.exports = {
 					},
 					"fields": [
 					  {
-						"name": "<:textchannel:761996014453391360> Comandos:",
-						"value": t("You can check my list of commands here:") + ": \nhttps://tulipo.ga/commands"
+						"name": "» Help menu:",
+						"value": t("We have `0` categories and `0`\ commands to explore. \n\nList of commands: {prefix} <category>`", {prefix:'`' + prefix + 'help'}) + "\n" + t("Command in detail: " + " {prefix} <command>`", {prefix:'`' + prefix + 'help'})
 					  },
 					  {
-						"name": "<:tulipo_happy:813820074359521320> Prefix:",
-						"value": t("Default prefix: {prefix} or you can mention me to know it.", { prefix: '`tl-`' }) + "\n"+t("To execute commands, first type the prefix and then the command, e.g.") + " : `tl-`help."
+						"name": "»  Categories",
+						"value": t("{prefix} mod`", {prefix:'`' + prefix + 'help'}) + ":: <:juice_face:879047636194316300> Moderation"
 					  },
 					  {
-						"name": "<:information:761985109934866432> " + t("Details of a command:"),
-						"value": t("Use {prefix} <command> for more information.", {prefix: '`tl-help`'}) + "\n" + t("Example") + ": `tl-help userinfo`"
-					  },
-					  {
-						"name": "<:link:813908735856345098> " + t("Useful links:"),
-						"value": t("List of commands:") + " https://tulipo.ga/commands\nInvite: http://tulipo.ga/invite\n" + t("Website:") + " https://tulipo.ga/\n" + t("Support server:") + " https://discord.gg/Wrabb6R75w\nPremium :"
+						"name": "»  Useful links",
+						"value": "[Invite](https://emoji.gg/emoji/2604-minecraft-clock) | [Support](https://emoji.gg/emoji/2604-minecraft-clock) | [Website](https://emoji.gg/emoji/2604-minecraft-clock)"
 					  }
 					]
-				  }]
+				  }],
+				  components: [new MessageActionRow()
+					.addComponents(
+						new MessageSelectMenu()
+							.setCustomId('select')
+							.setPlaceholder('Select category')
+							.addOptions([
+								{
+									label: 'Moderation',
+									emoji: '879047636194316300',
+									description: 'This is a description',
+									value: 'first_option',
+								},
+								{
+									label: 'You can select me too',
+									description: 'This is also a description',
+									value: 'second_option',
+								},
+							]),
+					)]
 			  });
 
 		} else {
 			var comid = client.commands.get(args[0]);
-            if (!comid) return message.author.send(`<tulipo_cross:816448247459348480>There is no command line: **'${args[0]}'**`)
+            if (!comid) return message.channel.send(`<tulipo_cross:816448247459348480>There is no command line: **'${args[0]}'**`)
             var ussage = comid.ussage == null ? "" : `**🔺${util.tn("Ussage", 3)} :**\n\`\`\` ${prefix + comid.name} ${comid.ussage}\`\`\``;
             embed
                 .setColor(16711680)
@@ -141,7 +163,7 @@ module.exports = {
                 sendTimedMessage(message.channel, t('Help sended to DM'), 7);
             }
 
-            return message.author.send(embed);
+            return message.channel.send(embed);
         }
 
     }
@@ -176,3 +198,5 @@ function traverseDir(dir) {
 		}
 	});
 }
+
+//author

@@ -1,6 +1,5 @@
 // init require
-const Discord = require('discord.js');
-const { getBotVersion, getFooter, getTulipoSettings, setTulipoSettings } = require("../../utils/data.js");
+const { Discord, MessageActionRow, MessageEmbed, MessageButton } = require('discord.js');
 const {default: localizify, t} = require('localizify');
 const config = require('../../config.js');
 
@@ -9,11 +8,14 @@ module.exports = {
 	name : "avatar",
 	description : "Get user avatar image",
 	aliases : [],
-	ussage : null,
-	hidden : false,
-	admin : true,
-	nsfw : false,
-	async execute(client,message,args){
+	ussage : '',
+	examples:[], 
+	hidden : true,
+	admin : false,
+    nsfw : false,
+
+    async execute(client, message, args){
+
 		let avatar;
 		if(message.mentions.users.size > 0){
             avatar = message.mentions.users.first().displayAvatarURL({ dynamic: true, size:1024 });
@@ -27,23 +29,20 @@ module.exports = {
             user = message.author.username;
 		}
 
-		return message.channel.send({
-			"embeds": [{
-				"color": config.embeds.color,
-				"description": "[Avatar URL]("+avatar+")",
-				"author": {
-				  "name": t("Avatar of") + ' ' + user,
-				  "url": "",
-				  "icon_url": avatar
-				},
-				"image": {
-				  "url": avatar
-				},
-				"footer": {
-				  "text": getFooter(message.member.user.tag),
-				  "icon_url": message.member.user.displayAvatarURL({dynamic: true, size: 2048} )
-				},
-			}]
-		  });
-	}
+		var embed = new MessageEmbed()
+		.setColor(config.embeds.color)
+		.setAuthor('Avatar of' + ' ' + user, avatar)
+		.setImage(avatar)
+
+		const row = new MessageActionRow()
+		.addComponents(
+			new MessageButton()
+			.setLabel('Avatar URL')
+			.setStyle('LINK')
+			.setURL(avatar)
+			.setEmoji('879047987177852978')
+		);
+		await message.reply({components: [row], embeds: [embed], allowedMentions: { repliedUser: false } });
+
+ 	}
 }

@@ -110,7 +110,7 @@ module.exports = {
 	
 		const embed = new Discord.MessageEmbed()
 
-		.setTitle("<a:My_best_verified:752944773014356141> "+t('User information')+":")
+		.setTitle("<:juice_face:879047636194316300>  "+t('User information')+":")
 		.setThumbnail(user.avatarURL({dynamic: true}))
         .addField(t('Name')+":", user.username, true) 
         .addField(t('Discriminator')+":", '#'+user.discriminator, true);
@@ -124,10 +124,10 @@ module.exports = {
         }
         embed
         .addField(t('Playing at')+":", game, true)
-		.addField(t('¿Person or Bot?')+":", user.bot ? ":robot: "+t('Bot') : "<a:persona:754068955097989220> " + t('Person'));
-        if (!user.bot) {
-            embed.addField(t('Connected in')+":",platforms.join(' | ') || t('none'));
-        }
+		//.addField(t('¿Person or Bot?')+":", user.bot ? ":robot: "+t('Bot') : "<a:persona:754068955097989220> " + t('Person'));
+        //if (!user.bot) {
+            //embed.addField(t('Connected in')+":",platforms.join(' | ') || t('none'));
+        //}
         embed
 		.addField(t('Account creation')+":", timeDifference(new Date(user.createdTimestamp), new Date(Date.now())))
 		.addField(t('Date of admission')+":", timeDifference(new Date(member.joinedTimestamp), new Date(Date.now()) ))
