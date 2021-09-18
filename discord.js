@@ -5,6 +5,7 @@ require('better-logging')(console);         // Load better logging
 const {default: localizify, t} = require('localizify');         // Load localization library
 var LocalStorage = require('node-localstorage').LocalStorage;   // Load local storage library for node
 const {loadCommands} = require('./utils/data.js');
+const {getErrorEmbed} = require('./utils/debug.js');
 
 
 console.logLevel = process.env.LOGLEVEL || 3;
@@ -18,6 +19,7 @@ const client = new Client({
         "DIRECT_MESSAGES"
     ]
 });
+client.getErrorEmbed = getErrorEmbed;
 
 if (process.env.DEBUG == true || process.env.DEBUG == 'true') {
     let {initializeDebug} = require('./utils/debug.js');

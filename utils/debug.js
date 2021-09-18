@@ -51,9 +51,12 @@ module.exports = {
         .setColor(config.embeds.color)
         .setDescription("There is an error running your command. Please contact developers to solve this issue.")
         .setTimestamp()
-        .addField('Command:', (error.comid.name || 'not defined'))
-        .addField('Arguments:', (error.args.toString() || 'none'))
-        .addField('Error:', (error.name || 'not defined'))
+        .addField('Command:', (error.comid.name || 'not defined'));
+        if (error.args !== undefined) {
+            embed.addField('Arguments:', (error.args.toString() || 'none'));
+
+        }
+        embed.addField('Error:', (error.name || 'not defined'))
         .addField('Error message:', (error.message || 'not defined'));
         if (error.possibleSolutions !== undefined) {
             error.possibleSolutions.forEach((solution) => {

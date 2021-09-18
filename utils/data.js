@@ -178,7 +178,15 @@ module.exports = {
                 try {
                     command = require(`${fullPath}`);
                 } catch(error) {
-                    console.error('Error loading ' + fullPath + ' command');
+                    console.error('[❎ ] Error loading ' + fullPath + ' command');
+                    let channel = client.channels.cache.get("888890309025595473");
+                    if (channel !== undefined) {
+                        channel.send({embeds: [client.getErrorEmbed({
+                            name: error.name,
+                            message: error.message,
+                            comid: fullPath.replace(/^.*[\\\/]/, '').split('.').slice(0, -1).join('.'),
+                        }, true)]});
+                    }
                 }
                 if (command !== undefined) {
                     command.category = fullPath.substring(fullPath.indexOf('/') + 1, fullPath.lastIndexOf('/'));
