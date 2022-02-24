@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "bump:major": "bump major",
     "bump:patch": "bump patch",
-    "bump:prerelease": "bump prerelease"
+    "bump:prerelease": "bump prerelease",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
