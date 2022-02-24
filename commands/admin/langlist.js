@@ -16,7 +16,7 @@ module.exports = {
 	admin : true,
 	nsfw : false,
 	async execute(client,message,args){
-		message.channel.send({
+		message.reply({
 			"embeds": [{
 				"title": t("Available languages:"),
 				"color": config.embeds.color,

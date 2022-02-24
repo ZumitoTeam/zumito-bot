@@ -18,12 +18,12 @@ module.exports = {
 	async execute(client,message,args){
 		var settings = await getConfig(message.guild);
 		if (args.length == 0) {
-			return message.channel.send(`The current prefix is `+ '`' + settings.prefix + '`');
+			return message.reply(`The current prefix is `+ '`' + settings.prefix + '`');
 		} else {
 			settings.prefix = args[0];
 			saveConfig(message.guild, settings);
-			return message.channel.send({
-				"embed":  {
+			return message.reply({
+				"embeds":  [{
 				  "title": "",
 				  "color": 16711680,
 				  "description": "<:tulipo_happy:813820074359521320> **" + t("The prefix has been changed.") + "**\n"+t("The bot prefix has been changed on this server.")+"\n" + t("New Prefix: {prefix}", {prefix: '`'+args[0]+'`'}) + " \n\n**"+t("IMPORTANT NOTE")+"**: \n" + t("Remember to use the prefix exactly as you typed it, otherwise the bot will not respond.") + "\n"+ t("Example: {command}.", {command: '`'+settings.prefix+'help`'}),
@@ -38,7 +38,7 @@ module.exports = {
 					"icon_url": message.author.avatarURL()
 				  },
 				  "fields": []
-				}
+				}]
 			});
 		}
 		

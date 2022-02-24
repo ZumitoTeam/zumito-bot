@@ -69,7 +69,7 @@ module.exports = {
             getFooter(message.member.user.tag),
 			user.avatarURL({ dynamic: true })
 		)
-		return message.channel.send({embeds: [embed]});
+		return message.reply({embeds: [embed]});
 	}
 }
 function input(text) {

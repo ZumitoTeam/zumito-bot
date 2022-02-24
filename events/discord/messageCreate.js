@@ -56,7 +56,7 @@ module.exports = {
                     return message.reply(`my prefix is \`${prefix}\``);
                     //return message.reply(`my prefix is \`\`${prefix}\`\``)
                 } else {
-                    message.channel.sendTyping();
+                    message.sendTyping();
                     var text = args.join(' ');
                     try {
                         var response = await cleverbot(text);
@@ -82,7 +82,7 @@ module.exports = {
                     }
 
                     /**/
-                    //cleverbot(text).then(response => message.channel.send('<@'+message.author.id+'> ' + response));
+                    //cleverbot(text).then(response => message.reply('<@'+message.author.id+'> ' + response));
 
                 }
             }
@@ -134,8 +134,8 @@ module.exports = {
                 }
                 await webhook.send(text);
                 webhook.delete();
-                //message.channel.send("test: " + text);
-                if (!message.deleted) message.delete();
+                //message.reply("test: " + text);
+                if (!message.deletable) message.delete();
             }
 
             //if (message.guild != null) Messages.appendMessage(message.author.id, message.guild.id, 1);
@@ -161,7 +161,7 @@ module.exports = {
 
         // check if user is not rate limited
         // if (rateLimiter.take(message.author.id)) {
-        //     return message.channel.send(t(`You're doing that do often, please try again later!`));
+        //     return message.reply(t(`You're doing that do often, please try again later!`));
         // }
 
         // if user message by DM
@@ -184,7 +184,7 @@ module.exports = {
                 }
             }
             if (denied === true) {
-                return message.channel.send("<:tulipo_cross:816448247459348480> <@637827404441845771> " + t('You do not have sufficient permissions to use this command.'));
+                return message.reply("<:tulipo_cross:816448247459348480> <@637827404441845771> " + t('You do not have sufficient permissions to use this command.'));
             }
         }
 
@@ -194,7 +194,7 @@ module.exports = {
         try {
             localizify.setLocale(settings.lang || 'en');
             await comid.execute(client, message, args)
-            if (message.channel.type != 'dm' && !message.deleted && settings.deleteCommands) {
+            if (message.channel.type != 'dm' && !message.deletable && settings.deleteCommands) {
                 try {
                     message.delete().catch(function () {
                         console.error('can\'t delete user command');

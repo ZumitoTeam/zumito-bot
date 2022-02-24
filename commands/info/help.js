@@ -55,7 +55,7 @@ module.exports = {
 			// 	user.avatarURL({ dynamic: true })
             // );
             // if (message.channel.type != 'dm') {
-            //     message.channel.send(t('Help sended to DM')).then(async function(sendedMessage) {
+            //     message.reply(t('Help sended to DM')).then(async function(sendedMessage) {
             //         emoji = ['9️⃣','8️⃣','7️⃣','6️⃣','5️⃣','4️⃣','3️⃣','2️⃣','1️⃣','0️⃣']
             //         for (var i = 4; i < 10; i++) {
             //             await sendedMessage.react(emoji[i]);
@@ -129,7 +129,7 @@ module.exports = {
 
             if (message.channel.type != 'dm') {
                 
-                /*message.channel.send(t('Help sended to DM')).then(async function(sendedMessage) {
+                /*message.reply(t('Help sended to DM')).then(async function(sendedMessage) {
                     emoji = ['9️⃣','8️⃣','7️⃣','6️⃣','5️⃣','4️⃣','3️⃣','2️⃣','1️⃣','0️⃣']
                     for (var i = 4; i < 10; i++) {
                         await sendedMessage.react(emoji[i]);

@@ -16,6 +16,6 @@ module.exports = {
 	admin : true,
 	nsfw : false,
 	async execute(client,message,args){
-		message.channel.send([...new Set(client.commands.map(command => command.name))].join(', '));
+		message.reply([...new Set(client.commands.map(command => command.name))].join(', '));
 	}
 }

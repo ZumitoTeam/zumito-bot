@@ -37,7 +37,7 @@ module.exports = {
 							break;
 					}
 					localizify.setLocale(settings.lang || 'en');
-					message.channel.send({
+					message.reply({
 						"embeds": [{
 							"title": "",
 							"color": config.embeds.color,
@@ -59,7 +59,7 @@ module.exports = {
 					});
 					break;
 				default:
-					message.channel.send(t('Only en, es, ca languages are available'));
+					message.reply(t('Only en, es, ca languages are available'));
 					break;
 			}
 		} else {
@@ -76,7 +76,7 @@ module.exports = {
 					string = '<:Catalonia:833140848198811678> Català - Ca';
 					break;
 			}
-			message.channel.send({
+			message.reply({
 				"embeds":  [{
 					"title": "",
 					"color": config.embeds.color,

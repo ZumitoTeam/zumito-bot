@@ -27,7 +27,7 @@ module.exports = {
             user = message.author.username;
 		}
 
-		return message.channel.send({
+		return message.reply({
 			"embeds": [{
 				"color": config.embeds.color,
 				"description": "[Avatar URL]("+avatar+")",

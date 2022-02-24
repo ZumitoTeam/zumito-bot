@@ -9,6 +9,6 @@ module.exports = {
 	nsfw : false,
 	execute(client,message,args){
 		const dt = new Date(message.createdTimestamp);
-		return message.channel.send(`pong \`\`${new Date() - dt}ms\`\` | ws : \`\`${client.ws.ping}ms\`\``);
+		return message.reply(`pong \`\`${new Date() - dt}ms\`\` | ws : \`\`${client.ws.ping}ms\`\``);
 	}
 }

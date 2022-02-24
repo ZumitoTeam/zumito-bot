@@ -139,7 +139,7 @@ module.exports = {
 		    message.member.user.displayAvatarURL({dynamic: true} )
 		);
 
-		return message.channel.send({embeds: [embed]});
+		return message.reply({embeds: [embed]});
 	}
 }
 
