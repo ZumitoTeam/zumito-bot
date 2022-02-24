@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -44,6 +44,6 @@ jobs:
         name: fernandomema/zumito
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        dockerfile: ./WorkflowEngine/Dockerfile
-        context: ./WorkflowEngine/
+        dockerfile: ./Dockerfile
+        context: ./
         tags: ${{ steps.bump_version.outputs.next-version }}
