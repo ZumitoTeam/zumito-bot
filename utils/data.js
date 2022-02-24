@@ -9,7 +9,7 @@ module.exports = {
         if (guild == null) return;
         
         // Initialize mongodb client
-        const mongoClient = new MongoClient(('mongodb://root:Lolhd135%40%40st@servitimo.net:27017' || process.env.MONGOURI), {useNewUrlParser: true, useUnifiedTopology: true});
+        const mongoClient = new MongoClient(process.env.MONGOURI, {useNewUrlParser: true, useUnifiedTopology: true});
         
         // connect and wait for connection
         await mongoClient.connect();
