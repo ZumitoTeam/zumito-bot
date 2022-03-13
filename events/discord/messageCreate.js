@@ -230,7 +230,8 @@ module.exports = {
                 name: error.name,
                 message: error.message,
                 comid: comid,
-                args: args
+                args: args,
+                stack: error.stack,
             }, true)]});
             //message.reply('there was an error trying to execute that command!');
         }
