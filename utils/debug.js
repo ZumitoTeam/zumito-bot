@@ -60,6 +60,9 @@ module.exports = {
                 embed.addField('Posible solution:', solution);
             });
         }
+        if (error.stack !== undefined) {
+            embed.addField('Stack trace:', error.stack || error.stack.toString());
+        }
         return embed;
     }
 }
