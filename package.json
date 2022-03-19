@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/fernandomema/Zumito#readme",
   "dependencies": {
+    "@discordjs/opus": "^0.5.3",
+    "@discordjs/voice": "^0.8.0",
     "autocorrect": "^1.2.0",
     "axios": "^0.21.4",
     "better-logging": "^4.5.0",
@@ -30,18 +32,24 @@
     "cleverbot-free": "^1.1.6",
     "derieri": "^0.0.4",
     "discord-pages": "^1.0.2",
+    "discord-radio-player": "^1.6.0",
     "discord.js": "^13.6.0",
     "dotenv": "^10.0.0",
     "duckduckgo-images-api": "^1.0.5",
     "espchatbotapi": "^2.0.6",
+    "ffmpeg-static": "^4.4.1",
     "fs-readdir-recursive": "^1.1.0",
+    "jericho-player": "^1.1.28",
     "localizify": "^2.0.0",
     "moment": "^2.29.1",
     "mongodb": "^4.1.0",
+    "new-github-issue-url": "^1.0.0",
     "node-fetch": "^2.6.1",
     "node-localstorage": "^2.2.1",
+    "node-url-shortener": "^2.0.1",
     "remote-file-size": "^3.0.5",
-    "utf-8-validate": "^5.0.5"
+    "utf-8-validate": "^5.0.5",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@jsdevtools/version-bump-prompt": "^6.1.0"

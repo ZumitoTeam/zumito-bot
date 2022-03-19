@@ -179,6 +179,7 @@ module.exports = {
                     command = require(`${fullPath}`);
                 } catch(error) {
                     console.error('Error loading ' + fullPath + ' command');
+                    console.error(error);
                 }
                 if (command !== undefined) {
                     command.category = fullPath.substring(fullPath.indexOf('/') + 1, fullPath.lastIndexOf('/'));
