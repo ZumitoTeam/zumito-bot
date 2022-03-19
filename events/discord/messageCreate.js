@@ -225,14 +225,14 @@ module.exports = {
             //     }
             //     //.addField('stack:', (error.stack ? error.stack.toString() : 'none'))
             
-            //console.log(1, error);
-            message.reply({embeds: [getErrorEmbed({
+            //console.error(error);
+            message.reply(await getErrorEmbed({
                 name: error.name,
                 message: error.message,
                 comid: comid,
                 args: args,
                 stack: error.stack,
-            }, true)]});
+            }, true));
             //message.reply('there was an error trying to execute that command!');
         }
 
