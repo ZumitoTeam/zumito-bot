@@ -1,3 +1,5 @@
+const botConfig = require('@config/bot.js');
+
 module.exports = {
     event: "ready",
     once: true,
