@@ -68,10 +68,10 @@ client.once('ready', () => {
         const { getBotVersion } = require("./modules/utils/data.js");
 		client.user.setPresence({
 			status: "online",
-			activities: {
+			activities: [{
 				name: botConfig.name + ' 🧃 ' + getBotVersion(),
 				type: "PLAYING" // https://discord.js.org/#/docs/main/stable/typedef/ActivityType
-			}
+			}]
 		});
 	}, 60000);
 

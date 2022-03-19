@@ -63,6 +63,11 @@ module.exports = {
         if (error.stack !== undefined) {
             embed.addField('Stack trace:', error.stack || error.stack.toString());
         }
+        if (error.details !== undefined) {
+            error.details.forEach((detail) => {
+                embed.addField('Detail:', detail);
+            });
+        }
         
         const body =  `\n\n\n---\nComand:\`\`\`${error.comid.name || 'not defined'}\`\`\`\nArguments:\`\`\`${error.args.toString() || 'none'}\`\`\`\nError:\`\`\`${error.name || 'not defined'}\`\`\`\nError message:\`\`\`${error.message || 'not defined'}\`\`\`\n`;
         const url = `https://github.com/fernandomema/Zumito/issues/new?body=${encodeURIComponent(body)}`;       

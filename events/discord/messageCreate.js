@@ -57,7 +57,7 @@ module.exports = {
                     return message.reply(`my prefix is \`${prefix}\``);
                     //return message.reply(`my prefix is \`\`${prefix}\`\``)
                 } else {
-                    message.sendTyping();
+                    message.channel.sendTyping();
                     var text = args.join(' ');
                     try {
                         var response = await cleverbot(text);
@@ -90,8 +90,9 @@ module.exports = {
         }
 
         // check message with prefix
-        if (!message.content.startsWith(prefix)) { //|| message.author.bot
-            // Check if channel is clean (auto delete messages after seconds)
+        if (!message.content.startsWith(prefix)) { // if the message doesn't start with the prefix, we run non command modules
+
+            // Check if channel is clean channel (auto delete messages after seconds)
             if (settings.cleanChannels === undefined) {
                 settings.cleanChannels = {};
             }
@@ -109,8 +110,6 @@ module.exports = {
                 const emojiMessageDetectedEvent = require('@events/modules/free-emojis/emoji-message-detected.js');
                 await emojiMessageDetectedEvent.execute(message, client, matches);
             }
-
-            //if (message.guild != null) Messages.appendMessage(message.author.id, message.guild.id, 1);
 
             return;
         }
