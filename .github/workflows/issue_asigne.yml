@@ -16,6 +16,7 @@ jobs:
     steps:
       - name: Create Issue Branch
         uses: robvanderleek/create-issue-branch@main
-        env:
+        with:
           defaultBranch: 'dev'
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
