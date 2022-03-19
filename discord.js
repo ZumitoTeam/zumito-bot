@@ -5,7 +5,6 @@ require('better-logging')(console);         // Load better logging
 const {default: localizify, t} = require('localizify');         // Load localization library
 var LocalStorage = require('node-localstorage').LocalStorage;   // Load local storage library for node
 const {loadCommands} = require('@modules/utils/data.js');
-const botConfig = require('@config/bot.js');
 
 console.logLevel = process.env.LOGLEVEL || 3;
 
@@ -20,7 +19,7 @@ const client = new Client({
 });
 
 if (process.env.DEBUG == true || process.env.DEBUG == 'true') {
-    let {initializeDebug} = require('./modules/utils/debug.js');
+    let {initializeDebug} = require('@modules/utils/debug.js');
     initializeDebug(client);
 }
 
@@ -58,40 +57,6 @@ fs.readdir('./events/discord', (err, files) => { // We use the method readdir to
             console.error(error.stack); // If there is an error, console log the error stack message
         }
     });
-});
-
-client.once('ready', () => {
-	console.info(client.user.username + ' is Ready!');
-
-    // Activities 
-	setInterval(async () => {
-        const { getBotVersion } = require("./modules/utils/data.js");
-		client.user.setPresence({
-			status: "online",
-			activities: [{
-				name: botConfig.name + ' 🧃 ' + getBotVersion(),
-				type: "PLAYING" // https://discord.js.org/#/docs/main/stable/typedef/ActivityType
-			}]
-		});
-	}, 60000);
-
-	client.guilds.cache.forEach(async (guild) => {
-		const { getConfig } = require("./modules/utils/data.js");
-		var settings = await getConfig(guild);
-		if (settings.tickets !== undefined) {
-			settings.tickets.forEach(function(ticket) {
-				var message;
-				if (ticket.message !== undefined) {
-					message = guild.channels.cache.get(ticket.channel.id).fetchMessage(messageID).then(message => {
-
-					});
-				} else {
-
-				}
-			});
-		}
-	})
-
 });
 
 client.login(process.env.TOKEN)
