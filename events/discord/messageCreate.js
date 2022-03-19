@@ -1,8 +1,8 @@
-const {splitCommandLine} = require('../../utils/utils.js');
+const {splitCommandLine} = require('@modules/utils/utils.js');
 const {default: localizify, t} = require('localizify');         // Load localization library
 const {MessageEmbed} = require('discord.js');
-const config = require('../../config.js');      // Load bot config
-const {getErrorEmbed} = require('../../utils/debug.js');
+const botConfig = require('@config/bot.js');                    // Load bot config
+const {getErrorEmbed} = require('@modules/utils/debug.js');
 
 // Import chatbot libraries
 const cleverbot = require("cleverbot-free");
@@ -16,7 +16,7 @@ module.exports = {
     once: false,
     // the actual function
     async execute(message, client) {
-        const { getConfig } = require("../../utils/data.js");
+        const { getConfig } = require("@modules/utils/data.js");
         var settings = {};
         if (message.guild != null) {
             settings = await getConfig(message.guild);

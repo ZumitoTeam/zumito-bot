@@ -1,8 +1,8 @@
 // init require
 const Discord = require('discord.js');
 const {t} = require('localizify');
-const { getFooter } = require("../../utils/data.js");
-const config = require('../../config.js');
+const { getFooter } = require("@modules/utils/data.js");
+const botConfig = require('@config/bot.js');
 
 
 // export module
@@ -19,7 +19,7 @@ module.exports = {
 		message.reply({
 			"embeds": [{
 				"title": t("Available languages:"),
-				"color": config.embeds.color,
+				"color": botConfig.embeds.color,
 				"description": ":flag_es: Español - Es\n:flag_us: English - En\n<:Catalonia:833140848198811678> Català - Ca",
 				"timestamp": "",
 				"author": {},

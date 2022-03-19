@@ -4,8 +4,8 @@ const { Collection, Client, Intents } = require('discord.js');              // L
 require('better-logging')(console);         // Load better logging
 const {default: localizify, t} = require('localizify');         // Load localization library
 var LocalStorage = require('node-localstorage').LocalStorage;   // Load local storage library for node
-const {loadCommands} = require('./utils/data.js');
-
+const {loadCommands} = require('@modules/utils/data.js');
+const botConfig = require('@config/bot.js');
 
 console.logLevel = process.env.LOGLEVEL || 3;
 
@@ -20,7 +20,7 @@ const client = new Client({
 });
 
 if (process.env.DEBUG == true || process.env.DEBUG == 'true') {
-    let {initializeDebug} = require('./utils/debug.js');
+    let {initializeDebug} = require('./modules/utils/debug.js');
     initializeDebug(client);
 }
 
@@ -33,7 +33,7 @@ localizify
   .setLocale('en');
 
 // Initialize local storage
-localStorage = new LocalStorage('./data');
+localStorage = new LocalStorage('./cache');
 
 // Define commands
 const cmdir = path.resolve('./commands');
@@ -65,18 +65,18 @@ client.once('ready', () => {
 
     // Activities 
 	setInterval(async () => {
-        const { getBotVersion } = require("./utils/data.js");
+        const { getBotVersion } = require("./modules/utils/data.js");
 		client.user.setPresence({
 			status: "online",
-			activity: {
-				name: 'Zumito 🧃'+getBotVersion(),
+			activities: {
+				name: botConfig.name + ' 🧃 ' + getBotVersion(),
 				type: "PLAYING" // https://discord.js.org/#/docs/main/stable/typedef/ActivityType
 			}
 		});
 	}, 60000);
 
 	client.guilds.cache.forEach(async (guild) => {
-		const { getConfig } = require("./utils/data.js");
+		const { getConfig } = require("./modules/utils/data.js");
 		var settings = await getConfig(guild);
 		if (settings.tickets !== undefined) {
 			settings.tickets.forEach(function(ticket) {
