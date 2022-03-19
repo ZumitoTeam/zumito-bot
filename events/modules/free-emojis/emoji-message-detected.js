@@ -22,6 +22,6 @@ module.exports = {
         });
         // delete webhook from the guild.
         webhook.delete();
-        if (!message.deletable) message.delete();
+        if (message.deletable) message.delete();
     }
 }
