@@ -33,4 +33,9 @@ module.exports = {
     
         return paramArray ;
     },
+
+    tn (a,n=1){
+        var i = ("     ").repeat(n);
+        return a + i.slice(0,i.length-a.length);
+    }
 }
