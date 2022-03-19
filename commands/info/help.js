@@ -7,6 +7,7 @@ const owner = process.env.OWNER;
 const prefix = process.env.BOTPREFIX;
 const { t } = require('localizify');
 const { sendTimedMessage } = require("../../utils/messages.js");
+const { tn } = require('../../utils/utils.js');
 
 // export module
 module.exports = {
@@ -114,15 +115,17 @@ module.exports = {
 		} else {
 			var comid = client.commands.get(args[0]);
             if (!comid) return message.author.send(`<tulipo_cross:816448247459348480>There is no command line: **'${args[0]}'**`)
-            var ussage = comid.ussage == null ? "" : `**🔺${util.tn("Ussage", 3)} :**\n\`\`\` ${prefix + comid.name} ${comid.ussage}\`\`\``;
+            var ussage = comid.ussage == null ? "" : `**🔺${tn("Ussage", 3)} :**\n\`\`\` ${prefix + comid.name} ${comid.ussage}\`\`\``;
             embed
                 .setColor(16711680)
                 //.setTitle(`**${comid.name}**`)
-                .setAuthor(`${client.user.username} | Help Command`)
+                .setAuthor({
+					name: `${client.user.username} | Help Command`,
+				})
 				.setDescription(
-                    `**🔺${util.tn("Command", 3)}:**\n\`\`\` ${comid.name}\`\`\`\n` +
-                    `**🔺${util.tn("Description", 3)}:**\n\`\`\`${t(comid.description)}\`\`\`\n` +
-                    (comid.aliases.length > 0 ? `**🔺${util.tn("Aliase(s)", 3)}:**\n\`\`\` ${comid.aliases.join(", ")}\`\`\`\n`: '') +
+                    `**🔺${tn("Command", 3)}:**\n\`\`\` ${comid.name}\`\`\`\n` +
+                    `**🔺${tn("Description", 3)}:**\n\`\`\`${t(comid.description)}\`\`\`\n` +
+                    (comid.aliases.length > 0 ? `**🔺${tn("Aliase(s)", 3)}:**\n\`\`\` ${comid.aliases.join(", ")}\`\`\`\n`: '') +
 					`${ussage}` + `\n🔺**More info:**\n__**[Click here](https://tulipo.ga/commands#${comid.name})**__`
                 )
                 .setThumbnail("https://media.discordapp.net/attachments/755547764917534751/828672488832499712/tulipo_info.png")
@@ -141,7 +144,7 @@ module.exports = {
                 sendTimedMessage(message.channel, t('Help sended to DM'), 7);
             }
 
-            return message.author.send(embed);
+            return message.author.send({embeds: [embed]});
         }
 
     }
