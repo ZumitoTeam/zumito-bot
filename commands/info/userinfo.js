@@ -4,7 +4,6 @@ const {default: localizify, t} = require('localizify');
 var moment = require('moment');
 const fs = require('fs');
 var {image_search} = require('duckduckgo-images-api');
-const axios = require('axios');
 var remote = require('remote-file-size')
 const { getBotVersion, getFooter, getTulipoSettings, setTulipoSettings } = require("@modules/utils/data.js");
 

@@ -30,7 +30,6 @@
     "@discordjs/opus": "^0.5.3",
     "@discordjs/voice": "^0.8.0",
     "autocorrect": "^1.2.0",
-    "axios": "^0.21.4",
     "better-logging": "^4.5.0",
     "bufferutil": "^4.0.3",
     "chalk": "^4.1.2",
