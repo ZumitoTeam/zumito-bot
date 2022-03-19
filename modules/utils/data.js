@@ -2,6 +2,7 @@ const fs = require('fs');                   // Load filesystem node library
 const path = require('path');
 var MongoClient = require('mongodb').MongoClient;   // Load mongodb library
 const {default: localizify, t} = require('localizify');         // Load localization library
+const botConfig = require('@config/bot.js');
 
 module.exports = {
     async getConfig(guild) {
@@ -161,7 +162,7 @@ module.exports = {
     },
 
     getBotVersion() {
-        var packageJson = require('../package.json');
+        var packageJson = require('../../package.json');
         return packageJson.version;
     },
 
@@ -201,7 +202,7 @@ module.exports = {
     },
 
     getFooter(userName) {
-        return t('Requested by:') + ' ' + (userName || 'Unknown')+' - '+ t('Visit') +': zumito.ga';
+        return t('Requested by:') + ' ' + (userName || 'Unknown')+' - '+ t('Visit') +': ' + botConfig.shortUrl;
     },
 
     getTulipoSettings() {

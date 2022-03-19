@@ -1,9 +1,7 @@
 // init require
 const Discord = require('discord.js');
 const {t} = require('localizify');
-const { getFooter } = require("../../utils/data.js");
-const config = require('../../config.js');
-
+const { getFooter } = require("@modules/utils/data.js");
 
 // export module
 module.exports = {

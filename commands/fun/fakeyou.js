@@ -1,10 +1,9 @@
 // init require
-const Discord = require('discord.js');
-const { getBotVersion, getFooter, getTulipoSettings, setTulipoSettings, getConfig } = require("../../utils/data.js");
+const { getConfig } = require("@modules/utils/data.js");
 const {default: localizify, t} = require('localizify');
-const config = require('../../config.js');
+const botConfig = require('@config/bot.js');
 const { v4: uuidv4 } = require('uuid');
-const {sleep} = require('../../utils/messages.js');
+const {sleep} = require('@modules/utils/messages.js');
 const fetch = require('node-fetch');
 
 let voices = {
@@ -71,7 +70,7 @@ module.exports = {
             return message.reply({embeds: [
                 {
                     "title": t("Invalid voice name"),
-                    "color": config.embeds.color,
+                    "color": botConfig.embeds.color,
                     "description": t("Invalid voice name provided. Please use one of the following:") + '\n' + Object.keys(voices[guildConfig.lang] || []).join(', '),
                 }
             ]});

@@ -1,8 +1,8 @@
 var chokidar = require('chokidar');
 const path = require('path');
-const {loadCommands} = require('../utils/data.js');
+const { loadCommands } = require('@modules/utils/data.js');
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
-const config = require('../config.js');
+const botConfig = require('@config/bot.js');
 const chalk = require('chalk');
 
 module.exports = {
@@ -48,7 +48,7 @@ module.exports = {
         }
         let embed = new MessageEmbed()
         .setTitle("Error running command")
-        .setColor(config.embeds.color)
+        .setColor(botConfig.embeds.color)
         .setDescription("There is an error running your command. Please contact developers to solve this issue.")
         .setTimestamp()
         .addField('Command:', (error.comid.name || 'not defined'))

@@ -1,8 +1,8 @@
 // init require
 const Discord = require('discord.js');
-const { getBotVersion, getFooter, getTulipoSettings, setTulipoSettings } = require("../../utils/data.js");
+const { getBotVersion, getFooter, getTulipoSettings, setTulipoSettings } = require("@modules/utils/data.js");
 const {default: localizify, t} = require('localizify');
-const config = require('../../config.js');
+const botConfig = require('@config/bot.js');
 
 // export module
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
 
 		return message.reply({
 			"embeds": [{
-				"color": config.embeds.color,
+				"color": botConfig.embeds.color,
 				"description": "[Avatar URL]("+avatar+")",
 				"author": {
 				  "name": t("Avatar of") + ' ' + user,

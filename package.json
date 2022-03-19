@@ -20,6 +20,12 @@
     "url": "https://github.com/fernandomema/Zumito/issues"
   },
   "homepage": "https://github.com/fernandomema/Zumito#readme",
+  "_moduleAliases": {
+    "@config": "config",
+    "@events": "events",
+    "@commands": "commands",
+    "@modules": "modules"
+  },
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
     "@discordjs/voice": "^0.8.0",
@@ -41,6 +47,7 @@
     "fs-readdir-recursive": "^1.1.0",
     "jericho-player": "^1.1.28",
     "localizify": "^2.0.0",
+    "module-alias": "^2.2.2",
     "moment": "^2.29.1",
     "mongodb": "^4.1.0",
     "new-github-issue-url": "^1.0.0",
