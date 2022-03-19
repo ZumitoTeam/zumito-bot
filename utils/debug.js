@@ -1,7 +1,7 @@
 var chokidar = require('chokidar');
 const path = require('path');
 const {loadCommands} = require('../utils/data.js');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const config = require('../config.js');
 const chalk = require('chalk');
 
@@ -63,6 +63,23 @@ module.exports = {
         if (error.stack !== undefined) {
             embed.addField('Stack trace:', error.stack || error.stack.toString());
         }
-        return embed;
+        
+        const body =  `\n\n\n---\nComand:\`\`\`${error.comid.name || 'not defined'}\`\`\`\nArguments:\`\`\`${error.args.toString() || 'none'}\`\`\`\nError:\`\`\`${error.name || 'not defined'}\`\`\`\nError message:\`\`\`${error.message || 'not defined'}\`\`\`\n`;
+        const url = `https://github.com/fernandomema/Zumito/issues/new?body=${encodeURIComponent(body)}`;       
+        
+        const row = new MessageActionRow()
+        .addComponents(
+            new MessageButton()
+                .setStyle('LINK')
+                .setLabel("Report issue")
+                .setURL(url)
+        );
+
+        
+
+        return {
+            embeds: [embed],
+            components: [row]
+        };
     }
 }
