@@ -7,7 +7,8 @@ const {getErrorEmbed} = require('@modules/utils/debug.js');
 // Import chatbot libraries
 const cleverbot = require("cleverbot-free");
 const Derieri = require('derieri');
-const chatbot = require("espchatbotapi")
+const chatbot = require("espchatbotapi");
+const { generateUserWebhook } = require('@modules/webhooks');
 
 module.exports = {
     // we want a message event
@@ -105,37 +106,8 @@ module.exports = {
 
             var matches = message.content.match(/:([^:\s]+)\:(?![^<>]*>)/g);
             if (!message.author.bot && matches) {
-                var text = message.content;
-                matches.forEach(function (match) {
-                    var emojiName = match.split(':').join("");
-                    var emoji = client.emojis.cache.find(emoji => emoji.name === emojiName);
-                    if (emoji === undefined) return;
-                    text = text.replace(match, "<" + (emoji.animated ? 'a' : '') + ":" + emoji.name + ":" + emoji.id + ">");
-                });
-                if (text == message.content) return;
-                let webhook = await message.channel.createWebhook(message.author.username, {
-                    avatar: message.author.displayAvatarURL(),
-                });
-                //if (webhook === undefined || webhook === null) return console.log('webhook');
-                if (message.reference !== undefined && webhook.reference != null) {
-                    console.log('reply');
-                    let reference = await message.channel.messages.fetch(message.reference.messageID);
-                    text = {
-                        content: text,
-                        embed: {
-                            "author": {
-                                "name": reference.author.username,
-                                "url": reference.author.displayAvatarURL(),
-                                "icon_url": reference.url
-                            },
-                            "description": reference.content
-                        }
-                    }
-                }
-                await webhook.send(text);
-                webhook.delete();
-                //message.reply("test: " + text);
-                if (!message.deletable) message.delete();
+                const emojiMessageDetectedEvent = require('@events/modules/free-emojis/emoji-message-detected.js');
+                await emojiMessageDetectedEvent.execute(message, client, matches);
             }
 
             //if (message.guild != null) Messages.appendMessage(message.author.id, message.guild.id, 1);
