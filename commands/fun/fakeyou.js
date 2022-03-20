@@ -21,7 +21,7 @@ module.exports = {
 	aliases : [],
 	ussage : null,
 	hidden : false,
-	admin : true,
+	admin : false,
 	nsfw : false,
     cooldown: 120,
 	async execute(client,message,args){

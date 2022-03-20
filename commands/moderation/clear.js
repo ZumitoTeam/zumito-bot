@@ -1,15 +1,15 @@
 const { t } = require("localizify");
 const botConfig = require("@config/bot.js");
 const { getFooter } = require("@modules/utils/data");
-const { MessageEmbed, Permissions } = require("discord.js");
-const test = require("@modules/localization.js");
+const { MessageEmbed } = require("discord.js");
+require("@modules/localization.js");
 
 module.exports = {
 	name : "clear", 
 	aliases : ['purge'],
 	ussage : 'clear [amount]',
 	examples: ["clear 10", "clear 100"],
-	permissions: [Permissions.FLAGS.MANAGE_CHANNELS], 
+	permissions: ["MANAGE_CHANNELS"], 
 	botPermissions: [], 
 	hidden : true,  
 	admin : false,  
