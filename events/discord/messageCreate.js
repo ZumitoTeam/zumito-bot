@@ -17,6 +17,7 @@ module.exports = {
     once: false,
     // the actual function
     async execute(message, client) {
+        const channel = message.channel;
         const { getConfig } = require("@modules/utils/data.js");
         var settings = {};
         if (message.guild != null) {
@@ -197,14 +198,18 @@ module.exports = {
             //     //.addField('stack:', (error.stack ? error.stack.toString() : 'none'))
             
             //console.error(error);
-            message.reply(await getErrorEmbed({
+            let content = await getErrorEmbed({
                 name: error.name,
                 message: error.message,
                 comid: comid,
                 args: args,
                 stack: error.stack,
-            }, true));
-            //message.reply('there was an error trying to execute that command!');
+            }, true);
+            try {
+                message.reply(content);
+            } catch (e) {
+                channel.send(content);
+            }
         }
 
     }
