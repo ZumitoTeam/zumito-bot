@@ -8,7 +8,6 @@ const chalk = require('chalk');
 module.exports = {
     initializeDebug(client) {
         module.exports.client = client;
-        console.log(path.resolve(__dirname + '/../../commands'));
         this.watcher = chokidar.watch(path.resolve(__dirname + '/../../commands'), {ignored: /^\./, persistent: true, ignoreInitial: true})
         .on('add', module.exports.onAdd)
         .on('change', module.exports.onChange)
