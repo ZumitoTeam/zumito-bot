@@ -8,7 +8,8 @@ const chalk = require('chalk');
 module.exports = {
     initializeDebug(client) {
         module.exports.client = client;
-        this.watcher = chokidar.watch(path.resolve(__dirname + '/../commands'), {ignored: /^\./, persistent: true, ignoreInitial: true})
+        console.log(path.resolve(__dirname + '/../../commands'));
+        this.watcher = chokidar.watch(path.resolve(__dirname + '/../../commands'), {ignored: /^\./, persistent: true, ignoreInitial: true})
         .on('add', module.exports.onAdd)
         .on('change', module.exports.onChange)
         //.on('unlink', function(path) {console.log('File', path, 'has been removed');})
@@ -17,7 +18,7 @@ module.exports = {
 
     onChange(file) {
         console.debug('[🔄 ] Command ' + chalk.blue(file.replace(/^.*[\\\/]/, '').split('.').slice(0, -1).join('.')) + ' reloaded');
-        loadCommands(module.exports.client, path.resolve(__dirname + '/../commands'));
+        loadCommands(module.exports.client, path.resolve(__dirname + '/../../commands'));
     },
 
     onAdd(file) {
