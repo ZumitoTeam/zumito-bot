@@ -1,0 +1,36 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+        vpcbr:
+          ipv4_address: 10.5.0.5
+  bot:
+    image: fernandomema/zumito
+    restart: always
+    ports:
+      - "8101:80"
+    environment:
+      MONGOURI: "mongodb://<user>:<password>@10.5.0.5:27017"
+      TOKEN: "<discord_bot_token>"
+      DEBUG: 1
+      LOGLEVEL: 4
+      BOTPREFIX: "z-"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.6
+    depends_on:
+     - mongo
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
