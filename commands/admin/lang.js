@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const { default: localizify, t } = require('localizify');
 const { getConfig, saveConfig, getFooter } = require("@modules/utils/data.js");
 const botConfig = require('@config/bot.js');
-
+//test
 
 // export module
 module.exports = {
