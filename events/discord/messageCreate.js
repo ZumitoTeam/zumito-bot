@@ -1,8 +1,9 @@
-const {splitCommandLine} = require('@modules/utils/utils.js');
-const {default: localizify, t} = require('localizify');         // Load localization library
-const {MessageEmbed} = require('discord.js');
+const { splitCommandLine } = require('@modules/utils/utils.js');
+const { default: localizify, t } = require('localizify');         // Load localization library
+const { MessageEmbed } = require('discord.js');
 const botConfig = require('@config/bot.js');                    // Load bot config
-const {getErrorEmbed} = require('@modules/utils/debug.js');
+const { getErrorEmbed } = require('@modules/utils/debug.js');
+require("@modules/localization.js");
 
 // Import chatbot libraries
 const cleverbot = require("cleverbot-free");
@@ -55,8 +56,14 @@ module.exports = {
         if (message.mentions.users.size) {
             if (message.mentions.users.first().id == client.user.id && message.content.startsWith('<')) {
                 if (args.length == 0) {
-                    return message.reply(`my prefix is \`${prefix}\``);
-                    //return message.reply(`my prefix is \`\`${prefix}\`\``)
+                    return message.reply({
+                        content: 'reply.prefix'.translate({
+                            prefix: `\`${prefix}\``,
+                        }), allowedMentions: {
+                            repliedUser: false
+                        }
+                    });
+
                 } else {
                     message.channel.sendTyping();
                     var text = args.join(' ');
@@ -118,9 +125,9 @@ module.exports = {
 
         // if no command like this do nothing
         var comid;
-        if (!client.commands.has(command)){
+        if (!client.commands.has(command)) {
             var commandList = Array.from(client.commands.keys());
-            var autocorrect = require('autocorrect')({words: commandList})
+            var autocorrect = require('autocorrect')({ words: commandList })
             var correctedCommand = autocorrect(command);
             if (client.commands.has(correctedCommand)) {
                 comid = client.commands.get(correctedCommand);
@@ -156,9 +163,23 @@ module.exports = {
                 }
             }
             if (denied === true) {
-                return message.reply("<:tulipo_cross:816448247459348480> <@637827404441845771> " + t('You do not have sufficient permissions to use this command.'));
+                return message.reply({
+                    content: t("I do not have the permissions to execute the command. ") + "\n" + t("Missing permits: ") + "`permission`", 
+                    allowedMentions: {
+                        repliedUser: false
+                    }
+                });
             }
         }
+
+        /*  TODO: Message when bot doesn't have required permissions.
+            return message.reply({
+                content: t("You lack permissions to use this command ") + "\n" + t("Missing permits: ") + "`permission`", allowedMentions: {
+                    repliedUser: false
+                }
+            });
+        */
+
 
         // only on nsfw channel
         if (comid.nsfw && !message.channel.nsfw && !message.channel.permissionsFor(message.member).has("ADMINISTRATOR") && message.member.id != message.guild.owner.user.id) return message.reply("require NSFW channel! so can't run command!")
@@ -196,7 +217,7 @@ module.exports = {
             //         });
             //     }
             //     //.addField('stack:', (error.stack ? error.stack.toString() : 'none'))
-            
+
             //console.error(error);
             let content = await getErrorEmbed({
                 name: error.name,

@@ -202,15 +202,17 @@ module.exports = {
     },
 
     getFooter(userName) {
-        return t('Requested by:') + ' ' + (userName || 'Unknown')+' - '+ t('Visit') +': ' + botConfig.shortUrl;
+        return 'footer.requester'.trans({
+            user: userName || 'Unknown'
+        });
     },
 
-    getTulipoSettings() {
-        var settings = JSON.parse(localStorage.getItem('tulipo.settings'));
+    getZumitoSettings() {
+        var settings = JSON.parse(localStorage.getItem('zumito.settings'));
         return settings || {};
     },
 
-    setTulipoSettings(json) {
-        localStorage.setItem('tulipo.settings', JSON.stringify(json))
+    setZumitoSettings(json) {
+        localStorage.setItem('zumito.settings', JSON.stringify(json))
     },
 }

@@ -3,7 +3,7 @@ const path = require('path');
 const { loadCommands } = require('@modules/utils/data.js');
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const botConfig = require('@config/bot.js');
-const chalk = require('chalk');
+const chalk = require('chalk');
 
 module.exports = {
     initializeDebug(client) {
