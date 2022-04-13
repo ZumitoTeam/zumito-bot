@@ -1,0 +1,10 @@
+{
+    "commands.activity.notInChannel": "You must be in a voice channel to use this command.",
+    "commands.activity.invalidActivity": "You must provide an activity to start.",
+    "commands.activity.failedToStart": "Failed to start activity.",
+    "commands.activity.error": "An error occurred while starting the activity. Make sure you have entered correct activity name.",
+    "footer.requester": "Requested by: {user}",
+    "reply.prefix": "My prefix is: {prefix}",
+    "commands.mcprofile.playerRequired": "Player username is mandatory.",
+    "commands.mcprofile.notFound": "This player never played on Hypixel."
+}
