@@ -53,7 +53,7 @@ function timeformat(timeInSeconds) {
 
 		var embed = new Discord.MessageEmbed()
 
-			.setTitle(botConfig.botInfo.name)
+			.setTitle(botConfig.name)
 			.setThumbnail(botConfig.media.botStatusIMG)
 			.setColor(botConfig.embeds.color)
 			.addField("<:information:959983434187558952> "+"Info", "┕ **" + t("Guilds") + `:** \`${guilds}\`` + "\n┕ **" + t("Users") + `:** \`${users}\`` + "\n┕ **" + t("Channels") + `:** \`${channels}\``, true)

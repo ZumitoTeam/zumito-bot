@@ -17,7 +17,7 @@ module.exports = {
 	async execute(client, message, args) {
 		// TODO: add message "Invite sended to DM", and send to the current channel and auto delete in 5 seconds 
 		var embed = new Discord.MessageEmbed()
-			.setAuthor({ name: t("Invite to " + botConfig.botInfo.name), iconURL: "" })
+			.setAuthor({ name: t("Invite to " + botConfig.name), iconURL: "" })
 			.setColor(botConfig.embeds.color)
 			.setDescription(t('Here is the invitation link for you to invite me to your server.') + ' <:juice_face:879047636194316300>')
 			.setImage(botConfig.botInvite.inviteBanner)
