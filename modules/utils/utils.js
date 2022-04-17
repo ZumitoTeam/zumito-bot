@@ -1,5 +1,3 @@
-const {default: localizify, t} = require('localizify');         // Load localization library
-
 module.exports = {
     splitCommandLine( commandLine ) {
 

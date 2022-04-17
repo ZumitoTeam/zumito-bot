@@ -1,8 +1,8 @@
 const fs = require('fs');                   // Load filesystem node library
 const path = require('path');
-const { Collection, Client, Intents } = require('discord.js');              // Load discord js library
+const { Collection, Client } = require('discord.js');              // Load discord js library
 require('better-logging')(console);         // Load better logging
-const {default: localizify, t} = require('localizify');         // Load localization library
+const {default: localizify} = require('localizify');         // Load localization library
 var LocalStorage = require('node-localstorage').LocalStorage;   // Load local storage library for node
 const {loadCommands} = require('@modules/utils/data.js');
 
