@@ -10,7 +10,7 @@ app.get(
     function (req, res) {
         let emojis = [];
         if (req.query.page && req.query.size) {
-            emojis = paginate(discordClient.emojis.cache, req.query.size, req.query.page)
+            emojis = paginate(Array.from(discordClient.emojis.cache.values()), req.query.size, req.query.page)
         } else {
             emojis = discordClient.emojis.cache;
         }
