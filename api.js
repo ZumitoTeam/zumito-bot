@@ -32,20 +32,6 @@ server.on('listening', () => {
     console.log('[✅] API web server listening on port ' + port);
 });
 
-app.use(jwt({
-    secret: 'secret-key',
-    algorithms: ['HS256'],
-    credentialsRequired: false,
-    getToken: function fromHeaderOrQuerystring (req) {
-      if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-          return req.headers.authorization.split(' ')[1];
-      } else if (req.query && req.query.token) {
-        return req.query.token;
-      }
-      return null;
-    }
-}));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -63,10 +49,11 @@ app.all("*", function(req, res) {
 	return apiResponse.notFoundResponse(res, "Page not found");
 });
 
-app.use((err, req, res) => {
-	if(err.name == "UnauthorizedError"){
-		return apiResponse.unauthorizedResponse(res, err.message);
-	}
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        return apiResponse.unauthorizedResponse(res, "Invalid token");
+    }
 });
+
 
 module.exports = app;
