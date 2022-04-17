@@ -30,7 +30,7 @@ app.get(
 
 app.get(
     '/guild/config', 
-    jwt({ secret: 'shhhhhhared-secret', algorithms: ['HS256'] }),
+    jwt({ secret: process.env.SECRET_KEY, algorithms: ['HS256'] }),
     body('guild').custom(value => {
         return value !== undefined;
     }),
