@@ -1,7 +1,9 @@
 FROM node:alpine
 WORKDIR /usr/app
 COPY package.json .
-RUN npm install
+RUN apk add --no-cache --virtual .gyp python make g++ \
+    && npm install \
+    && apk del .gyp
 COPY . .
 EXPOSE 80
 CMD ["npm", "run", "start"]
