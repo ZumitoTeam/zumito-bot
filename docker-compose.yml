@@ -11,7 +11,7 @@ services:
     networks:
         vpcbr:
           ipv4_address: 10.5.0.5
-  zumito:
+  bot:
     image: fernandomema/zumito
     restart: always
     ports:

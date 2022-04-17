@@ -1,13 +1,15 @@
-const {splitCommandLine} = require('../../utils/utils.js');
-const {default: localizify, t} = require('localizify');         // Load localization library
-const {MessageEmbed} = require('discord.js');
-const config = require('../../config.js');      // Load bot config
-const {getErrorEmbed} = require('../../utils/debug.js');
+const { splitCommandLine } = require('@modules/utils/utils.js');
+const { default: localizify, t } = require('localizify');         // Load localization library
+const { MessageEmbed } = require('discord.js');
+const botConfig = require('@config/bot.js');                    // Load bot config
+const { getErrorEmbed } = require('@modules/utils/debug.js');
+require("@modules/localization.js");
 
 // Import chatbot libraries
 const cleverbot = require("cleverbot-free");
 const Derieri = require('derieri');
-const chatbot = require("espchatbotapi")
+const chatbot = require("espchatbotapi");
+const { generateUserWebhook } = require('@modules/webhooks');
 
 module.exports = {
     // we want a message event
@@ -16,7 +18,8 @@ module.exports = {
     once: false,
     // the actual function
     async execute(message, client) {
-        const { getConfig } = require("../../utils/data.js");
+        const channel = message.channel;
+        const { getConfig } = require("@modules/utils/data.js");
         var settings = {};
         if (message.guild != null) {
             settings = await getConfig(message.guild);
@@ -53,10 +56,16 @@ module.exports = {
         if (message.mentions.users.size) {
             if (message.mentions.users.first().id == client.user.id && message.content.startsWith('<')) {
                 if (args.length == 0) {
-                    return message.reply(`my prefix is \`${prefix}\``);
-                    //return message.reply(`my prefix is \`\`${prefix}\`\``)
+                    return message.reply({
+                        content: 'reply.prefix'.translate({
+                            prefix: `\`${prefix}\``,
+                        }), allowedMentions: {
+                            repliedUser: false
+                        }
+                    });
+
                 } else {
-                    message.sendTyping();
+                    message.channel.sendTyping();
                     var text = args.join(' ');
                     try {
                         var response = await cleverbot(text);
@@ -89,8 +98,9 @@ module.exports = {
         }
 
         // check message with prefix
-        if (!message.content.startsWith(prefix)) { //|| message.author.bot
-            // Check if channel is clean (auto delete messages after seconds)
+        if (!message.content.startsWith(prefix)) { // if the message doesn't start with the prefix, we run non command modules
+
+            // Check if channel is clean channel (auto delete messages after seconds)
             if (settings.cleanChannels === undefined) {
                 settings.cleanChannels = {};
             }
@@ -105,40 +115,9 @@ module.exports = {
 
             var matches = message.content.match(/:([^:\s]+)\:(?![^<>]*>)/g);
             if (!message.author.bot && matches) {
-                var text = message.content;
-                matches.forEach(function (match) {
-                    var emojiName = match.split(':').join("");
-                    var emoji = client.emojis.cache.find(emoji => emoji.name === emojiName);
-                    if (emoji === undefined) return;
-                    text = text.replace(match, "<" + (emoji.animated ? 'a' : '') + ":" + emoji.name + ":" + emoji.id + ">");
-                });
-                if (text == message.content) return;
-                let webhook = await message.channel.createWebhook(message.author.username, {
-                    avatar: message.author.displayAvatarURL(),
-                });
-                //if (webhook === undefined || webhook === null) return console.log('webhook');
-                if (message.reference !== undefined && webhook.reference != null) {
-                    console.log('reply');
-                    let reference = await message.channel.messages.fetch(message.reference.messageID);
-                    text = {
-                        content: text,
-                        embed: {
-                            "author": {
-                                "name": reference.author.username,
-                                "url": reference.author.displayAvatarURL(),
-                                "icon_url": reference.url
-                            },
-                            "description": reference.content
-                        }
-                    }
-                }
-                await webhook.send(text);
-                webhook.delete();
-                //message.reply("test: " + text);
-                if (!message.deletable) message.delete();
+                const emojiMessageDetectedEvent = require('@events/modules/free-emojis/emoji-message-detected.js');
+                await emojiMessageDetectedEvent.execute(message, client, matches);
             }
-
-            //if (message.guild != null) Messages.appendMessage(message.author.id, message.guild.id, 1);
 
             return;
         }
@@ -146,9 +125,9 @@ module.exports = {
 
         // if no command like this do nothing
         var comid;
-        if (!client.commands.has(command)){
+        if (!client.commands.has(command)) {
             var commandList = Array.from(client.commands.keys());
-            var autocorrect = require('autocorrect')({words: commandList})
+            var autocorrect = require('autocorrect')({ words: commandList })
             var correctedCommand = autocorrect(command);
             if (client.commands.has(correctedCommand)) {
                 comid = client.commands.get(correctedCommand);
@@ -184,9 +163,23 @@ module.exports = {
                 }
             }
             if (denied === true) {
-                return message.reply("<:tulipo_cross:816448247459348480> <@637827404441845771> " + t('You do not have sufficient permissions to use this command.'));
+                return message.reply({
+                    content: t("I do not have the permissions to execute the command. ") + "\n" + t("Missing permits: ") + "`permission`", 
+                    allowedMentions: {
+                        repliedUser: false
+                    }
+                });
             }
         }
+
+        /*  TODO: Message when bot doesn't have required permissions.
+            return message.reply({
+                content: t("You lack permissions to use this command ") + "\n" + t("Missing permits: ") + "`permission`", allowedMentions: {
+                    repliedUser: false
+                }
+            });
+        */
+
 
         // only on nsfw channel
         if (comid.nsfw && !message.channel.nsfw && !message.channel.permissionsFor(message.member).has("ADMINISTRATOR") && message.member.id != message.guild.owner.user.id) return message.reply("require NSFW channel! so can't run command!")
@@ -224,16 +217,20 @@ module.exports = {
             //         });
             //     }
             //     //.addField('stack:', (error.stack ? error.stack.toString() : 'none'))
-            
+
             //console.error(error);
-            message.reply(await getErrorEmbed({
+            let content = await getErrorEmbed({
                 name: error.name,
                 message: error.message,
                 comid: comid,
                 args: args,
                 stack: error.stack,
-            }, true));
-            //message.reply('there was an error trying to execute that command!');
+            }, true);
+            try {
+                message.reply(content);
+            } catch (e) {
+                channel.send(content);
+            }
         }
 
     }

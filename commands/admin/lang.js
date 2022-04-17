@@ -1,22 +1,23 @@
 // init require
 const Discord = require('discord.js');
-const {default: localizify, t} = require('localizify');
-const { getConfig, saveConfig, getFooter } = require("../../utils/data.js");
-const config = require('../../config.js');
-
+const { default: localizify, t } = require('localizify');
+const { getConfig, saveConfig, getFooter } = require("@modules/utils/data.js");
+const botConfig = require('@config/bot.js');
 
 // export module
 module.exports = {
-	name : "lang",
-	description : "Change bot lang",
-	aliases : ["setlang"],
-	ussage : 'lang [<lang shortcode>]',
+	name: "lang",
+	description: "Change bot lang",
+	aliases: ["setlang"],
+	ussage: 'lang [<lang shortcode>]',
 	examples: ['lang', 'lang en'],
 	permissions: ['ADMINISTRATOR'],
-	hidden : false,
-	admin : true,
-	nsfw : false,
-	async execute(client,message,args){
+	category: "Admin",
+	hidden: false,
+	admin: true,
+	nsfw: false,
+	async execute(client, message, args) {
+
 		if (args[0] !== undefined) {
 			switch (args[0]) {
 				case 'en':
@@ -25,7 +26,7 @@ module.exports = {
 					settings.lang = args[0];
 					saveConfig(message.guild, settings);
 					var string = '';
-					switch(settings.lang) {
+					switch (settings.lang) {
 						case 'es':
 							string = ':flag_es: Español - Es';
 							break;
@@ -37,26 +38,14 @@ module.exports = {
 							break;
 					}
 					localizify.setLocale(settings.lang || 'en');
-					message.reply({
-						"embeds": [{
-							"title": "",
-							"color": config.embeds.color,
-							"description": t("Language established to:") + ' ' + string,
-							"timestamp": "",
-							"author": {},
-							"image": {
-								"url": ""
-							},
-							"thumbnail": {
-								"url": ""
-							},
-							"footer": {
-								"text": getFooter(message.author.username),
-								"icon_url": message.author.avatarURL()
-							},
-								"fields": []
-						}]
-					});
+
+					const embed = new Discord.MessageEmbed()
+
+						.setColor(botConfig.embeds.color)
+						.setDescription(t("My language has been set to:") + ' ' + string)
+
+					message.reply({ allowedMentions: { repliedUser: false }, embeds: [embed] });
+
 					break;
 				default:
 					message.reply(t('Only en, es, ca languages are available'));
@@ -65,7 +54,7 @@ module.exports = {
 		} else {
 			var settings = await getConfig(message.guild);
 			var string = '';
-			switch(settings.lang) {
+			switch (settings.lang) {
 				case 'es':
 					string = ':flag_es: Español - Es';
 					break;
@@ -76,26 +65,13 @@ module.exports = {
 					string = '<:Catalonia:833140848198811678> Català - Ca';
 					break;
 			}
-			message.reply({
-				"embeds":  [{
-					"title": "",
-					"color": config.embeds.color,
-					"description": t("My current language is:") + ' ' + string,
-					"timestamp": "",
-					"author": {},
-					"image": {
-						"url": ""
-					},
-					"thumbnail": {
-						"url": ""
-					},
-					"footer": {
-						"text": getFooter(message.author.username),
-						"icon_url": message.author.avatarURL()
-					},
-						"fields": []
-				}]
-			});
+
+			const embed = new Discord.MessageEmbed()
+
+				.setColor(botConfig.embeds.color)
+				.setDescription(t("My current language is:") + ' ' + string)
+
+			message.reply({ allowedMentions: { repliedUser: false }, embeds: [embed] });
 		}
 	}
 }
