@@ -4,7 +4,7 @@ module.exports = {
     event: "ready",
     once: true,
     async execute(message, client) {
-        console.info(client.user.username + ' is Ready!');
+        console.info('[✅] ' + client.user.username + ' is Ready!');
 
         // Activities 
         setInterval(async () => {

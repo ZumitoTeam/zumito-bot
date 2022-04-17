@@ -59,4 +59,6 @@ fs.readdir('./events/discord', (err, files) => { // We use the method readdir to
     });
 });
 
-client.login(process.env.TOKEN)
+client.login(process.env.TOKEN);
+
+global.discordClient = client;
