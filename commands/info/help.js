@@ -32,7 +32,7 @@ module.exports = {
 			.addComponents(
 	
 				new Discord.MessageSelectMenu()
-					.setCustomId('select')
+					.setCustomId('help-category')
 					.setPlaceholder('Select a category')
 					.addOptions([
 						{
