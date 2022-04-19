@@ -124,18 +124,18 @@ module.exports = {
 
 
         // if no command like this do nothing
-        var comid;
+        var com;
         if (!client.commands.has(command)) {
             var commandList = Array.from(client.commands.keys());
             var autocorrect = require('autocorrect')({ words: commandList })
             var correctedCommand = autocorrect(command);
             if (client.commands.has(correctedCommand)) {
-                comid = client.commands.get(correctedCommand);
+                com = client.commands.get(correctedCommand);
             } else {
                 return;
             }
         } else {
-            comid = client.commands.get(command);
+            com = client.commands.get(command);
         }
 
         // check if user is not rate limited
@@ -144,18 +144,18 @@ module.exports = {
         // }
 
         // if user message by DM
-        if (message.guild == null && (comid.DM === undefined || comid.DM == false)) {
+        if (message.guild == null && (com.DM === undefined || com.DM == false)) {
             // doing nothing
             return;
         }
 
         //  only owner
         // !message.member.roles.cache.has(localStorage.getItem('adminRole.'+message.guild.id))
-        if (comid.admin || comid.permissions !== undefined && comid.permissions.length > 0) {
+        if (com.admin || com.permissions !== undefined && com.permissions.length > 0) {
             var denied = false;
             if (!message.channel.permissionsFor(message.member).has("ADMINISTRATOR") || message.member.id != message.guild.ownerId) {
-                if (comid.permissions !== undefined && comid.permissions.length > 0) {
-                    comid.permissions.forEach(function (permission) {
+                if (com.permissions !== undefined && com.permissions.length > 0) {
+                    com.permissions.forEach(function (permission) {
                         if (!message.channel.permissionsFor(message.member).has(permission)) {
                             denied = true;
                         }
@@ -182,11 +182,11 @@ module.exports = {
 
 
         // only on nsfw channel
-        if (comid.nsfw && !message.channel.nsfw && !message.channel.permissionsFor(message.member).has("ADMINISTRATOR") && message.member.id != message.guild.owner.user.id) return message.reply("require NSFW channel! so can't run command!")
+        if (com.nsfw && !message.channel.nsfw && !message.channel.permissionsFor(message.member).has("ADMINISTRATOR") && message.member.id != message.guild.owner.user.id) return message.reply("require NSFW channel! so can't run command!")
 
         try {
             localizify.setLocale(settings.lang || 'en');
-            await comid.execute(client, message, args)
+            await com.execute(client, message, args)
             if (message.channel.type != 'dm' && !message.deletable && settings.deleteCommands) {
                 try {
                     message.delete().catch(function () {
@@ -222,7 +222,7 @@ module.exports = {
             let content = await getErrorEmbed({
                 name: error.name,
                 message: error.message,
-                comid: comid,
+                comid: com,
                 args: args,
                 stack: error.stack,
             }, true);
