@@ -57,7 +57,7 @@ module.exports = {
             if (message.mentions.users.first().id == client.user.id && message.content.startsWith('<')) {
                 if (args.length == 0) {
                     return message.reply({
-                        content: 'reply.prefix'.translate({
+                        content: 'reply.prefix'.trans({
                             prefix: `\`${prefix}\``,
                         }), allowedMentions: {
                             repliedUser: false
