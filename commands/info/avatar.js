@@ -36,7 +36,7 @@ module.exports = {
 			.setDescription("[Avatar URL](" + avatar + ")")
 			.setImage(avatar)
 			.setColor(botConfig.embeds.color)
-			.setFooter({ text: getFooter(message.member.user.tag), iconURL: message.author.avatarURL() })
+			.setFooter({ text: getFooter(message.member.user.tag), iconURL: message.author.avatarURL({ dynamic: true }) })
 			.setTimestamp();
 
 		return message.reply({embeds: [embed], allowedMentions: {repliedUser: false}

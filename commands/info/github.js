@@ -42,7 +42,7 @@ module.exports = {
             .addField('command.github.social_stats'.trans(), "**" + 'command.github.followers'.trans() + "**: " + `${git.followers}` + "\n" + "**" + 'command.github.following'.trans() + "**: " + `${git.following}`, true)
             .setImage(git.avatar_url)
             .setColor(botConfig.embeds.color)
-            .setFooter({ text: getFooter(message.author.username), iconURL: message.author.avatarURL() })
+            .setFooter({ text: getFooter(message.author.username), iconURL: message.author.avatarURL({ dynamic: true }) })
             .setTimestamp();
 
         await message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
