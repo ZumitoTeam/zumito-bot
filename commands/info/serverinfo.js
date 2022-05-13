@@ -20,28 +20,11 @@ module.exports = {
         let user = message.mentions.users.size ? message.mentions.users.first() : message.author;
 
         let verifLevels = {
-            'NONE': t("None"),
-            "LOW": t("Low"),
-            "MEDIUM": t("Medium"),
-            "HIGH": "(╯°□°）╯︵  ┻━┻",
-            "VERY_HIGH": "┻━┻ミヽ(ಠ益ಠ)ノ彡┻━┻"
-        };
-        let region = {
-            "brazil": ":flag_br: Brazil",
-            "eu-central": ":flag_eu: Central Europe",
-            "singapore": ":flag_sg: Singapore",
-            "us-central": ":flag_us: U.S. Central",
-            "sydney": ":flag_au: Sydney",
-            "us-east": ":flag_us: U.S. East",
-            "us-south": ":flag_us: U.S. South",
-            "us-west": ":flag_us: U.S. West",
-            "eu-west": ":flag_eu: Western Europe",
-            "vip-us-east": ":flag_us: VIP U.S. East",
-            "london": ":flag_gb: London",
-            "amsterdam": ":flag_nl: Amsterdam",
-            "hongkong": ":flag_hk: Hong Kong",
-            "russia": ":flag_ru: Russia",
-            "southafrica": ":flag_za:  South Africa"
+            'NONE': 'command.serverinfo.none'.trans(),
+            'LOW': 'command.serverinfo.low'.trans(),
+            'MEDIUM': 'command.serverinfo.medium'.trans(),
+            'HIGH': '(╯°□°）╯︵  ┻━┻',
+            'VERY_HIGH': '┻━┻ミヽ(ಠ益ಠ)ノ彡┻━┻'
         };
 
         let bans = await message.guild.bans.fetch();
@@ -49,30 +32,13 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
             .setTitle(emoji.boost + ' ' + 'command.serverinfo.title'.trans())
             .setThumbnail(message.guild.iconURL({ dynamic: true }))
-            .addField(emoji.info + ' ' + 'command.serverinfo.info'.trans(), '┕ **' + 'command.serverinfo.name'.trans() + ':** ' +  `\`${message.guild.toString() || 'command.serverinfo.error'.trans()}\`` + '\n┕ **' + 'command.serverinfo.owner'.trans()  + ':** ' + `<@${message.guild.ownerId}>` + '\n┕ **' + 'command.serverinfo.id'.trans() + ':** ' + `\`${message.guild.id || 'command.serverinfo.error'.trans()}\``, true)
-            .addField('command.serverinfo.members'.trans(), "teeed", true)
+            .addField(emoji.info + ' ' + 'command.serverinfo.info'.trans(), '┕ **' + 'command.serverinfo.name'.trans() + ':** ' + `\`${message.guild.toString() || 'command.serverinfo.error'.trans()}\`` + '\n┕ **' + 'command.serverinfo.owner'.trans() + ':** ' + `<@${message.guild.ownerId}>` + '\n┕ **' + 'command.serverinfo.id'.trans() + ':** ' + `\`${message.guild.id || 'command.serverinfo.error'.trans()}\`` + '\n┕ **' + 'command.serverinfo.roles'.trans() + ':** ' + `\`${message.guild.roles.cache.size.toString() || 'command.serverinfo.error'.trans()}\``, true)
+            .addField(emoji.cozysip + ' ' + 'command.serverinfo.members'.trans(), '┕ **' + 'command.serverinfo.online'.trans() + ':** ' + '`' + message.guild.members.cache.filter(member => member.presence.status !== 'offline').size + '`' + '\n┕ **' + 'command.serverinfo.members'.trans() + ':** ' + '`' + message.guild.members.cache.size + '`' + '\n┕ **' + 'command.serverinfo.bots'.trans() + ':** ' + '`' + message.guild.members.cache.filter(member => member.user.bot).size + '`', true)
+            .addField(emoji.channel + 'command.serverinfo.channels'.trans(), '┕ **' + 'command.serverinfo.text_channels'.trans() + ':** ' + `\`${message.guild.channels.cache.filter(channel => channel.type == 'text').size}\`` + '\n┕ **' + 'command.serverinfo.voice_channels'.trans() + ':** ' + `\`${message.guild.channels.cache.filter(channel => channel.type == 'voice').size}\``, true)
+            .addField('♦ ' + 'command.serverinfo.others'.trans(), '┕ **' + 'command.serverinfo.boost'.trans() + ':** ' + `\`${message.guild.premiumSubscriptionCount.toString()}\`` + '\n┕ **' + 'command.serverinfo.level'.trans() + ':** ' + `\`${message.guild.premiumTier.toString()}\`` + '\n┕ **' + 'command.serverinfo.bans'.trans() + ':** ' + `\`${bans.size}\`` + '\n┕ **' + 'command.serverinfo.verification_level'.trans() + ':** ' + `\`${verifLevels[message.guild.verificationLevel]}\``, true)
             .setColor(botConfig.embeds.color)
-        /*
-        .addField(t('Members')+':', 
-            '<:online:761996014546321409>'+message.guild.members.cache.filter(member => member.presence.status !== 'offline' ).size + ' ' + t('Online') +'\t' +
-            '<:bota:754068946889605200>'+message.guild.members.cache.filter(member => member.user.bot ).size + ' ' + t('Bots') +'\t' +    
-            '<:offline:761996014780678146>'+message.guild.members.cache.size + ' ' + t('Members') +'\t'
-        )
-        .addField(t("Verification Level") + ":", verifLevels[message.guild.verificationLevel], true)
-        .addField(t('Boost') + ":", '<:boost:761953856292388904>'+ ' ' +t('{count} upgrades', {count: message.guild.premiumSubscriptionCount.toString()}) + ' ('+t('Level {level}', {level: message.guild.premiumTier.toString()})+ ')')
-        .addField(t('Channels') + ":", 
-        '<:textchannel:761996014453391360> ' + message.guild.channels.cache.filter(channel => channel.type == 'text').size + ' ' + t('Text channels') + ' • ' + 
-        '<:voicechannel:761996014500184105> ' + message.guild.channels.cache.filter(channel => channel.type == 'voice').size + ' ' + t('Voice channels')
-        )
-        //.addField(t('Region') + ":", region[message.guild.region] || 'error getting value')
-        .addField(t("Roles") + ":", message.guild.roles.cache.size.toString() || 'error getting value')
-        .addField(t('Bans') + ':', '<:ban:761996014726152233> '+ bans.size)
-        .setColor("RED");
-    embed.setFooter(
-        //t('Requested by') + ": " + user.tag,
-        getFooter(message.member.user.tag),
-        user.avatarURL({ dynamic: true })
-    )*/
+            .setFooter({ text: getFooter(message.member.user.tag), iconURL: message.author.avatarURL({ dynamic: true }) })
+
         return message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
     }
 }
@@ -80,4 +46,3 @@ function input(text) {
     let join = `\`\`\``;
     return join + text + join;
 }
-//.addField(t('')+":","")
