@@ -32,17 +32,14 @@ module.exports = {
 
 		const embed = new Discord.MessageEmbed()
 
-			.setAuthor({ name: t("Avatar of ") + ' ' + user, iconURL: "" })
+			.setAuthor({ name: 'command.prefix.author'.trans() + ' ' + user, iconURL: "" })
 			.setDescription("[Avatar URL](" + avatar + ")")
 			.setImage(avatar)
 			.setColor(botConfig.embeds.color)
 			.setFooter({ text: getFooter(message.member.user.tag), iconURL: message.author.avatarURL() })
 			.setTimestamp();
 
-		return message.reply({
-			embeds: [embed], allowedMentions: {
-				repliedUser: false
-			}
+		return message.reply({embeds: [embed], allowedMentions: {repliedUser: false}
 		});
 	}
-}
+} 

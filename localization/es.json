@@ -1,3 +1,16 @@
 {
-    
+    "commands.activity.notInChannel": "Debes estar en un canal de voz para utilizar este comando.",
+    "commands.activity.invalidActivity": "Debe proporcionar una actividad para comenzar.",
+    "commands.activity.failedToStart": "No se ha podido iniciar la actividad.",
+    "commands.activity.error": "Se ha producido un error al iniciar la actividad. Asegúrese de que ha introducido el nombre correcto de la actividad.",
+    "footer.requester": "Pedido por: {user}",
+    "reply.prefix": "Mi prefix es: {prefix}",
+    "command.lang.title": "Idioma",
+    "command.lang.description.0": "Mi idioma en este servidor es:",
+    "command.lang.description.1": "Despliegue el menú y seleccione su idioma preferido.",
+    "command.lang.description.2": "Mi idioma se ha establecido correctamente a:",
+    "command.lang.category": "Selecciona el idioma",
+    "command.prefix.description.0": "Mi prefix en este servidor es:",
+    "command.prefix.description.1": "El prefix de este servidor se ha actualizado a:",
+    "command.prefix.author": "Avatar de"
 }
