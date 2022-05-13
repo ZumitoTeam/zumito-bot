@@ -24,6 +24,7 @@ module.exports = {
 			.setImage(botConfig.botInvite.inviteBanner)
 
 		const row = new Discord.MessageActionRow()
+
 			.addComponents(
 
 				new Discord.MessageButton()
