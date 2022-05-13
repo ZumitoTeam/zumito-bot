@@ -1,3 +1,4 @@
+const bot = require('@config/bot.js');
 const botConfig = require('@config/bot.js');
 
 module.exports = {
@@ -10,10 +11,10 @@ module.exports = {
         setInterval(async () => {
             const { getBotVersion } = require("@modules/utils/data.js");
             client.user.setPresence({
-                status: "online",
+                status: botConfig.presence.status ,
                 activities: [{
-                    name: botConfig.name + ' 🧃 ' + getBotVersion(),
-                    type: "PLAYING" // https://discord.js.org/#/docs/main/stable/typedef/ActivityType
+                    name: botConfig.presence.message,
+                    type: botConfig.presence.type
                 }]
             });
         }, 60000);
