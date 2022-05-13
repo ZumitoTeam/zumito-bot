@@ -3,6 +3,8 @@ const Discord = require('discord.js');
 const { t } = require('localizify');
 const botConfig = require('@config/bot.js');
 const os = require("os");
+const emoji =require('@config/emojis.js');
+require("@modules/localization.js");
 
 // export module
 module.exports = {
@@ -56,11 +58,11 @@ function timeformat(timeInSeconds) {
 			.setTitle(botConfig.name)
 			.setThumbnail(botConfig.media.botStatusIMG)
 			.setColor(botConfig.embeds.color)
-			.addField("<:information:959983434187558952> "+"Info", "┕ **" + t("Guilds") + `:** \`${guilds}\`` + "\n┕ **" + t("Users") + `:** \`${users}\`` + "\n┕ **" + t("Channels") + `:** \`${channels}\``, true)
-			.addField("<:ram:879830143521140776> " + t("Ram"), "┕  **" + t(" Used") + `:** \`${botUsed}\`` + "\n┕ **" + t(" Available") + `:** \`${botAvailable}\`` + "\n┕** " + t("Usage") + `:** \`${botUsage}\``, true)
-			.addField("<:CPU:959987496698122270> " + "CPU", "┕ **" + "OS" + `:** \`${platform} [${architecture}]\`` + "\n┕ **" + "Usage" + `:** \`${cpuUsage}\`` + "\n┕ **" + "Cores" + `:** \`${cores}\``, true)
+			.addField(emoji.info + ' ' + 'command.botstats.info'.trans(), "┕ **" + 'command.botstats.guilds'.trans() + `:** \`${guilds}\`` + "\n┕ **" + 'command.botstats.users'.trans() + `:** \`${users}\`` + "\n┕ **" + 'command.botstats.channels'.trans() + `:** \`${channels}\``, true)
+			.addField(emoji.ram + ' ' + 'command.botstats.ram'.trans(), "┕  **" + 'command.botstats.used'.trans() + `:** \`${botUsed}\`` + "\n┕ **" + 'command.botstats.available'.trans() + `:** \`${botAvailable}\`` + "\n┕** " + 'command.botstats.usage'.trans() + `:** \`${botUsage}\``, true)
+			.addField(emoji.cpu + ' ' + 'command.botstats.cpu'.trans(), "┕ **" + 'command.botstats.os'.trans() + `:** \`${platform} [${architecture}]\`` + "\n┕ **" + 'command.botstats.usage'.trans() + `:** \`${cpuUsage}\`` + "\n┕ **" + 'command.botstats.cores'.trans() + `:** \`${cores}\``, true)
 			//Arreglar uptime
-			.addField("♦ "+"Others", "┕ **" + "Ping" + `:** \`${new Date() - dt}ms\`` + "\n┕ **" + "Node Version" + ":** `" + process.versions.node + "`" + "\n┕ **" + t("Uptime") + `:** `+ "`" +  timeformat(process.uptime()) + "`", true)
+			.addField("♦ " + 'command.botstats.others'.trans(), "┕ **" + 'command.botstats.ping'.trans() + `:** \`${new Date() - dt}ms\`` + "\n┕ **" + 'command.botstats.node_version'.trans() + ":** `" + process.versions.node + "`" + "\n┕ **" + 'command.botstats.uptime'.trans() + `:** `+ "`" +  timeformat(process.uptime()) + "`", true)
 		
 		message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
 	}
