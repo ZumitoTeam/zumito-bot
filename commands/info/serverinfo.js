@@ -1,7 +1,6 @@
 // init require
 const Discord = require('discord.js');
 const botConfig = require("@config/bot.js");
-const { t } = require('localizify');
 const { getBotVersion, getFooter } = require("@modules/utils/data.js");
 const emoji = require('@config/emojis.js');
 require("@modules/localization.js");
