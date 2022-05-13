@@ -62,5 +62,19 @@
     "command.serverinfo.error": "Error getting value",
     "command.serverinfo.owner": "Owner",
     "command.serverinfo.id": "ID",
-    "command.serverinfo.members": "Members"
+    "command.serverinfo.members": "Members",
+    "command.serverinfo.online": "Online",
+    "command.serverinfo.bots": "Bots",
+    "command.serverinfo.others": "Others",
+    "command.serverinfo.roles": "Roles",
+    "command.serverinfo.boost": "Boost",
+    "command.serverinfo.verification_level": "Verification Level",
+    "command.serverinfo.channels": "Channels",
+    "command.serverinfo.text_channels": "Text channels",
+    "command.serverinfo.voice_channels": "Voice channels",
+    "command.serverinfo.level": "Level",
+    "command.serverinfo.bans": "Bans",
+    "command.serverinfo.none": "None",
+    "command.serverinfo.low": "Low", 
+    "command.serverinfo.medium": "Medium"
 }

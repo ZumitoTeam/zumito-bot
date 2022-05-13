@@ -57,7 +57,7 @@ module.exports = {
 
 			.setTitle('command.help.title'.trans())
 			.setDescription('command.help.description.0'.trans() + ' ' + botConfig.name + "\n\n" + 'command.help.description.1'.trans() + "\n" + 'command.help.description.2'.trans() + "\n")
-			.setThumbnail(client.user.displayAvatarURL())
+			.setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
 			.setColor(botConfig.embeds.color)
 
 
@@ -80,7 +80,7 @@ module.exports = {
 
 
 
-		return message.reply({ allowedMentions: { repliedUser: false }, embeds: [category], components: [row] });
+		return message.reply({ allowedMentions: { repliedUser: false }, embeds: [embed], components: [row] });
 		//components: [row]
 	}
 }
