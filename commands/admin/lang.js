@@ -52,6 +52,7 @@ module.exports = {
 
 		message.reply({ embeds: [embed], components: [row], allowedMentions: { repliedUser: false } });
 
+		
 		/*var embed = new Discord.MessageEmbed() // TODO: Mensaje de confirmacion cuando cambie de idioma este mensaje va sin componentes de menu
 			.setDescription(emoji.check + ' ' + 'command.lang.description.2'.trans() + ' ' + '`Español`')
 			.setColor(botConfig.embeds.color)*/
