@@ -40,10 +40,7 @@ module.exports = {
 							emoji: '🇪🇸',
 							value: 'lang_spanish',
 						},
-						{
-							label: 'Català',
-							value: 'lang_Catala',
-						},
+
 					]),
 			);
 
