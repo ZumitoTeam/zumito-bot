@@ -39,7 +39,7 @@ module.exports = {
 					.addOptions([
 						{
 							label: 'Admin',
-							description: 'View commands in' + 'Admin' + 'category',
+							description: 'View commands in' + ' Admin ' + 'category',
 							value: 'admin_category',
 							emoji: "⚙"
 						},
@@ -62,8 +62,8 @@ module.exports = {
 
 
 		const commandInfo = new Discord.MessageEmbed()
-			
-			.setAuthor({ name: 'command.help.author.command'.trans() + ' ' + 'Help', iconURL: client.user.displayAvatarURL(), url: 'https://zumito.ga/commands/' + "help" })
+
+			.setAuthor({ name: 'command.help.author.command'.trans() + ' ' + 'command.name', iconURL: client.user.displayAvatarURL(), url: 'https://zumito.ga/commands/' + "help" })
 			.setDescription("Command descripcion")
 			.addField('command.help.usage'.trans(), "uso")
 			.addField('command.help.examples'.trans(), "ejemplos")
@@ -72,15 +72,15 @@ module.exports = {
 			.setColor(botConfig.embeds.color)
 
 		const category = new Discord.MessageEmbed()
-			
-			.setAuthor({ name: 'Commands ' + botConfig.name, iconURL: client.user.displayAvatarURL() })
-			.addField("⚙ Admin", "For more detailed information use: " + "\n" + "For additional help, visit our")
-			.addField("📖 Commands", "┕ " + "[cluster](https://zumito.ga/help)" + "\n" + "┕ " + "[avatar](https://zumito.ga/avatar)")
+
+			.setAuthor({ name: 'command.help.commands'.trans() + ' ' + botConfig.name, iconURL: client.user.displayAvatarURL() })
+			.addField('⚙ Admin', 'command.help.field.detailed'.trans() + ': ' + '' + '`z-help command`')
+			.addField(emoji.book + ' ' + 'command.help.commands'.trans(), '```Lang       Prefix       Example       Example```')
 			.setColor(botConfig.embeds.color)
 
 
 
-		return message.reply({ allowedMentions: { repliedUser: false }, embeds: [embed], components: [row] });
+		return message.reply({ embeds: [embed, commandInfo, category], allowedMentions: { repliedUser: false }, components: [row] });
 		//components: [row]
 	}
 }
