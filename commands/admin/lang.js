@@ -1,12 +1,10 @@
-// init require
 const Discord = require('discord.js');
-const { default: localizify, t } = require('localizify');
+const { default: localizify } = require('localizify');
 const { getConfig, saveConfig, getFooter } = require("@modules/utils/data.js");
 const botConfig = require('@config/bot.js');
 const emoji = require('@config/emojis.js');
 require("@modules/localization.js");
 
-// export module
 module.exports = {
 	name: "lang",
 	description: "Change bot lang",

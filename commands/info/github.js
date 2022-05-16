@@ -1,4 +1,3 @@
-// init require
 const Discord = require('discord.js');
 const { getFooter } = require("@modules/utils/data.js");
 const fetch = require("node-fetch");
