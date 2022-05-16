@@ -17,7 +17,6 @@ module.exports = {
 	nsfw: false,
 	async execute(client, message, args) {
 
-		// TODO: add message "Invite sended to DM", and send to the current channel and auto delete in 5 seconds 
 		var embed = new Discord.MessageEmbed()
 
 			.setAuthor({ name: 'command.botinvite.author'.trans() + ' ' + botConfig.name, iconURL: "" })

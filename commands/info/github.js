@@ -38,7 +38,7 @@ module.exports = {
             })
 
             .setDescription('**' + 'command.github.bio'.trans() + '**' + `\n${git.bio || 'command.github.not_provided'.trans()}`) // Not Provided
-            .addField('command.github.user_info'.trans(), "**" + 'command.github.real_name'.trans() + "**: " + `${git.login || 'command.github.not_provided'.trans()}` + "\n" + " **" + 'command.github.location'.trans() + "**: " + `${git.location || 'command.github.not_provided'.trans()}` + "\n" + "**" + 'command.github.github_id'.trans() + "**: " + `${git.id}` + "\n" + "**" + 'command.github.website'.trans() + "**: " + `[Click me](${git.blog})`, true)
+            .addField('command.github.user_info'.trans(), "**" + 'command.github.real_name'.trans() + "**: " + `${git.login || 'command.github.not_provided'.trans()}` + "\n" + " **" + 'command.github.location'.trans() + "**: " + `${git.location || 'command.github.not_provided'.trans()}` + "\n" + "**" + 'command.github.github_id'.trans() + "**: " + `${git.id}`, true)
             .addField('command.github.social_stats'.trans(), "**" + 'command.github.followers'.trans() + "**: " + `${git.followers}` + "\n" + "**" + 'command.github.following'.trans() + "**: " + `${git.following}`, true)
             .setImage(git.avatar_url)
             .setColor(botConfig.embeds.color)
