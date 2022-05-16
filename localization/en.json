@@ -190,7 +190,7 @@
     "command.serverinfo.category": "Category",
     "debug.error.title": "Error running command",
     "debug.description": "There is an error running your command. Please contact developers to solve this issue.",
-    "debug.command": "Command", 
+    "debug.command": "Command",
     "debug.arguments": "Arguments",
     "debug.error": "Error",
     "debug.error.message": "Error message",
@@ -199,5 +199,16 @@
     "debug.solution": "Posible solution",
     "debug.stack": "Stack trace",
     "debug.detail": "Detail",
-    "debug.button.report": "Report issue"
+    "debug.button.report": "Report issue",
+    "command.userinfo.title": "User info",
+    "command.userinfo.user": "User",
+    "command.userinfo.nickname": "Nickname",
+    "command.userinfo.no_nickname": "No nickname",
+    "command.userinfo.id": "ID",
+    "command.userinfo.color": "Color",
+    "command.userinfo.playing": "Playing at",
+    "command.userinfo.creation": "Account creation",
+    "command.userinfo.login": "Server login",
+    "command.userinfo.roles": "Roles",
+    "command.userinfo.not_playing": "Is not playing"
 }
