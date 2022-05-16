@@ -56,7 +56,6 @@ module.exports = {
             .addField(emoji.channel + ' ' + 'command.serverinfo.channels'.trans(), 'command.serverinfo.total'.trans() + ': ' + `\**${message.guild.channels.cache.size}\**` + '\n' + 'command.serverinfo.announcements'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_NEWS').size}\**` + '\n' + 'command.serverinfo.station'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_STAGE_VOICE').size}\**` + '\n' + 'command.serverinfo.threads'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_PUBLIC_THREAD').size}\**` + '\n' + 'command.serverinfo.text'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_TEXT').size}\**` + '\n' + 'command.serverinfo.voice'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_VOICE').size}\**` + '\n' + 'command.serverinfo.category'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_CATEGORY').size}\**`)
             .setColor(botConfig.embeds.color)
             .setFooter({ text: getFooter(message.member.user.tag), iconURL: message.author.avatarURL({ dynamic: true }) })
-            .setTimestamp();
 
         return message.reply({ 
             embeds: [embed], 
