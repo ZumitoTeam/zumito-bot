@@ -4,7 +4,7 @@ const { loadCommands } = require('@modules/utils/data.js');
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const botConfig = require('@config/bot.js');
 const chalk = require('chalk');
-const emojis =require('@config/emojis.js');
+const emojis = require('@config/emojis.js');
 require("@modules/localization.js");
 
 module.exports = {
