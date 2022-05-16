@@ -1,11 +1,9 @@
-// init require
 const Discord = require("discord.js");
 const botConfig = require("@config/bot.js");
 const { getFooter } = require("@modules/utils/data");
 const emoji = require('@config/emojis.js');
 require("@modules/localization.js");
 
-// export module
 module.exports = {
 	name: "botinvite",
 	description: "Get tulipo invite urls",
