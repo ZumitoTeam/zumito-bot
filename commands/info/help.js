@@ -1,4 +1,3 @@
-// init require
 const Discord = require('discord.js');
 const fs = require("fs");
 const { getBotVersion, getFooter, getZumitoSettings, setZumitoSettings } = require("@modules/utils/data.js");
@@ -6,14 +5,12 @@ var read = require('fs-readdir-recursive')
 const commandFiles = read('@commands');//fs.readdirSync('./commands');//.filter(file => file.endsWith('.js'));
 const owner = process.env.OWNER;
 const prefix = process.env.BOTPREFIX;
-const { t } = require('localizify');
 const { sendTimedMessage } = require("@modules/utils/messages.js");
 const { tn } = require('@modules/utils/utils.js');
 const botConfig = require('@config/bot.js');
 const emoji = require('@config/emojis.js');
 require("@modules/localization.js");
 
-// export module
 module.exports = {
 	name: "help",
 	description: "tulipo help command",

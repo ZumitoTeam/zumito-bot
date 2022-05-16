@@ -10,9 +10,5 @@ module.exports = {
     "channel": "<:channel:974540778305105930>",
     "stats": "<:stats:975563717439795250>",
     "book": "<a:Pixel_Book:975583443113095168>",
-    "online": "<a:online:975603033847259186>",
-    "streaming": "<a:streaming:975603159487631481>",
-    "dnd": "<a:dnd:975602711804403752>",
-    "idle": "<a:Idle:975603340073369690>",
-    "offline": "<a:offline:975603661214470154>",
+
 }

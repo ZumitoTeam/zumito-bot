@@ -1,12 +1,9 @@
-// init require
 const Discord = require('discord.js');
-const { t } = require('localizify');
 const botConfig = require('@config/bot.js');
 const os = require("os");
 const emoji =require('@config/emojis.js');
 require("@modules/localization.js");
 
-// export module
 module.exports = {
 	name: "botstats",
 	description: "Get information about Zumito",
@@ -25,10 +22,10 @@ function timeformat(timeInSeconds) {
   const minutes = Math.floor((timeInSeconds % 3600) / 60);
   const seconds = Math.round(timeInSeconds % 60);
   return (
-    (days > 0 ? `${days} days, ` : "") +
-    (hours > 0 ? `${hours} hours, ` : "") +
-    (minutes > 0 ? `${minutes} minutes, ` : "") +
-    (seconds > 0 ? `${seconds} seconds` : "")
+    (days > 0 ? `${days}` + ' ' + 'timeformat.days'.trans() +', ' : "") +
+    (hours > 0 ? `${hours}` + ' ' + 'timeformat.hours'.trans() +', ' : "") + 
+    (minutes > 0 ? `${minutes}` + ' ' + 'timeformat.minutes'.trans() +', ' : "") + 
+    (seconds > 0 ? `${seconds}` + ' ' + 'timeformat.seconds'.trans() : "")
   );
 }
 		// STATS
@@ -61,7 +58,6 @@ function timeformat(timeInSeconds) {
 			.addField(emoji.info + ' ' + 'command.botstats.info'.trans(), "┕ **" + 'command.botstats.guilds'.trans() + `:** \`${guilds}\`` + "\n┕ **" + 'command.botstats.users'.trans() + `:** \`${users}\`` + "\n┕ **" + 'command.botstats.channels'.trans() + `:** \`${channels}\``, true)
 			.addField(emoji.ram + ' ' + 'command.botstats.ram'.trans(), "┕  **" + 'command.botstats.used'.trans() + `:** \`${botUsed}\`` + "\n┕ **" + 'command.botstats.available'.trans() + `:** \`${botAvailable}\`` + "\n┕** " + 'command.botstats.usage'.trans() + `:** \`${botUsage}\``, true)
 			.addField(emoji.cpu + ' ' + 'command.botstats.cpu'.trans(), "┕ **" + 'command.botstats.os'.trans() + `:** \`${platform} [${architecture}]\`` + "\n┕ **" + 'command.botstats.usage'.trans() + `:** \`${cpuUsage}\`` + "\n┕ **" + 'command.botstats.cores'.trans() + `:** \`${cores}\``, true)
-			//Arreglar uptime
 			.addField('♦ ' + 'command.botstats.others'.trans(), "┕ **" + 'command.botstats.ping'.trans() + `:** \`${new Date() - dt}ms\`` + "\n┕ **" + 'command.botstats.node_version'.trans() + ":** `" + process.versions.node + "`" + "\n┕ **" + 'command.botstats.uptime'.trans() + `:** `+ "`" +  timeformat(process.uptime()) + "`", true)
 		
 		message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
