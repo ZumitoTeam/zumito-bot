@@ -31,7 +31,7 @@ module.exports = {
 	// TODO: entire command
 	async execute(client, message, args) {
 
-		let command = message.options.get('command')?.value;
+		let command = args.get('command')?.value;
 		if (command) {
 			command = client.commands.find(c => c.name === command);
 			const embed = new Discord.MessageEmbed()

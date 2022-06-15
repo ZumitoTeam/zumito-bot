@@ -17,7 +17,7 @@ module.exports = {
 
     async execute(client, message, args) {
 
-        if (args[0] === undefined) {
+        if (!args.has(0)) {
             return await message.reply({ 
                 content: emojis.deny + 'command.github.valid_username'.trans(), 
                 allowedMentions: { 
@@ -26,7 +26,7 @@ module.exports = {
             });
         }
 
-        const git = await fetch('https://api.github.com/users/' + (args.join(' ')))
+        const git = await fetch('https://api.github.com/users/' + (Array.from(args.values()).map(a => a.value).join(' ')))
             .then(res => res.json())
             .catch(async err => { });
 

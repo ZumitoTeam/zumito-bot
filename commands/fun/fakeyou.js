@@ -26,11 +26,12 @@ module.exports = {
     cooldown: 120,
 	async execute(client,message,args){
         let guildConfig = await getConfig(message.guild);
-        if (args[0] !== undefined && voices[guildConfig.lang] !== undefined && voices[guildConfig.lang][args[0]] !== undefined) {
-            if (args[1] !== undefined) {
-                let voice = voices[guildConfig.lang][args[0]];
-                args.shift()
-                let text = args.join(' ');
+        if (args.has(0) && voices[guildConfig.lang] !== undefined && voices[guildConfig.lang][args.get(0)] !== undefined) {
+            if (args.has(1)) {
+                let argsArray = Array.from(args.values());
+                let voice = voices[guildConfig.lang][args.get(0)]];
+                argsArray.shift()
+                let text = argsArray.join(' ');
                 let request = await fetch('https://api.fakeyou.com/tts/inference', {
                     method: 'POST',
                     body: JSON.stringify({
@@ -57,7 +58,7 @@ module.exports = {
                     return message.reply({
                         files: [{
                             attachment: 'https://storage.googleapis.com/vocodes-public' + poll.state.maybe_public_bucket_wav_audio_path,
-                            name: args.join('_') + '.wav'
+                            name: argsArray.join('_') + '.wav'
                         }],
                     });
                 } else {
