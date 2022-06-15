@@ -191,7 +191,14 @@ module.exports = {
 
         try {
             localizify.setLocale(settings.lang || 'en');
-            await com.execute(client, message, args)
+            let parsedArgs = new Map();
+            args.forEach(function (arg, index) {
+                parsedArgs.set(com.args?.[index]?.name || index, {
+                    name: com.args?.[index]?.name || index,
+                    value: arg
+                });
+            });
+            await com.execute(client, message, parsedArgs)
             if (message.channel.type != 'dm' && !message.deletable && settings.deleteCommands) {
                 try {
                     message.delete().catch(function () {

@@ -32,7 +32,7 @@ module.exports = {
 
         } else {
 
-            settings.prefix = args[0];
+            settings.prefix = args.get(0);
 
             saveConfig(message.guild, settings);
 

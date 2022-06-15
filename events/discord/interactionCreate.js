@@ -11,7 +11,7 @@ module.exports = {
         var settings = await getConfig(interaction.guild);
 
         if(interaction.isCommand()) {
-            let args = [] //interaction.options?.map(section => section);
+            let args = interaction.options;
             if(!client.commands.has(interaction.commandName)) return;
             const comid = client.commands.get(interaction.commandName);
             if (!comid.slashCommand) return;
