@@ -24,9 +24,10 @@ module.exports = {
         } else if(interaction.isButton()) {
             
         } else if(interaction.isSelectMenu()) {
-            console.log('interaction', interaction.customId);
-            if (fs.existsSync("@commands/"+interaction.customId+".js")) {
-                let event = require("@commands/"+interaction.customId+".js");
+            let path = interaction.customId.split('.');
+            const command = client.commands.find(command => command.name === path[0]);
+            if(command.selectMenu) {
+                command.selectMenu(path, interaction, client);
             }
         } else if(interaction.isUserContextMenu()) {
             
