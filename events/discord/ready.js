@@ -11,10 +11,10 @@ module.exports = {
         setInterval(async () => {
             const { getBotVersion } = require("@modules/utils/data.js");
             client.user.setPresence({
-                status: botConfig.presence.status ,
+                status: "online",
                 activities: [{
-                    name: botConfig.presence.message,
-                    type: botConfig.presence.type
+                    name: botConfig.name + ' 🧃 ' + getBotVersion(),
+                    type: "PLAYING" // https://discord.js.org/#/docs/main/stable/typedef/ActivityType
                 }]
             });
         }, 60000);
