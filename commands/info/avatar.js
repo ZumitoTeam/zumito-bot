@@ -1,10 +1,8 @@
-// init require
 const Discord = require('discord.js');
 const { getFooter } = require("@modules/utils/data.js");
-const { t } = require('localizify');
 const botConfig = require('@config/bot.js');
+require("@modules/localization.js");
 
-// export module
 module.exports = {
 	name: "avatar",
 	description: "Get user avatar image",
@@ -32,17 +30,20 @@ module.exports = {
 
 		const embed = new Discord.MessageEmbed()
 
-			.setAuthor({ name: t("Avatar of ") + ' ' + user, iconURL: "" })
+			.setAuthor({ name: 'command.avatar.author'.trans() + ' ' + user, iconURL: "" })
 			.setDescription("[Avatar URL](" + avatar + ")")
 			.setImage(avatar)
 			.setColor(botConfig.embeds.color)
-			.setFooter({ text: getFooter(message.member.user.tag), iconURL: message.author.avatarURL() })
-			.setTimestamp();
+			.setFooter({ 
+				text: getFooter(message.member.user.tag), 
+				iconURL: message.author.avatarURL({ dynamic: true }) 
+			})
 
 		return message.reply({
-			embeds: [embed], allowedMentions: {
-				repliedUser: false
+			embeds: [embed],
+			allowedMentions: { 
+				repliedUser: false 
 			}
 		});
 	}
-}
+} 

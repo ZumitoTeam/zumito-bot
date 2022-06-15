@@ -4,16 +4,18 @@ const { loadCommands } = require('@modules/utils/data.js');
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const botConfig = require('@config/bot.js');
 const chalk = require('chalk');
+const emojis =require('@config/emojis.js');
+require("@modules/localization.js");
 
 module.exports = {
     initializeDebug(client) {
         module.exports.client = client;
-        this.watcher = chokidar.watch(path.resolve(__dirname + '/../../commands'), {ignored: /^\./, persistent: true, ignoreInitial: true})
-        .on('add', module.exports.onAdd)
-        .on('change', module.exports.onChange)
-        //.on('unlink', function(path) {console.log('File', path, 'has been removed');})
-        .on('error', module.exports.onError);
-    }, 
+        this.watcher = chokidar.watch(path.resolve(__dirname + '/../../commands'), { ignored: /^\./, persistent: true, ignoreInitial: true })
+            .on('add', module.exports.onAdd)
+            .on('change', module.exports.onChange)
+            //.on('unlink', function(path) {console.log('File', path, 'has been removed');})
+            .on('error', module.exports.onError);
+    },
 
     onChange(file) {
         console.debug('[🔄 ] Command ' + chalk.blue(file.replace(/^.*[\\\/]/, '').split('.').slice(0, -1).join('.')) + ' reloaded');
@@ -47,44 +49,60 @@ module.exports = {
             parsedError = error;
         }
         let embed = new MessageEmbed()
-        .setTitle("Error running command")
-        .setColor(botConfig.embeds.color)
-        .setDescription("There is an error running your command. Please contact developers to solve this issue.")
-        .setTimestamp()
-        .addField('Command:', (error.comid.name || 'not defined'))
-        .addField('Arguments:', (error.args.toString() || 'none'))
-        .addField('Error:', (error.name || 'not defined'))
-        .addField('Error message:', (error.message || 'not defined'));
+            .setTitle(emojis.deny + ' ' + 'debug.error.title'.trans())
+            .setColor(botConfig.embeds.color)
+            .setDescription('debug.description'.trans())
+            .setTimestamp()
+            .addField(
+                'debug.command'.trans() + ':', 
+                (error.comid.name || 'debug.not.defined'.trans())
+            )
+            .addField(
+                'debug.arguments'.trans() + ':', 
+                (error.args.toString() || 'debug.none'.trans())
+            )
+            .addField(
+                'debug.error'.trans() + ':', 
+                (error.name || 'debug.not.defined'.trans())
+            )
+            .addField(
+                'debug.error.message'.trans() + ':', 
+                (error.message || 'debug.not.defined'.trans())
+            );
         if (error.possibleSolutions !== undefined) {
             error.possibleSolutions.forEach((solution) => {
-                embed.addField('Posible solution:', solution);
+                embed.addField('debug.solution'.trans() + ':', solution);
             });
         }
         if (error.stack !== undefined) {
-            embed.addField('Stack trace:', error.stack || error.stack.toString());
+            embed.addField('debug.stack'.trans() + ':', error.stack || error.stack.toString());
         }
         if (error.details !== undefined) {
             error.details.forEach((detail) => {
-                embed.addField('Detail:', detail);
+                embed.addField('debug.detail'.trans() + ':', detail);
             });
         }
-        
-        const body =  `\n\n\n---\nComand:\`\`\`${error.comid.name || 'not defined'}\`\`\`\nArguments:\`\`\`${error.args.toString() || 'none'}\`\`\`\nError:\`\`\`${error.name || 'not defined'}\`\`\`\nError message:\`\`\`${error.message || 'not defined'}\`\`\`\n`;
-        const url = `https://github.com/fernandomema/Zumito/issues/new?body=${encodeURIComponent(body)}`;       
-        
+
+        const body = `\n\n\n---\nComand:\`\`\`${error.comid.name || 'not defined'}\`\`\`\nArguments:\`\`\`${error.args.toString() || 'none'}\`\`\`\nError:\`\`\`${error.name || 'not defined'}\`\`\`\nError message:\`\`\`${error.message || 'not defined'}\`\`\`\n`;
+        const url = `https://github.com/fernandomema/Zumito/issues/new?body=${encodeURIComponent(body)}`;
+
         const row = new MessageActionRow()
-        .addComponents(
-            new MessageButton()
-                .setStyle('LINK')
-                .setLabel("Report issue")
-                .setURL(url)
-        );
+            .addComponents(
+                new MessageButton()
+                    .setStyle('LINK')
+                    .setLabel('debug.button.report'.trans())
+                    .setEmoji('975645505302437978')
+                    .setURL(url)
+            );
 
-        
 
-        return {
-            embeds: [embed],
-            components: [row]
+
+        return { 
+            embeds: [embed], 
+            components: [row], 
+            allowedMentions: { 
+                repliedUser: false 
+            } 
         };
     }
 }

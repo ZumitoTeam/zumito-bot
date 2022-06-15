@@ -1,3 +1,4 @@
+const bot = require('@config/bot.js');
 const botConfig = require('@config/bot.js');
 
 module.exports = {

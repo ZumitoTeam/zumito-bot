@@ -57,10 +57,9 @@ module.exports = {
             if (message.mentions.users.first().id == client.user.id && message.content.startsWith('<')) {
                 if (args.length == 0) {
                     return message.reply({
-                        content: 'reply.prefix'.trans({
-                            prefix: `\`${prefix}\``,
-                        }), allowedMentions: {
-                            repliedUser: false
+                        content: 'reply.prefix'.trans() + ': ' + `\`${prefix}\``, 
+                        allowedMentions: { 
+                            repliedUser: false 
                         }
                     });
 
@@ -77,7 +76,12 @@ module.exports = {
                             message.reply(response);
                         } catch (e) {
                             console.warn('Derieri down');
-                            message.reply(t("Sorry, my brain es exceeded, please try to talk me in a few minutes."));
+                            message.reply({
+                                content: 'cleverbot.error'.trans(), 
+                                allowedMentions: { 
+                                    repliedUser: false 
+                                }
+                            });
                             // try {
                             // 	var response = await chatbot.hablar(text);
                             // 	message.reply(response);
@@ -164,7 +168,7 @@ module.exports = {
             }
             if (denied === true) {
                 return message.reply({
-                    content: t("I do not have the permissions to execute the command. ") + "\n" + t("Missing permits: ") + "`permission`", 
+                    content: 'permission.error.user'.trans() + "\n" + 'permission.error.missing'.trans() + ': ' + '`permission`',
                     allowedMentions: {
                         repliedUser: false
                     }
@@ -172,9 +176,10 @@ module.exports = {
             }
         }
 
-        /*  TODO: Message when bot doesn't have required permissions.
+        /*  TODO: Message when the bot does not have permissions for the current command
             return message.reply({
-                content: t("You lack permissions to use this command ") + "\n" + t("Missing permits: ") + "`permission`", allowedMentions: {
+                content: 'permission.error.bot'.trans() + "\n" + 'permission.error.missing'.trans() + ': ' + "`permission`", 
+                allowedMentions: {
                     repliedUser: false
                 }
             });

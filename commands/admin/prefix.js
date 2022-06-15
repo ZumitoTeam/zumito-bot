@@ -1,7 +1,9 @@
 // init require
 const Discord = require('discord.js');
-const { t } = require('localizify');
+const botConfig = require("@config/bot.js");
 const { getConfig, saveConfig, getFooter } = require("@modules/utils/data.js");
+const emojis = require('@config/emojis.js');
+require("@modules/localization.js");
 
 // export module
 module.exports = {
@@ -21,7 +23,12 @@ module.exports = {
 
         if (args.length == 0) {
 
-            return message.reply({ content: "My prefix is: " + '`' + settings.prefix + '`', allowedMentions: { repliedUser: false } });
+            var embed = new Discord.MessageEmbed()
+                .setDescription(emojis.cozysip + ' ' + 'command.prefix.description.0'.trans() + ' `' + settings.prefix + '`')
+                .setColor(botConfig.embeds.color)
+
+
+            message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
 
         } else {
 
@@ -29,7 +36,12 @@ module.exports = {
 
             saveConfig(message.guild, settings);
 
-            return message.reply({ content: "The prefix has been updated to: " + "`" +`${settings.prefix}` + "`", allowedMentions: { repliedUser: false } });
+            var embed = new Discord.MessageEmbed()
+                .setDescription(emojis.check + ' ' + 'command.prefix.description.1'.trans() + " `" + `${settings.prefix}` + "`")
+                .setColor(botConfig.embeds.color)
+
+            message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
+
         }
     }
 }
