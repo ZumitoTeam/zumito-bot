@@ -1,7 +1,7 @@
 // init require
 const Discord = require('discord.js');
 const DiscordPages = require("discord-pages");
-const config = require('../../config.js');
+const botConfig = require('@config/bot.js');
 
 
 // export module
@@ -26,7 +26,7 @@ module.exports = {
                 index++;
                 embeds[index] = new Discord.MessageEmbed()
                 .setTitle("Emoji list")
-                .setColor(config.embeds.color);
+                .setColor(botConfig.embeds.color);
             }
             embeds[index].addField(emoji.toString() + ' ' + emoji.name, '```' + emoji.toString() + '```');
         });

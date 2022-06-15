@@ -1,5 +1,3 @@
-const {default: localizify, t} = require('localizify');         // Load localization library
-
 module.exports = {
     splitCommandLine( commandLine ) {
 
@@ -37,5 +35,10 @@ module.exports = {
     tn (a,n=1){
         var i = ("     ").repeat(n);
         return a + i.slice(0,i.length-a.length);
+    },
+
+    paginate(array, page_size, page_number) {
+        // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
+        return Array.from(array).slice((page_number - 1) * page_size, page_number * page_size);
     }
 }

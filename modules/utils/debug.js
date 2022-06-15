@@ -1,14 +1,14 @@
 var chokidar = require('chokidar');
 const path = require('path');
-const {loadCommands} = require('../utils/data.js');
+const { loadCommands } = require('@modules/utils/data.js');
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
-const config = require('../config.js');
-const chalk = require('chalk');
+const botConfig = require('@config/bot.js');
+const chalk = require('chalk');
 
 module.exports = {
     initializeDebug(client) {
         module.exports.client = client;
-        this.watcher = chokidar.watch(path.resolve(__dirname + '/../commands'), {ignored: /^\./, persistent: true, ignoreInitial: true})
+        this.watcher = chokidar.watch(path.resolve(__dirname + '/../../commands'), {ignored: /^\./, persistent: true, ignoreInitial: true})
         .on('add', module.exports.onAdd)
         .on('change', module.exports.onChange)
         //.on('unlink', function(path) {console.log('File', path, 'has been removed');})
@@ -17,7 +17,7 @@ module.exports = {
 
     onChange(file) {
         console.debug('[🔄 ] Command ' + chalk.blue(file.replace(/^.*[\\\/]/, '').split('.').slice(0, -1).join('.')) + ' reloaded');
-        loadCommands(module.exports.client, path.resolve(__dirname + '/../commands'));
+        loadCommands(module.exports.client, path.resolve(__dirname + '/../../commands'));
     },
 
     onAdd(file) {
@@ -48,7 +48,7 @@ module.exports = {
         }
         let embed = new MessageEmbed()
         .setTitle("Error running command")
-        .setColor(config.embeds.color)
+        .setColor(botConfig.embeds.color)
         .setDescription("There is an error running your command. Please contact developers to solve this issue.")
         .setTimestamp()
         .addField('Command:', (error.comid.name || 'not defined'))
@@ -62,6 +62,11 @@ module.exports = {
         }
         if (error.stack !== undefined) {
             embed.addField('Stack trace:', error.stack || error.stack.toString());
+        }
+        if (error.details !== undefined) {
+            error.details.forEach((detail) => {
+                embed.addField('Detail:', detail);
+            });
         }
         
         const body =  `\n\n\n---\nComand:\`\`\`${error.comid.name || 'not defined'}\`\`\`\nArguments:\`\`\`${error.args.toString() || 'none'}\`\`\`\nError:\`\`\`${error.name || 'not defined'}\`\`\`\nError message:\`\`\`${error.message || 'not defined'}\`\`\`\n`;

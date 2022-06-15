@@ -1,49 +1,48 @@
 // init require
 const Discord = require('discord.js');
-const { getBotVersion, getFooter, getTulipoSettings, setTulipoSettings } = require("../../utils/data.js");
-const {default: localizify, t} = require('localizify');
-const config = require('../../config.js');
+const { getFooter } = require("@modules/utils/data.js");
+const { t } = require('localizify');
+const botConfig = require('@config/bot.js');
 
 // export module
 module.exports = {
-	name : "avatar",
-	description : "Get user avatar image",
-	aliases : [],
-	ussage : null,
-	hidden : false,
-	admin : true,
-	nsfw : false,
-	async execute(client,message,args){
+	name: "avatar",
+	description: "Get user avatar image",
+	aliases: [],
+	category: "Info",
+	ussage: null,
+	hidden: false,
+	admin: false,
+	nsfw: false,
+
+	async execute(client, message, args) {
 		let avatar;
-		if(message.mentions.users.size > 0){
-            avatar = message.mentions.users.first().displayAvatarURL({ dynamic: true, size:1024 });
-        } else {
-            avatar = message.author.displayAvatarURL({ dynamic: true, size:1024 });
+		// TODO: Search for user although it is not in that guild.
+		if (message.mentions.users.size > 0) {
+			avatar = message.mentions.users.first().displayAvatarURL({ dynamic: true, size: 1024 });
+		} else {
+			avatar = message.author.displayAvatarURL({ dynamic: true, size: 1024 });
 		}
 		let user;
-		if(message.mentions.users.size > 0){
-            user = message.mentions.users.first().username;
-        } else {
-            user = message.author.username;
+		if (message.mentions.users.size > 0) {
+			user = message.mentions.users.first().username;
+		} else {
+			user = message.author.username;
 		}
 
+		const embed = new Discord.MessageEmbed()
+
+			.setAuthor({ name: t("Avatar of ") + ' ' + user, iconURL: "" })
+			.setDescription("[Avatar URL](" + avatar + ")")
+			.setImage(avatar)
+			.setColor(botConfig.embeds.color)
+			.setFooter({ text: getFooter(message.member.user.tag), iconURL: message.author.avatarURL() })
+			.setTimestamp();
+
 		return message.reply({
-			"embeds": [{
-				"color": config.embeds.color,
-				"description": "[Avatar URL]("+avatar+")",
-				"author": {
-				  "name": t("Avatar of") + ' ' + user,
-				  "url": "",
-				  "icon_url": avatar
-				},
-				"image": {
-				  "url": avatar
-				},
-				"footer": {
-				  "text": getFooter(message.member.user.tag),
-				  "icon_url": message.member.user.displayAvatarURL({dynamic: true, size: 2048} )
-				},
-			}]
-		  });
+			embeds: [embed], allowedMentions: {
+				repliedUser: false
+			}
+		});
 	}
 }
