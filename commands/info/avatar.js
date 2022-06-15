@@ -34,10 +34,16 @@ module.exports = {
 			.setDescription("[Avatar URL](" + avatar + ")")
 			.setImage(avatar)
 			.setColor(botConfig.embeds.color)
-			.setFooter({ text: getFooter(message.member.user.tag), iconURL: message.author.avatarURL({ dynamic: true }) })
+			.setFooter({ 
+				text: getFooter(message.member.user.tag), 
+				iconURL: message.author.avatarURL({ dynamic: true }) 
+			})
 
 		return message.reply({
-			embeds: [embed], allowedMentions: { repliedUser: false }
+			embeds: [embed],
+			allowedMentions: { 
+				repliedUser: false 
+			}
 		});
 	}
 } 
