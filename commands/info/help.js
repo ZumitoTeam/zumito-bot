@@ -21,6 +21,7 @@ module.exports = {
 	admin: false,
 	nsfw: false,
 	DM: true,
+	slashCommand: true,
 
 	// TODO: entire command
 	async execute(client, message, args) {

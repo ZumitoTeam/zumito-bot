@@ -3,6 +3,7 @@ const path = require('path');
 var MongoClient = require('mongodb').MongoClient;   // Load mongodb library
 const {default: localizify, t} = require('localizify');         // Load localization library
 const botConfig = require('@config/bot.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     async getConfig(guild) {
@@ -184,6 +185,11 @@ module.exports = {
                 }
                 if (command !== undefined) {
                     command.category = fullPath.substring(fullPath.indexOf('/') + 1, fullPath.lastIndexOf('/'));
+                    if(command.slashCommand) {
+                        command.slashCommand = new SlashCommandBuilder()
+                            .setName(command.name)
+                            .setDescription(('commands.'+command.name+'.description').trans())
+                    } 
                     commands.push(command);
                     // set a new item in the Collection
                     // with the key as the command name and the value as the exported module
