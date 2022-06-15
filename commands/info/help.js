@@ -30,6 +30,26 @@ module.exports = {
 
 	// TODO: entire command
 	async execute(client, message, args) {
+		const row = new Discord.MessageActionRow()
+			.addComponents(
+				new Discord.MessageSelectMenu()
+					.setCustomId('help.category')
+					.setPlaceholder('command.help.category'.trans())
+					.addOptions([
+						{
+							label: 'Admin',
+							description: 'View commands in' + ' Admin ' + 'category',
+							value: 'admin',
+							emoji: "⚙"
+						},
+						{
+							label: 'Fun',
+							description: 'View commands in Fun category',
+							value: 'fun',
+							emoji: "🛠"
+						},
+					]),
+			);
 
 		let command = message.options.get('command')?.value;
 		if (command) {
