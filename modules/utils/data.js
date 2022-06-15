@@ -4,6 +4,7 @@ var MongoClient = require('mongodb').MongoClient;   // Load mongodb library
 const {default: localizify, t} = require('localizify');         // Load localization library
 const botConfig = require('@config/bot.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+var os = require('os');
 
 module.exports = {
     async getConfig(guild) {
@@ -184,11 +185,17 @@ module.exports = {
                     console.error(error);
                 }
                 if (command !== undefined) {
-                    command.category = fullPath.substring(fullPath.indexOf('/') + 1, fullPath.lastIndexOf('/'));
+                    command.category = path.basename(path.dirname(fullPath));
                     if(command.slashCommand) {
+
                         command.slashCommand = new SlashCommandBuilder()
                             .setName(command.name)
-                            .setDescription(('commands.'+command.name+'.description').trans())
+                            .setDescription(('command.'+command.name+'.description').trans());
+
+                        command.args?.forEach(arg => {
+                            command.slashCommand.addStringOption( option => option.setName(arg.name).setDescription(arg.description).setRequired(arg.optional === false));
+                        })
+
                     } 
                     commands.push(command);
                     // set a new item in the Collection
