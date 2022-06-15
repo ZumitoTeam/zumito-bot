@@ -13,27 +13,6 @@ module.exports = {
     admin: false,
     nsfw: false,
     async execute(client, message, args) {
-
-        function timeZoneConvert(data) {
-            var months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            let date1 = new Date(data);
-            let date = date1.getDate();
-            let year = date1.getFullYear();
-            let month = months[date1.getMonth() + 1];
-            let h = date1.getHours();
-            let m = date1.getMinutes();
-            let ampm = 'AM';
-            if (m < 10) {
-                m = '0' + m;
-            }
-            if (h > 12) {
-                h = h - 12;
-                let ampm = 'PM';
-            }
-            return month + ' ' + date + ', ' + year + ' ' + h + ':' + m + ' ' + ampm;
-        }
-
-
         let user = message.mentions.users.size ? message.mentions.users.first() : message.author;
 
         let verifLevels = {
@@ -46,11 +25,8 @@ module.exports = {
 
 
         let bans = await message.guild.bans.fetch();
-
         const owner = await client.users.fetch(message.guild.ownerId);
-
         const embed = new Discord.MessageEmbed()
-
             .setTitle(emoji.boost + ' ' + `${message.guild.toString() || 'command.serverinfo.error'.trans()}`)
             .setThumbnail(message.guild.iconURL({ dynamic: true }))
             .setDescription(`\**${message.guild.description || 'command.serverinfo.error.description'.trans()}\**` + '\n\n' + 'command.serverinfo.id'.trans() + ': ' + `\**${message.guild.id || 'command.serverinfo.error'.trans()}\**` + '\n' + 'command.serverinfo.owner'.trans() + ': ' + `\**${owner.tag}\**` + '\n' + 'command.serverinfo.created'.trans() + ': ' + `\**${timeZoneConvert(message.guild.createdAt)}\**`)
@@ -60,11 +36,35 @@ module.exports = {
             .setColor(botConfig.embeds.color)
             .setFooter({ text: getFooter(message.member.user.tag), iconURL: message.author.avatarURL({ dynamic: true }) })
 
-        return message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
+        return message.reply({ 
+            embeds: [embed], 
+            allowedMentions: { 
+                repliedUser: false 
+            } 
+        });
 
     }
 }
 function input(text) {
     let join = `\`\`\``;
     return join + text + join;
+}
+
+function timeZoneConvert(data) {
+    var months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let date1 = new Date(data);
+    let date = date1.getDate();
+    let year = date1.getFullYear();
+    let month = months[date1.getMonth() + 1];
+    let h = date1.getHours();
+    let m = date1.getMinutes();
+    let ampm = 'AM';
+    if (m < 10) {
+        m = '0' + m;
+    }
+    if (h > 12) {
+        h = h - 12;
+        let ampm = 'PM';
+    }
+    return month + ' ' + date + ', ' + year + ' ' + h + ':' + m + ' ' + ampm;
 }

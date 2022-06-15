@@ -42,6 +42,8 @@ module.exports = {
             })
             .setColor(botConfig.embeds.color);
 
-        await message.channel.send({ embeds: [embed] })
+        await message.channel.send({ 
+            embeds: [embed] 
+        })
     }
 }

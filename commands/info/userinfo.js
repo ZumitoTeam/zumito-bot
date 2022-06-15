@@ -7,7 +7,7 @@ const fs = require('fs');
 var { image_search } = require('duckduckgo-images-api');
 var remote = require('remote-file-size')
 const { getBotVersion, getFooter, getTulipoSettings, setTulipoSettings } = require("@modules/utils/data.js");
-const emoji = require('@config/emojis.js');
+const emojis = require('@config/emojis.js');
 require("@modules/localization.js");
 
 // export module

@@ -4,7 +4,7 @@ const { loadCommands } = require('@modules/utils/data.js');
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const botConfig = require('@config/bot.js');
 const chalk = require('chalk');
-const emoji =require('@config/emojis.js');
+const emojis =require('@config/emojis.js');
 require("@modules/localization.js");
 
 module.exports = {
@@ -49,14 +49,26 @@ module.exports = {
             parsedError = error;
         }
         let embed = new MessageEmbed()
-            .setTitle(emoji.deny + ' ' + 'debug.error.title'.trans())
+            .setTitle(emojis.deny + ' ' + 'debug.error.title'.trans())
             .setColor(botConfig.embeds.color)
             .setDescription('debug.description'.trans())
             .setTimestamp()
-            .addField('debug.command'.trans() + ':', (error.comid.name || 'debug.not.defined'.trans()))
-            .addField('debug.arguments'.trans() + ':', (error.args.toString() || 'debug.none'.trans()))
-            .addField('debug.error'.trans() + ':', (error.name || 'debug.not.defined'.trans()))
-            .addField('debug.error.message'.trans() + ':', (error.message || 'debug.not.defined'.trans()));
+            .addField(
+                'debug.command'.trans() + ':', 
+                (error.comid.name || 'debug.not.defined'.trans())
+            )
+            .addField(
+                'debug.arguments'.trans() + ':', 
+                (error.args.toString() || 'debug.none'.trans())
+            )
+            .addField(
+                'debug.error'.trans() + ':', 
+                (error.name || 'debug.not.defined'.trans())
+            )
+            .addField(
+                'debug.error.message'.trans() + ':', 
+                (error.message || 'debug.not.defined'.trans())
+            );
         if (error.possibleSolutions !== undefined) {
             error.possibleSolutions.forEach((solution) => {
                 embed.addField('debug.solution'.trans() + ':', solution);
@@ -85,6 +97,12 @@ module.exports = {
 
 
 
-        return { embeds: [embed], components: [row], allowedMentions: { repliedUser: false } };
+        return { 
+            embeds: [embed], 
+            components: [row], 
+            allowedMentions: { 
+                repliedUser: false 
+            } 
+        };
     }
 }

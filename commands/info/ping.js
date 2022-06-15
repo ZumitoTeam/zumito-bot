@@ -11,12 +11,14 @@ module.exports = {
 	nsfw : false,
 	execute(client,message,args){
 		const dt = new Date(message.createdTimestamp);
-
 		const embed = new Discord.MessageEmbed()
-
-		.setDescription('🏓' + ' ' + `Pong \`\`${new Date() - dt}ms\`\` | ws : \`\`${client.ws.ping}ms\`\``)
-		.setColor(botConfig.embeds.color)
-
-		return message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
+			.setDescription('🏓' + ' ' + `Pong \`\`${new Date() - dt}ms\`\` | ws : \`\`${client.ws.ping}ms\`\``)
+			.setColor(botConfig.embeds.color)
+		return message.reply({ 
+			embeds: [embed], 
+			allowedMentions: { 
+				repliedUser: false 
+			} 
+		});
 	}
 }
