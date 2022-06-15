@@ -8,7 +8,6 @@
     "timeformat.minutes": "minutes",
     "timeformat.seconds": "seconds",
     "footer.requester": "Requested by: {user}",
-    "reply.prefix": "My prefix is",
     "cleverbot.error": "Sorry, my brain es exceeded, please try to talk me in a few minutes.",
     "permission.error.user": "You lack permissions to use this command.",
     "permission.error.bot": "I do not have the permissions to execute the command.",
@@ -109,5 +108,9 @@
     "command.userinfo.creation": "Account creation",
     "command.userinfo.login": "Server login",
     "command.userinfo.roles": "Roles",
-    "command.userinfo.not_playing": "Is not playing"
+    "command.userinfo.not_playing": "Is not playing",
+    "reply.prefix": "My prefix is: {prefix}",
+    "command.mcprofile.playerRequired": "Player username is mandatory.",
+    "command.mcprofile.notFound": "This player never played on Hypixel.",
+    "command.help.description": "Obtain a list of commands or information about a specific command."
 }
