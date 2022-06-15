@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const botConfig = require('@config/bot.js');
 const os = require("os");
-const emoji =require('@config/emojis.js');
+const emojis = require('@config/emojis.js');
 require("@modules/localization.js");
 
 module.exports = {
@@ -16,18 +16,6 @@ module.exports = {
 
 	async execute(client, message, args) {
 
-function timeformat(timeInSeconds) {
-  const days = Math.floor((timeInSeconds % 31536000) / 86400);
-  const hours = Math.floor((timeInSeconds % 86400) / 3600);
-  const minutes = Math.floor((timeInSeconds % 3600) / 60);
-  const seconds = Math.round(timeInSeconds % 60);
-  return (
-    (days > 0 ? `${days}` + ' ' + 'timeformat.days'.trans() +', ' : "") +
-    (hours > 0 ? `${hours}` + ' ' + 'timeformat.hours'.trans() +', ' : "") + 
-    (minutes > 0 ? `${minutes}` + ' ' + 'timeformat.minutes'.trans() +', ' : "") + 
-    (seconds > 0 ? `${seconds}` + ' ' + 'timeformat.seconds'.trans() : "")
-  );
-}
 		// STATS
 		const guilds = client.guilds.cache.size;
 		const channels = client.channels.cache.size;
@@ -38,9 +26,10 @@ function timeformat(timeInSeconds) {
 		const botAvailable = `${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB`;
 		const botUsage = `${((process.memoryUsage().heapUsed / os.totalmem()) * 100).toFixed(1)}%`;
 
-		const overallUsed = `${((os.totalmem() - os.freemem()) / 1024 / 1024 / 1024).toFixed(2)} GB`;
-		const overallAvailable = `${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB`;
-		const overallUsage = `${Math.floor(((os.totalmem() - os.freemem()) / os.totalmem()) * 100)}%`;
+		// Not used 
+		// const overallUsed = `${((os.totalmem() - os.freemem()) / 1024 / 1024 / 1024).toFixed(2)} GB`;
+		// const overallAvailable = `${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB`;
+		// const overallUsage = `${Math.floor(((os.totalmem() - os.freemem()) / os.totalmem()) * 100)}%`;
 
 		// CPU
 		const platform = process.platform.replace(/win32/g, "Windows");
@@ -62,4 +51,18 @@ function timeformat(timeInSeconds) {
 		
 		message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
 	}
+	
+}
+
+function timeformat(timeInSeconds) {
+	const days = Math.floor((timeInSeconds % 31536000) / 86400);
+	const hours = Math.floor((timeInSeconds % 86400) / 3600);
+	const minutes = Math.floor((timeInSeconds % 3600) / 60);
+	const seconds = Math.round(timeInSeconds % 60);
+	return (
+	  (days > 0 ? `${days}` + ' ' + 'timeformat.days'.trans() +', ' : "") +
+	  (hours > 0 ? `${hours}` + ' ' + 'timeformat.hours'.trans() +', ' : "") + 
+	  (minutes > 0 ? `${minutes}` + ' ' + 'timeformat.minutes'.trans() +', ' : "") + 
+	  (seconds > 0 ? `${seconds}` + ' ' + 'timeformat.seconds'.trans() : "")
+	);
 }

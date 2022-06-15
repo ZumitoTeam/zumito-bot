@@ -24,12 +24,8 @@ module.exports = {
 
 	// TODO: entire command
 	async execute(client, message, args) {
-
-
 		const row = new Discord.MessageActionRow()
-
 			.addComponents(
-
 				new Discord.MessageSelectMenu()
 					.setCustomId('help-category')
 					.setPlaceholder('command.help.category'.trans())
@@ -51,7 +47,6 @@ module.exports = {
 
 
 		const embed = new Discord.MessageEmbed()
-
 			.setTitle('command.help.title'.trans())
 			.setDescription('command.help.description.0'.trans() + ' ' + botConfig.name + "\n\n" + 'command.help.description.1'.trans() + "\n" + 'command.help.description.2'.trans() + "\n")
 			.setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
@@ -59,7 +54,6 @@ module.exports = {
 
 
 		const commandInfo = new Discord.MessageEmbed()
-
 			.setAuthor({ name: 'command.help.author.command'.trans() + ' ' + 'command.name', iconURL: client.user.displayAvatarURL(), url: 'https://zumito.ga/commands/' + "help" })
 			.setDescription("Command descripcion")
 			.addField('command.help.usage'.trans(), "uso")
@@ -69,7 +63,6 @@ module.exports = {
 			.setColor(botConfig.embeds.color)
 
 		const category = new Discord.MessageEmbed()
-
 			.setAuthor({ name: 'command.help.commands'.trans() + ' ' + botConfig.name, iconURL: client.user.displayAvatarURL() })
 			.addField('⚙ Admin', 'command.help.field.detailed'.trans() + ': ' + '' + '`z-help command`')
 			.addField(emoji.book + ' ' + 'command.help.commands'.trans(), '```Lang       Prefix       Example       Example```')
@@ -77,7 +70,12 @@ module.exports = {
 
 
 
-		return message.reply({ embeds: [embed, commandInfo, category], allowedMentions: { repliedUser: false }, components: [row] });
-		//components: [row]
+		return message.reply({ 
+			embeds: [embed, commandInfo, category], 
+			components: [row],
+			allowedMentions: { 
+				repliedUser: false 
+			}
+		});
 	}
 }

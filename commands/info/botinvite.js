@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const botConfig = require("@config/bot.js");
 const { getFooter } = require("@modules/utils/data");
-const emoji = require('@config/emojis.js');
+const emojis = require('@config/emojis.js');
 require("@modules/localization.js");
 
 module.exports = {
@@ -14,16 +14,16 @@ module.exports = {
 	admin: true,
 	nsfw: false,
 	async execute(client, message, args) {
-
 		var embed = new Discord.MessageEmbed()
-
-			.setAuthor({ name: 'command.botinvite.author'.trans() + ' ' + botConfig.name, iconURL: "" })
+			.setAuthor({ 
+				name: 'command.botinvite.author'.trans() + ' ' + botConfig.name, 
+				iconURL: "" 
+			})
 			.setColor(botConfig.embeds.color)
-			.setDescription('command.botinvite.description'.trans() + ' ' + emoji.cozysip)
+			.setDescription('command.botinvite.description'.trans() + ' ' + emojis.cozysip)
 			.setImage(botConfig.botInvite.inviteBanner)
 
 		const row = new Discord.MessageActionRow()
-
 			.addComponents(
 
 				new Discord.MessageButton()
@@ -43,10 +43,12 @@ module.exports = {
 					.setStyle('LINK')
 					.setURL(botConfig.botInvite.URLWebsite)
 					.setEmoji('879510323676200980')
+				
 			);
 
-		return message.author.send({ components: [row], embeds: [embed] });
-
+		return message.author.send({ 
+			embeds: [embed],
+			components: [row], 
+		});
 	}
-
 }

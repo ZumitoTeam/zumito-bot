@@ -57,7 +57,10 @@ module.exports = {
             if (message.mentions.users.first().id == client.user.id && message.content.startsWith('<')) {
                 if (args.length == 0) {
                     return message.reply({
-                        content: 'reply.prefix'.trans() + ': ' + `\`${prefix}\``, allowedMentions: { repliedUser: false }
+                        content: 'reply.prefix'.trans() + ': ' + `\`${prefix}\``, 
+                        allowedMentions: { 
+                            repliedUser: false 
+                        }
                     });
 
                 } else {
@@ -74,7 +77,10 @@ module.exports = {
                         } catch (e) {
                             console.warn('Derieri down');
                             message.reply({
-                                content: 'cleverbot.error'.trans(), allowedMentions: { repliedUser: false }
+                                content: 'cleverbot.error'.trans(), 
+                                allowedMentions: { 
+                                    repliedUser: false 
+                                }
                             });
                             // try {
                             // 	var response = await chatbot.hablar(text);
