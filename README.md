@@ -1,4 +1,10 @@
 ![Zumito banner](/assets/images/banner.png?raw=true)
+<div align="center">
+ <a href="https://zumito.ga">Website</a> 
+ •
+ <a href="https://discord.gg/EwEhgKCmSy">Discord server</a> 
+</div>
+ 
 # Zumito 🧃
 [![CodeFactor](https://www.codefactor.io/repository/github/fernandomema/zumito/badge)](https://www.codefactor.io/repository/github/fernandomema/zumito)
 ![GitHub Repo stars](https://img.shields.io/github/stars/fernandomema/zumito)
