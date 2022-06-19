@@ -5,6 +5,8 @@ require('better-logging')(console);         // Load better logging
 const {default: localizify} = require('localizify');         // Load localization library
 var LocalStorage = require('node-localstorage').LocalStorage;   // Load local storage library for node
 const {loadCommands} = require('@modules/utils/data.js');
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
 
 console.logLevel = process.env.LOGLEVEL || 3;
 
@@ -37,7 +39,21 @@ localStorage = new LocalStorage('./cache');
 // Define commands
 const cmdir = path.resolve('./commands');
 client.commands = new Collection();
-localStorage.setItem('commands', JSON.stringify(loadCommands(client, cmdir)));
+const commands = loadCommands(client, cmdir);
+let commandsChoices = commands.map(c => {
+    return {
+        name: c.name,
+        value: c.name
+    }
+}).filter(cc => cc.name);
+commands.find(c => c.name == 'help').slashCommand.options[0].addChoices(...commandsChoices);
+
+const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
+rest.put(
+    Routes.applicationCommands(process.env.CLIENT_ID),
+    { body: commands.map(c => c.slashCommand).filter(sc => sc != null) },
+);
+localStorage.setItem('commands', JSON.stringify(commands));
 
 // Event handler
 fs.readdir('./events/discord', (err, files) => { // We use the method readdir to read what is in the events folder
