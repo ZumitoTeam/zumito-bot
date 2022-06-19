@@ -5,7 +5,6 @@ var cors = require("cors");
 var apiResponse = require("@modules/utils/apiResponses");
 var apiRouter = require("./routes/api");
 var http = require('http');
-const jwt = require('express-jwt');
 
 // DB connection
 var MONGODB_URL = process.env.MONGOURI;
@@ -49,7 +48,7 @@ app.all("*", function(req, res) {
 	return apiResponse.notFoundResponse(res, "Page not found");
 });
 
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
     if (err.name === 'UnauthorizedError') {
         return apiResponse.unauthorizedResponse(res, "Invalid token");
     }
