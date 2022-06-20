@@ -64,6 +64,7 @@
     "command.help.bot_permissions": "Bot permissions",
     "command.help.user_permissions": "User permissions",
     "command.help.field.detailed": "For more detailed information use",
+    "command.botstats.description": "Get information about the bot.",
     "command.serverinfo.none": "None",
     "command.serverinfo.low": "Low",
     "command.serverinfo.medium": "Medium",
