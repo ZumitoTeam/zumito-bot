@@ -19,8 +19,18 @@ app.get(
 )
 
 app.get(
+    '/guilds/count',
+    function (req, res) {
+        res.set('Cache-control', `public, max-age=86400`); // 24h cache
+        return res.status(200).json({
+            count: discordClient.guilds.cache.size
+        });
+    }
+)
+
+app.get(
     '/guild/config', 
-    jwt({ secret: 'shhhhhhared-secret', algorithms: ['HS256'] }),
+    jwt({ secret: process.env.SECRET_KEY, algorithms: ['HS256'] }),
     body('guild').custom(value => {
         return value !== undefined;
     }),

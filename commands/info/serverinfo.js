@@ -15,10 +15,9 @@ module.exports = {
     nsfw: false,
     cooldown: 0,
     slashCommand: true,
-    dm: true,
-
-
+    dm: false,
     async execute(client, message, args) {
+        let user = message.mentions.users.size ? message.mentions.users.first() : message.author;
 
         let verifLevels = {
             'NONE': 'command.serverinfo.none'.trans(),
@@ -41,7 +40,35 @@ module.exports = {
             .setColor(botConfig.embeds.color)
             .setFooter({ text: getFooter((message.author || message.member.user).tag), iconURL: (message.author || message.user).avatarURL({ dynamic: true }) })
 
-        return message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
+        return message.reply({ 
+            embeds: [embed], 
+            allowedMentions: { 
+                repliedUser: false 
+            } 
+        });
 
     }
+}
+function input(text) {
+    let join = `\`\`\``;
+    return join + text + join;
+}
+
+function timeZoneConvert(data) {
+    var months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let date1 = new Date(data);
+    let date = date1.getDate();
+    let year = date1.getFullYear();
+    let month = months[date1.getMonth() + 1];
+    let h = date1.getHours();
+    let m = date1.getMinutes();
+    let ampm = 'AM';
+    if (m < 10) {
+        m = '0' + m;
+    }
+    if (h > 12) {
+        h = h - 12;
+        let ampm = 'PM';
+    }
+    return month + ' ' + date + ', ' + year + ' ' + h + ':' + m + ' ' + ampm;
 }

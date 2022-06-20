@@ -1,6 +1,6 @@
 {
   "name": "zumito",
-  "version": "1.1.0",
+  "version": "1.2.2",
   "description": "Multipurpose discord bot",
   "main": "index.js",
   "scripts": {
@@ -55,7 +55,7 @@
     "jericho-player": "^1.1.28",
     "localizify": "^2.0.0",
     "module-alias": "^2.2.2",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "mongodb": "^4.1.0",
     "mongoose": "^6.3.0",
     "new-github-issue-url": "^1.0.0",

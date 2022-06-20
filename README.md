@@ -1,4 +1,10 @@
 ![Zumito banner](/assets/images/banner.png?raw=true)
+<div align="center">
+ <a href="https://zumito.ga">Website</a> 
+ •
+ <a href="https://discord.gg/EwEhgKCmSy">Discord server</a> 
+</div>
+ 
 # Zumito 🧃
 [![CodeFactor](https://www.codefactor.io/repository/github/fernandomema/zumito/badge)](https://www.codefactor.io/repository/github/fernandomema/zumito)
 ![GitHub Repo stars](https://img.shields.io/github/stars/fernandomema/zumito)
@@ -45,10 +51,10 @@ node index.js
 We have a lot of work and need for a lot of help. For this reason any help is welcome and we have organized some of the main options in which you can contribute with your grain of sand.
 Please note that if you have any other ideas on how to contribute we are all ears, we are not limited to the following list.
 ### Submiting bug or error
-If you found an error using the bot feel free to [open issue](https://github.com/fernandomema/Zumito/issues/new) and tell us what happen.
+If you found an error using the bot feel free to [open issue](https://github.com/fernandomema/Zumito/issues/new/choose) and tell us what happen.
 Is important you provide as much details as you can, cause we need to be able to reproduce the error in order to find a solution.
 ### Submiting ideas
-Ideas are always welcome, inspiration is something that cannot be bought. So if you have any idea for the bot feel free to tell us what you think [opening a new issue](https://github.com/fernandomema/Zumito/issues/new)
+Ideas are always welcome, inspiration is something that cannot be bought. So if you have any idea for the bot feel free to tell us what you think [opening a new issue](https://github.com/fernandomema/Zumito/issues/new/choose)
 ### Translating
 Knowledge of a language is a great way to open doors to the whole world, so if you know a language you can always bring Zumito to a lot of new people.
 More info here coming soon.
