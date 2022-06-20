@@ -6,12 +6,16 @@ require("@modules/localization.js");
 
 module.exports = {
     name: "serverinfo",
-    description: "Check server info",
     aliases: ['server'],
-    ussage: null,
+    examples: ['serverinfo', 'server'],
+    permissions: [],
+    botPermissions: [],
     hidden: false,
     admin: false,
     nsfw: false,
+    cooldown: 0,
+    slashCommand: true,
+    dm: false,
     async execute(client, message, args) {
         let user = message.mentions.users.size ? message.mentions.users.first() : message.author;
 
@@ -29,12 +33,12 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
             .setTitle(emoji.boost + ' ' + `${message.guild.toString() || 'command.serverinfo.error'.trans()}`)
             .setThumbnail(message.guild.iconURL({ dynamic: true }))
-            .setDescription(`\**${message.guild.description || 'command.serverinfo.error.description'.trans()}\**` + '\n\n' + 'command.serverinfo.id'.trans() + ': ' + `\**${message.guild.id || 'command.serverinfo.error'.trans()}\**` + '\n' + 'command.serverinfo.owner'.trans() + ': ' + `\**${owner.tag}\**` + '\n' + 'command.serverinfo.created'.trans() + ': ' + `\**${timeZoneConvert(message.guild.createdAt)}\**`)
-            .addField(emoji.stats + ' ' + 'command.serverinfo.stats'.trans(), 'command.serverinfo.members'.trans() + ': ' + `\**${message.guild.memberCount}\**` + '\n' + 'command.serverinfo.upgrades'.trans() + ': ' + `\**${message.guild.premiumSubscriptionCount.toString()}\**` + '\n' + 'command.serverinfo.roles'.trans() + ': ' + `\**${message.guild.roles.cache.size}\**`, true)
+            .setDescription(`\**${message.guild.description || 'command.serverinfo.error.description'.trans()}\**` + '\n\n' + 'command.serverinfo.id'.trans() + ': ' + `\**${message.guild.id || 'command.serverinfo.error'.trans()}\**` + '\n' + 'command.serverinfo.owner'.trans() + ': ' + `\**${owner.tag}\**` + '\n' + 'command.serverinfo.created'.trans() + ': ' + `<t:${Math.floor(message.guild.createdAt / 1000)}:d>` + ' **(**' + `<t:${Math.floor(message.guild.createdAt / 1000)}:R>` + '**)**')
+            .addField(emoji.stats + ' ' + 'command.serverinfo.stats'.trans(), 'command.serverinfo.members'.trans() + ': ' + `\**${message.guild.memberCount}\**` + '\n' + 'command.serverinfo.upgrades'.trans() + ': ' + `\**${message.guild.premiumSubscriptionCount.toString()}\**` + '\n' + 'command.serverinfo.roles'.trans() + ': ' + `\**${message.guild.roles.cache.filter(x => x.id !=message.guild.roles.everyone.id).size}\**`, true)
             .addField(emoji.book + ' ' + 'command.serverinfo.details'.trans(), 'command.serverinfo.verification'.trans() + ': ' + `\**${verifLevels[message.guild.verificationLevel]}\**`, true)
             .addField(emoji.channel + ' ' + 'command.serverinfo.channels'.trans(), 'command.serverinfo.total'.trans() + ': ' + `\**${message.guild.channels.cache.size}\**` + '\n' + 'command.serverinfo.announcements'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_NEWS').size}\**` + '\n' + 'command.serverinfo.station'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_STAGE_VOICE').size}\**` + '\n' + 'command.serverinfo.threads'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_PUBLIC_THREAD').size}\**` + '\n' + 'command.serverinfo.text'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_TEXT').size}\**` + '\n' + 'command.serverinfo.voice'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_VOICE').size}\**` + '\n' + 'command.serverinfo.category'.trans() + ': ' + `\**${message.guild.channels.cache.filter(channel => channel.type == 'GUILD_CATEGORY').size}\**`)
             .setColor(botConfig.embeds.color)
-            .setFooter({ text: getFooter(message.member.user.tag), iconURL: message.author.avatarURL({ dynamic: true }) })
+            .setFooter({ text: getFooter((message.author || message.member.user).tag), iconURL: (message.author || message.user).avatarURL({ dynamic: true }) })
 
         return message.reply({ 
             embeds: [embed], 
@@ -44,27 +48,4 @@ module.exports = {
         });
 
     }
-}
-function input(text) {
-    let join = `\`\`\``;
-    return join + text + join;
-}
-
-function timeZoneConvert(data) {
-    var months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    let date1 = new Date(data);
-    let date = date1.getDate();
-    let year = date1.getFullYear();
-    let month = months[date1.getMonth() + 1];
-    let h = date1.getHours();
-    let m = date1.getMinutes();
-    let ampm = 'AM';
-    if (m < 10) {
-        m = '0' + m;
-    }
-    if (h > 12) {
-        h = h - 12;
-        let ampm = 'PM';
-    }
-    return month + ' ' + date + ', ' + year + ' ' + h + ':' + m + ' ' + ampm;
 }
