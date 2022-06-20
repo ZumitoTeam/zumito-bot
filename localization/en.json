@@ -108,6 +108,7 @@
     "command.userinfo.creation": "Account creation",
     "command.userinfo.login": "Server login",
     "command.userinfo.roles": "Roles",
+    "command.userinfo.noRoles": "No Roles",
     "command.userinfo.not_playing": "Is not playing",
     "reply.prefix": "My prefix is: {prefix}",
     "command.mcprofile.playerRequired": "Player username is mandatory.",
