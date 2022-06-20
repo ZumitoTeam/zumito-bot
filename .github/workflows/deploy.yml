@@ -49,5 +49,12 @@ jobs:
                   tags: ${{ steps.bump_version.outputs.next-version }}
             - name: "✏️ Generate release changelog"
               uses: heinrichreimer/github-changelog-generator-action@v2.3
+              id: changelog
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}
+            - name: Discord notification
+              env:
+                  DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_CHANGELOG }}
+              uses: Ilshidur/action-discord@master
+              with:
+                args: 'Zumito has been updated: {{ steps.changelog.outputs.changelog }}'
