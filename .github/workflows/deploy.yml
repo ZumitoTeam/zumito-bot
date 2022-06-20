@@ -47,3 +47,7 @@ jobs:
                   dockerfile: ./Dockerfile
                   context: ./
                   tags: ${{ steps.bump_version.outputs.next-version }}
+            - name: "✏️ Generate release changelog"
+              uses: heinrichreimer/github-changelog-generator-action@v2.3
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
