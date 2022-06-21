@@ -193,7 +193,29 @@ module.exports = {
                             .setDescription(('command.'+command.name+'.description').trans());
 
                         command.args?.forEach(arg => {
-                            command.slashCommand.addStringOption( option => option.setName(arg.name).setDescription(arg.description).setRequired(arg.optional === false));
+                            if (arg.type == 'attachment') {
+                                command.slashCommand.addAttachmentOption( option => module.exports.setOption(option, arg) );
+                            } else if (arg.type == 'boolean') {
+                                command.slashCommand.addBooleanOption( option => module.exports.setOption(option, arg) );
+                            } else if (arg.type == 'channel') {
+                                command.slashCommand.addChannelOption( option => module.exports.setOption(option, arg) );
+                            } else if (arg.type == 'integer') {
+                                command.slashCommand.addIntegerOption( option => module.exports.setOption(option, arg) );
+                            } else if (arg.type == 'mentionable') {
+                                command.slashCommand.addMentionableOption( option => module.exports.setOption(option, arg) );
+                            } else if (arg.type == 'number') {
+                                command.slashCommand.addNumberOption( option => module.exports.setOption(option, arg) );
+                            } else if (arg.type == 'role') {
+                                command.slashCommand.addRoleOption( option => module.exports.setOption(option, arg) );
+                            } else if (arg.type == 'subcommand') {
+                                command.slashCommand.addSubcommand( option => module.exports.setOption(option, arg) );
+                            } else if (arg.type == 'subcommandGroup') {
+                                command.slashCommand.addSubcommandGroup( option => module.exports.setOption(option, arg) );
+                            } else if (arg.type == 'user') {
+                                command.slashCommand.addUserOption( option => module.exports.setOption(option, arg) );
+                            } else {
+                                command.slashCommand.addStringOption( option => module.exports.setOption(option, arg) );
+                            }
                         })
 
                     } 
@@ -212,6 +234,10 @@ module.exports = {
             }  
         });
         return commands;
+    },
+
+    setOption(option, arg) {
+        option.setName(arg.name).setDescription(arg.description).setRequired(arg.optional === false)
     },
 
     getFooter(userName) {
