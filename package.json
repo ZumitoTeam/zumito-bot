@@ -1,6 +1,6 @@
 {
   "name": "zumito",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Multipurpose discord bot",
   "main": "index.js",
   "scripts": {
