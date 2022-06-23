@@ -237,7 +237,7 @@ module.exports = {
     },
 
     setOption(option, arg) {
-        option.setName(arg.name).setDescription(arg.description).setRequired(arg.optional === false)
+        return option.setName(arg.name).setDescription(arg.description).setRequired(arg.optional === false);
     },
 
     getFooter(userName) {
