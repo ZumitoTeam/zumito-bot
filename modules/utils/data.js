@@ -5,140 +5,15 @@ const {default: localizify, t} = require('localizify');         // Load localiza
 const botConfig = require('@config/bot.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 var os = require('os');
+const Guild = require('@models/guild.js');
 
 module.exports = {
     async getConfig(guild) {
         // if guild id is not specified then cancel the data request
         if (guild == null) return;
+        let guildId = guild.id?.toString() || guild;
         
-        // Initialize mongodb client
-        const mongoClient = new MongoClient(process.env.MONGOURI, {useNewUrlParser: true, useUnifiedTopology: true});
-        
-        // connect and wait for connection
-        await mongoClient.connect();
-
-        // Select zumito database
-        var db = mongoClient.db("zumito");
-        // select guilds collection
-        var guilds = db.collection('guilds');
-        // retrieve guild settings
-        var settings = await guilds.findOne({"id": guild.id.toString()});
-        // close database connection
-        await mongoClient.close();
-
-        // Reassign settings to old database settings if no data exists on mongo database.
-        if (settings == null || settings === undefined) settings = JSON.parse(localStorage.getItem(guild.id+'.settings'));
-        // Reassign settings to empty data set if no data exists on mongo database.
-        if (settings == null || settings === undefined) settings = {};
-
-        // define new settings
-        if (settings.prefix === undefined) {
-            settings.prefix = 'z-';
-        }
-        if (settings.lang === undefined) {
-            settings.lang = 'en';
-        }
-        if (settings.public === undefined) {
-            settings.public = false;
-        }
-        if (settings.deleteCommands === undefined) {
-            settings.deleteCommands = false;
-        }
-        if (settings.mutedUsers === undefined || settings.mutedUsers.length == 0) {
-            settings.mutedUsers = {};
-        }
-        if (settings.welcome === undefined) {
-            settings.welcome = {};
-        }
-        if (settings.welcome.enabled === undefined) {
-            settings.welcome.enabled = false;
-        }
-        if (settings.welcome.randomMessage === undefined) {
-            settings.welcome.randomMessage = {
-                enabled: false,
-                channel: '',
-                messages: []
-            };
-        }
-        if (settings.welcome.image === undefined) {
-            settings.welcome.image = {
-                enabled: false,
-                channel: '',
-                theme: ''
-            };
-        }
-        if (settings.welcome.customMessage === undefined) {
-            settings.welcome.customMessage = {
-                enabled: false,
-                channel: '',
-                embed: {}
-            };
-        }
-        if (settings.welcome.privateDM === undefined) {
-            settings.welcome.privateDM = {
-                enabled: false,
-                channel: '',
-                message: ''
-            };
-        }
-        if (settings.welcome.joinRole === undefined) {
-            settings.welcome.joinRole = {
-                enabled: false,
-                role: null
-            };
-        }
-        if (settings.filterInvites === undefined) {
-            settings.filterInvites = {
-                enabled: false,
-                warn: false,
-                bypassOwner: true,
-                bypassRoles: []
-            }
-        }
-        if (settings.filterInvites.delete === undefined) {
-            settings.filterInvites.delete = true;
-        }
-        if (settings.userData === undefined || settings.mutedUsers.length == 0) {
-            settings.userData = {};
-        }
-        if (settings.virtualCoin === undefined) {
-            settings.virtualCoin = {
-                enabled: true,
-                nameSingular: 'coin',
-                namePlural: 'coins'
-            }
-        }
-        if (settings.cleanChannels === undefined) {
-            settings.cleanChannels = {};
-        }
-        if (settings.warns === undefined) {
-            settings.warns = [];
-        }
-        if (settings.tickets === undefined) {
-            settings.tickets = [];
-        }
-        if (settings.bannedUsers === undefined) {
-            settings.bannedUsers = [];
-        }
-        if (settings.confession === undefined) {
-            settings.confession = {
-                enabled: false,
-                channel: null,
-            };
-        }
-
-        if (settings.moderation === undefined) {
-            settings.moderation = {
-                "channels": {
-                    "kickChannelId": null,
-                    "banChannelId": null,
-                    "warnChannel": null,
-                    "muteChannel": null
-                }
-            };
-        }
-        
-        return settings;
+        return await Guild.findOneAndUpdate({id: guildId}, {$set: {id: guildId}}, { upsert: true });
     },
 
     async saveConfig(guild, settings) {
