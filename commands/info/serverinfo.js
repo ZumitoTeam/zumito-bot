@@ -17,7 +17,6 @@ module.exports = {
     slashCommand: true,
     dm: false,
     async execute(client, message, args) {
-        let user = message.mentions.users.size ? message.mentions.users.first() : message.author;
 
         let verifLevels = {
             'NONE': 'command.serverinfo.none'.trans(),

@@ -24,7 +24,8 @@
     "@config": "config",
     "@events": "events",
     "@commands": "commands",
-    "@modules": "modules"
+    "@modules": "modules",
+    "@models": "models"
   },
   "dependencies": {
     "@discordjs/opus": "^0.5.3",

@@ -21,20 +21,18 @@ module.exports = {
 
         var settings = await getConfig(message.guild);
 
-        if (args.length == 0) {
+        if (!args.has(0)) {
 
             var embed = new Discord.MessageEmbed()
                 .setDescription(emojis.cozysip + ' ' + 'command.prefix.description.0'.trans() + ' `' + settings.prefix + '`')
                 .setColor(botConfig.embeds.color)
 
-
             message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
 
         } else {
 
-            settings.prefix = args.get(0);
-
-            saveConfig(message.guild, settings);
+            settings.prefix = args.get(0).value;
+            settings.save();
 
             var embed = new Discord.MessageEmbed()
                 .setDescription(emojis.check + ' ' + 'command.prefix.description.1'.trans() + " `" + `${settings.prefix}` + "`")
