@@ -28,7 +28,7 @@
     "@models": "models"
   },
   "dependencies": {
-    "@discordjs/opus": "^0.5.3",
+    "@discordjs/opus": "^0.8.0",
     "@discordjs/rest": "^0.5.0",
     "@discordjs/voice": "^0.8.0",
     "autocorrect": "^1.2.0",
