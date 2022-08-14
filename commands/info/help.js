@@ -34,7 +34,7 @@ module.exports = {
 		let command = args.get('command')?.value;
 		if (command) {
 			command = client.commands.find(c => c.name === command);
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setAuthor({ name: 'command.help.author.command'.trans() + ' ' + 'command.name', iconURL: client.user.displayAvatarURL(), url: 'https://zumito.ga/commands/' + "help" })
 				.setDescription("Command description")
 				.addField('command.help.usage'.trans(), command.name)
@@ -71,7 +71,7 @@ module.exports = {
 				);
 
 			
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setTitle('command.help.title'.trans())
 				.setDescription('command.help.description.0'.trans() + ' ' + botConfig.name + "\n\n" + 'command.help.description.1'.trans() + "\n" + 'command.help.description.2'.trans() + "\n")
 				.setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
@@ -89,7 +89,7 @@ module.exports = {
 
 	async selectMenu(path, interaction, client) {
 		if (path[1] == "category") {
-			let category = new Discord.MessageEmbed()
+			let category = new Discord.EmbedBuilder()
 				.setAuthor({ name: 'command.help.commands'.trans() + ' ' + botConfig.name, iconURL: client.user.displayAvatarURL() })
 				.addField(interaction.values[0], 'command.help.field.detailed'.trans() + ': ' + '' + '`z-help command`')
 				.setColor(botConfig.embeds.color);
@@ -110,7 +110,7 @@ module.exports = {
 			});
 		} else if(path[1] == "command") {
 			// TODO: command info
-			const commandInfo = new Discord.MessageEmbed()
+			const commandInfo = new Discord.EmbedBuilder()
 			.setAuthor({ name: 'command.help.author.command'.trans() + ' ' + 'command.name', iconURL: client.user.displayAvatarURL(), url: 'https://zumito.ga/commands/' + "help" })
 			.setDescription("Command description")
 			.addField('command.help.usage'.trans(), "uso")

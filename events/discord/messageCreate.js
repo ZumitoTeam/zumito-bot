@@ -1,6 +1,6 @@
 const { splitCommandLine } = require('@modules/utils/utils.js');
 const { default: localizify, t } = require('localizify');         // Load localization library
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const botConfig = require('@config/bot.js');                    // Load bot config
 const { getErrorEmbed } = require('@modules/utils/debug.js');
 require("@modules/localization.js");
@@ -214,7 +214,7 @@ module.exports = {
         } catch (error) {
             //var error = parseError(error);
             //console.error(error.name, error.message, error.stack, Object.getOwnPropertyNames(error));
-            // const embed = new MessageEmbed()
+            // const embed = new EmbedBuilder()
             //     .setTitle("Error running command")
             //     .setColor(config.embeds.color)
             //     .setDescription("There is an error running your command. Please contact developers to solve this issue.")

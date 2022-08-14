@@ -33,19 +33,42 @@ module.exports = {
 
 		const dt = new Date(message.createdTimestamp);
 
-		var embed = new Discord.MessageEmbed()
+		var embed = new Discord.EmbedBuilder()
 
 			.setTitle(botConfig.name)
 			.setURL(botConfig.URL)
 			.setThumbnail(botConfig.media.botStatusIMG)
 			.setColor(botConfig.embeds.color)
-			.addField(emojis.info + ' ' + 'command.botstats.info'.trans(), "┕ **" + 'command.botstats.guilds'.trans() + `:** \`${guilds}\`` + "\n┕ **" + 'command.botstats.users'.trans() + `:** \`${users}\`` + "\n┕ **" + 'command.botstats.channels'.trans() + `:** \`${channels}\``, true)
-			.addField(emojis.ram + ' ' + 'command.botstats.ram'.trans(), "┕  **" + 'command.botstats.used'.trans() + `:** \`${botUsed}\`` + "\n┕ **" + 'command.botstats.available'.trans() + `:** \`${botAvailable}\`` + "\n┕** " + 'command.botstats.usage'.trans() + `:** \`${botUsage}\``, true)
-			.addField(emojis.cpu + ' ' + 'command.botstats.cpu'.trans(), "┕ **" + 'command.botstats.os'.trans() + `:** \`${platform} [${architecture}]\`` + "\n┕ **" + 'command.botstats.usage'.trans() + `:** \`${cpuUsage}\`` + "\n┕ **" + 'command.botstats.cores'.trans() + `:** \`${cores}\``, true)
-			.addField('♦ ' + 'command.botstats.others'.trans(), "┕ **" + 'command.botstats.ping'.trans() + `:** \`${new Date() - dt}ms\`` + "\n┕ **" + 'command.botstats.node_version'.trans() + ":** `" + process.versions.node + "`" + "\n┕ **" + 'command.botstats.uptime'.trans() + `:** ` + "`" + timeformat(process.uptime()) + "`", true)
-			.setFooter({ text: getFooter((message.author || message.member.user).tag), iconURL: (message.author || message.user).avatarURL({ dynamic: true }) })
+			.addFields([
+				{
+					name: emojis.info + ' ' + 'command.botstats.info'.trans(), 
+					value: "┕ **" + 'command.botstats.guilds'.trans() + `:** \`${guilds}\`` + "\n┕ **" + 'command.botstats.users'.trans() + `:** \`${users}\`` + "\n┕ **" + 'command.botstats.channels'.trans() + `:** \`${channels}\``,
+					inline: true
+				},{
+					name: emojis.ram + ' ' + 'command.botstats.ram'.trans(),
+					value: "┕  **" + 'command.botstats.used'.trans() + `:** \`${botUsed}\`` + "\n┕ **" + 'command.botstats.available'.trans() + `:** \`${botAvailable}\`` + "\n┕** " + 'command.botstats.usage'.trans() + `:** \`${botUsage}\``, 
+					inline: true,
+				}, {
+					name: emojis.cpu + ' ' + 'command.botstats.cpu'.trans(),
+					value: "┕ **" + 'command.botstats.os'.trans() + `:** \`${platform} [${architecture}]\`` + "\n┕ **" + 'command.botstats.usage'.trans() + `:** \`${cpuUsage}\`` + "\n┕ **" + 'command.botstats.cores'.trans() + `:** \`${cores}\``, 
+					inline: true
+				}, {
+					name: '♦ ' + 'command.botstats.others'.trans(), 
+					value: "┕ **" + 'command.botstats.ping'.trans() + `:** \`${new Date() - dt}ms\`` + "\n┕ **" + 'command.botstats.node_version'.trans() + ":** `" + process.versions.node + "`" + "\n┕ **" + 'command.botstats.uptime'.trans() + `:** ` + "`" + timeformat(process.uptime()) + "`",
+					inline: true
+				}
+			])
+			.setFooter({ 
+				text: getFooter((message.author || message.member.user).tag), 
+				iconURL: (message.author || message.user).avatarURL({ dynamic: true }) 
+			})
 
-		message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
+		message.reply({ 
+			embeds: [embed], 
+			allowedMentions: { 
+				repliedUser: false 
+			} 
+		});
 	}
 
 }

@@ -14,7 +14,7 @@ module.exports = {
 	admin: true,
 	nsfw: false,
 	async execute(client, message, args) {
-		var embed = new Discord.MessageEmbed()
+		var embed = new Discord.EmbedBuilder()
 			.setAuthor({ 
 				name: 'command.botinvite.author'.trans() + ' ' + botConfig.name, 
 				iconURL: "" 

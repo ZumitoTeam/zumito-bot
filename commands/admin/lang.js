@@ -42,7 +42,7 @@ module.exports = {
 					]),
 			);
 
-		var embed = new Discord.MessageEmbed()
+		var embed = new Discord.EmbedBuilder()
 
 			.setTitle(emoji.lang + " " + 'command.lang.title'.trans()) // TODO: Menu principal este va de primero para que el usuario cambie el idioma. Y cambiar el idioma por una variable para que salga el idioma actual.
 			.setDescription('command.lang.description.0'.trans() + ' `English`' + '\n\n' + 'command.lang.description.1'.trans())
@@ -51,7 +51,7 @@ module.exports = {
 		message.reply({ embeds: [embed], components: [row], allowedMentions: { repliedUser: false } });
 
 		
-		/*var embed = new Discord.MessageEmbed() // TODO: Mensaje de confirmacion cuando cambie de idioma este mensaje va sin componentes de menu
+		/*var embed = new Discord.EmbedBuilder() // TODO: Mensaje de confirmacion cuando cambie de idioma este mensaje va sin componentes de menu
 			.setDescription(emoji.check + ' ' + 'command.lang.description.2'.trans() + ' ' + '`Español`')
 			.setColor(botConfig.embeds.color)*/
 
@@ -83,7 +83,7 @@ const row = new Discord.MessageActionRow()
 					]),
 			);
 
-		var embed = new Discord.MessageEmbed()
+		var embed = new Discord.EmbedBuilder()
 
 			.setTitle(emoji.lang + " " + 'command.lang.title'.trans()) // TODO: Menu principal este va de primero para que el usuario cambie el idioma. Y cambiar el idioma por una variable para que salga el idioma actual.
 			.setDescription('command.lang.description.0'.trans() + ' `English`' + '\n\n' + 'command.lang.description.1'.trans())
@@ -92,7 +92,7 @@ const row = new Discord.MessageActionRow()
 		message.reply({ embeds: [embed], components: [row], allowedMentions: { repliedUser: false } });
 
 		
-		/*var embed = new Discord.MessageEmbed() // TODO: Mensaje de confirmacion cuando cambie de idioma este mensaje va sin componentes de menu
+		/*var embed = new Discord.EmbedBuilder() // TODO: Mensaje de confirmacion cuando cambie de idioma este mensaje va sin componentes de menu
 			.setDescription(emoji.check + ' ' + 'command.lang.description.2'.trans() + ' ' + '`Español`')
 			.setColor(botConfig.embeds.color)* / 
 */
