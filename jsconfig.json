@@ -10,6 +10,7 @@
             "@events/*": ["events/*"],
             "@commands/*": ["commands/*"],
             "@config/*": ["config/*"],
+            "@models/*": ["models/*"],
         }
     },
     "exclude": [

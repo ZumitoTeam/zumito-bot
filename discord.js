@@ -11,13 +11,7 @@ const { Routes } = require('discord-api-types/v9');
 console.logLevel = process.env.LOGLEVEL || 3;
 
 const client = new Client({ 
-    intents: [
-        "GUILDS", "GUILD_MESSAGES", "DIRECT_MESSAGES", 
-        "GUILD_MEMBERS", "GUILD_BANS", "GUILD_EMOJIS_AND_STICKERS", 
-        "GUILD_INTEGRATIONS", "GUILD_WEBHOOKS", "GUILD_INVITES", 
-        "GUILD_VOICE_STATES", "GUILD_PRESENCES", "GUILD_MESSAGE_REACTIONS", 
-        "DIRECT_MESSAGES"
-    ]
+    intents: 3276799
 });
 
 if (process.env.DEBUG == true || process.env.DEBUG == 'true') {
@@ -28,6 +22,7 @@ if (process.env.DEBUG == true || process.env.DEBUG == 'true') {
 // Load languages
 const en = require('./localization/en.json');
 const es = require('./localization/es.json');
+const { throws } = require('assert');
 localizify
   .add('en', en)
   .add('es', es)
@@ -48,7 +43,8 @@ let commandsChoices = commands.map(c => {
 }).filter(cc => cc.name);
 commands.find(c => c.name == 'help').slashCommand.options[0].addChoices(...commandsChoices);
 
-const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
+if (!process.env.CLIENT_ID) throw new Error('CLIENT_ID environment variable is not set');
+const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 rest.put(
     Routes.applicationCommands(process.env.CLIENT_ID),
     { body: commands.map(c => c.slashCommand).filter(sc => sc != null) },
