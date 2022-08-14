@@ -48,11 +48,11 @@ module.exports = {
 					name: emojis.ram + ' ' + 'command.botstats.ram'.trans(),
 					value: "┕  **" + 'command.botstats.used'.trans() + `:** \`${botUsed}\`` + "\n┕ **" + 'command.botstats.available'.trans() + `:** \`${botAvailable}\`` + "\n┕** " + 'command.botstats.usage'.trans() + `:** \`${botUsage}\``, 
 					inline: true,
-				}, {
+				},{
 					name: emojis.cpu + ' ' + 'command.botstats.cpu'.trans(),
 					value: "┕ **" + 'command.botstats.os'.trans() + `:** \`${platform} [${architecture}]\`` + "\n┕ **" + 'command.botstats.usage'.trans() + `:** \`${cpuUsage}\`` + "\n┕ **" + 'command.botstats.cores'.trans() + `:** \`${cores}\``, 
 					inline: true
-				}, {
+				},{
 					name: '♦ ' + 'command.botstats.others'.trans(), 
 					value: "┕ **" + 'command.botstats.ping'.trans() + `:** \`${new Date() - dt}ms\`` + "\n┕ **" + 'command.botstats.node_version'.trans() + ":** `" + process.versions.node + "`" + "\n┕ **" + 'command.botstats.uptime'.trans() + `:** ` + "`" + timeformat(process.uptime()) + "`",
 					inline: true
