@@ -23,7 +23,7 @@ module.exports = {
 
         if (!args.has(0)) {
 
-            var embed = new Discord.MessageEmbed()
+            var embed = new Discord.EmbedBuilder()
                 .setDescription(emojis.cozysip + ' ' + 'command.prefix.description.0'.trans() + ' `' + settings.prefix + '`')
                 .setColor(botConfig.embeds.color)
 
@@ -34,7 +34,7 @@ module.exports = {
             settings.prefix = args.get(0).value;
             settings.save();
 
-            var embed = new Discord.MessageEmbed()
+            var embed = new Discord.EmbedBuilder()
                 .setDescription(emojis.check + ' ' + 'command.prefix.description.1'.trans() + " `" + `${settings.prefix}` + "`")
                 .setColor(botConfig.embeds.color)
 

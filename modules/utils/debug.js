@@ -1,7 +1,7 @@
 var chokidar = require('chokidar');
 const path = require('path');
 const { loadCommands } = require('@modules/utils/data.js');
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, MessageActionRow, MessageButton } = require('discord.js');
 const botConfig = require('@config/bot.js');
 const chalk = require('chalk');
 const emojis = require('@config/emojis.js');
@@ -33,7 +33,7 @@ module.exports = {
 
     parseError(error) {
         error.possibleSolutions = [];
-        if (/(?:^|(?<= ))(MessageEmbed|Discord|MessageActionRow|MessageButton|MessageSelectMenu)(?:(?= )|$) is not defined/gm.test(error.message)) {
+        if (/(?:^|(?<= ))(EmbedBuilder|Discord|MessageActionRow|MessageButton|MessageSelectMenu)(?:(?= )|$) is not defined/gm.test(error.message)) {
             error.possibleSolutions.push('const { ' + error.message.split(" ")[0] + ' } = require(\'discord.js\');');
         } else if (error.message.includes('A custom id and url cannot both be specified')) {
             error.possibleSolutions.push("Remove .setCustomId(...) or .setURL(...)");
@@ -48,7 +48,7 @@ module.exports = {
         } else {
             parsedError = error;
         }
-        let embed = new MessageEmbed()
+        let embed = new EmbedBuilder()
             .setTitle(emojis.deny + ' ' + 'debug.error.title'.trans())
             .setColor(botConfig.embeds.color)
             .setDescription('debug.description'.trans())

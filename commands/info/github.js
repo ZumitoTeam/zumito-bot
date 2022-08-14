@@ -39,7 +39,7 @@ module.exports = {
             });
         }
 
-        let embed = new Discord.MessageEmbed() 
+        let embed = new Discord.EmbedBuilder() 
             .setAuthor({
                 name: 'command.github.author'.trans()+ ' ' + git.name,
                 url: git.html_url,
