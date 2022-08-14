@@ -3,7 +3,7 @@ const path = require('path');
 var MongoClient = require('mongodb').MongoClient;   // Load mongodb library
 const {default: localizify, t} = require('localizify');         // Load localization library
 const botConfig = require('@config/bot.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 var os = require('os');
 const Guild = require('@models/guild.js');
 
