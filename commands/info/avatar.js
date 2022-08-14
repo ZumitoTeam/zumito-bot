@@ -28,7 +28,7 @@ module.exports = {
 			user = message.author.username;
 		}
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 
 			.setAuthor({ name: 'command.avatar.author'.trans() + ' ' + user, iconURL: "" })
 			.setDescription("[Avatar URL](" + avatar + ")")

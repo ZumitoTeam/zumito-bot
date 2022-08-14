@@ -29,7 +29,7 @@ module.exports = {
 
         let bans = await message.guild.bans.fetch();
         const owner = await client.users.fetch(message.guild.ownerId);
-        const embed = new Discord.MessageEmbed()
+        const embed = new Discord.EmbedBuilder()
             .setTitle(emoji.boost + ' ' + `${message.guild.toString() || 'command.serverinfo.error'.trans()}`)
             .setThumbnail(message.guild.iconURL({ dynamic: true }))
             .setDescription(`\**${message.guild.description || 'command.serverinfo.error.description'.trans()}\**` + '\n\n' + 'command.serverinfo.id'.trans() + ': ' + `\**${message.guild.id || 'command.serverinfo.error'.trans()}\**` + '\n' + 'command.serverinfo.owner'.trans() + ': ' + `\**${owner.tag}\**` + '\n' + 'command.serverinfo.created'.trans() + ': ' + `<t:${Math.floor(message.guild.createdAt / 1000)}:d>` + ' **(**' + `<t:${Math.floor(message.guild.createdAt / 1000)}:R>` + '**)**')

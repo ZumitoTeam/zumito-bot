@@ -1,7 +1,7 @@
 const { t } = require("localizify");
 const botConfig = require("@config/bot.js");
 const { getFooter } = require("@modules/utils/data");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 require("@modules/localization.js");
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
         await message.delete(); // Delete command message
 
         const messages = await message.channel.bulkDelete(amount, true);
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle('Purge')
             .setDescription(
                 t('commands.clear.purged', { amount: messages.size })

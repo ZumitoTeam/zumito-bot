@@ -34,7 +34,7 @@ module.exports = {
 			game = 'command.userinfo.not_playing'.trans();
 		}
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 
 			.setTitle('command.userinfo.title'.trans()) //emoji.info + ' ' + 
 			.setThumbnail(user.avatarURL({ dynamic: true }))
