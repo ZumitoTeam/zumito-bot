@@ -18,7 +18,7 @@ module.exports = {
 	nsfw: false,
 	async execute(client, message, args) {
 
-		const row = new Discord.MessageActionRow()
+		const row = new Discord.ActionRowBuilder()
 
 			.addComponents(
 
@@ -59,7 +59,7 @@ module.exports = {
 }
 
 /* TODO: Add language selector dropdown when interaction handler is implemented
-const row = new Discord.MessageActionRow()
+const row = new Discord.ActionRowBuilder()
 
 			.addComponents(
 
