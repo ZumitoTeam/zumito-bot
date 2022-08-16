@@ -1,11 +1,12 @@
 var chokidar = require('chokidar');
 const path = require('path');
 const { loadCommands } = require('@modules/utils/data.js');
-const { EmbedBuilder, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const botConfig = require('@config/bot.js');
 const chalk = require('chalk');
 const emojis = require('@config/emojis.js');
 require("@modules/localization.js");
+const ErrorStackParser = require('error-stack-parser');
 
 module.exports = {
     initializeDebug(client) {
@@ -33,7 +34,7 @@ module.exports = {
 
     parseError(error) {
         error.possibleSolutions = [];
-        if (/(?:^|(?<= ))(EmbedBuilder|Discord|MessageActionRow|MessageButton|MessageSelectMenu)(?:(?= )|$) is not defined/gm.test(error.message)) {
+        if (/(?:^|(?<= ))(EmbedBuilder|Discord|ActionRowBuilder|ButtonBuilder|MessageSelectMenu)(?:(?= )|$) is not defined/gm.test(error.message)) {
             error.possibleSolutions.push('const { ' + error.message.split(" ")[0] + ' } = require(\'discord.js\');');
         } else if (error.message.includes('A custom id and url cannot both be specified')) {
             error.possibleSolutions.push("Remove .setCustomId(...) or .setURL(...)");
@@ -53,50 +54,64 @@ module.exports = {
             .setColor(botConfig.embeds.color)
             .setDescription('debug.description'.trans())
             .setTimestamp()
-            .addField(
-                'debug.command'.trans() + ':', 
-                (error.comid.name || 'debug.not.defined'.trans())
-            )
-            .addField(
-                'debug.arguments'.trans() + ':', 
-                (error.args.toString() || 'debug.none'.trans())
-            )
-            .addField(
-                'debug.error'.trans() + ':', 
-                (error.name || 'debug.not.defined'.trans())
-            )
-            .addField(
-                'debug.error.message'.trans() + ':', 
-                (error.message || 'debug.not.defined'.trans())
-            );
+            .addFields([{
+                name: 'debug.command'.trans() + ':', 
+                value: (error.comid.name || 'debug.not.defined'.trans())
+            }])
+            .addFields([{
+                name: 'debug.arguments'.trans() + ':', 
+                value: (error.args.toString() || 'debug.none'.trans())
+            }])
+            .addFields([{
+                name: 'debug.error'.trans() + ':', 
+                value: (error.name || 'debug.not.defined'.trans())
+            }])
+            .addFields([{
+                name: 'debug.error.message'.trans() + ':', 
+                value: (error.message || 'debug.not.defined'.trans())
+            }]);
         if (error.possibleSolutions !== undefined) {
             error.possibleSolutions.forEach((solution) => {
-                embed.addField('debug.solution'.trans() + ':', solution);
+                embed.addField([{
+                    name: 'debug.solution'.trans() + ':', 
+                    value: solution
+                }]);
             });
         }
+
+        let stackFrames = ErrorStackParser.parse(error).filter(e => !e.fileName.includes('node_modules') && !e.fileName.includes('node:internal'))
+        let stack = '';
+        stackFrames.forEach((frame) => {
+            stack += `[${frame.fileName.replace(require('path').resolve('./'), '')}:${frame.lineNumber}](https://zumito.ga/redirect?url=vscode://file/${frame.fileName}:${frame.lineNumber}) ${frame.functionName}()\n`;
+        });
+
         if (error.stack !== undefined) {
-            embed.addField('debug.stack'.trans() + ':', error.stack || error.stack.toString());
+            embed.addFields([{
+                name: 'debug.stack'.trans() + ':', 
+                value: stack || error.stack || error.stack.toString() 
+            }]);
         }
         if (error.details !== undefined) {
             error.details.forEach((detail) => {
-                embed.addField('debug.detail'.trans() + ':', detail);
+                embed.addFields([{
+                    name: 'debug.detail'.trans() + ':', 
+                    value: detail
+                }]);
             });
         }
 
         const body = `\n\n\n---\nComand:\`\`\`${error.comid.name || 'not defined'}\`\`\`\nArguments:\`\`\`${error.args.toString() || 'none'}\`\`\`\nError:\`\`\`${error.name || 'not defined'}\`\`\`\nError message:\`\`\`${error.message || 'not defined'}\`\`\`\n`;
         const url = `https://github.com/fernandomema/Zumito/issues/new?body=${encodeURIComponent(body)}`;
 
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder()
             .addComponents(
-                new MessageButton()
-                    .setStyle('LINK')
+                new ButtonBuilder()
+                    .setStyle(ButtonStyle.Link)
                     .setLabel('debug.button.report'.trans())
                     .setEmoji('975645505302437978')
                     .setURL(url)
             );
-
-
-
+            
         return { 
             embeds: [embed], 
             components: [row], 

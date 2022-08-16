@@ -23,22 +23,22 @@ module.exports = {
 			.setDescription('command.botinvite.description'.trans() + ' ' + emojis.cozysip)
 			.setImage(botConfig.botInvite.inviteBanner)
 
-		const row = new Discord.MessageActionRow()
+		const row = new Discord.ActionRowBuilder()
 			.addComponents(
 
-				new Discord.MessageButton()
+				new Discord.ButtonBuilder()
 					.setLabel('command.botinvite.invite'.trans())
 					.setStyle('LINK')
 					.setURL(botConfig.botInvite.URLInvite)
 					.setEmoji('879047987177852978'),
 
-				new Discord.MessageButton()
+				new Discord.ButtonBuilder()
 					.setLabel('command.botinvite.support'.trans())
 					.setStyle('LINK')
 					.setURL(botConfig.botInvite.URLSupport_Server)
 					.setEmoji('879509411285045279'),
 
-				new Discord.MessageButton()
+				new Discord.ButtonBuilder()
 					.setLabel('command.botinvite.website'.trans())
 					.setStyle('LINK')
 					.setURL(botConfig.botInvite.URLWebsite)

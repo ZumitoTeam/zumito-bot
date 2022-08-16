@@ -49,7 +49,7 @@ module.exports = {
 				}
 			});
 		} else {
-			const row = new Discord.MessageActionRow()
+			const row = new Discord.ActionRowBuilder()
 				.addComponents(
 					new Discord.MessageSelectMenu()
 						.setCustomId('help.category')
