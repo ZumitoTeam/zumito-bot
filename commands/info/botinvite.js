@@ -1,54 +1,65 @@
-const Discord = require("discord.js");
+const {
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} = require("discord.js");
 const botConfig = require("@config/bot.js");
 const { getFooter } = require("@modules/utils/data");
-const emojis = require('@config/emojis.js');
+const emojis = require("@config/emojis.js");
 require("@modules/localization.js");
 
 module.exports = {
-	name: "botinvite",
-	description: "Get tulipo invite urls",
-	aliases: ["invite"],
-	category: "Info",
-	ussage: null,
-	hidden: false,
-	admin: true,
-	nsfw: false,
-	async execute(client, message, args) {
-		var embed = new Discord.EmbedBuilder()
-			.setAuthor({ 
-				name: 'command.botinvite.author'.trans() + ' ' + botConfig.name, 
-				iconURL: "" 
-			})
-			.setColor(botConfig.embeds.color)
-			.setDescription('command.botinvite.description'.trans() + ' ' + emojis.cozysip)
-			.setImage(botConfig.botInvite.inviteBanner)
+  name: "botinvite",
+  aliases: ["invite"],
+  examples: [],
+  permissions: [],
+  botPermissions: [],
+  hidden: false,
+  admin: false,
+  nsfw: false,
+  cooldown: 0,
+  slashCommand: true,
+  dm: true,
 
-		const row = new Discord.ActionRowBuilder()
-			.addComponents(
+  async execute(client, message, args) {
+    var embed = new EmbedBuilder()
 
-				new Discord.ButtonBuilder()
-					.setLabel('command.botinvite.invite'.trans())
-					.setStyle('LINK')
-					.setURL(botConfig.botInvite.URLInvite)
-					.setEmoji('879047987177852978'),
+      .setAuthor({
+        name: "command.botinvite.author".trans() + " " + botConfig.name,
+      })
+      .setColor(botConfig.embeds.color)
+      .setDescription(
+        "command.botinvite.description".trans() + " " + emojis.cozysip
+      )
+      .setImage(
+        "https://raw.githubusercontent.com/fernandomema/Zumito/botinvite/assets/images/invite.png"
+      );
 
-				new Discord.ButtonBuilder()
-					.setLabel('command.botinvite.support'.trans())
-					.setStyle('LINK')
-					.setURL(botConfig.botInvite.URLSupport_Server)
-					.setEmoji('879509411285045279'),
+    const row = new ActionRowBuilder()
+	.addComponents(
+      new ButtonBuilder()
+        .setLabel('command.botinvite.invite'.trans())
+        .setStyle(ButtonStyle.Link)
+        .setURL(botConfig.botInvite.URLInvite)
+       .setEmoji('988649262042710026'),
+      new ButtonBuilder()
+        .setLabel('command.botinvite.support'.trans())
+        .setStyle(ButtonStyle.Link)
+        .setURL(botConfig.botInvite.URLSupport)
+       .setEmoji('879509411285045279'),
+      new ButtonBuilder()
+        .setLabel('command.botinvite.website'.trans())
+        .setStyle(ButtonStyle.Link)
+        .setURL(botConfig.botInvite.URLWebsite)
+        .setEmoji('879510323676200980')
+	);
 
-				new Discord.ButtonBuilder()
-					.setLabel('command.botinvite.website'.trans())
-					.setStyle('LINK')
-					.setURL(botConfig.botInvite.URLWebsite)
-					.setEmoji('879510323676200980')
-				
-			);
-
-		return message.author.send({ 
-			embeds: [embed],
-			components: [row], 
-		});
-	}
-}
+    return message.reply({
+      embeds: [embed],
+      allowedMentions: { repliedUser: false },
+      ephemeral: true,
+      components: [row],
+    }); //, components: [row]
+  },
+};
