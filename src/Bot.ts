@@ -6,7 +6,7 @@ if (!process.env.TOKEN) {
     throw new Error("Discord Token not found");
 } else if (!process.env.CLIENT_ID) {
     throw new Error("Discord Client ID not found");
-} else if (!process.env.MONGO_UIRI) {
+} else if (!process.env.MONGOURI) {
     throw new Error("Mongo URI not found");
 } 
 
@@ -17,5 +17,5 @@ new ZumitoFramework({
         clientId: process.env.CLIENT_ID!,
     },
     defaultPrefix: "zb-",
-    mongoQueryString: process.env.MONGO_URI!,
+    mongoQueryString: process.env.MONGOURI!,
 })
