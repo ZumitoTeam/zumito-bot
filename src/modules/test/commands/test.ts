@@ -4,9 +4,9 @@ export class Test extends Command {
 
     name = 'test';
 
-    execute({ message, interaction, args, client }: CommandParameters): void {
+    execute({ message, interaction, args, client, framework }: CommandParameters): void {
         message!.channel.send({
-            content: "Test command executed",
+            content: framework.translations.get('command.test.message'),
         });
     }
 }

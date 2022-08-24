@@ -9,13 +9,12 @@ if (!process.env.TOKEN) {
 } else if (!process.env.MONGOURI) {
     throw new Error("Mongo URI not found");
 } 
-
 new ZumitoFramework({
     discordClientOptions: {
         intents: 3276799,
         token: process.env.TOKEN!,
         clientId: process.env.CLIENT_ID!,
     },
-    defaultPrefix: "zb-",
+    defaultPrefix: process.env.BOTPREFIX || "z-",
     mongoQueryString: process.env.MONGOURI!,
 })

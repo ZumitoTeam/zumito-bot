@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "ESNext",
+        "target": "ES2022",
         "module": "commonjs",
         "rootDir": "./src/",
         "outDir": "./dist/",
@@ -20,11 +20,18 @@
         "sourceMap": false,
         "baseUrl": "./"
     },
+    "ts-node": {
+        "compilerOptions": {
+          "module": "commonjs",
+          "target": "ES2022",
+          "esModuleInterop": true,
+        }
+    },
     "files": [
         "src/Bot.ts"
     ],
     "include": [
-        "./**/*.ts"
+        "./**/*.ts",
     ],
     "exclude": [
         "node_modules",

@@ -1,0 +1,10 @@
+{
+    "command": {
+        "test": {
+            "message": "Test command executed." 
+        }
+    },
+    "global": {
+        
+    }
+}
