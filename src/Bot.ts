@@ -1,7 +1,9 @@
 import { ZumitoFramework } from 'zumito-framework';
 
-require("dotenv").config();
+import dotenv from 'dotenv'
+dotenv.config()
 
+ 
 if (!process.env.TOKEN) {
     throw new Error("Discord Token not found");
 } else if (!process.env.CLIENT_ID) {
@@ -17,4 +19,14 @@ new ZumitoFramework({
     },
     defaultPrefix: process.env.BOTPREFIX || "z-",
     mongoQueryString: process.env.MONGOURI!,
+    logLevel: parseInt(process.env.LOGLEVEL || "3"),
+}, (bot: ZumitoFramework) => {
+    // Log number of commands loaded
+    console.log(`Loaded ${bot.commands.size} commands`);
+    // Log number of events loaded
+    console.log(`Loaded ${bot.events.size} events`);
+    // Log number of modules loaded
+    console.log(`Loaded ${bot.modules.size} modules`);
+    // Log number of translations loaded
+    console.log(`Loaded ${bot.translations.getAll().size} translations`);
 })

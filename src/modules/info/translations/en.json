@@ -1,0 +1,25 @@
+{
+    "command": {
+        "help": {
+            "category": "Select a category",
+            "title": "Help Menu",
+            "description": {
+                "0": "Hello i am {name}",
+                "1": "I am a multipurpose bot in charge of this service.",
+                "2": "What are you waiting for? Select a category to have fun together."
+            },
+            "author": {
+                "command": "Command"
+            },
+            "commands": "Commands",
+            "usage": "Usage",
+            "examples": "Examples",
+            "bot_permissions": "Bot permissions",
+            "user_permissions": "User permissions",
+            "field.detailed": "For more detailed information use"
+        }
+    },
+    "global": {
+        "none": "None"
+    }
+}

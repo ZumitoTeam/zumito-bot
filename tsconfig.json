@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "target": "ES2022",
-        "module": "commonjs",
+        "target": "ESNext",
+        "module": "ESNext",
         "rootDir": "./src/",
         "outDir": "./dist/",
         "strict": true,
@@ -18,13 +18,23 @@
             "node_modules/@types"
         ],
         "sourceMap": false,
-        "baseUrl": "./"
+        "baseUrl": "./",
+        "declaration": true,
+        "lib": [
+            "ESNext"
+        ],
     },
     "ts-node": {
         "compilerOptions": {
-          "module": "commonjs",
-          "target": "ES2022",
-          "esModuleInterop": true,
+            "module": "ESNext",
+            "target": "ESNext",
+            "esModuleInterop": true,
+            "allowSyntheticDefaultImports": true,
+            "declaration": true,
+            "lib": [
+                "ESNext"
+            ],
+            "moduleResolution": "node",
         }
     },
     "files": [

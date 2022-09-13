@@ -6,13 +6,14 @@
         "type": "node",
         "request": "launch",
         "runtimeExecutable": "node",
-        "runtimeArgs": ["--nolazy", "-r", "ts-node/register/transpile-only"],
+        "runtimeArgs": ["--loader", "ts-node/esm", "--preserve-symlinks"],
   
         "args": ["src/Bot.ts"],
         
         "cwd": "${workspaceRoot}",
         "internalConsoleOptions": "openOnSessionStart",
-        "skipFiles": ["<node_internals>/**", "node_modules/**"]
+        "skipFiles": ["<node_internals>/**", "node_modules/**"],
+        
       }
     ]
 }
