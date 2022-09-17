@@ -3,10 +3,7 @@ import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuPara
 
 export class Test extends Command {
 
-    name = 'test';
-
-    execute({ message, interaction, args, client, framework }: CommandParameters): void {
-        debugger;
+    async execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): Promise<void> {
         message!.channel.send({
             content: framework.translations.get('command.test.message', 'en'),
         });

@@ -29,4 +29,6 @@ new ZumitoFramework({
     console.log(`Loaded ${bot.modules.size} modules`);
     // Log number of translations loaded
     console.log(`Loaded ${bot.translations.getAll().size} translations`);
+    // Log number of models loaded
+    console.log(`Loaded ${bot.models.size} models`);
 })
