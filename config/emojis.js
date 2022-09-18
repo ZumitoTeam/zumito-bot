@@ -1,4 +1,5 @@
 module.exports = {
+    "zumito": "<:Zumito:988649262042710026>",
     "lang": "<:Language:973437995174727681>",
     "check": "<a:Check:973777562251706488>",
     "deny": "<a:Deny:973778573863305286>",
@@ -10,5 +11,6 @@ module.exports = {
     "channel": "<:channel:974540778305105930>",
     "stats": "<:stats:975563717439795250>",
     "book": "<a:Pixel_Book:975583443113095168>",
+    "juice": "<:juice_face:879047636194316300>",
 
 }

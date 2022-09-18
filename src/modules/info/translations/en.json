@@ -5,18 +5,21 @@
             "title": "Help Menu",
             "description": {
                 "0": "Hello i am {name}",
-                "1": "I am a multipurpose bot in charge of this service.",
+                "1": "I am a multipurpose bot in charge of this server.",
                 "2": "What are you waiting for? Select a category to have fun together."
             },
             "author": {
                 "command": "Command"
             },
+            "commands_of": "Commands of {name}",
             "commands": "Commands",
             "usage": "Usage",
             "examples": "Examples",
             "bot_permissions": "Bot permissions",
             "user_permissions": "User permissions",
-            "field.detailed": "For more detailed information use"
+            "field.detailed": "Detailed help on a command",
+            "field.support": "For additional help, visit our",
+            "field.support.server": "support server"
         }
     },
     "global": {

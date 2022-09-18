@@ -2,6 +2,7 @@ import { Command, CommandParameters, ZumitoFramework } from "zumito-framework";
 import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
 import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
 import { config } from "../../../config.js";
+import { emojis } from "../../../emojis.js";
 
 export class Help extends Command {
 
@@ -41,7 +42,9 @@ export class Help extends Command {
                     text0 + "\n\n" + 
                     text1 + "\n" + 
                     text2 + "\n"
-                );
+                )
+                .setColor(config.embeds.color);
+                
 
             if (client && client.user) {
                 embed.setThumbnail(client.user.displayAvatarURL({ forceStatic: false }))
@@ -62,20 +65,25 @@ export class Help extends Command {
             let category: string = interaction.values[0];
 			let categoryEmbed = new EmbedBuilder()
 				.setAuthor({ 
-                    name: framework.translations.get('command.help.commands', guildSettings.lang), 
+                    name: framework.translations.get('command.help.commands_of', guildSettings.lang, { 
+                        name: config.name
+                    }), 
                     iconURL: client!.user!.displayAvatarURL() 
                 })
+                
 				.addFields([{
                     name: category, 
-                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + this.getPrefix(guildSettings) + '`help command`'
+                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + '`' + this.getPrefix(guildSettings) + 'help [command]' + '`' + '\n' + framework.translations.get('command.help.field.support', guildSettings.lang) + ' [' + framework.translations.get('command.help.field.support.server', guildSettings.lang) + '](' + config.support + ')',
                 }]);
 			let commands: Command[] = Array.from(framework.commands.values()).filter((c: Command) => c.categories.includes(category));
 			for(let i = 0; i < commands.length; i++) {
 				if(i % 4 == 0) {
 					categoryEmbed.addFields([{
-                        name: "emoji.book" + ' ' + framework.translations.get('command.help.commands', guildSettings.lang), 
+                        name: emojis.book + ' ' + framework.translations.get('command.help.commands', guildSettings.lang), 
                         value: '```'+(commands[i]?.name || '')+'       '+(commands[i+1]?.name || '')+'       '+(commands[i+2]?.name || '')+'       '+(commands[i+3]?.name || '')+'```'
-                    }]);
+                    }])
+
+                .setColor(config.embeds.color);
 				}
 			};
             const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
@@ -173,11 +181,11 @@ export class Help extends Command {
         }
         return new EmbedBuilder()
         .setAuthor({ 
-            name: 'command.help.author.command' + ' ' + 'command.name', 
+            name: framework.translations.get('command.help.author.command', guildSettings.lang) + ' ' + 'command.name', 
             iconURL: framework.client.user!.displayAvatarURL(), 
             url: 'https://zumito.ga/commands/' + "help" 
         })
-        .setDescription("Command description" + '\n' + framework.translations.get(`command.${command.name}.description`, guildSettings.lang))
+        .setDescription(framework.translations.get(`command.${command.name}.description`, guildSettings.lang))
         .addFields([{
             name: framework.translations.get('command.help.usage', guildSettings.lang), 
             value: ussage || framework.translations.get('command.help.usage.none', guildSettings.lang),
@@ -193,6 +201,7 @@ export class Help extends Command {
             value: (command?.userPermissions || []).join(', ') || framework.translations.get('global.none', guildSettings.lang),
             inline: true
         }])
+        .setColor(config.embeds.color)
     }
 
     getPrefix(guildSettings: any): string {
