@@ -2,6 +2,7 @@
     "command": {
         "help": {
             "category": "Select a category",
+            "select.command": "Select a command",
             "title": "Help Menu",
             "description": {
                 "0": "Hello i am {name}",
@@ -11,12 +12,12 @@
             "author": {
                 "command": "Command"
             },
-            "commands_of": "Commands of {name}",
+            "commands.of": "Commands of {name}",
             "commands": "Commands",
             "usage": "Usage",
             "examples": "Examples",
-            "bot_permissions": "Bot permissions",
-            "user_permissions": "User permissions",
+            "bot.permissions": "Bot permissions",
+            "user.permissions": "User permissions",
             "field.detailed": "Detailed help on a command",
             "field.support": "For additional help, visit our",
             "field.support.server": "support server"

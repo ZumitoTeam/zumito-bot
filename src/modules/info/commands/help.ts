@@ -65,7 +65,7 @@ export class Help extends Command {
             let category: string = interaction.values[0];
 			let categoryEmbed = new EmbedBuilder()
 				.setAuthor({ 
-                    name: framework.translations.get('command.help.commands_of', guildSettings.lang, { 
+                    name: framework.translations.get('command.help.commands.of', guildSettings.lang, { 
                         name: config.name
                     }), 
                     iconURL: client!.user!.displayAvatarURL() 
@@ -156,7 +156,7 @@ export class Help extends Command {
         }
         return new SelectMenuBuilder()
             .setCustomId('help.command')
-            .setPlaceholder(framework.translations.get('command.help.command', guildSettings.lang))
+            .setPlaceholder(framework.translations.get('command.help.select.command', guildSettings.lang))
             .addOptions(selectMenuOptions);
     }
 
@@ -181,9 +181,9 @@ export class Help extends Command {
         }
         return new EmbedBuilder()
         .setAuthor({ 
-            name: framework.translations.get('command.help.author.command', guildSettings.lang) + ' ' + 'command.name', 
+            name: framework.translations.get('command.help.author.command', guildSettings.lang) + ' ' + `${command.name}`, 
             iconURL: framework.client.user!.displayAvatarURL(), 
-            url: 'https://zumito.ga/commands/' + "help" 
+            url: 'https://zumito.ga/commands/' + `${command.name}` 
         })
         .setDescription(framework.translations.get(`command.${command.name}.description`, guildSettings.lang))
         .addFields([{
@@ -193,11 +193,11 @@ export class Help extends Command {
             name: framework.translations.get('command.help.examples', guildSettings.lang),
             value: examples.join('\n') || framework.translations.get('command.help.noExamples', guildSettings.lang),
         },{
-            name: framework.translations.get('command.help.bot_permissions', guildSettings.lang),
+            name: framework.translations.get('command.help.bot.permissions', guildSettings.lang),
             value: (command?.botPermissions || []).join(', ') || framework.translations.get('global.none', guildSettings.lang),
             inline: true
         }, {
-            name: framework.translations.get('command.help.user_permissions', guildSettings.lang),
+            name: framework.translations.get('command.help.user.permissions', guildSettings.lang),
             value: (command?.userPermissions || []).join(', ') || framework.translations.get('global.none', guildSettings.lang),
             inline: true
         }])
@@ -205,7 +205,7 @@ export class Help extends Command {
     }
 
     getPrefix(guildSettings: any): string {
-        console.log(guildSettings?.prefix || process.env.BOTPREFIX || config.prefix);
+        //console.log(guildSettings?.prefix || process.env.BOTPREFIX || config.prefix);
         return guildSettings?.prefix || process.env.BOTPREFIX || config.prefix
     }
 }
