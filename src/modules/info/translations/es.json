@@ -2,6 +2,7 @@
     "command": {
         "help": {
             "category": "Seleccione una categoría",
+            "select.command": "Selecciona un comando",
             "title": "Menú de ayuda",
             "description": {
                 "0": "Hola soy {name}",
@@ -11,12 +12,12 @@
             "author": {
                 "command": "Comando"
             },
-            "commands_of": "Comandos de {name]",
+            "commands.of": "Comandos de {name]",
             "commands": "Comandos",
             "usage": "Uso",
             "examples": "Ejemplos",
-            "bot_permissions": "Permisos del bot",
-            "user_permissions": "Permisos del usuario",
+            "bot.permissions": "Permisos del bot",
+            "user.permissions": "Permisos del usuario",
             "field.detailed": "Ayuda detallada sobre un comando",
             "field.support": "Para ayuda adicional, visita nuestro",
             "field.support.server": "servidor de soporte"
