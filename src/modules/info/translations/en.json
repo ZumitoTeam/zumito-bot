@@ -2,9 +2,9 @@
     "command": {
         "help": {
             "category": "Select a category",
-            "select.command": "Select a command",
             "title": "Help Menu",
-            "description": {
+            "description": "Displays the list of available commands or information about a specific command.",
+            "greeting": {
                 "0": "Hello i am {name}",
                 "1": "I am a multipurpose bot in charge of this server.",
                 "2": "What are you waiting for? Select a category to have fun together."
@@ -12,15 +12,23 @@
             "author": {
                 "command": "Command"
             },
-            "commands.of": "Commands of {name}",
+            "commands_of": "Commands of {name}",
             "commands": "Commands",
             "usage": "Usage",
             "examples": "Examples",
-            "bot.permissions": "Bot permissions",
-            "user.permissions": "User permissions",
-            "field.detailed": "Detailed help on a command",
-            "field.support": "For additional help, visit our",
-            "field.support.server": "support server"
+            "aliases": "Aliases",
+            "permissions": {
+                "bot": "Bot permissions",
+                "user": "User permissions"
+            },
+            "field": {
+                "detailed": "Detailed help on a command",
+                "support": "For additional help, visit our",
+                "support_server": "support server"
+            },
+            "select": {
+                "command": "Select a command"
+            }
         }
     },
     "global": {

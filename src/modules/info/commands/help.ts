@@ -8,6 +8,7 @@ export class Help extends Command {
 
     categories = ['info'];
     examples: string[] = ["", "ping"];
+    aliases = ["?"];
     args: any = [{
         name: "command",
         type: "string",
@@ -30,11 +31,11 @@ export class Help extends Command {
             
             const row: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
 
-            let text0 = framework.translations.get('command.help.description.0', guildSettings.lang, { 
+            let text0 = framework.translations.get('command.help.greeting.0', guildSettings.lang, { 
                 name: config.name
             });
-            let text1 = framework.translations.get('command.help.description.1', guildSettings.lang);
-            let text2 = framework.translations.get('command.help.description.2', guildSettings.lang);
+            let text1 = framework.translations.get('command.help.greeting.1', guildSettings.lang);
+            let text2 = framework.translations.get('command.help.greeting.2', guildSettings.lang);
 
             const embed = new EmbedBuilder()
 				.setTitle(framework.translations.get('command.help.title', guildSettings.lang))
@@ -65,7 +66,7 @@ export class Help extends Command {
             let category: string = interaction.values[0];
 			let categoryEmbed = new EmbedBuilder()
 				.setAuthor({ 
-                    name: framework.translations.get('command.help.commands.of', guildSettings.lang, { 
+                    name: framework.translations.get('command.help.commands_of', guildSettings.lang, { 
                         name: config.name
                     }), 
                     iconURL: client!.user!.displayAvatarURL() 
@@ -73,7 +74,7 @@ export class Help extends Command {
                 
 				.addFields([{
                     name: category, 
-                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + '`' + this.getPrefix(guildSettings) + 'help [command]' + '`' + '\n' + framework.translations.get('command.help.field.support', guildSettings.lang) + ' [' + framework.translations.get('command.help.field.support.server', guildSettings.lang) + '](' + config.support + ')',
+                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + '`' + this.getPrefix(guildSettings) + 'help [command]' + '`' + '\n' + framework.translations.get('command.help.field.support', guildSettings.lang) + ' [' + framework.translations.get('command.help.field.support_server', guildSettings.lang) + '](' + config.support + ')',
                 }]);
 			let commands: Command[] = Array.from(framework.commands.values()).filter((c: Command) => c.categories.includes(category));
 			for(let i = 0; i < commands.length; i++) {
@@ -166,9 +167,9 @@ export class Help extends Command {
         if (command.args && command.args.length > 0) {
             for (let arg of command.args) {
                 if (arg.required) {
-                    ussage += '<' + arg.name + '> ';
+                    ussage += '<' + arg.name + '>';
                 } else {
-                    ussage += '[' + arg.name + '] ';
+                    ussage += '[' + arg.name + ']';
                 }
             }
         }
@@ -188,16 +189,20 @@ export class Help extends Command {
         .setDescription(framework.translations.get(`command.${command.name}.description`, guildSettings.lang))
         .addFields([{
             name: framework.translations.get('command.help.usage', guildSettings.lang), 
-            value: ussage || framework.translations.get('command.help.usage.none', guildSettings.lang),
+            value: '`' + (ussage || framework.translations.get('command.help.usage.none', guildSettings.lang)) + '`',
         }, {
             name: framework.translations.get('command.help.examples', guildSettings.lang),
             value: examples.join('\n') || framework.translations.get('command.help.noExamples', guildSettings.lang),
-        },{
-            name: framework.translations.get('command.help.bot.permissions', guildSettings.lang),
+        }, {
+            name: framework.translations.get('command.help.aliases', guildSettings.lang), 
+            value: framework.translations.get('command.help.aliases.none', guildSettings.lang),
+
+        }, {
+            name: framework.translations.get('command.help.permissions.bot', guildSettings.lang),
             value: (command?.botPermissions || []).join(', ') || framework.translations.get('global.none', guildSettings.lang),
             inline: true
         }, {
-            name: framework.translations.get('command.help.user.permissions', guildSettings.lang),
+            name: framework.translations.get('command.help.permissions.user', guildSettings.lang),
             value: (command?.userPermissions || []).join(', ') || framework.translations.get('global.none', guildSettings.lang),
             inline: true
         }])
@@ -205,7 +210,7 @@ export class Help extends Command {
     }
 
     getPrefix(guildSettings: any): string {
-        //console.log(guildSettings?.prefix || process.env.BOTPREFIX || config.prefix);
+        console.log(guildSettings?.prefix || process.env.BOTPREFIX || config.prefix);
         return guildSettings?.prefix || process.env.BOTPREFIX || config.prefix
     }
 }
