@@ -1,0 +1,10 @@
+{
+    "global": {
+        "permissions": {
+            "VIEW_CHANNEL": "View channel",
+            "SEND_MESSAGES": "Send messages",
+            "EMBED_LINKS": "Embed links",
+            "USE_EXTERNAL_EMOJIS": "Use external emojis"
+        }
+    }
+}

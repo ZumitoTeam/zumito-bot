@@ -13,15 +13,20 @@ export class Help extends Command {
         name: "command",
         type: "string",
         required: false
-    }]
+    }];
+    botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'];
 
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
         if (args.has('command')) {
-           if (framework.commands.has(args.get('command'))) {
+
+            
+            if (framework.commands.has(args.get('command'))) {
                 let command: Command = framework.commands.get(args.get('command'))!;
+                const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
                 const commandEmbed = this.getCommandEmbed(framework, command, guildSettings);
                 (message || interaction as unknown as CommandInteraction).reply({ 
                     embeds: [commandEmbed], 
+                    components: [row1],
                     allowedMentions: { 
                         repliedUser: false 
                     }
@@ -88,12 +93,10 @@ export class Help extends Command {
 				}
 			};
             const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
-            const row2: any = new ActionRowBuilder().addComponents(this.getCommandsSelectMenu(framework, category, guildSettings));
-
 			await interaction.deferUpdate();
 			await interaction.editReply({ 
 				embeds: [categoryEmbed],
-                components: [row1, row2],
+                components: [row1],
 				allowedMentions: { 
 					repliedUser: false 
 				}
@@ -167,9 +170,9 @@ export class Help extends Command {
         if (command.args && command.args.length > 0) {
             for (let arg of command.args) {
                 if (arg.required) {
-                    ussage += '<' + arg.name + '>';
+                    ussage += '<' + framework.translations.get(`command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang) + '>';
                 } else {
-                    ussage += '[' + arg.name + ']';
+                    ussage += '[' + framework.translations.get(`command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang) + ']';
                 }
             }
         }
@@ -195,15 +198,15 @@ export class Help extends Command {
             value: examples.join('\n') || framework.translations.get('command.help.noExamples', guildSettings.lang),
         }, {
             name: framework.translations.get('command.help.aliases', guildSettings.lang), 
-            value: framework.translations.get('command.help.aliases.none', guildSettings.lang),
+            value: command.aliases.join(', ') || framework.translations.get('command.help.aliases.none', guildSettings.lang),
 
         }, {
             name: framework.translations.get('command.help.permissions.bot', guildSettings.lang),
-            value: (command?.botPermissions || []).join(', ') || framework.translations.get('global.none', guildSettings.lang),
+            value: (command?.botPermissions || []).map(p => framework.translations.get(`global.permissions.${p}`)).join('\n') || framework.translations.get('global.none', guildSettings.lang),
             inline: true
         }, {
             name: framework.translations.get('command.help.permissions.user', guildSettings.lang),
-            value: (command?.userPermissions || []).join(', ') || framework.translations.get('global.none', guildSettings.lang),
+            value: (command?.userPermissions || []).map(p => framework.translations.get(`global.permissions.${p}`)).join('\n') || framework.translations.get('global.none', guildSettings.lang),
             inline: true
         }])
         .setColor(config.embeds.color)
