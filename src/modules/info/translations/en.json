@@ -7,6 +7,7 @@
                     "description": "The command to get help for"
                 }
             },
+            "noExamples": "No examples",
             "category": "Select a category",
             "title": "Help Menu",
             "description": "Displays the list of available commands or information about a specific command.",

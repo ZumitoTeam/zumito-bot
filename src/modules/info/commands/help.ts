@@ -7,8 +7,8 @@ import { emojis } from "../../../emojis.js";
 export class Help extends Command {
 
     categories = ['info'];
-    examples: string[] = ["", "ping"];
-    aliases = ["?"];
+    examples: string[] = ["", "ping"]; 
+    aliases = ["?", "h"]; 
     args: any = [{
         name: "command",
         type: "string",
@@ -192,13 +192,13 @@ export class Help extends Command {
         .setDescription(framework.translations.get(`command.${command.name}.description`, guildSettings.lang))
         .addFields([{
             name: framework.translations.get('command.help.usage', guildSettings.lang), 
-            value: '`' + (ussage || framework.translations.get('command.help.usage.none', guildSettings.lang)) + '`',
+            value: '`' + (ussage || framework.translations.get('global.none', guildSettings.lang)) + '`',
         }, {
             name: framework.translations.get('command.help.examples', guildSettings.lang),
             value: examples.join('\n') || framework.translations.get('command.help.noExamples', guildSettings.lang),
         }, {
             name: framework.translations.get('command.help.aliases', guildSettings.lang), 
-            value: command.aliases.join(', ') || framework.translations.get('command.help.aliases.none', guildSettings.lang),
+            value: command.aliases.join(', ') || framework.translations.get('global.none', guildSettings.lang),
 
         }, {
             name: framework.translations.get('command.help.permissions.bot', guildSettings.lang),
