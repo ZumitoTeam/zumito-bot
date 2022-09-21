@@ -5,6 +5,13 @@
             "SEND_MESSAGES": "Send messages",
             "EMBED_LINKS": "Embed links",
             "USE_EXTERNAL_EMOJIS": "Use external emojis"
+        },
+        "category": {
+            "info": {
+                "name": "Information",
+                "description": "Information commands",
+                "emoji": "ℹ️"
+            }
         }
     }
 }

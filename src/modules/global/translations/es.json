@@ -5,6 +5,12 @@
             "SEND_MESSAGES": "Enviar mensajes",
             "EMBED_LINKS": "Insertar enlaces",
             "USE_EXTERNAL_EMOJIS": "Usar emojis externos"
+        },
+        "category": {
+            "info": {
+                "name": "Informacion",
+                "description": "Comandos informativos"
+            }
         }
     }
 }

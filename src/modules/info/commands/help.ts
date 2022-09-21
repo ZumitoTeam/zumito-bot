@@ -92,7 +92,7 @@ export class Help extends Command {
                 .setColor(config.embeds.color);
 				}
 			};
-            const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
+            const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings, category));
 			await interaction.deferUpdate();
 			await interaction.editReply({ 
 				embeds: [categoryEmbed],
@@ -116,7 +116,7 @@ export class Help extends Command {
 		}
 	}
 
-    getCategoriesSelectMenu(framework: ZumitoFramework, guildSettings: any): AnyComponentBuilder {
+    getCategoriesSelectMenu(framework: ZumitoFramework, guildSettings: any, selectedCategory?: string): AnyComponentBuilder {
         let categories: string[] = [];
         framework.commands.forEach((command: Command) => {
             for (let category of command.categories) {
@@ -125,16 +125,20 @@ export class Help extends Command {
                 }
             }
         });
+        categories.sort();
 
         let selectMenuOptions: any = [];
         for (let category of categories) {
             let selectMenuOption: any = {
-                label: category,
+                label: framework.translations.get(`global.category.${category}.name`, guildSettings.lang),
                 value: category,
-                description: framework.translations.get(`command.category.${category}.description`, guildSettings.lang),
+                description: framework.translations.get(`global.category.${category}.description`, guildSettings.lang),
             }
             if (framework.translations.has(`command.category.${category}.emoji`)) {
-                selectMenuOption.emoji = framework.translations.get(`command.category.${category}.emoji`, guildSettings.lang);
+                selectMenuOption.emoji = framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang);
+            }
+            if (selectedCategory == category) {
+                selectMenuOption.default = true;
             }
             selectMenuOptions.push(selectMenuOption);
         }
@@ -213,7 +217,6 @@ export class Help extends Command {
     }
 
     getPrefix(guildSettings: any): string {
-        console.log(guildSettings?.prefix || process.env.BOTPREFIX || config.prefix);
         return guildSettings?.prefix || process.env.BOTPREFIX || config.prefix
     }
 }
