@@ -79,7 +79,7 @@ export class Help extends Command {
                 
 				.addFields([{
                     name: category, 
-                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + '`' + this.getPrefix(guildSettings) + 'help [command]' + '`' + '\n' + framework.translations.get('command.help.field.support', guildSettings.lang) + ' [' + framework.translations.get('command.help.field.support_server', guildSettings.lang) + '](' + config.support + ')',
+                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + '`' + this.getPrefix(guildSettings) + 'help [command]' + '`' + '\n' + framework.translations.get('command.help.field.support', guildSettings.lang) + ' [' + framework.translations.get('command.help.field.support_server', guildSettings.lang) + '](' + config.supportServerURL + ')',
                 }]);
 			let commands: Command[] = Array.from(framework.commands.values()).filter((c: Command) => c.categories.includes(category));
 			for(let i = 0; i < commands.length; i++) {
