@@ -216,7 +216,7 @@ export class Help extends Command {
         .setColor(config.embeds.color)
     }
 
-    getPrefix(guildSettings: any): string {
-        return guildSettings?.prefix || process.env.BOTPREFIX || config.prefix
+    getPrefix(guildSettings: any, framework?: ZumitoFramework): string {
+        return guildSettings?.prefix || process.env.BOTPREFIX || framework?.settings.defaultPrefix || '!';
     }
 }
