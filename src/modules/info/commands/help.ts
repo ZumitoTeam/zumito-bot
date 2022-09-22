@@ -2,24 +2,31 @@ import { Command, CommandParameters, ZumitoFramework } from "zumito-framework";
 import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
 import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
 import { config } from "../../../config.js";
+import { emojis } from "../../../emojis.js";
 
 export class Help extends Command {
 
-    categories = ['info'];
-    examples: string[] = ["", "ping"];
+    categories = ['Information'];
+    examples: string[] = ["", "ping"]; 
+    aliases = ["?", "h"]; 
     args: any = [{
         name: "command",
         type: "string",
         required: false
-    }]
+    }];
+    botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'];
 
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
         if (args.has('command')) {
-           if (framework.commands.has(args.get('command'))) {
+
+            
+            if (framework.commands.has(args.get('command'))) {
                 let command: Command = framework.commands.get(args.get('command'))!;
+                const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
                 const commandEmbed = this.getCommandEmbed(framework, command, guildSettings);
                 (message || interaction as unknown as CommandInteraction).reply({ 
                     embeds: [commandEmbed], 
+                    components: [row1],
                     allowedMentions: { 
                         repliedUser: false 
                     }
@@ -29,11 +36,11 @@ export class Help extends Command {
             
             const row: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
 
-            let text0 = framework.translations.get('command.help.description.0', guildSettings.lang, { 
+            let text0 = framework.translations.get('command.help.greeting.0', guildSettings.lang, { 
                 name: config.name
             });
-            let text1 = framework.translations.get('command.help.description.1', guildSettings.lang);
-            let text2 = framework.translations.get('command.help.description.2', guildSettings.lang);
+            let text1 = framework.translations.get('command.help.greeting.1', guildSettings.lang);
+            let text2 = framework.translations.get('command.help.greeting.2', guildSettings.lang);
 
             const embed = new EmbedBuilder()
 				.setTitle(framework.translations.get('command.help.title', guildSettings.lang))
@@ -41,7 +48,9 @@ export class Help extends Command {
                     text0 + "\n\n" + 
                     text1 + "\n" + 
                     text2 + "\n"
-                );
+                )
+                .setColor(config.embeds.color);
+                
 
             if (client && client.user) {
                 embed.setThumbnail(client.user.displayAvatarURL({ forceStatic: false }))
@@ -62,29 +71,32 @@ export class Help extends Command {
             let category: string = interaction.values[0];
 			let categoryEmbed = new EmbedBuilder()
 				.setAuthor({ 
-                    name: framework.translations.get('command.help.commands', guildSettings.lang), 
+                    name: framework.translations.get('command.help.commands_of', guildSettings.lang, { 
+                        name: config.name
+                    }), 
                     iconURL: client!.user!.displayAvatarURL() 
                 })
+                
 				.addFields([{
                     name: category, 
-                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + this.getPrefix(guildSettings) + '`help command`'
+                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + '`' + this.getPrefix(guildSettings) + 'help [command]' + '`' + '\n' + framework.translations.get('command.help.field.support', guildSettings.lang) + ' [' + framework.translations.get('command.help.field.support_server', guildSettings.lang) + '](' + config.supportServerURL + ')',
                 }]);
 			let commands: Command[] = Array.from(framework.commands.values()).filter((c: Command) => c.categories.includes(category));
 			for(let i = 0; i < commands.length; i++) {
 				if(i % 4 == 0) {
 					categoryEmbed.addFields([{
-                        name: "emoji.book" + ' ' + framework.translations.get('command.help.commands', guildSettings.lang), 
+                        name: emojis.book + ' ' + framework.translations.get('command.help.commands', guildSettings.lang), 
                         value: '```'+(commands[i]?.name || '')+'       '+(commands[i+1]?.name || '')+'       '+(commands[i+2]?.name || '')+'       '+(commands[i+3]?.name || '')+'```'
-                    }]);
+                    }])
+
+                .setColor(config.embeds.color);
 				}
 			};
-            const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
-            const row2: any = new ActionRowBuilder().addComponents(this.getCommandsSelectMenu(framework, category, guildSettings));
-
+            const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings, category));
 			await interaction.deferUpdate();
 			await interaction.editReply({ 
 				embeds: [categoryEmbed],
-                components: [row1, row2],
+                components: [row1],
 				allowedMentions: { 
 					repliedUser: false 
 				}
@@ -104,7 +116,7 @@ export class Help extends Command {
 		}
 	}
 
-    getCategoriesSelectMenu(framework: ZumitoFramework, guildSettings: any): AnyComponentBuilder {
+    getCategoriesSelectMenu(framework: ZumitoFramework, guildSettings: any, selectedCategory?: string): AnyComponentBuilder {
         let categories: string[] = [];
         framework.commands.forEach((command: Command) => {
             for (let category of command.categories) {
@@ -113,16 +125,20 @@ export class Help extends Command {
                 }
             }
         });
+        categories.sort();
 
         let selectMenuOptions: any = [];
         for (let category of categories) {
             let selectMenuOption: any = {
-                label: category,
+                label: framework.translations.get(`global.category.${category}.name`, guildSettings.lang),
                 value: category,
-                description: framework.translations.get(`command.category.${category}.description`, guildSettings.lang),
+                description: framework.translations.get(`global.category.${category}.description`, guildSettings.lang),
             }
             if (framework.translations.has(`command.category.${category}.emoji`)) {
-                selectMenuOption.emoji = framework.translations.get(`command.category.${category}.emoji`, guildSettings.lang);
+                selectMenuOption.emoji = framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang);
+            }
+            if (selectedCategory == category) {
+                selectMenuOption.default = true;
             }
             selectMenuOptions.push(selectMenuOption);
         }
@@ -148,7 +164,7 @@ export class Help extends Command {
         }
         return new SelectMenuBuilder()
             .setCustomId('help.command')
-            .setPlaceholder(framework.translations.get('command.help.command', guildSettings.lang))
+            .setPlaceholder(framework.translations.get('command.help.select.command', guildSettings.lang))
             .addOptions(selectMenuOptions);
     }
 
@@ -158,9 +174,9 @@ export class Help extends Command {
         if (command.args && command.args.length > 0) {
             for (let arg of command.args) {
                 if (arg.required) {
-                    ussage += '<' + arg.name + '> ';
+                    ussage += '<' + framework.translations.get(`command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang) + '>';
                 } else {
-                    ussage += '[' + arg.name + '] ';
+                    ussage += '[' + framework.translations.get(`command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang) + ']';
                 }
             }
         }
@@ -173,30 +189,34 @@ export class Help extends Command {
         }
         return new EmbedBuilder()
         .setAuthor({ 
-            name: 'command.help.author.command' + ' ' + 'command.name', 
+            name: framework.translations.get('command.help.author.command', guildSettings.lang) + ' ' + `${command.name}`, 
             iconURL: framework.client.user!.displayAvatarURL(), 
-            url: 'https://zumito.ga/commands/' + "help" 
+            url: 'https://zumito.ga/commands/' + `${command.name}` 
         })
-        .setDescription("Command description" + '\n' + framework.translations.get(`command.${command.name}.description`, guildSettings.lang))
+        .setDescription(framework.translations.get(`command.${command.name}.description`, guildSettings.lang))
         .addFields([{
             name: framework.translations.get('command.help.usage', guildSettings.lang), 
-            value: ussage || framework.translations.get('command.help.usage.none', guildSettings.lang),
+            value: '`' + (ussage || framework.translations.get('global.none', guildSettings.lang)) + '`',
         }, {
             name: framework.translations.get('command.help.examples', guildSettings.lang),
             value: examples.join('\n') || framework.translations.get('command.help.noExamples', guildSettings.lang),
-        },{
-            name: framework.translations.get('command.help.bot_permissions', guildSettings.lang),
-            value: (command?.botPermissions || []).join(', ') || framework.translations.get('global.none', guildSettings.lang),
+        }, {
+            name: framework.translations.get('command.help.aliases', guildSettings.lang), 
+            value: command.aliases.join(', ') || framework.translations.get('global.none', guildSettings.lang),
+
+        }, {
+            name: framework.translations.get('command.help.permissions.bot', guildSettings.lang),
+            value: (command?.botPermissions || []).map(p => framework.translations.get(`global.permissions.${p}`)).join('\n') || framework.translations.get('global.none', guildSettings.lang),
             inline: true
         }, {
-            name: framework.translations.get('command.help.user_permissions', guildSettings.lang),
-            value: (command?.userPermissions || []).join(', ') || framework.translations.get('global.none', guildSettings.lang),
+            name: framework.translations.get('command.help.permissions.user', guildSettings.lang),
+            value: (command?.userPermissions || []).map(p => framework.translations.get(`global.permissions.${p}`)).join('\n') || framework.translations.get('global.none', guildSettings.lang),
             inline: true
         }])
+        .setColor(config.embeds.color)
     }
 
     getPrefix(guildSettings: any): string {
-        console.log(guildSettings?.prefix || process.env.BOTPREFIX || config.prefix);
         return guildSettings?.prefix || process.env.BOTPREFIX || config.prefix
     }
 }
