@@ -1,8 +1,9 @@
-import { Command, CommandParameters, ZumitoFramework } from "zumito-framework";
+import { Command, CommandParameters, ZumitoFramework, CommandType } from "zumito-framework";
 import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
 import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
 import { config } from "../../../config.js";
 import { emojis } from "../../../emojis.js";
+import { type } from "os";
 
 export class Help extends Command {
 
@@ -12,9 +13,10 @@ export class Help extends Command {
     args: any = [{
         name: "command",
         type: "string",
-        required: false
+        optional: true
     }];
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'];
+    type = CommandType.any;
 
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
         if (args.has('command')) {
@@ -173,7 +175,7 @@ export class Help extends Command {
         let ussage: string = prefix + command.name + ' ';
         if (command.args && command.args.length > 0) {
             for (let arg of command.args) {
-                if (arg.required) {
+                if (arg.optional) {
                     ussage += '<' + framework.translations.get(`command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang) + '>';
                 } else {
                     ussage += '[' + framework.translations.get(`command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang) + ']';
