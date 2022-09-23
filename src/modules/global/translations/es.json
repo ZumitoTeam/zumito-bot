@@ -7,7 +7,7 @@
             "USE_EXTERNAL_EMOJIS": "Usar emojis externos"
         },
         "category": {
-            "Information": {
+            "information": {
                 "name": "Informacion",
                 "description": "Comandos informativos"
             }

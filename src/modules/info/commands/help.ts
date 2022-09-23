@@ -6,7 +6,7 @@ import { emojis } from "../../../emojis.js";
 
 export class Help extends Command {
 
-    categories = ['Information'];
+    categories = ['information'];
     examples: string[] = ["", "ping"]; 
     aliases = ["?", "h"]; 
     args: any = [{

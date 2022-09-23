@@ -7,7 +7,7 @@
             "USE_EXTERNAL_EMOJIS": "Use external emojis"
         },
         "category": {
-            "Information": {
+            "information": {
                 "name": "Information",
                 "description": "Information commands",
                 "emoji": "ℹ️"
