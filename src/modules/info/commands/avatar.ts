@@ -1,16 +1,16 @@
 import { EmbedBuilder, GuildMember } from "discord.js";
 import { config } from "../../../config.js";
-import { Command, CommandParameters } from "zumito-framework";
+import { Command, CommandArgDefinition, CommandParameters } from "zumito-framework";
 import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
 
 export class Avatar extends Command {
 
     categories = ['information'];
     examples: string[] = ['', "@zumito"]; 
-    args: any = [{
+    args: CommandArgDefinition[] = [{
         name: "user",
         type: "user",
-        required: false,
+        optional: true,
     }];
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'];
 
