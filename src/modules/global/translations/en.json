@@ -12,6 +12,8 @@
                 "description": "Information commands",
                 "emoji": "ℹ️"
             }
-        }
+        },
+        "requested": "Requested by",
+        "none": "None"
     }
 }

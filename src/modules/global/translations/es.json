@@ -11,6 +11,8 @@
                 "name": "Informacion",
                 "description": "Comandos informativos"
             }
-        }
+        },
+        "requested": "Pedido por",
+        "none": "Ninguno"
     }
 }

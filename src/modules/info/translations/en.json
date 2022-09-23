@@ -36,9 +36,25 @@
             "select": {
                 "command": "Select a command"
             }
+        },
+        "avatar": {
+            "title": "Avatar of",
+            "description": "Displays a server member's avatar.",
+            "error": "Error while getting the user.",
+            "arguments": {
+                "user": {
+                    "name": "member"
+                }
+            }
         }
     },
-    "global": {
-        "none": "None"
+    "commands": {
+        "help": {
+            "description": "Displays the list of available commands or information about a specific command."
+        },
+        "avatar": {
+            "description": "Displays a server member's avatar."
+        }
+
     }
 }
