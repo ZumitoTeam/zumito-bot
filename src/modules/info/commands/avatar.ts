@@ -42,7 +42,12 @@ export class Avatar extends Command {
            
 
 
-        (message||interaction!)?.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });}
+        (message||interaction!)?.reply({ 
+            embeds: [embed], 
+            allowedMentions: { 
+                repliedUser: false 
+            } 
+        });}
 
     selectMenu({ path, interaction, client, framework }: SelectMenuParameters): void {}
 

@@ -30,7 +30,7 @@
             }
         },
         "avatar": {
-            "title": "Avatar de",
+            "title": "Avatar de {user}",
             "description": "Muestra el avatar de un miembro del servidor.",
             "error": "Error al obtener el usuario.",
             "arguments": {
