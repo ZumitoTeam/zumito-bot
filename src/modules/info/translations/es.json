@@ -38,6 +38,12 @@
                     "name": "miembro"
                 }
             }
+        },
+        "ping": {
+            "description": "Muestra mi lactencia.",
+             "pong": "Pong!",
+             "emoji": "🏓",
+             "ws": "WS"
         }
     },
     "commands": {
@@ -46,7 +52,9 @@
         },
         "avatar": {
             "description": "Muestra el avatar de un miembro del servidor."
+        },
+        "ping": {
+            "description": "Muestra mi lactencia."
         }
-
     }
 }

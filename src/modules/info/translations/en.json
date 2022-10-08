@@ -46,6 +46,12 @@
                     "name": "member"
                 }
             }
+        },
+        "ping": {
+            "description": "Show my breastfeeding.",
+            "pong": "Pong!",
+            "emoji": "🏓",
+            "ws": "WS:"
         }
     },
     "commands": {
@@ -54,7 +60,9 @@
         },
         "avatar": {
             "description": "Displays a server member's avatar."
-        }
-
+        },
+        "ping": {
+            "description": "Show my breastfeeding."
+       }
     }
 }
