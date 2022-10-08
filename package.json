@@ -60,7 +60,7 @@
     "remote-file-size": "^3.0.5",
     "utf-8-validate": "^5.0.5",
     "uuid": "^8.3.2",
-    "zumito-framework": "^1.1.35"
+    "zumito-framework": "^1.1.37"
   },
   "devDependencies": {
     "@jsdevtools/version-bump-prompt": "^6.1.0",
@@ -69,5 +69,9 @@
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4"
   },
-  "type": "module"
+  "type": "module",
+  "engines" : { 
+    "npm" : ">=8.0.0",
+    "node" : ">=16.0.0"
+  }
 }
