@@ -38,6 +38,18 @@
                     "name": "miembro"
                 }
             }
+        },
+        "invite": {
+            "description": "Recibes un link para que puedas invitarme a cualquier servidor que administres.",
+            "author": "Invitar a",
+            "short": {
+                "description": "Aquí está el enlace de invitación para que me invites a tu servidor."
+            },
+            "button":{
+                "invite": "Invitacion",
+                "support": "Soporte",
+                "website": "Sitio web"
+            }
         }
     },
     "commands": {
@@ -46,7 +58,9 @@
         },
         "avatar": {
             "description": "Muestra el avatar de un miembro del servidor."
+        },
+        "invite": {
+            "description": "Recibes un link para invitarme"
         }
-
     }
 }

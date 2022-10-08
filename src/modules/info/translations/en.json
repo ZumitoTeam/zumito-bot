@@ -46,6 +46,18 @@
                     "name": "member"
                 }
             }
+        },
+        "invite": {
+            "description": "You receive a link so you can invite me to any server you manage.",
+            "author": "Invite to",
+            "short": {
+                "description": "Here is the invitation link for you to invite me to your server."
+            },
+            "button":{
+                "invite": "Invite",
+                "support": "Support",
+                "website": "Website"
+            }
         }
     },
     "commands": {
@@ -54,7 +66,9 @@
         },
         "avatar": {
             "description": "Displays a server member's avatar."
+        },
+        "invite": {
+            "description": "You receive a link to invite me"
         }
-
     }
 }
