@@ -13,7 +13,7 @@
                 "emoji": "ℹ️"
             }
         },
-        "requested": "Requested by",
+        "requested": "Requested by {user}",
         "none": "None"
     }
 }

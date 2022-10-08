@@ -12,7 +12,7 @@
                 "description": "Comandos informativos"
             }
         },
-        "requested": "Pedido por",
+        "requested": "Pedido por {user}",
         "none": "Ninguno"
     }
 }
