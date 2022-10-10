@@ -1,4 +1,8 @@
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters } from "zumito-framework";
+import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
+import { config } from "../../../config.js";
+import { emojis } from "../../../emojis.js";
+import { type } from "os";
 
 export class Lang extends Command {
 
@@ -30,7 +34,10 @@ export class Lang extends Command {
                 });
 
                 (message || interaction!)?.reply({
-                    content: text
+                content: text , 
+                allowedMentions: { 
+                        repliedUser: false 
+                    }
                 });
             }
         } else {
