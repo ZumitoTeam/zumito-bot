@@ -1,0 +1,17 @@
+{
+    "command": {
+        "lang": {
+            "description": "Get or edit the language of the current server",
+            "arguments": {
+                "lang": {
+                    "name": "language",
+                    "description": "The language to set"
+                }
+            },
+            "current": "The current language is {lang}",
+            "invalid": "Invalid language {lang}",
+            "valid": "The available languages are: {langs}",
+            "changed": "Language changed to **{lang}**"
+        }
+    }
+}
