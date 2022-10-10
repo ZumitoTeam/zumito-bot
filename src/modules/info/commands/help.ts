@@ -1,9 +1,7 @@
-import { Command, CommandParameters, ZumitoFramework, CommandType } from "zumito-framework";
-import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
-import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
+import { Command, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters } from "zumito-framework";
+import { ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, SelectMenuBuilder } from "discord.js";
 import { config } from "../../../config.js";
 import { emojis } from "../../../emojis.js";
-import { type } from "os";
 
 export class Help extends Command {
 

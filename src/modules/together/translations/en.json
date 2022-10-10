@@ -1,0 +1,16 @@
+{
+    "command": {
+        "together": {
+            "description": "Start a discord together session with your friends",
+            "arguments": {
+                "activity": {
+                    "name": "activity",
+                    "description": "Thea ctivity you want to start"
+                }
+            },
+            "embed_description": "This command allows you to start a discord together session with your friends. Just select the activity from the dropdown menu and invitation will be sent to start the session.",
+            "not_in_voice": "You need to be in a voice channel to use this command.",
+            "error": "An error occured while trying to start the activity. Maybe your activity does not exist"
+        }
+    }
+}
