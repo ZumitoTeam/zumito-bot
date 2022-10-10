@@ -8,7 +8,7 @@
                     "description": "The language to set"
                 }
             },
-            "current": "The current language is {lang}",
+            "current": "The current language is: `{lang}`",
             "invalid": "Invalid language {lang}",
             "valid": "The available languages are: {langs}",
             "changed": "Language changed to **{lang}**"
