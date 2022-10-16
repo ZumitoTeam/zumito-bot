@@ -1,14 +1,16 @@
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters } from "zumito-framework";
 import { EmbedBuilder } from "discord.js";
 import { config } from "../../../config.js";
+import { type } from "os";
 
 export class Botinfo extends Command {
 
     categories = ['information'];
-    examples: string[] = ['', "@zumito"]; 
+    examples: string[] = ['']; 
+    aliases = ["botstatus"]; 
     args: CommandArgDefinition[] = [];
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'];
-    //type = CommandType.any;
+    type = CommandType.any;
 
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
 

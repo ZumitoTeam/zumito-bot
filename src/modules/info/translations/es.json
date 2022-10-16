@@ -11,8 +11,11 @@
         "ping": {
             "description": "Muestra mi lactencia."
         },
-       "serverinfo": {
+        "serverinfo": {
             "description": "Muestra información detallada del servidor"
-       }
+        },
+        "botinfo": {
+            "description": "Ver el estado del bot"
+        }
     }
 }

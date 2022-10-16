@@ -13,6 +13,9 @@
        },
        "serverinfo": {
             "description": "Displays detailed server information"
-       }
+       },
+       "botinfo": {
+            "description": "View bot status"
+        }
     }
 }
