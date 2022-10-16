@@ -54,6 +54,7 @@
             "ws": "WS:"
         },
         "serverinfo": {
+            "description": "Displays detailed server information",
             "no": {
                 "description": "No description"
             },
@@ -86,6 +87,9 @@
         },
         "ping": {
             "description": "Show my breastfeeding."
+       },
+       "serverinfo": {
+            "description": "Displays detailed server information"
        }
     }
 }
