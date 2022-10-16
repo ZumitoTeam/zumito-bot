@@ -1,7 +1,6 @@
-import { Command, CommandArgDefinition, CommandParameters,  CommandType } from "zumito-framework";
-import { EmbedBuilder, GuildMember } from "discord.js";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters } from "zumito-framework";
+import { EmbedBuilder } from "discord.js";
 import { config } from "../../../config.js";
-import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
 import { type } from "os";
 
 export class Userinfo extends Command {
@@ -11,7 +10,7 @@ export class Userinfo extends Command {
     args: CommandArgDefinition[] = [];
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
-
+    
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
 
         let text = framework.translations.get('command.userinfo.user', guildSettings.lang, {
