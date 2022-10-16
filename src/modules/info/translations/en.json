@@ -54,6 +54,7 @@
             "ws": "WS:"
         },
         "serverinfo": {
+            "description": "Displays detailed server information",
             "no": {
                 "description": "No description"
             },
@@ -72,6 +73,7 @@
             "announcements": "Announcements: **{announcements}**",
             "station": "Station: **{station}**",
             "threads": "Threads: **{threads}**",
+            "forum": "Forum: **{forum}**",
             "text": "Text: **{text}**",
             "voice": "Voice: **{voice}**",
             "category": "Category: **{category}**"
@@ -86,6 +88,9 @@
         },
         "ping": {
             "description": "Show my breastfeeding."
+       },
+       "serverinfo": {
+            "description": "Displays detailed server information"
        }
     }
 }
