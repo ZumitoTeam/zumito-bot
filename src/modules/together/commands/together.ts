@@ -1,5 +1,6 @@
 import { Command, CommandArgDefinition, CommandChoiceDefinition, CommandParameters, CommandType, FrameworkEvent, SelectMenuParameters, ZumitoFramework } from "zumito-framework";
-import { ActionRowBuilder, GuildMember, SelectMenuBuilder, Message, CommandInteraction, SelectMenuInteraction } from "discord.js";
+import { ActionRowBuilder, GuildMember, SelectMenuBuilder, Message, CommandInteraction, SelectMenuInteraction, EmbedBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { config } from "../../../config.js";
 import { DiscordTogether } from "discord-together";
 
 export class Together extends Command {
@@ -33,8 +34,20 @@ export class Together extends Command {
             const row: any = new ActionRowBuilder().addComponents(gamesSelectMenu);
 
 
+            let description = [
+                framework.translations.get('command.together.welcome', guildSettings.lang),
+                framework.translations.get('command.together.pull', guildSettings.lang)
+            ];
+
+            const embed = new EmbedBuilder()
+                .setTitle('Discord Togethert')
+                .setDescription(description.join('\n\n'))
+                .setImage('https://raw.githubusercontent.com/fernandomema/Zumito/main/assets/images/banner.png')
+                .setColor(config.embeds.color);
+
+
             (message || interaction!)?.reply({
-                content: framework.translations.get('command.together.embed_description', guildSettings.lang), 
+                embeds: [embed],
                 components: [row],
                 allowedMentions: { 
                     repliedUser: false 
@@ -54,8 +67,28 @@ export class Together extends Command {
         if(member.voice.channel) {
             const discordTogether = new DiscordTogether(framework.client);
             discordTogether.createTogetherCode(member.voice.channel.id, activity).then(async invite => {
+               
+                const embed = new EmbedBuilder()
+                .setTitle('Discord Togethert')
+                .setDescription('')
+                .setImage('https://raw.githubusercontent.com/fernandomema/Zumito/main/assets/images/banner.png')
+                .setColor(config.embeds.color);
+
+                const row: any = new ActionRowBuilder()
+                    .addComponents(
+                        new ButtonBuilder()
+                            .setCustomId("tes")
+                            .setLabel('Click aqui')
+                            .setStyle(ButtonStyle.Link)
+                            .setURL(invite.code)
+                    )
+               
                 return reply.reply({
-                    content: invite.code,
+                    embeds: [embed],
+                    components: [row],
+                    allowedMentions: { 
+                        repliedUser: false 
+                    }
                 });
             }).catch((err) => {
                 return reply.reply({

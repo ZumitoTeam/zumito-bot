@@ -1,0 +1,17 @@
+{
+    "command": {
+        "together": {
+            "description": "Inicia una sesión de discord con tus amigos",
+            "arguments": {
+                "activity": {
+                    "name": "activity",
+                    "description": "Thea ctivity you want to start"
+                }
+            },
+            "welcome": "Bienvenido a **Discord Together**",
+            "pull": "Desplega el menu para iniciar una actividad.",
+            "not_in_voice": "Es necesario estar en un canal de voz para utilizar este comando.",
+            "error": "Se ha producido un error al intentar iniciar la actividad. Tal vez su actividad no existe"
+        }
+    }
+}
