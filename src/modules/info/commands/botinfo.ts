@@ -1,7 +1,7 @@
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters } from "zumito-framework";
 import { EmbedBuilder } from "discord.js";
 import { config } from "../../../config.js";
-import { cpus } from "os";
+import { cpus, totalmem, arch } from "os";
 
 export class Botinfo extends Command {
 
@@ -28,22 +28,26 @@ export class Botinfo extends Command {
 
         let ram = [
             framework.translations.get('command.botinfo.used', guildSettings.lang, {
-                used: (Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100) + 'MB'
+                used: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + ' MB'
+                //used: (Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100) + 'MB'
             }),
             framework.translations.get('command.botinfo.available', guildSettings.lang, {
-                available: (Math.round(process.memoryUsage().heapTotal / 1024 / 1024 * 100) / 100) + 'MB'
+                available: (totalmem() / 1024 / 1024 / 1024).toFixed(2) + ' GB'
+                //available: (Math.round(process.memoryUsage().heapTotal / 1024 / 1024 * 100) / 100) + 'MB'
             }),
             framework.translations.get('command.botinfo.usage', guildSettings.lang, {
-                usage: (Math.round(process.memoryUsage().heapUsed / process.memoryUsage().heapTotal * 10000) / 100) + '%'
+                usage: ((process.memoryUsage().heapUsed / totalmem()) * 100).toFixed(1) + '%'
+               // usage: (Math.round(process.memoryUsage().heapUsed / process.memoryUsage().heapTotal * 10000) / 100) + '%'
             })
         ];
 
         let cpu = [
             framework.translations.get('command.botinfo.os', guildSettings.lang, {
-                os: process.platform
+                os: process.platform.replace(/win32/g, "Windows") + '[' + arch() + ']'
             }),
             framework.translations.get('command.botinfo.use', guildSettings.lang, {
-                use: (Math.round(process.cpuUsage().user / 1024 / 1024 * 100) / 100) + 'MB'
+                use: (process.cpuUsage().user / 1024 / 1024).toFixed(2) + ' MB' 
+                //use: (Math.round(process.cpuUsage().user / 1024 / 1024 * 100) / 100) + 'MB'
             }),
             framework.translations.get('command.botinfo.cores', guildSettings.lang, {
                 cores: cpus().length
