@@ -1,7 +1,7 @@
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters } from "zumito-framework";
 import { EmbedBuilder } from "discord.js";
 import { config } from "../../../config.js";
-import { type } from "os";
+import { cpus } from "os";
 
 export class Botinfo extends Command {
 
@@ -16,49 +16,50 @@ export class Botinfo extends Command {
 
         let information = [
             framework.translations.get('command.botinfo.guilds', guildSettings.lang, {
-            guilds: '2'
-        }),
-        framework.translations.get('command.botinfo.users', guildSettings.lang, {
-            users: '13.526'
-        }),
-        framework.translations.get('command.botinfo.channels', guildSettings.lang, {
-            channels: '52'
-        })
+                guilds: client.guilds.cache.size
+            }),
+            framework.translations.get('command.botinfo.users', guildSettings.lang, {
+                users: client.users.cache.size
+            }),
+            framework.translations.get('command.botinfo.channels', guildSettings.lang, {
+                channels: client.channels.cache.size
+            })
         ];
 
         let ram = [
             framework.translations.get('command.botinfo.used', guildSettings.lang, {
-                used: '48.66 MB'
+                used: (Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100) + 'MB'
             }),
             framework.translations.get('command.botinfo.available', guildSettings.lang, {
-                available: '62.14 GB'
+                available: (Math.round(process.memoryUsage().heapTotal / 1024 / 1024 * 100) / 100) + 'MB'
             }),
             framework.translations.get('command.botinfo.usage', guildSettings.lang, {
-                usage: '0.1%'
+                usage: (Math.round(process.memoryUsage().heapUsed / process.memoryUsage().heapTotal * 10000) / 100) + '%'
             })
         ];
 
         let cpu = [
             framework.translations.get('command.botinfo.os', guildSettings.lang, {
-                os: 'linux [x64]'
+                os: process.platform
             }),
             framework.translations.get('command.botinfo.use', guildSettings.lang, {
-                use: '57.23 MB'
+                use: (Math.round(process.cpuUsage().user / 1024 / 1024 * 100) / 100) + 'MB'
             }),
             framework.translations.get('command.botinfo.cores', guildSettings.lang, {
-                cores: '8'
+                cores: cpus().length
             })
         ];
 
         let others = [
             framework.translations.get('command.botinfo.ping', guildSettings.lang, {
-                ping: '109ms'
+                ping: client.ws.ping + 'ms'
             }),
             framework.translations.get('command.botinfo.node', guildSettings.lang, {
-                node: 'X.X.X'
+                node: process.version
             }),
+            // Uptime in days, hours, minutes, seconds
             framework.translations.get('command.botinfo.uptime', guildSettings.lang, {
-                uptime: '20 horas, 10 minutos, 3 segundos'
+                uptime: this.uptimeToDHMS(client.uptime!)
             })
         ];
 
@@ -101,5 +102,13 @@ export class Botinfo extends Command {
     }
 
     selectMenu({ path, interaction, client, framework }: SelectMenuParameters): void {}
+
+    uptimeToDHMS(uptime: number): string {
+        let days = Math.floor(uptime / 86400000);
+        let hours = Math.floor(uptime / 3600000);
+        let minutes = Math.floor(uptime / 60000);
+        let seconds = Math.floor(uptime / 1000);
+        return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
 
 }
