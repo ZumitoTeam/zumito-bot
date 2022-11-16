@@ -1,4 +1,4 @@
-import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters } from "zumito-framework";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback } from "zumito-framework";
 import { EmbedBuilder } from "discord.js";
 import { config } from "../../../config.js";
 import { cpus, totalmem, arch } from "os";
@@ -29,15 +29,12 @@ export class Botinfo extends Command {
         let ram = [
             framework.translations.get('command.botinfo.used', guildSettings.lang, {
                 used: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + ' MB'
-                //used: (Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100) + 'MB'
             }),
             framework.translations.get('command.botinfo.available', guildSettings.lang, {
                 available: (totalmem() / 1024 / 1024 / 1024).toFixed(2) + ' GB'
-                //available: (Math.round(process.memoryUsage().heapTotal / 1024 / 1024 * 100) / 100) + 'MB'
             }),
             framework.translations.get('command.botinfo.usage', guildSettings.lang, {
                 usage: ((process.memoryUsage().heapUsed / totalmem()) * 100).toFixed(1) + '%'
-               // usage: (Math.round(process.memoryUsage().heapUsed / process.memoryUsage().heapTotal * 10000) / 100) + '%'
             })
         ];
 
@@ -47,7 +44,6 @@ export class Botinfo extends Command {
             }),
             framework.translations.get('command.botinfo.use', guildSettings.lang, {
                 use: (process.cpuUsage().user / 1024 / 1024).toFixed(2) + ' MB' 
-                //use: (Math.round(process.cpuUsage().user / 1024 / 1024 * 100) / 100) + 'MB'
             }),
             framework.translations.get('command.botinfo.cores', guildSettings.lang, {
                 cores: cpus().length
@@ -61,7 +57,6 @@ export class Botinfo extends Command {
             framework.translations.get('command.botinfo.node', guildSettings.lang, {
                 node: process.version
             }),
-            // Uptime in days, hours, minutes, seconds
             framework.translations.get('command.botinfo.uptime', guildSettings.lang, {
                 uptime: this.uptimeToDHMS(client.uptime!)
             })
@@ -69,23 +64,23 @@ export class Botinfo extends Command {
 
         const embed = new EmbedBuilder()
 
-            .setTitle('Bot.name')
+            .setTitle(config.name)
             .setThumbnail('https://media.discordapp.net/attachments/879845851416121365/879846987317510255/zumito-cool.png?width=459&height=572')
             .addFields(
                 {
-                    name: framework.translations.get('command.botinfo.information', guildSettings.lang), 
+                    name: EmojiFallback.getEmoji(client, '973803505783570522', 'ℹ') + ' ' + framework.translations.get('command.botinfo.information', guildSettings.lang), 
                     value: information.join('\n'),
                     inline: true
                 }, {
-                    name: framework.translations.get('command.botinfo.ram', guildSettings.lang),
+                    name: EmojiFallback.getEmoji(client, '973805615895961610', '♻') + ' ' + framework.translations.get('command.botinfo.ram', guildSettings.lang),
                     value: ram.join('\n'),
                     inline: true
                 }, {
-                    name: framework.translations.get('command.botinfo.cpu', guildSettings.lang),
+                    name: EmojiFallback.getEmoji(client, '973807859416596500', '©') + ' ' + framework.translations.get('command.botinfo.cpu', guildSettings.lang),
                     value: cpu.join('\n'),
                     inline: true
                 }, {
-                    name: framework.translations.get('command.botinfo.others', guildSettings.lang),
+                    name: EmojiFallback.getEmoji(client, '', ':diamonds:') + ' ' + framework.translations.get('command.botinfo.others', guildSettings.lang),
                     value: others.join('\n')
                 }
             )
