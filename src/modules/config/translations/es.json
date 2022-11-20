@@ -1,0 +1,20 @@
+{
+    "command": {
+        "lang": {
+            "description": "Obtener o editar el idioma del servidor actual",
+            "arguments": {
+                "lang": {
+                    "name": "Idioma",
+                    "description": "La lengua que se debe fijar"
+                }
+            },
+            "language": "Idioma",
+            "current": "Mi idioma en este servidor es: `{lang}`",
+            "drop": "Despliegue el menú y seleccione su idioma preferido.",
+            "select": "Seleccione el idioma",
+            "invalid": "Idioma no válido: `{lang}`",
+            "valid": "Los idiomas disponibles son: ```{langs}```",
+            "changed": "El idioma se ha cambiado a: `{lang}`"
+        }
+    }
+}
