@@ -1,4 +1,4 @@
-import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters } from "zumito-framework";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback } from "zumito-framework";
 import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
 import { config } from "../../../config.js";
 import { emojis } from "../../../emojis.js";
@@ -13,7 +13,7 @@ export class Lang extends Command {
         type: 'string',
         optional: true,
     }];
-    botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS'];
+    botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS', 'ATTACH_FILES'];
     type = CommandType.any;
 
     async execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): Promise<void> {
@@ -23,7 +23,7 @@ export class Lang extends Command {
                 guildSettings.lang = lang;
                 await guildSettings.save().catch((e: any) => console.error(e)).then((a: any) => console.log(a));
                 (message || interaction!)?.reply({
-                    content: framework.translations.get('command.lang.changed', lang, { lang }), 
+                    content: EmojiFallback.getEmoji(client, '879047636194316300', '♻') + ' ' + framework.translations.get('command.lang.changed', lang, { lang }), 
                     allowedMentions: { 
                             repliedUser: false 
                         }
