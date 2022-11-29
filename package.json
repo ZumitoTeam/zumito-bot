@@ -52,7 +52,7 @@
     "module-alias": "^2.2.2",
     "moment": "^2.29.2",
     "mongodb": "^4.1.0",
-    "mongoose": "^6.3.0",
+    "mongoose": "^6.7.2",
     "new-github-issue-url": "^1.0.0",
     "node-fetch": "^2.6.1",
     "node-localstorage": "^2.2.1",
