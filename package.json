@@ -60,7 +60,7 @@
     "remote-file-size": "^3.0.5",
     "utf-8-validate": "^5.0.5",
     "uuid": "^8.3.2",
-    "zumito-framework": "^1.1.37"
+    "zumito-framework": "^1.1.45"
   },
   "devDependencies": {
     "@jsdevtools/version-bump-prompt": "^6.1.0",

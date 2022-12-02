@@ -52,6 +52,12 @@
             "pong": "Pong!",
             "emoji": "🏓",
             "ws": "WS:"
+        },
+        "serverbanner": {
+            "description": "Display the server banner",
+            "title": "Background banner of {server}",
+            "full": "**Full image**",
+            "click": "Click here"
         }
     },
     "commands": {
