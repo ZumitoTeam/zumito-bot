@@ -55,6 +55,9 @@
         },
         "ping": {
             "description": "Muestra mi lactencia."
-        }
+        },
+       "serverinfo": {
+            "description": "Muestra información detallada del servidor"
+       }
     }
 }
