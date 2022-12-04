@@ -1,7 +1,7 @@
-import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback  } from "zumito-framework";
-import { EmbedBuilder } from "discord.js";
+import { ChannelType, EmbedBuilder } from "discord.js";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, TextFormatter } from "zumito-framework";
+
 import { config } from "../../../config.js";
-import { type } from "os";
 
 export class Serverinfo extends Command {
 
@@ -11,66 +11,68 @@ export class Serverinfo extends Command {
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
 
-    execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
+    execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): void {
 
+        let guildOwner = client.users.cache.get(message?.guild?.ownerId || interaction!.guild!.ownerId)!;
+        let serverCreationDate = message?.guild?.createdAt || interaction!.guild!.createdAt;
         let description = [
-            "**" + framework.translations.get('command.serverinfo.no.description', guildSettings.lang) + "**\n",
-            framework.translations.get('command.serverinfo.id', guildSettings.lang, {
-                id: "55454477489"
+            "**" + trans('no.description', guildSettings.lang) + "**\n",
+            trans('id', {
+                id: message?.guild?.id || interaction?.guild?.id
             }),
-            framework.translations.get('command.serverinfo.owner', guildSettings.lang, {
-                owner: "Fernandomema#4875"
+            trans('owner', {
+                owner: guildOwner.tag
             }),
-            framework.translations.get('command.serverinfo.created', guildSettings.lang, {
-                created: "16/12/2017 (hace 1 año)"
+            trans('created', {
+                created: TextFormatter.getTimestampFromDate(serverCreationDate, 'd') + ` (${TextFormatter.getTimestampFromDate(serverCreationDate, 'R')})`
             }),
-            framework.translations.get('command.serverinfo.language', guildSettings.lang, {
-                language: "Español"
+            trans('language', {
+                language: guildSettings.lang
             })
         ];
 
         let stats = [
-            framework.translations.get('command.serverinfo.members', guildSettings.lang, {
-                members: "1545"
+            trans('members', {
+                members: message?.guild?.memberCount || interaction?.guild?.memberCount
             }),
-            framework.translations.get('command.serverinfo.upgrades', guildSettings.lang, {
-                upgrades: "2"
+            trans('upgrades', {
+                upgrades: message?.guild?.premiumSubscriptionCount || interaction?.guild?.premiumSubscriptionCount
             }),
-            framework.translations.get('command.serverinfo.roles', guildSettings.lang, {
-                roles: "58"
+            trans('roles', {
+                roles: message?.guild?.roles.cache.size || interaction?.guild?.roles.cache.size
             })
         ];
 
         let channels = [
-            framework.translations.get('command.serverinfo.total', guildSettings.lang, {
-                total: "58"
+            trans('total', {
+                total: message?.guild?.channels.cache.size || interaction?.guild?.channels.cache.size
             }),
-            framework.translations.get('command.serverinfo.announcements', guildSettings.lang, {
-                announcements: "58"
+            trans('announcements', {
+                announcements: (message?.guild?.channels.cache || interaction!.guild!.channels.cache).filter(channel => channel.type === ChannelType.GuildAnnouncement).size
             }),
-            framework.translations.get('command.serverinfo.station', guildSettings.lang, {
-                station: "58"
+            trans('station', {
+                station: (message?.guild?.channels.cache || interaction!.guild!.channels.cache).filter(channel => channel.type === ChannelType.GuildStageVoice).size
             }),
-            framework.translations.get('command.serverinfo.threads', guildSettings.lang, {
-                threads: "58"
+            trans('threads', {
+                threads: (message?.guild?.channels.cache || interaction!.guild!.channels.cache).filter(channel => channel.type === ChannelType.PublicThread || channel.type === ChannelType.PrivateThread).size
             }),
-            framework.translations.get('command.serverinfo.forum', guildSettings.lang, {
-                forum: "58"
+            // trans('forum', {
+            //     forum: (message?.guild?.channels.cache || interaction!.guild!.channels.cache).filter(channel => channel.type == ChannelType.GuildForum).size
+            // }),
+            trans('text', {
+                text: (message?.guild?.channels.cache || interaction!.guild!.channels.cache).filter(channel => channel.type === ChannelType.GuildText).size
             }),
-            framework.translations.get('command.serverinfo.text', guildSettings.lang, {
-                text: "58"
+            trans('voice', {
+                voice: (message?.guild?.channels.cache || interaction!.guild!.channels.cache).filter(channel => channel.type === ChannelType.GuildVoice).size
             }),
-            framework.translations.get('command.serverinfo.voice', guildSettings.lang, {
-                voice: "58"
-            }),
-            framework.translations.get('command.serverinfo.category', guildSettings.lang, {
-                category: "58"
+            trans('category', {
+                category: (message?.guild?.channels.cache || interaction!.guild!.channels.cache).filter(channel => channel.type === ChannelType.GuildCategory).size
             })
         ]
         
         const embed = new EmbedBuilder()
-            .setTitle(EmojiFallback.getEmoji(client, '974087795616407583', '🔸') + ' ' + 'Zumito')
-            .setThumbnail('https://media.tenor.com/_G9MmgZ9aJkAAAAM/aqua-konosuba.gif')
+            .setTitle(EmojiFallback.getEmoji(client, '974087795616407583', '🔸') + ' ' +  (message?.guild?.name || interaction!.guild!.name))
+            .setThumbnail(message?.guild?.iconURL({ forceStatic: false }) || interaction?.guild?.iconURL({ forceStatic: false }) || '')
             .setDescription(description.join('\n'))
             .addFields(
                 {
@@ -79,8 +81,8 @@ export class Serverinfo extends Command {
                     inline: true
                 }, {
                     name: EmojiFallback.getEmoji(client, '975583443113095168', '📕') + ' ' + framework.translations.get('command.serverinfo.details', guildSettings.lang), 
-                    value: framework.translations.get('command.serverinfo.verification', guildSettings.lang, {
-                        verification: "58"
+                    value: trans('verification', {
+                        verification: message?.guild?.verificationLevel || interaction?.guild?.verificationLevel
                     }), 
                     inline: true 
                 }, {
@@ -89,7 +91,7 @@ export class Serverinfo extends Command {
                 }
             )
             .setFooter({
-                text: framework.translations.get('global.requested', guildSettings.lang, {
+                text: trans('$global.requested', {
                     user: message?.author.tag || interaction?.user.tag
                 }),
                 iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
