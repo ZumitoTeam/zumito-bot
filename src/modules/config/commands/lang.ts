@@ -1,5 +1,6 @@
-import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback } from "zumito-framework";
 import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ZumitoFramework } from "zumito-framework";
+
 import { config } from "../../../config.js";
 import { emojis } from "../../../emojis.js";
 import { type } from "os";
@@ -7,12 +8,14 @@ import { type } from "os";
 export class Lang extends Command {
 
     categories = ['configuration'];
-    examples: string[] = ['es', 'en']; 
+    examples: string[] = ['es', 'en'];
+    aliases = ['language', 'setlang', 'setlanguage', 'set-lang', 'set-language']; 
     args: CommandArgDefinition[] = [{
         name: 'lang',
         type: 'string',
         optional: true,
     }];
+    adminOnly = true;
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS', 'ATTACH_FILES'];
     type = CommandType.any;
 
@@ -21,12 +24,12 @@ export class Lang extends Command {
             const lang = args.get('lang')?.toLowerCase();
             if (lang === 'es' || lang === 'en') {
                 guildSettings.lang = lang;
-                await guildSettings.save().catch((e: any) => console.error(e)).then((a: any) => console.log(a));
+                await guildSettings.save();
                 (message || interaction!)?.reply({
                     content: EmojiFallback.getEmoji(client, '879047636194316300', '♻') + ' ' + framework.translations.get('command.lang.changed', lang, { lang }), 
                     allowedMentions: { 
-                            repliedUser: false 
-                        }
+                        repliedUser: false 
+                    }
                 });
             } else {
                 let description = [
@@ -37,18 +40,22 @@ export class Lang extends Command {
                         langs: ['en', 'es'].join(', ') 
                     }),
                     framework.translations.get('command.lang.drop', guildSettings.lang)
-                    
                 ];
 
-                const invali = new EmbedBuilder()
-
-                .setTitle(framework.translations.get('command.lang.language', guildSettings.lang))
-                .setThumbnail('https://images-ext-2.discordapp.net/external/kPORDs0-YzHMbuef3WOcTuC-hRRy4noiukIFdUgqwPs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/878950861122985996/d05ce5c0de25fd9afb4f5492f31f21fe.webp?width=609&height=609')
-                .setDescription(description.join('\n\n'))
-                .setColor(config.embeds.color);
+                const invalidEmbed = new EmbedBuilder()
+                    .setTitle(framework.translations.get('command.lang.language', guildSettings.lang))
+                    .setThumbnail('https://images-ext-2.discordapp.net/external/kPORDs0-YzHMbuef3WOcTuC-hRRy4noiukIFdUgqwPs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/878950861122985996/d05ce5c0de25fd9afb4f5492f31f21fe.webp?width=609&height=609')
+                    .setDescription(description.join('\n\n'))
+                    .setColor(config.embeds.color);
+                
+                const row: any = new ActionRowBuilder()
+                    .addComponents(
+                        this.getLanguageSelectMenu(framework, guildSettings.lang)
+                    );
 
                 (message || interaction!)?.reply({
-                    embeds: [invali] ,
+                    embeds: [invalidEmbed],
+                    components: [row],
                     allowedMentions: { 
                         repliedUser: false 
                     }
@@ -68,25 +75,9 @@ export class Lang extends Command {
                 .setColor(config.embeds.color);
 
             const row: any = new ActionRowBuilder()
-                 .addComponents(
-                    new SelectMenuBuilder()
-                        .setCustomId('select')
-                        .setPlaceholder(framework.translations.get('command.lang.select', guildSettings.lang))
-                        .addOptions(
-                            {
-                                label: 'English',
-                                description: "Set your language to English",
-                                emoji: '🇺🇸',
-                                value: 'en'
-                            },
-                            {
-                                label: 'Español',
-                                description: "Establece tu idioma a Español",
-                                emoji: '🇪🇸',
-                                value: 'es'
-                            }
-                        )
-                 );
+                .addComponents(
+                    this.getLanguageSelectMenu(framework, guildSettings.lang)
+                );
 
             (message || interaction!)?.reply({
                 embeds:[embed],
@@ -97,8 +88,38 @@ export class Lang extends Command {
             });
         }
     }
+    
+    getLanguageSelectMenu(framework: ZumitoFramework, guildSettings: any): SelectMenuBuilder {
+        return new SelectMenuBuilder()
+            .setCustomId('lang.select')
+            .setPlaceholder(framework.translations.get('command.lang.select', guildSettings.lang))
+            .addOptions(
+                {
+                    label: 'English',
+                    description: "Set your language to English",
+                    emoji: '🇺🇸',
+                    value: 'en'
+                },
+                {
+                    label: 'Español',
+                    description: "Establece tu idioma a Español",
+                    emoji: '🇪🇸',
+                    value: 'es'
+                }
+            );
+    }
 
-    selectMenu({ path, interaction, client, framework }: SelectMenuParameters): void {
-
+    async selectMenu({ path, interaction, client, framework, guildSettings }: SelectMenuParameters): Promise<void> {
+        if (path[1] === 'select') {
+            const lang = interaction.values[0];
+            guildSettings.lang = lang;
+            await guildSettings.save();
+            interaction.reply({
+                content: EmojiFallback.getEmoji(client, '879047636194316300', '♻') + ' ' + framework.translations.get('command.lang.changed', lang, { lang }), 
+                allowedMentions: { 
+                    repliedUser: false 
+                }
+            });
+        }
     }
 }
