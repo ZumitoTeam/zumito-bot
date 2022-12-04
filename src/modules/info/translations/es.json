@@ -44,30 +44,6 @@
              "pong": "Pong!",
              "emoji": "🏓",
              "ws": "WS"
-        },
-            "serverinfo": {
-                "description": "Displays detailed server information",
-                "no": {
-                    "description": "Sin descripción"
-                },
-                "owner": "Dueño: **{owner}**",
-                "created": "Creado el: **{created}**",
-                "language": "Idioma: **{language}**",
-                "stats": "Estadísticas",
-                "members": "Miembros: **{members}**",
-                "upgrades": "Mejoras: **{upgrades}**",
-                "roles": "Roles: **{roles}**",
-                "details": "Detalles",
-                "verification": "Verificación: **{verification}**",
-                "channels": "Canales",
-                "total": "Total: **{total}**",
-                "announcements": "Anuncios: **{announcements}**",
-                "station": "Estación: **{station}**",
-                "threads": "Hilos: **{threads}**",
-                "forum": "Foro: **{forum}**",
-                "text": "Texto: **{text}**",
-                "voice": "Voz: **{voice}**",
-                "category": "Categoría: **{category}**"
         }
     },
     "commands": {
