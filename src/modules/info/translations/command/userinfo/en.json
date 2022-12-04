@@ -1,0 +1,21 @@
+{
+    "description": "Displays detailed information about a user",
+    "title": "User information",
+    "user": "**User:** {name}",
+    "nickname": "**Nickname:** {nick}",
+    "id": "**ID:** {id}",
+    "color": "**Color:** {color}",
+    "playing": "**Playing:** {playing}",
+    "creation": "**Account creation:**",
+    "login": "**Server login:**",
+    "roles": "**Roles:**",
+    "noNickname": "No nickname",
+    "noPlaying": "Not playing",
+    "noRoles": "No roles",
+    "arguments": {
+        "user": {
+            "name": "user",
+            "description": "The user to display information about"
+        }
+    }
+}

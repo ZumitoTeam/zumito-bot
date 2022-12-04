@@ -1,0 +1,21 @@
+{
+    "description": "Muestra informacion detallada de un usuario",
+    "title": "Informacón del usuario",
+    "user": "**Usuario:** {name}",
+    "nickname": "**Apodo:** {nick}",
+    "id": "**ID:** {id}",
+    "color": "**Color:** {color}",
+    "playing": "**Jugando:** {playing}",
+    "creation": "**Creación de la cuenta:**",
+    "login": "**Ingreso al servidor:**",
+    "roles": "**Roles:**",
+    "noNickname": "Sin apodo",
+    "noPlaying": "No esta jugando",
+    "noRoles": "Sin roles",
+    "arguments": {
+        "user": {
+            "name": "Usuario",
+            "description": "El usuario que quieres ver su información"
+        }
+    }
+}
