@@ -1,0 +1,16 @@
+{
+    "description": "Get or edit the language of the current server",
+    "arguments": {
+        "lang": {
+            "name": "language",
+            "description": "The language to set"
+        }
+    },
+    "language": "Language",
+    "current": "My language in this server is: `{lang}`",
+    "drop": "Drop down the menu and select your preferred language.",
+    "select": "Select language",
+    "invalid": "Invalid language: `{lang}`",
+    "valid": "The available languages are: ```{langs}```",
+    "changed": "Language changed to: `{lang}`"
+}
