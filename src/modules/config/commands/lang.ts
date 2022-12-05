@@ -19,31 +19,31 @@ export class Lang extends Command {
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS', 'ATTACH_FILES'];
     type = CommandType.any;
 
-    async execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): Promise<void> {
+    async execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): Promise<void> {
         if (args.has('lang')) {
             const lang = args.get('lang')?.toLowerCase();
             if (lang === 'es' || lang === 'en') {
                 guildSettings.lang = lang;
                 await guildSettings.save();
                 (message || interaction!)?.reply({
-                    content: EmojiFallback.getEmoji(client, '879047636194316300', '♻') + ' ' + framework.translations.get('command.lang.changed', lang, { lang }), 
+                    content: EmojiFallback.getEmoji(client, '879047636194316300', '♻') + ' ' + trans('changed', { lang: { lang }}), 
                     allowedMentions: { 
                         repliedUser: false 
                     }
                 });
             } else {
                 let description = [
-                    framework.translations.get('command.lang.invalid', guildSettings.lang, { 
+                    trans('invalid', { 
                         lang 
                     }),
-                    framework.translations.get('command.lang.valid', guildSettings.lang, { 
+                    trans('valid', { 
                         langs: ['en', 'es'].join(', ') 
                     }),
-                    framework.translations.get('command.lang.drop', guildSettings.lang)
+                    trans('drop')
                 ];
 
                 const invalidEmbed = new EmbedBuilder()
-                    .setTitle(framework.translations.get('command.lang.language', guildSettings.lang))
+                    .setTitle(trans('language'))
                     .setThumbnail('https://images-ext-2.discordapp.net/external/kPORDs0-YzHMbuef3WOcTuC-hRRy4noiukIFdUgqwPs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/878950861122985996/d05ce5c0de25fd9afb4f5492f31f21fe.webp?width=609&height=609')
                     .setDescription(description.join('\n\n'))
                     .setColor(config.embeds.color);
@@ -65,12 +65,12 @@ export class Lang extends Command {
 
             const embed = new EmbedBuilder()
 
-                .setTitle(framework.translations.get('command.lang.language', guildSettings.lang))
+                .setTitle(trans('language'))
                 .setThumbnail('https://images-ext-2.discordapp.net/external/kPORDs0-YzHMbuef3WOcTuC-hRRy4noiukIFdUgqwPs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/878950861122985996/d05ce5c0de25fd9afb4f5492f31f21fe.webp?width=609&height=609')
-                .setDescription(framework.translations.get('command.lang.current', guildSettings.lang, {
+                .setDescription(trans('current', {
                      lang: guildSettings.lang
                  }) + '\n\n' +
-                 framework.translations.get('command.lang.drop', guildSettings.lang)
+                 trans('drop')
                  )
                 .setColor(config.embeds.color);
 
