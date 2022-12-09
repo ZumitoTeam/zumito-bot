@@ -1,0 +1,15 @@
+{
+    "args": {
+        "command": {
+            "description": "Escriba o seleccione a un usuario para ver su avatar"
+        }
+    },
+    "title": "Avatar de {user}",
+    "description": "Muestra el avatar de un miembro del servidor.",
+    "error": "Error al obtener el usuario.",
+    "arguments": {
+        "user": {
+            "name": "miembro"
+        }
+    }
+}

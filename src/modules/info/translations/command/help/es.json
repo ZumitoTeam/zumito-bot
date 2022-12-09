@@ -1,0 +1,42 @@
+{
+    "arguments": {
+        "command": {
+            "name": "comando",
+            "description": "El comando para obtener ayuda"
+        }
+    },
+    "args": {
+        "command": {
+            "description": "Escribe o selecciona un comando para ver su informacion"
+        }
+    },
+    "noExamples": "No hay ejemplos",
+    "category": "Seleccione una categoría",
+    "description": "Muestra la lista de comandos disponibles o información sobre un comando específico.",
+    "title": "Menú de ayuda",
+    "greeting": {
+        "0": "Hola soy {name}",
+        "1": "Soy un bot multipropisito encargado de este servidor.",
+        "2": "¿Que esperas? Selecciona una categoria para divertirnos juntos."
+    },
+    "author": {
+        "command": "Comando"
+    },
+    "commands_of": "Comandos de {name}",
+    "commands": "Comandos",
+    "usage": "Uso",
+    "examples": "Ejemplos",
+    "aliases": "Aliases",
+    "permissions": {
+        "bot": "Permisos del bot",
+        "user": "Permisos del usuario"
+    },
+    "field": {
+        "detailed": "Ayuda detallada sobre un comando",
+        "support": "Para ayuda adicional, visita nuestro",
+        "support_server": "servidor de soporte"
+    },
+    "select": {
+        "command": "Selecciona un comando"
+    }
+}

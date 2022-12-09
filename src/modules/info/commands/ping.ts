@@ -1,6 +1,6 @@
 import { EmbedBuilder, GuildMember } from "discord.js";
 import { config } from "../../../config.js";
-import { Command, CommandArgDefinition, CommandParameters,  CommandType  } from "zumito-framework";
+import { Command, CommandArgDefinition, CommandParameters,  CommandType, EmojiFallback } from "zumito-framework";
 import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
 import { type } from "os";
 
@@ -12,9 +12,9 @@ export class Ping extends Command {
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
 
-    execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
+    execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): void {
         (message || interaction!)?.reply({
-            content: framework.translations.get('command.ping.emoji', guildSettings.lang) + ' ' + framework.translations.get('command.ping.pong', guildSettings.lang) + ' ' + `\`\`${Date.now() - (message||interaction!)?.createdTimestamp}ms\`\`` + ' | ' + framework.translations.get('command.ping.ws', guildSettings.lang) + ' ' + `\`\`${client.ws.ping}ms\`\``, 
+            content: EmojiFallback.getEmoji(client, '', '🏓') + ' ' + trans('pong') + ' ' + `\`\`${Date.now() - (message||interaction!)?.createdTimestamp}ms\`\`` + ' | ' + trans('ws') + ' ' + `\`\`${client.ws.ping}ms\`\``, 
             allowedMentions: { 
                 repliedUser: false 
             }

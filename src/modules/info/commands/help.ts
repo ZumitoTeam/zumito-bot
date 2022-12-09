@@ -1,4 +1,4 @@
-import { Command, CommandParameters, ZumitoFramework, CommandType } from "zumito-framework";
+import { Command, CommandParameters, ZumitoFramework, CommandType, EmojiFallback } from "zumito-framework";
 import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
 import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
 import { config } from "../../../config.js";
@@ -87,7 +87,7 @@ export class Help extends Command {
 			for(let i = 0; i < commands.length; i++) {
 				if(i % 4 == 0) {
 					categoryEmbed.addFields([{
-                        name: emojis.book + ' ' + framework.translations.get('command.help.commands', guildSettings.lang), 
+                        name: EmojiFallback.getEmoji(client, '975583443113095168', '📕') + ' ' + framework.translations.get('command.help.commands', guildSettings.lang), 
                         value: '```'+(commands[i]?.name || '')+'       '+(commands[i+1]?.name || '')+'       '+(commands[i+2]?.name || '')+'       '+(commands[i+3]?.name || '')+'```'
                     }])
 

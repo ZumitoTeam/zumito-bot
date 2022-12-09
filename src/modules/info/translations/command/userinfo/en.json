@@ -1,4 +1,9 @@
 {
+    "args": {
+        "user": {
+            "description": "Type or select a user to see their information"
+        }
+    },
     "description": "Displays detailed information about a user",
     "title": "User information",
     "user": "**User:** {name}",

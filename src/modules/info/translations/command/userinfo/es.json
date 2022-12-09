@@ -1,4 +1,9 @@
 {
+    "args": {
+        "user": {
+            "description": "Escriba o seleccione a un usuario para ver su información"
+        }
+    },
     "description": "Muestra informacion detallada de un usuario",
     "title": "Informacón del usuario",
     "user": "**Usuario:** {name}",

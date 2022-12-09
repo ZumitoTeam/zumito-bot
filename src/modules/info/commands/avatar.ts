@@ -7,7 +7,7 @@ import { type } from "os";
 export class Avatar extends Command {
 
     categories = ['information'];
-    examples: string[] = ['', "@zumito"]; 
+    examples: string[] = ['', "<@878950861122985996>"]; 
     args: CommandArgDefinition[] = [{
         name: "user",
         type: "member",
@@ -17,11 +17,11 @@ export class Avatar extends Command {
     type = CommandType.any;
     
 
-    execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
+    execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): void {
         let member: GuildMember = args.get('user') || (message||interaction!).member;
         if (!member) {
             (message||interaction!)?.reply({
-                content: framework.translations.get('command.avatar.error', guildSettings.lang), 
+                content: trans('error'), 
                 allowedMentions: { 
                     repliedUser: false 
                 }
@@ -29,7 +29,7 @@ export class Avatar extends Command {
             return;
         }
         let embed = new EmbedBuilder()
-            .setTitle( framework.translations.get('command.avatar.title', guildSettings.lang, {
+            .setTitle( trans('title', {
                 user: member.user.tag
             }))
             .setDescription(`[Avatar URL](${member.user.displayAvatarURL({forceStatic: false, size: 4096 })})`)
@@ -38,7 +38,7 @@ export class Avatar extends Command {
                 size: 4096 
             }))
             .setFooter({
-                text: framework.translations.get('global.requested', guildSettings.lang, {
+                text:  trans('$global.requested', {
                     user: message?.author.tag || interaction?.user.tag
                 }),
                 iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
