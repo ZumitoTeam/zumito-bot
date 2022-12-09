@@ -14,7 +14,7 @@ export class Ping extends Command {
 
     execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): void {
         (message || interaction!)?.reply({
-            content: EmojiFallback.getEmoji(client, '', '🏓') + ' ' + trans('pong') + ' ' + `\`\`${Date.now() - (message||interaction!)?.createdTimestamp}ms\`\`` + ' | ' + trans('ws') + ' ' + `\`\`${client.ws.ping}ms\`\``, 
+            content: '🏓' + ' ' + trans('pong') + ' ' + `\`\`${Date.now() - (message||interaction!)?.createdTimestamp}ms\`\`` + ' | ' + trans('ws') + ' ' + `\`\`${client.ws.ping}ms\`\``, 
             allowedMentions: { 
                 repliedUser: false 
             }

@@ -7,7 +7,7 @@ import { type } from "os";
 export class Avatar extends Command {
 
     categories = ['information'];
-    examples: string[] = ['', "<@878950861122985996>"]; 
+    examples: string[] = ['', "[member]"]; 
     args: CommandArgDefinition[] = [{
         name: "user",
         type: "member",
