@@ -3,6 +3,8 @@
  <a href="https://zumito.ga">Website</a> 
  •
  <a href="https://discord.gg/EwEhgKCmSy">Discord server</a> 
+ •
+ <a href="https://zumito-documentation.vercel.app/">Documentation (WIP)</a> 
 </div>
  
 # Zumito 🧃
@@ -22,6 +24,12 @@ Multipurpose discord bot
     + [Submiting ideas](#submiting-ideas)
     + [Translating](#translating)
     + [Coding](#coding)
+  * [Workflow](#workflow)
+    + [New Command](#new-command)
+    + [Arrival](#arrival)
+    + [Definition](#definition)
+    + [Task selection](#task-selection)
+    + [Development](#development-1)
 
 # Tech stack
 - [Node.js](https://nodejs.org/en/) - JavaScript runtime
@@ -30,6 +38,7 @@ Multipurpose discord bot
 - [MongoDB](https://www.mongodb.com/) - Database
 - [Mongoose](https://mongoosejs.com/) - MongoDB object modeling
 - [Zumito Framework](https://github.com/fernandomema/zumito-framework) - Zumito's self-made framework
+- [FFMPEG](https://ffmpeg.org/) - Audio processing for music commands
 # Development
 ## Project requeriments
 * Node.js (16.X or higher) and NPM
@@ -76,3 +85,20 @@ Just create a pull request with the new language file and we will review it.
 ### Coding
 If you can code you can do almost everithing you want, just sumbit a pull request and we will review as fast as we can.
 If you want to contribute coding but you don't know what, you can check the [projects tab](https://github.com/fernandomema/Zumito/projects). There is a lot of things to implement or fix. Feel free to open te task issue, assign to you and/or [ask for more details](https://github.com/fernandomema/Zumito/discussions/new) on that task.
+
+
+# Workflow
+There is a little summary of how we work.
+
+## New command
+### Arrival
+First, a command comes from an issue or a project task. If the description does not come with an example output (embeds, designs, etc), the task will be moved to "`pendind definition`" status on our project board. 
+
+### Definition
+Durint this stage, we will recolect the needed info for start developing the command (embeds design/structure, required assets, etc) and define the posible inputs and outputs of that command. and then the task will be moved to "`backlog status`"
+
+### Task selection
+Each time we complete the tasks unde the "`current iteration`" status, we select the following tasks that we will work on. It is similar to an agile sprint, but since we work as a hobby there is no ETA for each sprint/iteration.
+
+### Development
+Each time we start working on a command, We assign ourselves to the issue and a bot will automatically create a branch for that issue. We work on it until development is done. Then we will create an `pull request` using the `new_command.md` template, filling the use case test with all posible inputs and outputs to verify all of them are working properly. Finally before merge it into main branch at least one member of the repo will review and approve the request to ensure the pull request will not break the bot.
