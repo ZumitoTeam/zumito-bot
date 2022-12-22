@@ -1,0 +1,6 @@
+{
+    "description": "Displays a user's banner",
+    "title": "Banner of {name}",
+    "full": "**Full image**",
+    "click": "Click here"
+}
