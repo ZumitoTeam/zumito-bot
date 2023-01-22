@@ -1,0 +1,25 @@
+{
+    "description": "Displays detailed server information",
+    "no": {
+        "description": "No description"
+    },
+    "id": "ID: **{id}**",
+    "owner": "Owner: **{owner}**",
+    "created": "Created on: **{created}**",
+    "language": "Language: **{language}**",
+    "stats": "Stats",
+    "members": "Members: **{members}**",
+    "upgrades": "Upgrades: **{upgrades}**",
+    "roles": "Roles: **{roles}**",
+    "details": "Details",
+    "verification": "Verification: **{verification}**",
+    "channels": "Channels",
+    "total": "Total: **{total}**",
+    "announcements": "Announcements: **{announcements}**",
+    "station": "Station: **{station}**",
+    "threads": "Threads: **{threads}**",
+    "forum": "Forum: **{forum}**",
+    "text": "Text: **{text}**",
+    "voice": "Voice: **{voice}**",
+    "category": "Category: **{category}**"
+}
