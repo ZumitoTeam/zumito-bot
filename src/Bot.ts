@@ -1,4 +1,4 @@
-import { ZumitoFramework } from 'zumito-framework';
+import { DatabaseConfigLoader, ZumitoFramework } from 'zumito-framework';
 
 import dotenv from 'dotenv'
 dotenv.config()
@@ -8,8 +8,8 @@ if (!process.env.TOKEN) {
     throw new Error("Discord Token not found");
 } else if (!process.env.CLIENT_ID) {
     throw new Error("Discord Client ID not found");
-} else if (!process.env.MONGOURI) {
-    throw new Error("Mongo URI not found");
+} else if (!process.env.DATABASE_TYPE) {
+    throw new Error("No database type specified in .env file");
 } 
 new ZumitoFramework({
     discordClientOptions: {
@@ -18,7 +18,7 @@ new ZumitoFramework({
         clientId: process.env.CLIENT_ID!,
     },
     defaultPrefix: process.env.BOTPREFIX || "z-",
-    mongoQueryString: process.env.MONGOURI!,
+    database: DatabaseConfigLoader.getFromEnv(),
     logLevel: parseInt(process.env.LOGLEVEL || "3"),
 }, (bot: ZumitoFramework) => {
     // Log number of commands loaded
@@ -30,5 +30,5 @@ new ZumitoFramework({
     // Log number of translations loaded
     console.log(`Loaded ${bot.translations.getAll().size} translations`);
     // Log number of models loaded
-    console.log(`Loaded ${bot.models.size} models`);
+    console.log(`Loaded ${Object.keys(bot.database.models).length} models`);
 })
