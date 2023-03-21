@@ -105,3 +105,6 @@ dist
 
 cache
 cache/
+
+# canario/caminte local db
+db/
