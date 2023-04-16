@@ -1,8 +1,6 @@
 import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ZumitoFramework } from "zumito-framework";
-
-import { config } from "../../../config.js";
-import { emojis } from "../../../emojis.js";
+import { config } from "../../../config/index.js";
 import { type } from "os";
 
 export class Lang extends Command {
@@ -46,7 +44,7 @@ export class Lang extends Command {
                     .setTitle(trans('language'))
                     .setThumbnail('https://images-ext-2.discordapp.net/external/kPORDs0-YzHMbuef3WOcTuC-hRRy4noiukIFdUgqwPs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/878950861122985996/d05ce5c0de25fd9afb4f5492f31f21fe.webp?width=609&height=609')
                     .setDescription(description.join('\n\n'))
-                    .setColor(config.embeds.color);
+                    .setColor(config.globalConfig.embeds.color);
                 
                 const row: any = new ActionRowBuilder()
                     .addComponents(
@@ -72,7 +70,7 @@ export class Lang extends Command {
                  }) + '\n\n' +
                  trans('drop')
                  )
-                .setColor(config.embeds.color);
+                .setColor(config.globalConfig.embeds.color);
 
             const row: any = new ActionRowBuilder()
                 .addComponents(

@@ -1,13 +1,12 @@
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, TextFormatter } from "zumito-framework";
 import { EmbedBuilder, GuildMember } from "discord.js";
-
-import { config } from "../../../config.js";
+import { config } from "../../../config/index.js";
 import { type } from "os";
 
 export class Userinfo extends Command {
 
     categories = ['information'];
-    examples: string[] = ['', '<@878950861122985996>']; 
+    examples: string[] = ['', '@Zumito']; 
     args: CommandArgDefinition[] = [{
         name: 'user',
         type: 'user',
@@ -77,7 +76,7 @@ export class Userinfo extends Command {
                     }),
                 iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
             })
-            .setColor(config.embeds.color);
+            .setColor(config.globalConfig.embeds.color);
 
         (message || interaction!)?.reply({
             embeds: [embed],

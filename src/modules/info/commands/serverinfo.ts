@@ -1,7 +1,7 @@
 import { ChannelType, EmbedBuilder } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, TextFormatter } from "zumito-framework";
-
-import { config } from "../../../config.js";
+import { config } from "../../../config/index.js";
+import { type } from "os";
 
 export class Serverinfo extends Command {
 
@@ -96,7 +96,7 @@ export class Serverinfo extends Command {
                 }),
                 iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
             })
-            .setColor(config.embeds.color);
+            .setColor(config.globalConfig.embeds.color);
 
 
         (message || interaction!)?.reply({
