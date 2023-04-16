@@ -38,7 +38,7 @@ export class Help extends Command {
             const row: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
 
             let text0 = framework.translations.get('command.help.greeting.0', guildSettings.lang, { 
-                name: config.globalConfig.name
+                name: config.global.name
             });
             let text1 = framework.translations.get('command.help.greeting.1', guildSettings.lang);
             let text2 = framework.translations.get('command.help.greeting.2', guildSettings.lang);
@@ -50,7 +50,7 @@ export class Help extends Command {
                     text1 + "\n" + 
                     text2 + "\n"
                 )
-                .setColor(config.globalConfig.embeds.color);
+                .setColor(config.global.embeds.color);
                 
 
             if (client && client.user) {
@@ -73,14 +73,14 @@ export class Help extends Command {
 			let categoryEmbed = new EmbedBuilder()
 				.setAuthor({ 
                     name: framework.translations.get('command.help.commands_of', guildSettings.lang, { 
-                        name: config.globalConfig.name
+                        name: config.global.name
                     }), 
                     iconURL: client!.user!.displayAvatarURL() 
                 })
                 
 				.addFields([{
                     name: category, 
-                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + '`' + this.getPrefix(guildSettings) + 'help [command]' + '`' + '\n' + framework.translations.get('command.help.field.support', guildSettings.lang) + ' [' + framework.translations.get('command.help.field.support_server', guildSettings.lang) + '](' + config.globalConfig.supportServerURL + ')',
+                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + '`' + this.getPrefix(guildSettings) + 'help [command]' + '`' + '\n' + framework.translations.get('command.help.field.support', guildSettings.lang) + ' [' + framework.translations.get('command.help.field.support_server', guildSettings.lang) + '](' + config.global.supportServerURL + ')',
                 }]);
 			let commands: Command[] = Array.from(framework.commands.values()).filter((c: Command) => c.categories.includes(category));
 			for(let i = 0; i < commands.length; i++) {
@@ -90,7 +90,7 @@ export class Help extends Command {
                         value: '```'+(commands[i]?.name || '')+'       '+(commands[i+1]?.name || '')+'       '+(commands[i+2]?.name || '')+'       '+(commands[i+3]?.name || '')+'```'
                     }])
 
-                .setColor(config.globalConfig.embeds.color);
+                .setColor(config.global.embeds.color);
 				}
 			};
             const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings, category));
@@ -214,7 +214,7 @@ export class Help extends Command {
             value: (command?.userPermissions || []).map(p => framework.translations.get(`global.permissions.${p}`)).join('\n') || framework.translations.get('global.none', guildSettings.lang),
             inline: true
         }])
-        .setColor(config.globalConfig.embeds.color)
+        .setColor(config.global.embeds.color)
     }
 
     getPrefix(guildSettings: any, framework?: ZumitoFramework): string {
