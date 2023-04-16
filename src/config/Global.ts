@@ -1,4 +1,4 @@
-export const globalConfig: any = {
+export const global: any = {
     name: 'Zumito Team Bot',
     supportServerURL: "https://zumito.ga/server",
     embeds: {
