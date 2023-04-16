@@ -1,6 +1,6 @@
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback } from "zumito-framework";
 import { EmbedBuilder } from "discord.js";
-import { config } from "../../../config.js";
+import { config } from "../../../config/index.js";
 import { cpus, totalmem, arch } from "os";
 
 export class Botinfo extends Command {
@@ -64,7 +64,7 @@ export class Botinfo extends Command {
 
         const embed = new EmbedBuilder()
 
-            .setTitle(config.name)
+            .setTitle(config.global.name)
             .setThumbnail('https://media.discordapp.net/attachments/879845851416121365/879846987317510255/zumito-cool.png?width=459&height=572')
             .addFields(
                 {
@@ -90,7 +90,7 @@ export class Botinfo extends Command {
                 }),
                 iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
             })
-            .setColor(config.embeds.color);
+            .setColor(config.global.embeds.color);
     
         (message || interaction!)?.reply({
             embeds: [embed],
