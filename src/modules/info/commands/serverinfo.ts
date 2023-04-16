@@ -96,7 +96,7 @@ export class Serverinfo extends Command {
                 }),
                 iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
             })
-            .setColor(config.globalConfig.embeds.color);
+            .setColor(config.global.embeds.color);
 
 
         (message || interaction!)?.reply({
