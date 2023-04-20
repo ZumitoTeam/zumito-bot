@@ -1,7 +1,6 @@
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, TextFormatter } from "zumito-framework";
-import { EmbedBuilder, GuildMember } from "discord.js";
 import { config } from "../../../config/index.js";
-import { type } from "os";
+import { EmbedBuilder } from "zumito-framework/discord";
 
 export class Userinfo extends Command {
 
