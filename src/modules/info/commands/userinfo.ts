@@ -18,7 +18,7 @@ export class Userinfo extends Command {
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
 
         let user = args.get('user') || (message||(interaction!)).member!.user;
-        let member: GuildMember = (message||(interaction!)).guild?.members.cache.get(user.id) as GuildMember;
+        let member: any = (message||(interaction!)).guild?.members.cache.get(user.id);
 
         let userCreateDate = user.createdAt;
         let userGuildJoinDate = member.joinedAt as Date;
