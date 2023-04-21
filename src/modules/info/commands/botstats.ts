@@ -3,11 +3,11 @@ import { EmbedBuilder } from "discord.js";
 import { config } from "../../../config/index.js";
 import { cpus, totalmem, arch } from "os";
 
-export class Botinfo extends Command {
+export class Botstats extends Command {
 
     categories = ['information'];
-    examples: string[] = ['']; 
-    aliases = ["botstatus"]; 
+    examples: string[] = []; 
+    aliases = ["botstat", "botinfo"]; 
     args: CommandArgDefinition[] = [];
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
@@ -15,49 +15,49 @@ export class Botinfo extends Command {
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
 
         let information = [
-            framework.translations.get('command.botinfo.guilds', guildSettings.lang, {
+            framework.translations.get('command.botstats.guilds', guildSettings.lang, {
                 guilds: client.guilds.cache.size
             }),
-            framework.translations.get('command.botinfo.users', guildSettings.lang, {
+            framework.translations.get('command.botstats.users', guildSettings.lang, {
                 users: client.users.cache.size
             }),
-            framework.translations.get('command.botinfo.channels', guildSettings.lang, {
+            framework.translations.get('command.botstats.channels', guildSettings.lang, {
                 channels: client.channels.cache.size
             })
         ];
 
         let ram = [
-            framework.translations.get('command.botinfo.used', guildSettings.lang, {
+            framework.translations.get('command.botstats.used', guildSettings.lang, {
                 used: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + ' MB'
             }),
-            framework.translations.get('command.botinfo.available', guildSettings.lang, {
+            framework.translations.get('command.botstats.available', guildSettings.lang, {
                 available: (totalmem() / 1024 / 1024 / 1024).toFixed(2) + ' GB'
             }),
-            framework.translations.get('command.botinfo.usage', guildSettings.lang, {
+            framework.translations.get('command.botstats.usage', guildSettings.lang, {
                 usage: ((process.memoryUsage().heapUsed / totalmem()) * 100).toFixed(1) + '%'
             })
         ];
 
         let cpu = [
-            framework.translations.get('command.botinfo.os', guildSettings.lang, {
+            framework.translations.get('command.botstats.os', guildSettings.lang, {
                 os: process.platform.replace(/win32/g, "Windows") + '[' + arch() + ']'
             }),
-            framework.translations.get('command.botinfo.use', guildSettings.lang, {
+            framework.translations.get('command.botstats.use', guildSettings.lang, {
                 use: (process.cpuUsage().user / 1024 / 1024).toFixed(2) + ' MB' 
             }),
-            framework.translations.get('command.botinfo.cores', guildSettings.lang, {
+            framework.translations.get('command.botstats.cores', guildSettings.lang, {
                 cores: cpus().length
             })
         ];
 
         let others = [
-            framework.translations.get('command.botinfo.ping', guildSettings.lang, {
+            framework.translations.get('command.botstats.ping', guildSettings.lang, {
                 ping: client.ws.ping + 'ms'
             }),
-            framework.translations.get('command.botinfo.node', guildSettings.lang, {
+            framework.translations.get('command.botstats.node', guildSettings.lang, {
                 node: process.version
             }),
-            framework.translations.get('command.botinfo.uptime', guildSettings.lang, {
+            framework.translations.get('command.botstats.uptime', guildSettings.lang, {
                 uptime: this.uptimeToDHMS(client.uptime!)
             })
         ];
@@ -68,19 +68,19 @@ export class Botinfo extends Command {
             .setThumbnail('https://media.discordapp.net/attachments/879845851416121365/879846987317510255/zumito-cool.png?width=459&height=572')
             .addFields(
                 {
-                    name: EmojiFallback.getEmoji(client, '973803505783570522', 'ℹ') + ' ' + framework.translations.get('command.botinfo.information', guildSettings.lang), 
+                    name: EmojiFallback.getEmoji(client, '973803505783570522', 'ℹ') + ' ' + framework.translations.get('command.botstats.information', guildSettings.lang), 
                     value: information.join('\n'),
                     inline: true
                 }, {
-                    name: EmojiFallback.getEmoji(client, '973805615895961610', '♻') + ' ' + framework.translations.get('command.botinfo.ram', guildSettings.lang),
+                    name: EmojiFallback.getEmoji(client, '973805615895961610', '♻') + ' ' + framework.translations.get('command.botstats.ram', guildSettings.lang),
                     value: ram.join('\n'),
                     inline: true
                 }, {
-                    name: EmojiFallback.getEmoji(client, '973807859416596500', '©') + ' ' + framework.translations.get('command.botinfo.cpu', guildSettings.lang),
+                    name: EmojiFallback.getEmoji(client, '973807859416596500', '©') + ' ' + framework.translations.get('command.botstats.cpu', guildSettings.lang),
                     value: cpu.join('\n'),
                     inline: true
                 }, {
-                    name: EmojiFallback.getEmoji(client, '', ':diamonds:') + ' ' + framework.translations.get('command.botinfo.others', guildSettings.lang),
+                    name: EmojiFallback.getEmoji(client, '', ':diamonds:') + ' ' + framework.translations.get('command.botstats.others', guildSettings.lang),
                     value: others.join('\n')
                 }
             )

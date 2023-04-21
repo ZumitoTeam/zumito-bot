@@ -2,9 +2,6 @@
     "command": {
     },
     "commands": {
-        "help": {
-            "description": "Muestra la lista de comandos disponibles o información sobre un comando específico."
-        },
         "avatar": {
             "description": "Muestra el avatar de un miembro del servidor."
         },
@@ -13,9 +10,6 @@
         },
         "serverinfo": {
             "description": "Muestra información detallada del servidor"
-        },
-        "botinfo": {
-            "description": "Ver el estado del bot"
         }
     }
 }

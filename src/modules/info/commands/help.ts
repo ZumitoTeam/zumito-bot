@@ -1,4 +1,4 @@
-import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
+import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, StringSelectMenuBuilder, StringSelectMenuInteraction } from "discord.js";
 import { Command, CommandParameters, ZumitoFramework, CommandType } from "zumito-framework";
 import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
 import { config } from "../../../config/index.js";
@@ -143,7 +143,7 @@ export class Help extends Command {
             }
             selectMenuOptions.push(selectMenuOption);
         }
-        return new SelectMenuBuilder()
+        return new StringSelectMenuBuilder()
             .setCustomId('help.category')
             .setPlaceholder(framework.translations.get('command.help.category', guildSettings.lang))
             .addOptions(selectMenuOptions);
@@ -163,7 +163,7 @@ export class Help extends Command {
             }
             selectMenuOptions.push(selectMenuOption);
         }
-        return new SelectMenuBuilder()
+        return new StringSelectMenuBuilder()
             .setCustomId('help.command')
             .setPlaceholder(framework.translations.get('command.help.select.command', guildSettings.lang))
             .addOptions(selectMenuOptions);

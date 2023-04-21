@@ -11,6 +11,11 @@
                 "name": "Information",
                 "description": "Information commands",
                 "emoji": "ℹ️"
+            },
+            "configuration": {
+                "name": "Configuration",
+                "description": "Configuration commands",
+                "emoji": "⚙️"
             }
         },
         "requested": "Requested by {user}",
