@@ -1,4 +1,9 @@
 {
+    "args": {
+        "command":{
+            "description": "Choose your preferred language"
+        }
+    },
     "description": "Get or edit the language of the current server",
     "arguments": {
         "lang": {

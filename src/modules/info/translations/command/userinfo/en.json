@@ -1,4 +1,9 @@
 {
+    "args": {
+        "command":{
+            "description": "Display information for a specific user"
+        }
+    },
     "description": "Displays detailed information about a user",
     "title": "User information",
     "user": "**User:** {name}",
