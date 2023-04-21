@@ -1,7 +1,7 @@
 {
     "args": {
-        "command":{
-            "description": "Muestra el avatar de un usuario específico"
+        "user":{
+            "user": "Muestra el avatar de un usuario específico"
         }
     },
     "title": "Avatar de {user}",

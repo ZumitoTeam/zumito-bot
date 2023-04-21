@@ -1,6 +1,6 @@
 {
     "args": {
-        "command":{
+        "user":{
             "description": "Mostrar información de un usuario especifico"
         }
     },

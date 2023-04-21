@@ -1,6 +1,6 @@
 {
     "args": {
-        "command":{
+        "lang":{
             "description": "Elija su idioma preferido"
         }
     },
