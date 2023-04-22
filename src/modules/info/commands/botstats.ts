@@ -3,10 +3,10 @@ import { EmbedBuilder } from "discord.js";
 import { config } from "../../../config/index.js";
 import { cpus, totalmem, arch } from "os";
 
-export class Botstats extends Command {
+export class BotStats extends Command {
 
     categories = ['information'];
-    examples: string[] = []; 
+    examples: string[] = ['']; 
     aliases = ["botstat", "botinfo"]; 
     args: CommandArgDefinition[] = [];
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'];
