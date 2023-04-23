@@ -1,4 +1,4 @@
-import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, SelectMenuBuilder, SelectMenuInteraction } from "discord.js";
+import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, StringSelectMenuBuilder, StringSelectMenuInteraction } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ZumitoFramework } from "zumito-framework";
 import { config } from "../../../config/index.js";
 import { type } from "os";
@@ -7,14 +7,14 @@ export class Lang extends Command {
 
     categories = ['configuration'];
     examples: string[] = ['es', 'en'];
-    aliases = ['language', 'setlang', 'setlanguage', 'set-lang', 'set-language']; 
+    aliases = ['setlang', 'setlanguage', 'set-lang', 'set-language']; 
     args: CommandArgDefinition[] = [{
         name: 'lang',
         type: 'string',
         optional: true,
     }];
     adminOnly = true;
-    botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS', 'ATTACH_FILES'];
+    botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
 
     async execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): Promise<void> {
@@ -87,8 +87,8 @@ export class Lang extends Command {
         }
     }
     
-    getLanguageSelectMenu(framework: ZumitoFramework, guildSettings: any): SelectMenuBuilder {
-        return new SelectMenuBuilder()
+    getLanguageSelectMenu(framework: ZumitoFramework, guildSettings: any): StringSelectMenuBuilder {
+        return new StringSelectMenuBuilder()
             .setCustomId('lang.select')
             .setPlaceholder(framework.translations.get('command.lang.select', guildSettings.lang))
             .addOptions(

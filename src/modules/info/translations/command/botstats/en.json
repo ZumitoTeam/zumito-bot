@@ -1,0 +1,19 @@
+{
+      "description": "Shows bot information",
+      "information": "Information",
+      "guilds": "**└ Guilds:** `{guilds}`",
+      "users": "**└ Users:** `{users}`",
+      "channels": "**└ Channels:** `{channels}`",
+      "ram": "Ram",
+      "used": "**└ Used:** `{used}`",
+      "available": "**└ Available:** `{available}`",
+      "usage": "**└ Usage:** `{usage}`",
+      "cpu": "CPU",
+      "os": "**└ OS:** `{os}`",
+      "use": "**└ Usage:** `{use}`",
+      "cores": "**└ Cores:** `{cores}`",
+      "others": "Others",
+      "ping": "**└ Ping:** `{ping}`",
+      "node": "**└ Node version:** `{node}`",
+      "uptime": "**└ Uptime:** `{uptime}`"
+}

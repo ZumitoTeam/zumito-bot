@@ -7,6 +7,11 @@
         "1": "Soy un bot multipropisito encargado de este servidor.",
         "2": "¿Que esperas? Selecciona una categoria para divertirnos juntos."
     },
+    "args": {
+        "command":{
+            "description": "Muestra la información de un comando específico"
+        }
+    },
     "author": {
         "command": "Comando"
     },

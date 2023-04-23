@@ -1,4 +1,9 @@
 {
+    "args": {
+        "lang":{
+            "description": "Elija su idioma preferido"
+        }
+    },
     "description": "Obtener o editar el idioma del servidor actual",
     "arguments": {
         "lang": {

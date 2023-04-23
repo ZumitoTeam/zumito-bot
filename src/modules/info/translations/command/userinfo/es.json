@@ -1,4 +1,9 @@
 {
+    "args": {
+        "user":{
+            "description": "Mostrar información de un usuario especifico"
+        }
+    },
     "description": "Muestra informacion detallada de un usuario",
     "title": "Informacón del usuario",
     "user": "**Usuario:** {name}",
@@ -15,7 +20,7 @@
     "arguments": {
         "user": {
             "name": "Usuario",
-            "description": "El usuario que quieres ver su información"
+            "description": "Mostrar información de un usuario especifico"
         }
     }
 }

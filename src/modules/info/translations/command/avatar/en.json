@@ -1,4 +1,9 @@
 {
+    "args": {
+        "user":{
+            "description": "Shows the avatar of a specific user"
+        }
+    },
     "title": "Avatar of {user}",
     "description": "Displays a server member's avatar.",
     "error": "Error while getting the user.",

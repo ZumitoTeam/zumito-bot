@@ -5,6 +5,11 @@
             "description": "The command to get help for"
         }
     },
+    "args": {
+        "command":{
+            "description": "Displays the information of a specific command"
+        }
+    },
     "noExamples": "No examples",
     "category": "Select a category",
     "title": "Help Menu",
