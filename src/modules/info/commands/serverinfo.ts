@@ -3,7 +3,7 @@ import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFal
 import { config } from "../../../config/index.js";
 import { type } from "os";
 
-export class Serverinfo extends Command {
+export class ServerInfo extends Command {
 
     categories = ['information'];
     examples: string[] = ['']; 
