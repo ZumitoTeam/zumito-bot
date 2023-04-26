@@ -1,12 +1,12 @@
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters  } from "zumito-framework";
 import { EmbedBuilder } from "discord.js";
-import { config } from "../../../config.js";
+import { config } from "../../../config/index.js";
 import { type } from "os";
 
-export class Userbanner extends Command {
+export class UserBanner extends Command {
 
     categories = ['information'];
-    examples: string[] = ['', '<@878950861122985996>']; 
+    examples: string[] = ['', '@Zumito']; 
     args: CommandArgDefinition[] = [{
         name: 'user',
         type: 'user',
@@ -18,7 +18,7 @@ export class Userbanner extends Command {
     async execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): Promise<void> {
 
         let user = args.get('user') || message?.author || interaction?.user;
-        console.log(user);
+
         let banner = user.bannerURL({ format: 'png', size: 4096, force: true });
         let embed;
         if (!banner) {
@@ -27,7 +27,7 @@ export class Userbanner extends Command {
         }
 
         if (banner) {
-            embed = new EmbedBuilder()
+            const embed = new EmbedBuilder()
                 .setTitle(trans('title', {
                     name: user.tag
                 }))
@@ -39,20 +39,32 @@ export class Userbanner extends Command {
                     }),
                     iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
                 })
-                .setColor(config.embeds.color);
+                .setColor(config.global.embeds.color);
+            (message || interaction!)?.reply({
+                embeds: [embed],
+                allowedMentions: { 
+                    repliedUser: false 
+                }
+            });
         } else {
-            embed = new EmbedBuilder()
-                .setTitle('User does not have a banner')
-        }
-
-
-        (message || interaction!)?.reply({
-            embeds:[embed],
-            allowedMentions: { 
-                repliedUser: false 
+            if (!args.has('user')) {
+                (message || interaction!)?.reply({
+                    content: trans('no.banner'),
+                    allowedMentions: { 
+                        repliedUser: false 
+                    }
+                })
+            } else {
+                (message || interaction!)?.reply({
+                    content: `${args.get('user').tag} ` + trans('no.mention'),
+                    allowedMentions: { 
+                        repliedUser: false 
+                    }
+                })
             }
-        });
+        }
     }
+
 
     selectMenu({ path, interaction, client, framework }: SelectMenuParameters): void {
 

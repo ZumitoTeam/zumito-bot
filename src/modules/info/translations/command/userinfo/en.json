@@ -1,4 +1,10 @@
 {
+    "arguments": {
+        "user": {
+            "name": "user",
+            "description": "The user to display information about"
+        }
+    },
     "args": {
         "user":{
             "description": "Display information for a specific user"
@@ -16,11 +22,5 @@
     "roles": "**Roles:**",
     "noNickname": "No nickname",
     "noPlaying": "Not playing",
-    "noRoles": "No roles",
-    "arguments": {
-        "user": {
-            "name": "user",
-            "description": "The user to display information about"
-        }
-    }
+    "noRoles": "No roles"
 }

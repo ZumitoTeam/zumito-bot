@@ -1,4 +1,9 @@
 {
+    "arguments": {
+        "user": {
+            "name": "miembro"
+        }
+    },
     "args": {
         "user":{
             "user": "Muestra el avatar de un usuario específico"
@@ -6,10 +11,5 @@
     },
     "title": "Avatar de {user}",
     "description": "Muestra el avatar de un miembro del servidor.",
-    "error": "Error al obtener el usuario.",
-    "arguments": {
-        "user": {
-            "name": "miembro"
-        }
-    }
+    "error": "Error al obtener el usuario."
 }
