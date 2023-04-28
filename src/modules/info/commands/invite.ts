@@ -1,7 +1,7 @@
 import { EmbedBuilder, GuildMember, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
-import { config } from "../../../config.js";
 import { Command, CommandArgDefinition, CommandParameters,  CommandType  } from "zumito-framework";
 import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
+import { config } from "../../../config/index.js";
 import { type } from "os";
 
 export class Invite extends Command {
@@ -17,29 +17,29 @@ export class Invite extends Command {
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
 
         const embed = new EmbedBuilder()
-            .setTitle(framework.translations.get('command.invite.author', guildSettings.lang) + ' ' + config.name)
+            .setTitle(framework.translations.get('command.invite.author', guildSettings.lang) + ' ' + config.global.name)
             .setDescription(framework.translations.get('command.invite.short.description', guildSettings.lang))
-            .setImage(config.botInviteImgURL)
-            .setColor(config.embeds.color)
+            .setImage(config.links.images.banner)
+            .setColor(config.global.embeds.color)
 
         const row: any = new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
             .setLabel(framework.translations.get('command.invite.button.invite', guildSettings.lang))
             .setStyle(ButtonStyle.Link)
-            .setURL(config.botInviteURL)
+            .setURL(config.links.sites.invite)
             .setEmoji('988649262042710026'),
 
             new ButtonBuilder()
             .setLabel(framework.translations.get('command.invite.button.support', guildSettings.lang))
             .setStyle(ButtonStyle.Link)
-            .setURL(config.supportServerURL)
+            .setURL(config.links.sites.support)
             .setEmoji('879509411285045279'),
 
             new ButtonBuilder()
             .setLabel(framework.translations.get('command.invite.button.website', guildSettings.lang))
             .setStyle(ButtonStyle.Link)
-            .setURL(config.websiteURL)
+            .setURL(config.links.sites.website)
             .setEmoji('879510323676200980')
         );
 
