@@ -1,0 +1,21 @@
+{
+    "arguments": {
+        "user": {
+            "name": "user",
+            "description": "Displays the banner of a specific user."
+        }
+    },
+    "args": {
+        "user":{
+            "description": "Show the banner of a specific user."
+        }
+    },
+    "description": "Displays a user's banner",
+    "title": "Banner of {name}",
+    "full": "**Full image**",
+    "click": "Click here",
+    "no": {
+        "banner": "No banner",
+        "mention": "no banner"
+    }
+}

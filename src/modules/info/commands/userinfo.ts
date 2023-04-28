@@ -2,7 +2,7 @@ import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMe
 import { config } from "../../../config/index.js";
 import { EmbedBuilder } from "zumito-framework/discord";
 
-export class Userinfo extends Command {
+export class UserInfo extends Command {
 
     categories = ['information'];
     examples: string[] = ['', '@Zumito']; 
