@@ -1,0 +1,12 @@
+{
+    "description": "Recibes un link para que puedas invitarme a cualquier servidor que administres.",
+    "author": "Invita a",
+    "short": {
+        "description": "Aquí está el enlace de invitación para que me invites a tu servidor."
+    },
+    "button":{
+        "invite": "Invitacion",
+        "support": "Soporte",
+        "website": "Sitio web"
+    }
+}
