@@ -7,7 +7,7 @@ import { config } from './config/index.js';
  
 if (!process.env.DISCORD_TOKEN) {
     throw new Error("Discord Token not found");
-} else if (!process.env.CLIENT_ID) {
+} else if (!process.env.DISCORD_CLIENT_ID) {
     throw new Error("Discord Client ID not found");
 } else if (!process.env.DATABASE_TYPE) {
     throw new Error("No database type specified in .env file");
