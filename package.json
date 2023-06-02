@@ -1,5 +1,5 @@
 {
-  "name": "zumito",
+  "name": "zumito-bot",
   "version": "1.2.23",
   "description": "Multipurpose discord bot",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fernandomema/Zumito.git"
+    "url": "git+https://github.com/ZumitoTeam/zumito-bot.git"
   },
-  "author": "fernandomema",
+  "author": "ZumitoTeam",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fernandomema/Zumito/issues"
+    "url": "https://github.com/ZumitoTeam/zumito-bot/issues"
   },
-  "homepage": "https://github.com/fernandomema/Zumito#readme",
+  "homepage": "https://github.com/ZumitoTeam/zumito-bot#readme",
   "_moduleAliases": {
     "@config": "config"
   },
