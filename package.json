@@ -28,7 +28,7 @@
     "dotenv": "^16.0.3",
     "ffmpeg-static": "^5.1.0",
     "fs-readdir-recursive": "^1.1.0",
-    "zumito-framework": "^1.1.69"
+    "zumito-framework": "^1.1.71"
   },
   "devDependencies": {
     "@jsdevtools/version-bump-prompt": "^6.1.0",
