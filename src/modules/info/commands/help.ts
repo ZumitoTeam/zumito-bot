@@ -80,7 +80,7 @@ export class Help extends Command {
                 
 				.addFields([{
                     name: category, 
-                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + '`' + this.getPrefix(guildSettings) + 'help [command]' + '`' + '\n' + framework.translations.get('command.help.field.support', guildSettings.lang) + ' [' + framework.translations.get('command.help.field.support_server', guildSettings.lang) + '](' + config.global.supportServerURL + ')',
+                    value: framework.translations.get('command.help.field.detailed', guildSettings.lang) + ': ' + '' + '`' + this.getPrefix(guildSettings) + 'help [command]' + '`' + '\n' + framework.translations.get('command.help.field.support', guildSettings.lang) + ' [' + framework.translations.get('command.help.field.support_server', guildSettings.lang) + '](' + config.links.sites.support + ')',
                 }]);
 			let commands: Command[] = Array.from(framework.commands.values()).filter((c: Command) => c.categories.includes(category));
 			for(let i = 0; i < commands.length; i++) {
@@ -192,7 +192,7 @@ export class Help extends Command {
         .setAuthor({ 
             name: framework.translations.get('command.help.author.command', guildSettings.lang) + ' ' + `${command.name}`, 
             iconURL: framework.client.user!.displayAvatarURL(), 
-            url: 'https://zumito.ga/commands/' + `${command.name}` 
+            url: 'https://bot.zumito.dev/commands/' + `${command.name}` 
         })
         .setDescription(framework.translations.get(`command.${command.name}.description`, guildSettings.lang))
         .addFields([{
