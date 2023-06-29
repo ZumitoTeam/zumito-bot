@@ -161,39 +161,81 @@ export class Help extends Command {
                                 guildSettings.lang
                             ) +
                             "](" +
-                            config.links.sites.support +
+                            config.global.supportServerURL +
                             ")",
                     },
                 ]);
             let commands: Command[] = Array.from(
                 framework.commands.values()
             ).filter((c: Command) => c.categories.includes(category));
+            let valuesToPush: string[] = [];
             for (let i = 0; i < commands.length; i++) {
-                if (i % 4 == 0) {
-                    categoryEmbed
-                        .addFields([
-                            {
-                                name:
-                                    "📖" +
-                                    " " +
-                                    framework.translations.get(
-                                        "command.help.commands",
-                                        guildSettings.lang
-                                    ),
-                                value:
-                                    "```" +
-                                    (commands[i]?.name || "") +
-                                    "       " +
-                                    (commands[i + 1]?.name || "") +
-                                    "       " +
-                                    (commands[i + 2]?.name || "") +
-                                    "       " +
-                                    (commands[i + 3]?.name || "") +
-                                    "```",
-                            },
-                        ])
+                if (interaction.values[0] === "information" && i % 4 == 0) {
+                    i == 4 &&
+                        categoryEmbed
+                            .addFields([
+                                {
+                                    name:
+                                        "📖" +
+                                        " " +
+                                        framework.translations.get(
+                                            "command.help.commands",
+                                            guildSettings.lang
+                                        ),
+                                    value:
+                                        "```" +
+                                        (commands[i]?.name || "") +
+                                        "       " +
+                                        (commands[i + 1]?.name || "") +
+                                        "       " +
+                                        (commands[i + 2]?.name || "") +
+                                        "       " +
+                                        (commands[i + 3]?.name || "") +
+                                        "       " +
+                                        valuesToPush.join("") +
+                                        "```",
+                                },
+                            ])
 
-                        .setColor(config.global.embeds.color);
+                            .setColor(config.global.embeds.color);
+                    i == 0 &&
+                        valuesToPush.push(
+                            (commands[i]?.name || "") +
+                                "       " +
+                                (commands[i + 1]?.name || "") +
+                                "       " +
+                                (commands[i + 2]?.name || "") +
+                                "       " +
+                                (commands[i + 3]?.name || "")
+                        );
+                } else {
+                    if (i % 4 == 0) {
+                        categoryEmbed
+                            .addFields([
+                                {
+                                    name:
+                                        "📖" +
+                                        " " +
+                                        framework.translations.get(
+                                            "command.help.commands",
+                                            guildSettings.lang
+                                        ),
+                                    value:
+                                        "```" +
+                                        (commands[i]?.name || "") +
+                                        "       " +
+                                        (commands[i + 1]?.name || "") +
+                                        "       " +
+                                        (commands[i + 2]?.name || "") +
+                                        "       " +
+                                        (commands[i + 3]?.name || "") +
+                                        "       " +
+                                        "```",
+                                },
+                            ])
+
+                            .setColor(config.global.embeds.color);
+                    }
                 }
             }
             const row1: any = new ActionRowBuilder().addComponents(
@@ -369,7 +411,7 @@ export class Help extends Command {
                     " " +
                     `${command.name}`,
                 iconURL: framework.client.user!.displayAvatarURL(),
-                url: "https://bot.zumito.dev/commands/" + `${command.name}`,
+                url: "https://zumito.ga/commands/" + `${command.name}`,
             })
             .setDescription(
                 framework.translations.get(
