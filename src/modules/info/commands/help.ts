@@ -201,11 +201,11 @@ export class Help extends Command {
                     i == 0 &&
                         valuesToPush.push(
                             (commands[i]?.name || "") +
-                                "       " +
+                                "     " +
                                 (commands[i + 1]?.name || "") +
-                                "       " +
+                                "         " +
                                 (commands[i + 2]?.name || "") +
-                                "       " +
+                                "             " +
                                 (commands[i + 3]?.name || "")
                         );
                 } else {
