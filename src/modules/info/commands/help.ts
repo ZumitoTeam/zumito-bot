@@ -290,10 +290,16 @@ export class Help extends Command {
         let selectMenuOptions: any = [];
         for (let category of categories) {
             let selectMenuOption: any = {
-                label: framework.translations.get(
-                    `global.category.${category}.name`,
-                    guildSettings.lang
-                ),
+                label:
+                    framework.translations.get(
+                        `global.category.${category}.emoji`,
+                        guildSettings.lang
+                    ) +
+                    " " +
+                    framework.translations.get(
+                        `global.category.${category}.name`,
+                        guildSettings.lang
+                    ),
                 value: category,
                 description: framework.translations.get(
                     `global.category.${category}.description`,
