@@ -9,7 +9,8 @@
         "category": {
             "information": {
                 "name": "Informacion",
-                "description": "Comandos de información"
+                "description": "Comandos de información",
+                "emoji": "🏳️"
             },
             "configuration": {
                 "name": "Configuración",
