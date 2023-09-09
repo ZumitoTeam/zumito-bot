@@ -1,5 +1,5 @@
 export const global: any = {
-    name: 'Zumito Team Bot',
+    name: 'Zumito',
     embeds: {
         color: '#f982a2',
     },
