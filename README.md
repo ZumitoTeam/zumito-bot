@@ -8,7 +8,7 @@
 </div>
  
 # Zumito 🧃
-[![CodeFactor](https://www.codefactor.io/repository/github/fernandomema/zumito/badge)](https://www.codefactor.io/repository/github/fernandomema/zumito)
+[![CodeFactor](https://www.codefactor.io/repository/github/ZumitoTeam/zumito-bot/badge)](https://www.codefactor.io/repository/github/ZumitoTeam/zumito-bot)
 ![GitHub Repo stars](https://img.shields.io/github/stars/fernandomema/zumito)
 
 Multipurpose discord bot
