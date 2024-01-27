@@ -1,52 +1,23 @@
-import {
-    ActionRow,
-    ActionRowBuilder,
-    AnyComponentBuilder,
-    CommandInteraction,
-    EmbedBuilder,
-    ImageURLOptions,
-    StringSelectMenuBuilder,
-    StringSelectMenuInteraction,
-} from "discord.js";
-import {
-    Command,
-    CommandParameters,
-    ZumitoFramework,
-    CommandType,
-} from "zumito-framework";
-import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
+import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, StringSelectMenuBuilder, StringSelectMenuInteraction, } from "discord.js";
+import { Command, CommandParameters, ZumitoFramework, CommandType, } from "zumito-framework";
+import { SelectMenuParameters } from "zumito-framework";
 import { config } from "../../../config/index.js";
-import { type } from "os";
 
 export class Help extends Command {
     categories = ["information"];
     examples: string[] = ["", "ping"];
     aliases = ["?", "h"];
-    args: any = [
-        {
+    args: any = [{
             name: "command",
             type: "string",
             optional: true,
-        },
-    ];
-    botPermissions = [
-        "VIEW_CHANNEL",
-        "SEND_MESSAGES",
-        "EMBED_LINKS",
-        "USE_EXTERNAL_EMOJIS",
-    ];
+        }];
+    botPermissions = [ "VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS" ];
     type = CommandType.any;
 
-    execute({
-        message,
-        interaction,
-        args,
-        client,
-        framework,
-        guildSettings,
-    }: CommandParameters): void {
+    execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
         if (args.has("command")) {
-            if (framework.commands.has(args.get("command"))) {
+            if (framework.commands.getAll().has(args.get("command"))) {
                 let command: Command = framework.commands.get(
                     args.get("command")
                 )!;
@@ -166,7 +137,7 @@ export class Help extends Command {
                     },
                 ]);
             let commands: Command[] = Array.from(
-                framework.commands.values()
+                framework.commands.getAll().values()
             ).filter((c: Command) => c.categories.includes(category));
             let valuesToPush: string[] = [];
             for (let i = 0; i < commands.length; i++) {
@@ -278,7 +249,7 @@ export class Help extends Command {
         selectedCategory?: string
     ): AnyComponentBuilder {
         let categories: string[] = [];
-        framework.commands.forEach((command: Command) => {
+        framework.commands.getAll().forEach((command: Command) => {
             for (let category of command.categories) {
                 if (!categories.includes(category)) {
                     categories.push(category);
@@ -335,7 +306,7 @@ export class Help extends Command {
         category: string,
         guildSettings: any
     ): AnyComponentBuilder {
-        let commands = Array.from(framework.commands.values()).filter(
+        let commands = Array.from(framework.commands.getAll().values()).filter(
             (c: Command) => c.categories.includes(category)
         );
         let selectMenuOptions: any = [];

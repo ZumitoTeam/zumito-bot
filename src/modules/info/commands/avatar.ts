@@ -1,6 +1,6 @@
 import { EmbedBuilder, GuildMember } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters,  CommandType  } from "zumito-framework";
-import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
+import { SelectMenuParameters } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
 export class Avatar extends Command {
