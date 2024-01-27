@@ -92,7 +92,7 @@ export class ServerInfo extends Command {
             )
             .setFooter({
                 text: trans('$global.requested', {
-                    user: message?.author.tag || interaction?.user.tag
+                    user: message?.author.globalName || interaction?.user.globalName
                 }),
                 iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
             })

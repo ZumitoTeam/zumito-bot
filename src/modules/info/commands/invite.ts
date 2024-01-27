@@ -1,6 +1,6 @@
 import { EmbedBuilder, GuildMember, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters,  CommandType  } from "zumito-framework";
-import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
+import { SelectMenuParameters } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
 export class Invite extends Command {
