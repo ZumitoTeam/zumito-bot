@@ -44,7 +44,7 @@ export class Lang extends Command {
                     .setTitle(trans('language'))
                     .setThumbnail('https://images-ext-2.discordapp.net/external/kPORDs0-YzHMbuef3WOcTuC-hRRy4noiukIFdUgqwPs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/878950861122985996/d05ce5c0de25fd9afb4f5492f31f21fe.webp?width=609&height=609')
                     .setDescription(description.join('\n\n'))
-                    .setColor(config.global.embeds.color);
+                    .setColor(config.colors.default);
                 
                 const row: any = new ActionRowBuilder()
                     .addComponents(
@@ -70,7 +70,7 @@ export class Lang extends Command {
                  }) + '\n\n' +
                  trans('drop')
                  )
-                .setColor(config.global.embeds.color);
+                .setColor(config.colors.default);
 
             const row: any = new ActionRowBuilder()
                 .addComponents(

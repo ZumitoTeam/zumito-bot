@@ -68,7 +68,7 @@ export class Help extends Command {
                     )
                 )
                 .setDescription(text0 + "\n\n" + text1 + "\n" + text2 + "\n")
-                .setColor(config.global.embeds.color);
+                .setColor(config.colors.default);
 
             if (client && client.user) {
                 embed.setThumbnail(
@@ -168,7 +168,7 @@ export class Help extends Command {
                                 },
                             ])
 
-                            .setColor(config.global.embeds.color);
+                            .setColor(config.colors.default);
                     i == 0 &&
                         valuesToPush.push(
                             (commands[i]?.name || "") +
@@ -205,7 +205,7 @@ export class Help extends Command {
                                 },
                             ])
 
-                            .setColor(config.global.embeds.color);
+                            .setColor(config.colors.default);
                     }
                 }
             }
@@ -474,7 +474,7 @@ export class Help extends Command {
                     inline: true,
                 },
             ])
-            .setColor(config.global.embeds.color);
+            .setColor(config.colors.default);
     }
 
     getPrefix(guildSettings: any, framework?: ZumitoFramework): string {

@@ -34,7 +34,7 @@ export class Avatar extends Command {
                 forceStatic: false, 
                 size: 4096 
             }))
-            .setColor(config.global.embeds.color);
+            .setColor(config.colors.default);
 
             const row: any = new ActionRowBuilder()
             .addComponents(
