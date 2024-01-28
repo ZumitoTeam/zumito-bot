@@ -39,7 +39,7 @@ export class UserBanner extends Command {
                     }),
                     iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
                 })
-                .setColor(config.global.embeds.color);
+                .setColor(config.colors.default);
             (message || interaction!)?.reply({
                 embeds: [embed],
                 allowedMentions: { 

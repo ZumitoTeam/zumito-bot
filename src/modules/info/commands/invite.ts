@@ -19,7 +19,7 @@ export class Invite extends Command {
             .setTitle(framework.translations.get('command.invite.author', guildSettings.lang) + ' ' + config.global.name)
             .setDescription(framework.translations.get('command.invite.short.description', guildSettings.lang))
             .setImage(config.links.images.banner)
-            .setColor(config.global.embeds.color)
+            .setColor(config.colors.default)
 
         const row: any = new ActionRowBuilder()
         .addComponents(
