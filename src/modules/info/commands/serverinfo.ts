@@ -1,7 +1,6 @@
 import { ChannelType, EmbedBuilder } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, TextFormatter } from "zumito-framework";
 import { config } from "../../../config/index.js";
-import { type } from "os";
 
 export class ServerInfo extends Command {
 

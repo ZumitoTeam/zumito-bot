@@ -1,4 +1,4 @@
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, GuildChannel, ChannelType } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback, TextFormatter } from "zumito-framework";
 import { config } from "../../../config/index.js";
 export class BotInfo extends Command {
@@ -20,6 +20,9 @@ export class BotInfo extends Command {
             '> ' + framework.translations.get('command.botinfo.together', guildSettings.lang)
 
         ];
+
+        let totalTransmissionChannels = client.guilds.cache.reduce((total, guild) => guild.channels.cache.filter((channel) => channel.type == ChannelType.GuildVoice).size + total, 0)
+        let joinedTransmissionChannels = [];
 
         const embed = new EmbedBuilder()
 
@@ -47,7 +50,7 @@ export class BotInfo extends Command {
                 },
                 {
                     name: EmojiFallback.getEmoji(client, '', ':headphones:') + ' ' + framework.translations.get('command.botinfo.transmissions', guildSettings.lang), 
-                    value: '``' + `${client.users.cache.size}` + '``',
+                    value: '``' + `${totalTransmissionChannels}` + '``',
                     inline: true
                 },
                 {
@@ -105,10 +108,10 @@ export class BotInfo extends Command {
     selectMenu({ path, interaction, client, framework }: SelectMenuParameters): void {}
 
     uptimeToDHMS(uptime: number): string {
-        let days = Math.floor(uptime / 86400000);
-        let hours = Math.floor(uptime / 3600000);
-        let minutes = Math.floor(uptime / 60000);
-        let seconds = Math.floor(uptime / 1000);
+        const days = Math.floor(uptime / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((uptime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((uptime % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((uptime % (1000 * 60)) / 1000);
         return `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
 
