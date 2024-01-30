@@ -1,4 +1,16 @@
 {
+    "description": "Muestra el banner de un usuario",
+    "title": "Banner de {name}",
+    "full": "**Imagen completa**",
+    "click": "Click aquí",
+    "button":{
+        "browser": "Ver en navegador"
+    },
+    "no": {
+        "banner": "No tienes banner",
+        "mention": "no tiene banner"
+    },
+    
     "arguments": {
         "command": {
             "user": "usuario",
@@ -9,13 +21,5 @@
         "user":{
             "description": "Mostrar el banner de un usuario específico"
         }
-    },
-    "description": "Muestra el banner de un usuario",
-    "title": "Banner de {name}",
-    "full": "**Imagen completa**",
-    "click": "Click aquí",
-    "no": {
-        "banner": "No tienes banner",
-        "mention": "no tiene banner"
     }
 }

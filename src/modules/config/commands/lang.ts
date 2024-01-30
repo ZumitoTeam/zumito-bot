@@ -42,9 +42,16 @@ export class Lang extends Command {
 
                 const invalidEmbed = new EmbedBuilder()
                     .setTitle(trans('language'))
-                    .setThumbnail('https://images-ext-2.discordapp.net/external/kPORDs0-YzHMbuef3WOcTuC-hRRy4noiukIFdUgqwPs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/878950861122985996/d05ce5c0de25fd9afb4f5492f31f21fe.webp?width=609&height=609')
                     .setDescription(description.join('\n\n'))
                     .setColor(config.colors.default);
+
+                    if (client && client.user) {
+                        invalidEmbed.setThumbnail(
+                            client.user.displayAvatarURL({ 
+                                forceStatic: false, 
+                                size: 4096  })
+                        );
+                    }
                 
                 const row: any = new ActionRowBuilder()
                     .addComponents(
@@ -63,14 +70,20 @@ export class Lang extends Command {
 
             const embed = new EmbedBuilder()
 
-                .setTitle(trans('language'))
-                .setThumbnail('https://images-ext-2.discordapp.net/external/kPORDs0-YzHMbuef3WOcTuC-hRRy4noiukIFdUgqwPs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/878950861122985996/d05ce5c0de25fd9afb4f5492f31f21fe.webp?width=609&height=609')
-                .setDescription(trans('current', {
+                .setTitle(trans('language')).setDescription(trans('current', {
                      lang: guildSettings.lang
                  }) + '\n\n' +
                  trans('drop')
                  )
                 .setColor(config.colors.default);
+
+                if (client && client.user) {
+                    embed.setThumbnail(
+                        client.user.displayAvatarURL({ 
+                            forceStatic: false, 
+                            size: 4096  })
+                    );
+                }
 
             const row: any = new ActionRowBuilder()
                 .addComponents(
