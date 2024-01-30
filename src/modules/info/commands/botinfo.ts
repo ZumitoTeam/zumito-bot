@@ -1,5 +1,5 @@
-import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback, TextFormatter } from "zumito-framework";
 import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback, TextFormatter } from "zumito-framework";
 import { config } from "../../../config/index.js";
 export class BotInfo extends Command {
 
@@ -23,11 +23,6 @@ export class BotInfo extends Command {
 
         const embed = new EmbedBuilder()
 
-            .setTitle(client.user!.displayName)
-            .setThumbnail(client.user!.displayAvatarURL({ 
-                forceStatic: false, 
-                size: 4096 
-            }))
             .setDescription(description.join('\n'))
             .addFields(
                 {
@@ -63,25 +58,38 @@ export class BotInfo extends Command {
             )
             .setColor(config.colors.default);
 
+            if (client && client.user) {
+                embed.setTitle(client.user.displayName)
+            }
+            
+            if (client && client.user) {
+                embed.setThumbnail(
+                    client.user.displayAvatarURL({ 
+                        forceStatic: false, 
+                        size: 4096  })
+                );
+            }
+
+
             const row: any = new ActionRowBuilder()
         .addComponents(
 
             new ButtonBuilder()
             .setLabel(framework.translations.get('command.botinfo.button.website', guildSettings.lang))
             .setStyle(ButtonStyle.Link)
-            .setURL(config.links.sites.website)
+            .setURL(config.links.website)
             .setEmoji('879510323676200980'),
 
             new ButtonBuilder()
             .setLabel(framework.translations.get('command.botinfo.button.support', guildSettings.lang))
             .setStyle(ButtonStyle.Link)
-            .setURL(config.links.sites.support)
+            .setURL(config.links.support)
             .setEmoji('879509411285045279'),
 
             new ButtonBuilder()
             .setLabel(framework.translations.get('command.botinfo.button.invite', guildSettings.lang))
             .setStyle(ButtonStyle.Link)
-            .setURL(config.links.sites.invite)
+            .setURL(config.links.invite)
             .setEmoji('988649262042710026'),
         );
     

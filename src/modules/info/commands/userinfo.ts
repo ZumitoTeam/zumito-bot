@@ -25,12 +25,34 @@ export class UserInfo extends Command {
         const finalName = `${ownerEmoji}`+ ' ' +`${isOwner ? user.globalName : user.displayName}`;
         
         let badges = user.flags.toArray();
+
         const badgeEmojiMap = {
+            ActiveDeveloper: EmojiFallback.getEmoji(client, '1200907904543371284', '💻'),
+            BotHTTPInteractions: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
+            BugHunterLevel1: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
+            BugHunterLevel2: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
+            CertifiedModerator: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
+            Collaborator: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
+            DisablePremium: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
+            HasUnreadUrgentMessages: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
             HypeSquadOnlineHouse1: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
             HypeSquadOnlineHouse2: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
             HypeSquadOnlineHouse3: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            ActiveDeveloper: EmojiFallback.getEmoji(client, '1200907904543371284', '💻')
+            Hypesquad: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
+            MFASMS: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
+            Partner: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
+            PremiumEarlySupporter: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
+            PremiumPromoDismissed: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
+            Quarantined: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
+            RestrictedCollaborator: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
+            Spammer: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
+            Staff: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
+            TeamPseudoUser: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
+            VerifiedBot: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
+            VerifiedDeveloper: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️')
+            
           };
+
         let badgesWithEmojis = badges.map((badge: string | number) => badgeEmojiMap[badge as keyof typeof badgeEmojiMap]);
 
 
