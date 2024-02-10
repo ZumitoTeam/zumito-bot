@@ -1,4 +1,4 @@
-import { EmbedBuilder, GuildMember } from "zumito-framework/discord";
+import { EmbedBuilder, GuildMember, ActionRowBuilder, AnyComponentBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, TextFormatter, EmojiFallback } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
@@ -26,30 +26,31 @@ export class UserInfo extends Command {
         
         let badges = user.flags.toArray();
 
+        // Flags doc: https://discord-api-types.dev/api/discord-api-types-v10/enum/UserFlags
         const badgeEmojiMap = {
             ActiveDeveloper: EmojiFallback.getEmoji(client, '1200907904543371284', '💻'),
-            BotHTTPInteractions: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
-            BugHunterLevel1: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
-            BugHunterLevel2: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
-            CertifiedModerator: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
-            Collaborator: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
-            DisablePremium: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
-            HasUnreadUrgentMessages: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
-            HypeSquadOnlineHouse1: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
-            HypeSquadOnlineHouse2: EmojiFallback.getEmoji(client, '1200907027896086598', '🛡️'),
-            HypeSquadOnlineHouse3: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            Hypesquad: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            MFASMS: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            Partner: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            PremiumEarlySupporter: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            PremiumPromoDismissed: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            Quarantined: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            RestrictedCollaborator: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            Spammer: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            Staff: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            TeamPseudoUser: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            VerifiedBot: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️'),
-            VerifiedDeveloper: EmojiFallback.getEmoji(client, '1200910182914465842', '🛡️')
+            BotHTTPInteractions: EmojiFallback.getEmoji(client, '1200907027896086598', '🎈'),
+            BugHunterLevel1: EmojiFallback.getEmoji(client, '1200907027896086598', '🧨'),
+            BugHunterLevel2: EmojiFallback.getEmoji(client, '1200907027896086598', '🎎'),
+            CertifiedModerator: EmojiFallback.getEmoji(client, '1200907027896086598', '🎭'),
+            Collaborator: EmojiFallback.getEmoji(client, '1200907027896086598', '👓'),
+            DisablePremium: EmojiFallback.getEmoji(client, '1200907027896086598', '🥼'),
+            HasUnreadUrgentMessages: EmojiFallback.getEmoji(client, '1200907027896086598', '🥻'),
+            HypeSquadOnlineHouse1: EmojiFallback.getEmoji(client, '1200907027896086598', '💄'),
+            HypeSquadOnlineHouse2: EmojiFallback.getEmoji(client, '1200907027896086598', '👑'),
+            HypeSquadOnlineHouse3: EmojiFallback.getEmoji(client, '1200910182914465842', '✨'),
+            Hypesquad: EmojiFallback.getEmoji(client, '1200910182914465842', '🎠'),
+            MFASMS: EmojiFallback.getEmoji(client, '1200910182914465842', '🕶'),
+            Partner: EmojiFallback.getEmoji(client, '1200910182914465842', '📯'),
+            PremiumEarlySupporter: EmojiFallback.getEmoji(client, '1200910182914465842', '📀'),
+            PremiumPromoDismissed: EmojiFallback.getEmoji(client, '1200910182914465842', '🔮'),
+            Quarantined: EmojiFallback.getEmoji(client, '1200910182914465842', '🔍'),
+            RestrictedCollaborator: EmojiFallback.getEmoji(client, '1200910182914465842', '📕'),
+            Spammer: EmojiFallback.getEmoji(client, '1200910182914465842', '🔍'),
+            Staff: EmojiFallback.getEmoji(client, '1200910182914465842', '🎪'),
+            TeamPseudoUser: EmojiFallback.getEmoji(client, '1200910182914465842', '🖼'),
+            VerifiedBot: EmojiFallback.getEmoji(client, '1200910182914465842', '🚬'),
+            VerifiedDeveloper: EmojiFallback.getEmoji(client, '1200910182914465842', '🔉')
             
           };
 
@@ -160,8 +161,23 @@ export class UserInfo extends Command {
             })
             .setColor(config.colors.default);
 
+            const option = {
+                label: user.globalName || user.displayName + ' ' + user.displayName || user.displayName,
+                value: user.id
+            };
+            
+
+            const select = new StringSelectMenuBuilder()
+			.setCustomId('userinfo.user')
+			.setPlaceholder(framework.translations.get('command.userinfo.select', guildSettings.lang))
+			.addOptions([option]);
+
+            const row: any = new ActionRowBuilder()
+			.addComponents(select);
+
         (message || interaction!)?.reply({ 
             embeds: [embed], 
+            components: [row],
             allowedMentions: { 
                 repliedUser: false 
             }
