@@ -1,17 +1,6 @@
 {
-    "arguments": {
-        "command": {
-            "name": "comando",
-            "description": "El comando para obtener ayuda"
-        }
-    },
-    "args": {
-        "command":{
-            "description": "Muestra la información de un comando específico"
-        }
-    },
+    "description": "Comandos disponibles e información sobre uno específico.",
     "category": "Seleccione una categoría",
-    "description": "Muestra la lista de comandos disponibles o información sobre un comando específico.",
     "title": "Menú de ayuda",
     "greeting": {
         "0": "Hola soy {name}",
@@ -36,5 +25,17 @@
     },
     "select": {
         "command": "Selecciona un comando"
+    },
+    
+    "arguments": {
+        "command": {
+            "name": "comando",
+            "description": "El comando para obtener ayuda"
+        }
+    },
+    "args": {
+        "command":{
+            "description": "Muestra la información de un comando específico"
+        }
     }
 }

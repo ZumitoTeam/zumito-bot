@@ -1,24 +1,13 @@
 {
-    "arguments": {
-        "command": {
-            "name": "command",
-            "description": "The command to get help for"
-        }
-    },
-    "args": {
-        "command":{
-            "description": "Displays the information of a specific command"
-        }
-    },
-    "noExamples": "No examples",
-    "category": "Select a category",
+    "description": "Available commands and info on a specific command.",
     "title": "Help Menu",
-    "description": "Displays the list of available commands or information about a specific command.",
     "greeting": {
         "0": "Hello i am {name}",
         "1": "I am a multipurpose bot in charge of this server.",
         "2": "What are you waiting for? Select a category to have fun together."
     },
+    "category": "Select a category",
+    "noExamples": "No examples",
     "author": {
         "command": "Command"
     },
@@ -38,5 +27,17 @@
     },
     "select": {
         "command": "Select a command"
+    },
+    
+    "arguments": {
+        "command": {
+            "name": "command",
+            "description": "The command to get help for"
+        }
+    }, 
+    "args": {
+        "command":{
+            "description": "Displays the information of a specific command"
+        }
     }
 }
