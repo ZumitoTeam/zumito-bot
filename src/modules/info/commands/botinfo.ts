@@ -13,6 +13,11 @@ export class BotInfo extends Command {
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
 
         let userCreateDate = client.user!.createdAt;
+        let date = new Date(userCreateDate);
+        let day = String(date.getDate()).padStart(2, '0');
+        let month = String(date.getMonth() + 1).padStart(2, '0');
+        let year = date.getFullYear();
+        let birthday = `${day}/${month}/${year}`;
 
         let description = [
             '> ' + framework.translations.get('command.botinfo.hello', guildSettings.lang),
@@ -22,7 +27,6 @@ export class BotInfo extends Command {
         ];
 
         let totalTransmissionChannels = client.guilds.cache.reduce((total, guild) => guild.channels.cache.filter((channel) => channel.type == ChannelType.GuildVoice).size + total, 0)
-        let joinedTransmissionChannels = [];
 
         const embed = new EmbedBuilder()
 
@@ -30,7 +34,7 @@ export class BotInfo extends Command {
             .addFields(
                 {
                     name: EmojiFallback.getEmoji(client, '', ':date:') + ' ' + framework.translations.get('command.botinfo.birthday', guildSettings.lang), 
-                    value: TextFormatter.getTimestampFromDate(userCreateDate, 'd') ,
+                    value: '``' + birthday + '``',
                     inline: true
                 },
                 {
