@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, GuildMember } from "zumito-framework/discord";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, TextFormatter, EmojiFallback } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
@@ -17,7 +17,7 @@ export class UserInfo extends Command {
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
 
         let user = args.get('user') || (message||(interaction!)).member!.user;
-        let member: any = (message||(interaction!)).guild?.members.cache.get(user.id);
+        let member: GuildMember | undefined = (message||(interaction!)).guild?.members.cache.get(user.id) as unknown as GuildMember;
         let userCreateDate = user.createdAt;
         let userGuildJoinDate = member.joinedAt as Date;
         const isOwner = member?.guild && member.guild.ownerId === user?.id;
@@ -71,30 +71,67 @@ export class UserInfo extends Command {
 
         let statusGame = member?.presence?.activities[0];
        
-        let description = [
+        let description = [];
+        
+        // Title
+        description.push(
             framework.translations.get('command.userinfo.info', guildSettings.lang),
+        );
+
+        // Id
+        description.push(
             framework.translations.get('command.userinfo.id', guildSettings.lang, {
                 id: user.id
             }),
+        );
+
+        // User
+        description.push(
             framework.translations.get('command.userinfo.user', guildSettings.lang, {
                 user: user.username, 
             }),
-            framework.translations.get('command.userinfo.name', guildSettings.lang, {
-                name: user.globalName, 
-            }),
-            framework.translations.get('command.userinfo.nickname', guildSettings.lang, {
-                nick: (member.nickname || framework.translations.get('command.userinfo.noNickname', guildSettings.lang))
-            }),
+        )
+
+        // Name
+        if (user.globalName) {
+            description.push(
+                framework.translations.get('command.userinfo.name', guildSettings.lang, {
+                    name: user.globalName, 
+                }),
+            )
+        }
+
+        // Nickname
+        if (member.nickname) {
+            description.push(
+                framework.translations.get('command.userinfo.nickname', guildSettings.lang, {
+                    nick: (member.nickname || framework.translations.get('command.userinfo.noNickname', guildSettings.lang))
+                }),
+            )
+        }
+
+        // Color
+        description.push(
             framework.translations.get('command.userinfo.color', guildSettings.lang, {
-                color: user.color
+                color: (member.roles.color?.hexColor || "#99AAB5").toUpperCase()
             }),
-            framework.translations.get('command.userinfo.badges', guildSettings.lang, {
-                badges: badgesWithEmojis.join(' ')
-            }),
+        )
+
+        // Badges
+        if (badgesWithEmojis.length > 0) {
+            description.push(
+                framework.translations.get('command.userinfo.badges', guildSettings.lang, {
+                    badges: badgesWithEmojis.join(' ')
+                }),
+            )
+        }
+
+        // Status
+        description.push(
             framework.translations.get('command.userinfo.playing', guildSettings.lang, {
                 playing: statusGame || framework.translations.get('command.userinfo.noPlaying', guildSettings.lang)
             })
-        ];
+        )
 
         const embed = new EmbedBuilder()
             .setTitle(finalName)
