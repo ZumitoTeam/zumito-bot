@@ -14,7 +14,7 @@
     "noNickname": "Sin apodo",
     "noPlaying": "No esta jugando",
     "noRoles": "Sin roles.",
-
+    "select": "Select user",
     "arguments": {
         "user": {
             "name": "usuario",
