@@ -1,7 +1,6 @@
-import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, StringSelectMenuBuilder, StringSelectMenuInteraction } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ZumitoFramework } from "zumito-framework";
 import { config } from "../../../config/index.js";
-import { type } from "os";
 
 export class Lang extends Command {
 
@@ -126,7 +125,7 @@ export class Lang extends Command {
             guildSettings.lang = lang;
             await guildSettings.save();
             interaction.reply({
-                content: EmojiFallback.getEmoji(client, '879047636194316300', '♻') + ' ' + framework.translations.get('command.lang.changed', lang, { lang }), 
+                content: EmojiFallback.getEmoji(client, '', '♻') + ' ' + framework.translations.get('command.lang.changed', lang, { lang }), 
                 allowedMentions: { 
                     repliedUser: false 
                 }
