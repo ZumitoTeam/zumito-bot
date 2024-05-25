@@ -4,8 +4,8 @@
   "description": "Multipurpose discord bot",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-esm src/Bot.ts",
-    "zumito-cli": "generate"
+    "start": "tsx src/Bot.ts",
+    "dev": "tsx src/Bot.ts --debug"
   },
   "repository": {
     "type": "git",
@@ -24,17 +24,18 @@
     "@discordjs/opus": "^0.9.0",
     "@discordjs/rest": "^1.7.0",
     "@discordjs/voice": "^0.16.0",
-    "discord.js": "^14.9.0",
+    "discord.js": "^14.14.1",
     "dotenv": "^16.0.3",
     "ffmpeg-static": "^5.1.0",
     "fs-readdir-recursive": "^1.1.0",
-    "zumito-framework": "^1.1.71"
+    "zumito-framework": "^1.1.83"
   },
   "devDependencies": {
     "@jsdevtools/version-bump-prompt": "^6.1.0",
     "@types/express": "^4.17.17",
     "@types/node": "^18.15.11",
     "ts-node": "^10.9.1",
+    "tsx": "^4.7.2",
     "typescript": "^5.0.4"
   },
   "type": "module",

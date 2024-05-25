@@ -1,4 +1,20 @@
 {
+    "description": "Displays detailed information about a user",
+    "info": "**User Information**",
+    "id": "**ID:** {id}",
+    "user": "**User:** {user}",
+    "name": "**Name:** {name}",
+    "nickname": "**Nickname:** {nick}",
+    "color": "**Color:** {color}",
+    "badges": "**Badges:** {badges}",
+    "playing": "**Playing:** {playing}",
+    "membership": "**Membership in Discord:**",
+    "join": "**Membership in {server}:** ",
+    "roles": "**Roles:**",
+    "noNickname": "No nickname",
+    "noPlaying": "Not playing",
+    "noRoles": "No roles.",
+    "select": "Select user",
     "arguments": {
         "user": {
             "name": "user",
@@ -9,18 +25,5 @@
         "user":{
             "description": "Display information for a specific user"
         }
-    },
-    "description": "Displays detailed information about a user",
-    "title": "User information",
-    "user": "**User:** {name}",
-    "nickname": "**Nickname:** {nick}",
-    "id": "**ID:** {id}",
-    "color": "**Color:** {color}",
-    "playing": "**Playing:** {playing}",
-    "creation": "**Account creation:**",
-    "login": "**Server login:**",
-    "roles": "**Roles:**",
-    "noNickname": "No nickname",
-    "noPlaying": "Not playing",
-    "noRoles": "No roles"
+    }
 }

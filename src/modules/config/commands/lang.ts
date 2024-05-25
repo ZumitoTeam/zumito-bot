@@ -1,7 +1,6 @@
-import { ActionRow, ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, ImageURLOptions, StringSelectMenuBuilder, StringSelectMenuInteraction } from "discord.js";
+import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ZumitoFramework } from "zumito-framework";
 import { config } from "../../../config/index.js";
-import { type } from "os";
 
 export class Lang extends Command {
 
@@ -42,9 +41,16 @@ export class Lang extends Command {
 
                 const invalidEmbed = new EmbedBuilder()
                     .setTitle(trans('language'))
-                    .setThumbnail('https://images-ext-2.discordapp.net/external/kPORDs0-YzHMbuef3WOcTuC-hRRy4noiukIFdUgqwPs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/878950861122985996/d05ce5c0de25fd9afb4f5492f31f21fe.webp?width=609&height=609')
                     .setDescription(description.join('\n\n'))
-                    .setColor(config.global.embeds.color);
+                    .setColor(config.colors.default);
+
+                    if (client && client.user) {
+                        invalidEmbed.setThumbnail(
+                            client.user.displayAvatarURL({ 
+                                forceStatic: false, 
+                                size: 4096  })
+                        );
+                    }
                 
                 const row: any = new ActionRowBuilder()
                     .addComponents(
@@ -63,14 +69,20 @@ export class Lang extends Command {
 
             const embed = new EmbedBuilder()
 
-                .setTitle(trans('language'))
-                .setThumbnail('https://images-ext-2.discordapp.net/external/kPORDs0-YzHMbuef3WOcTuC-hRRy4noiukIFdUgqwPs/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/878950861122985996/d05ce5c0de25fd9afb4f5492f31f21fe.webp?width=609&height=609')
-                .setDescription(trans('current', {
+                .setTitle(trans('language')).setDescription(trans('current', {
                      lang: guildSettings.lang
                  }) + '\n\n' +
                  trans('drop')
                  )
-                .setColor(config.global.embeds.color);
+                .setColor(config.colors.default);
+
+                if (client && client.user) {
+                    embed.setThumbnail(
+                        client.user.displayAvatarURL({ 
+                            forceStatic: false, 
+                            size: 4096  })
+                    );
+                }
 
             const row: any = new ActionRowBuilder()
                 .addComponents(
@@ -113,7 +125,7 @@ export class Lang extends Command {
             guildSettings.lang = lang;
             await guildSettings.save();
             interaction.reply({
-                content: EmojiFallback.getEmoji(client, '879047636194316300', '♻') + ' ' + framework.translations.get('command.lang.changed', lang, { lang }), 
+                content: EmojiFallback.getEmoji(client, '', '♻') + ' ' + framework.translations.get('command.lang.changed', lang, { lang }), 
                 allowedMentions: { 
                     repliedUser: false 
                 }

@@ -1,8 +1,4 @@
-import { EmbedBuilder, GuildMember } from "discord.js";
-import { Command, CommandArgDefinition, CommandParameters,  CommandType  } from "zumito-framework";
-import { SelectMenuParameters } from "zumito-framework/dist/types/SelectMenuParameters";
-import { config } from "../../../config/index.js";
-import { type } from "os";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters } from "zumito-framework";
 
 export class Ping extends Command {
 
@@ -13,6 +9,7 @@ export class Ping extends Command {
     type = CommandType.any;
 
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
+        
         (message || interaction!)?.reply({
             content: framework.translations.get('command.ping.emoji', guildSettings.lang) + ' ' + framework.translations.get('command.ping.pong', guildSettings.lang) + ' ' + `\`\`${Date.now() - (message||interaction!)?.createdTimestamp}ms\`\`` + ' | ' + framework.translations.get('command.ping.ws', guildSettings.lang) + ' ' + `\`\`${client.ws.ping}ms\`\``, 
             allowedMentions: { 

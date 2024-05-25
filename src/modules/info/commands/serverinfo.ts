@@ -1,7 +1,6 @@
 import { ChannelType, EmbedBuilder } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, TextFormatter } from "zumito-framework";
 import { config } from "../../../config/index.js";
-import { type } from "os";
 
 export class ServerInfo extends Command {
 
@@ -92,11 +91,11 @@ export class ServerInfo extends Command {
             )
             .setFooter({
                 text: trans('$global.requested', {
-                    user: message?.author.tag || interaction?.user.tag
+                    user: message?.author.globalName || interaction?.user.globalName
                 }),
                 iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
             })
-            .setColor(config.global.embeds.color);
+            .setColor(config.colors.default);
 
 
         (message || interaction!)?.reply({
