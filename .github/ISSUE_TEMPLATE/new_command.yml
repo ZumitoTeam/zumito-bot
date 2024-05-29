@@ -1,0 +1,53 @@
+name: New command
+description: Suggest the creation of a new bot command
+title: "[➕][/] "
+labels: ["feature", "triage", "command"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        All suggestion are welcomed!
+  - type: textarea
+    id: description
+    attributes:
+      label: What your command should do?
+      description: Tell us how the command should work and what they do.
+      placeholder: The command should say hello to the user...
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+     attributes:
+      label: Category
+      description: What category the command should enter
+      options:
+        - Other
+        - Moderation
+        - Fun
+        - Info
+        - Config
+      default: 0
+    validations:
+      required: true
+  - type: checkboxes
+    id: nsfw
+    attributes:
+      label: Is the command NSFW?
+      description: Should the command can only be runned only on nsfw channels?
+      options:
+        - label: The command is NSFW
+          required: false
+  - type: textarea
+    id: embeds
+    attributes:
+      label: Embed design
+      description: If you have any concept embed JSON, please attach here for make the work easier
+      render: json
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
