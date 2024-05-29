@@ -104,14 +104,22 @@ export class Help extends Command {
                             .addFields(
                                 {
                                     name: "📖" + " " + framework.translations.get("command.help.commands", guildSettings.lang),
-                                    value: "```" + (commands[i]?.name || "") + "       " + (commands[i + 1]?.name || "") + "       " + (commands[i + 2]?.name || "") + "       " + (commands[i + 3]?.name || "") + "       " + valuesToPush.join("") + "```",
+                                    value: "```" + 
+                                    (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
+                                    (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
+                                    (commands[i + 2]?.name || "") + Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('') + 
+                                    (commands[i + 3]?.name || "")
+                                    + valuesToPush.join("") + "```",
                                 }
                             )
                             .setColor(config.colors.default);
                             
                             i == 0 && valuesToPush.push(
 
-                                (commands[i]?.name || "") + "       " + (commands[i + 1]?.name || "") + "       " + (commands[i + 2]?.name || "") + "       " + (commands[i + 3]?.name || "")
+                                (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
+                                (commands[i + 1]?.name || "") + Array(15 - commands[i + 1]?.name.length).fill(" ").join('') + 
+                                (commands[i + 2]?.name || "") + Array(15 - commands[i + 2]?.name.length).fill(" ").join('') + 
+                                (commands[i + 3]?.name || "")
                                 
                                 );
                         } else { 
@@ -120,7 +128,12 @@ export class Help extends Command {
                                 .addFields(
                                     {
                                         name: "📖" + " " + framework.translations.get("command.help.commands", guildSettings.lang),
-                                        value: "```" + (commands[i]?.name || "") + "       " + (commands[i + 1]?.name || "") + "       " + (commands[i + 2]?.name || "") + "       " + (commands[i + 3]?.name || "") + "       " + "```",
+                                        value: "```" + 
+                                        (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
+                                        (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
+                                        (commands[i + 2]?.name || "") + Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('') + 
+                                        (commands[i + 3]?.name || "")
+                                        + "       " + "```",
                                 }
                                 )
                                 .setColor(config.colors.default);
