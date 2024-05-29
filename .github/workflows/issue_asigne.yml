@@ -17,6 +17,7 @@ jobs:
       - name: Create Issue Branch
         uses: robvanderleek/create-issue-branch@main
         with:
-          defaultBranch: 'dev'
+          defaultBranch: 'main'
+          branchName: 'ZBOT-${issue.number}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
