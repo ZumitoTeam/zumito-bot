@@ -1,4 +1,4 @@
-import { EmbedBuilder, GuildMember, ActionRowBuilder, AnyComponentBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
+import { EmbedBuilder, GuildMember, ActionRowBuilder, UserSelectMenuBuilder } from "discord.js";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, TextFormatter, EmojiFallback } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
@@ -161,16 +161,9 @@ export class UserInfo extends Command {
             })
             .setColor(config.colors.default);
 
-            const option = {
-                label: user.globalName || user.displayName + ' ' + user.displayName || user.displayName,
-                value: user.id
-            };
-            
-
-            const select = new StringSelectMenuBuilder()
+            const select = new UserSelectMenuBuilder()
 			.setCustomId('userinfo.user')
 			.setPlaceholder(framework.translations.get('command.userinfo.select', guildSettings.lang))
-			.addOptions([option]);
 
             const row: any = new ActionRowBuilder()
 			.addComponents(select);
