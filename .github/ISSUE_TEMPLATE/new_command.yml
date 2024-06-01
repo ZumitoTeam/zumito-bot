@@ -17,7 +17,7 @@ body:
       required: true
   - type: dropdown
     id: category
-     attributes:
+    attributes:
       label: Category
       description: What category the command should enter
       options:
