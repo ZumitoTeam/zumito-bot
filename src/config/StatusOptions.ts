@@ -1,4 +1,4 @@
-import { ActivityType } from "discord.js";
+import { ActivityType } from "zumito-framework/discord";
 import { StatusManagerOptions } from "zumito-framework";
 
 export const statusOptions: StatusManagerOptions = {

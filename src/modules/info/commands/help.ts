@@ -1,4 +1,4 @@
-import { ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, StringSelectMenuBuilder } from "discord.js";
+import { ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, StringSelectMenuBuilder } from "zumito-framework/discord";
 import { Command, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters, EmojiFallback } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
