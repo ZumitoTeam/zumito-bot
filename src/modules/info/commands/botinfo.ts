@@ -1,4 +1,4 @@
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, GuildChannel, ChannelType } from "discord.js";
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType } from "zumito-framework/discord";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback, TextFormatter } from "zumito-framework";
 import { config } from "../../../config/index.js";
 export class BotInfo extends Command {
