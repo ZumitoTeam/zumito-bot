@@ -4,14 +4,14 @@ import { config } from "../../../config/index.js";
 
 export class Help extends Command {
     categories = ["information"];
-    examples: string[] = ["", "ping"];
+    examples: string[] = ["", "ping", "avatar"];
     aliases = ["?", "h"];
     args: any = [{
             name: "command",
             type: "string",
             optional: true,
         }];
-    botPermissions = [ "VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS" ];
+    botPermissions = [ "VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS" ];
     userPermissions = [];
     type = CommandType.any;
 
@@ -37,6 +37,21 @@ export class Help extends Command {
             const row: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
             
             let description = [
+
+                framework.translations.get("command.help.greeting.0", guildSettings.lang,
+                    {
+                        name: client!.user!.displayName
+                    }
+                ) 
+                
+                + ' ' + EmojiFallback.getEmoji(client, '', '😊'), '\n' +
+
+                framework.translations.get("command.help.greeting.1", guildSettings.lang),
+                framework.translations.get("command.help.greeting.2", guildSettings.lang) + ' ' +EmojiFallback.getEmoji(client, '', '🎉'),
+                framework.translations.get("command.help.greeting.3", guildSettings.lang) + ' ' +EmojiFallback.getEmoji(client, '', '🎮') + ' ' +EmojiFallback.getEmoji(client, '', '🤖')
+            ];
+            
+            /*let description = [
                 
                 framework.translations.get("command.help.greeting.0", guildSettings.lang,
                 {
@@ -46,10 +61,10 @@ export class Help extends Command {
                 '\n'+ framework.translations.get("command.help.greeting.1", guildSettings.lang),
                 
                 framework.translations.get("command.help.greeting.2", guildSettings.lang)
-            ];
+            ];*/
             
             const embed = new EmbedBuilder()
-            .setTitle(framework.translations.get("command.help.title", guildSettings.lang))
+            //.setTitle(framework.translations.get("command.help.title", guildSettings.lang))
             .setDescription(description.join('\n'))
             .setColor(config.colors.default);
             
