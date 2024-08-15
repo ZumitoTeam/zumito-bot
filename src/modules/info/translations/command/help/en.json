@@ -2,9 +2,10 @@
     "description": "Available commands and info on a specific command.",
     "title": "Help Menu",
     "greeting": {
-        "0": "Hello i am {name}",
-        "1": "I am a multipurpose bot in charge of this server.",
-        "2": "What are you waiting for? Select a category to have fun together."
+        "0": "Hello, I’m  {name}",
+        "1": "I’m the multipurpose bot managing this server.",
+        "2": "What are you waiting for?",
+        "3": "Pick a category, and let’s have some fun together!"
     },
     "category": "Select a category",
     "noExamples": "No examples",
