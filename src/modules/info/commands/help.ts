@@ -51,20 +51,8 @@ export class Help extends Command {
                 framework.translations.get("command.help.greeting.3", guildSettings.lang) + ' ' +EmojiFallback.getEmoji(client, '', '🎮') + ' ' +EmojiFallback.getEmoji(client, '', '🤖')
             ];
             
-            /*let description = [
-                
-                framework.translations.get("command.help.greeting.0", guildSettings.lang,
-                {
-                    name: client!.user!.displayName
-                }) + ' ' + EmojiFallback.getEmoji(client, '', '😊'),
-                
-                '\n'+ framework.translations.get("command.help.greeting.1", guildSettings.lang),
-                
-                framework.translations.get("command.help.greeting.2", guildSettings.lang)
-            ];*/
-            
             const embed = new EmbedBuilder()
-            //.setTitle(framework.translations.get("command.help.title", guildSettings.lang))
+            .setTitle(framework.translations.get("command.help.title", guildSettings.lang))
             .setDescription(description.join('\n'))
             .setColor(config.colors.default);
             
