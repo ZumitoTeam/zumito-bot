@@ -1,6 +1,7 @@
 import { ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, StringSelectMenuBuilder } from "zumito-framework/discord";
-import { Command, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters, EmojiFallback } from "zumito-framework";
+import { Command, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters, EmojiFallback, ButtonPressedParams } from "zumito-framework";
 import { config } from "../../../config/index.js";
+import { ButtonBuilder, ButtonStyle } from "discord.js";
 
 export class Help extends Command {
     categories = ["information"];
@@ -33,8 +34,9 @@ export class Help extends Command {
                 });
             }
         } else {
-            
+            const closeButton: any = new ButtonBuilder().setCustomId('help.close').setLabel('close').setStyle(ButtonStyle.Danger);
             const row: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
+            const closeRow: any = new ActionRowBuilder().addComponents(closeButton)
             
             let description = [
 
@@ -51,20 +53,8 @@ export class Help extends Command {
                 framework.translations.get("command.help.greeting.3", guildSettings.lang) + ' ' +EmojiFallback.getEmoji(client, '', '🎮') + ' ' +EmojiFallback.getEmoji(client, '', '🤖')
             ];
             
-            /*let description = [
-                
-                framework.translations.get("command.help.greeting.0", guildSettings.lang,
-                {
-                    name: client!.user!.displayName
-                }) + ' ' + EmojiFallback.getEmoji(client, '', '😊'),
-                
-                '\n'+ framework.translations.get("command.help.greeting.1", guildSettings.lang),
-                
-                framework.translations.get("command.help.greeting.2", guildSettings.lang)
-            ];*/
-            
             const embed = new EmbedBuilder()
-            //.setTitle(framework.translations.get("command.help.title", guildSettings.lang))
+            .setTitle(framework.translations.get("command.help.title", guildSettings.lang))
             .setDescription(description.join('\n'))
             .setColor(config.colors.default);
             
@@ -79,7 +69,7 @@ export class Help extends Command {
 
             (message || (interaction as unknown as CommandInteraction)).reply({
                 embeds: [embed],
-                components: [row],
+                components: [row, closeRow],
                 allowedMentions: {
                     repliedUser: false,
                 },
@@ -87,105 +77,104 @@ export class Help extends Command {
         }
     }
 
+    async buttonPressed({ path, interaction, client, framework, guildSettings }: ButtonPressedParams): Promise<void> {
+        if (path[1] == "close") {
+            await interaction.deleteReply();
+        }
+    }
+
     async selectMenu({ path, interaction, client, framework, guildSettings }: SelectMenuParameters): Promise<void> {
-        
         if (path[1] == "category") {
             
             let category: string = interaction.values[0];
 
             let categoryEmbed = new EmbedBuilder()
             
-            .setAuthor(
+            .setAuthor({
+                name: framework.translations.get("command.help.commands_of", guildSettings.lang,
                 {
-                    name: framework.translations.get("command.help.commands_of", guildSettings.lang,
-                    {
-                        name: client!.user!.displayName
-                    }),
-                    iconURL: client!.user!.displayAvatarURL(),
-                })
-
-                .addFields(
-                    {
-                        name: category,
-                        value: framework.translations.get("command.help.field.detailed", guildSettings.lang) + ": " + "" + "`" +
-                            this.getPrefix(guildSettings) + "help [command]" + "`" + "\n" + framework.translations.get("command.help.field.support", guildSettings.lang) + " [" + framework.translations.get("command.help.field.support_server", guildSettings.lang) + "](" + config.links.support + ")",
-                    });
+                    name: client!.user!.displayName
+                }),
+                iconURL: client!.user!.displayAvatarURL(),
+            })
+            .addFields({
+                name: category,
+                value: framework.translations.get("command.help.field.detailed", guildSettings.lang) + ": " + "" + "`" +
+                    this.getPrefix(guildSettings) + "help [command]" + "`" + "\n" + framework.translations.get("command.help.field.support", guildSettings.lang) + " [" + framework.translations.get("command.help.field.support_server", guildSettings.lang) + "](" + config.links.support + ")",
+            });
                     
-                    let commands: Command[] = Array.from(framework.commands.getAll().values()).filter((c: Command) => c.categories.includes(category));
-                    let valuesToPush: string[] = [];
-                    for (let i = 0; i < commands.length; i++) 
-                    {
-                        if (interaction.values[0] === "information" && i % 4 == 0) { i == 4 && categoryEmbed
-                            .addFields(
-                                {
-                                    name: "📖" + " " + framework.translations.get("command.help.commands", guildSettings.lang),
-                                    value: "```" + 
-                                    (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
-                                    (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
-                                    (commands[i + 2]?.name || "") + Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('') + 
-                                    (commands[i + 3]?.name || "")
-                                    + valuesToPush.join("") + "```",
-                                }
-                            )
-                            .setColor(config.colors.default);
-                            
-                            i == 0 && valuesToPush.push(
+            let commands: Command[] = Array.from(framework.commands.getAll().values()).filter((c: Command) => c.categories.includes(category));
+            let valuesToPush: string[] = [];
+            for (let i = 0; i < commands.length; i++) {
+                if (interaction.values[0] === "information" && i % 4 == 0) { i == 4 && categoryEmbed
+                    .addFields(
+                        {
+                            name: "📖" + " " + framework.translations.get("command.help.commands", guildSettings.lang),
+                            value: "```" + 
+                            (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
+                            (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
+                            (commands[i + 2]?.name || "") + Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('') + 
+                            (commands[i + 3]?.name || "")
+                            + valuesToPush.join("") + "```",
+                        }
+                    )
+                    .setColor(config.colors.default);
+                    
+                    i == 0 && valuesToPush.push(
 
+                        (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
+                        (commands[i + 1]?.name || "") + Array(15 - commands[i + 1]?.name.length).fill(" ").join('') + 
+                        (commands[i + 2]?.name || "") + Array(15 - commands[i + 2]?.name.length).fill(" ").join('') + 
+                        (commands[i + 3]?.name || "")
+                        
+                        );
+                } else { 
+                    if (i % 4 == 0) {
+                        categoryEmbed
+                        .addFields(
+                            {
+                                name: "📖" + " " + framework.translations.get("command.help.commands", guildSettings.lang),
+                                value: "```" + 
                                 (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
-                                (commands[i + 1]?.name || "") + Array(15 - commands[i + 1]?.name.length).fill(" ").join('') + 
-                                (commands[i + 2]?.name || "") + Array(15 - commands[i + 2]?.name.length).fill(" ").join('') + 
+                                (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
+                                (commands[i + 2]?.name || "") + Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('') + 
                                 (commands[i + 3]?.name || "")
-                                
-                                );
-                        } else { 
-                            if (i % 4 == 0) {
-                                categoryEmbed
-                                .addFields(
-                                    {
-                                        name: "📖" + " " + framework.translations.get("command.help.commands", guildSettings.lang),
-                                        value: "```" + 
-                                        (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
-                                        (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
-                                        (commands[i + 2]?.name || "") + Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('') + 
-                                        (commands[i + 3]?.name || "")
-                                        + "       " + "```",
-                                }
-                                )
-                                .setColor(config.colors.default);
-                            }
+                                + "       " + "```",
                         }
+                        )
+                        .setColor(config.colors.default);
                     }
-                    
-                    const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings, category));
-                    await interaction.deferUpdate();
-                    await interaction.editReply({
-                        embeds: [categoryEmbed],
-                        components: [row1],
-                        allowedMentions: {
-                            repliedUser: false
-                        }
-                    });
-                
-                } else 
-                
-                if (path[1] == "command") {
-                    
-                    let command: Command | undefined = framework.commands.get(interaction.values[0]);
-                    
-                    const commandEmbed = this.getCommandEmbed( framework, command!, guildSettings );
-                    
-                    const row: any = new ActionRowBuilder()
-                    .addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
-                    await interaction.deferUpdate();
-                    await interaction.editReply({
-                        embeds: [commandEmbed],
-                        components: [row],
-                        allowedMentions: {
-                            repliedUser: false
-                        }
-                    });
                 }
             }
+                    
+            const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings, category));
+            await interaction.deferUpdate();
+            await interaction.editReply({
+                embeds: [categoryEmbed],
+                components: [row1],
+                allowedMentions: {
+                    repliedUser: false
+                }
+            });
+                
+        } else if (path[1] == "command") {
+                    
+            let command: Command | undefined = framework.commands.get(interaction.values[0]);
+            
+            const commandEmbed = this.getCommandEmbed( framework, command!, guildSettings );
+            
+            const row: any = new ActionRowBuilder()
+            .addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
+            await interaction.deferUpdate();
+            await interaction.editReply({
+                embeds: [commandEmbed],
+                components: [row],
+                allowedMentions: {
+                    repliedUser: false
+                }
+            });
+        }
+    }
             
             getCategoriesSelectMenu( framework: ZumitoFramework, guildSettings: any, selectedCategory?: string ): AnyComponentBuilder {
                 let categories: string[] = [];
