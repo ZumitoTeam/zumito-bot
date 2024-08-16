@@ -1,7 +1,7 @@
 import { ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, StringSelectMenuBuilder } from "zumito-framework/discord";
 import { Command, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters, EmojiFallback, ButtonPressedParams } from "zumito-framework";
 import { config } from "../../../config/index.js";
-import { ButtonBuilder, ButtonStyle } from "discord.js";
+import { ButtonBuilder, ButtonStyle, Client } from "discord.js";
 
 export class Help extends Command {
     categories = ["information"];
@@ -23,7 +23,7 @@ export class Help extends Command {
             if (framework.commands.getAll().has(args.get("command"))) {
 
                 let command: Command = framework.commands.get(args.get("command"))!;
-                const commandRow: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
+                const commandRow: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(client, framework, guildSettings));
                 const commandEmbed = this.getCommandEmbed( framework, command, guildSettings );
                 (message || (interaction as unknown as CommandInteraction)).reply({
                     embeds: [commandEmbed],
@@ -35,7 +35,7 @@ export class Help extends Command {
             }
         } else {
             const closeButton: any = new ButtonBuilder().setCustomId('help.close').setLabel('close').setStyle(ButtonStyle.Danger);
-            const row: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
+            const row: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(client, framework, guildSettings));
             const closeRow: any = new ActionRowBuilder().addComponents(closeButton)
             
             let description = [
@@ -84,6 +84,7 @@ export class Help extends Command {
     }
 
     async selectMenu({ path, interaction, client, framework, guildSettings }: SelectMenuParameters): Promise<void> {
+       
         if (path[1] == "category") {
             
             let category: string = interaction.values[0];
@@ -97,8 +98,10 @@ export class Help extends Command {
                 }),
                 iconURL: client!.user!.displayAvatarURL(),
             })
+
+            //EmojiFallback.getEmoji(client, framework.translations.get(`command.category.${category}.emoji`), framework.translations.get(`command.category.${category}.emoji`)
             .addFields({
-                name: category,
+                name: 'test'+ framework.translations.get(`global.category.${category}.name`, guildSettings.lang),
                 value: framework.translations.get("command.help.field.detailed", guildSettings.lang) + ": " + "" + "`" +
                     this.getPrefix(guildSettings) + "help [command]" + "`" + "\n" + framework.translations.get("command.help.field.support", guildSettings.lang) + " [" + framework.translations.get("command.help.field.support_server", guildSettings.lang) + "](" + config.links.support + ")",
             });
@@ -147,7 +150,7 @@ export class Help extends Command {
                 }
             }
                     
-            const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(framework, guildSettings, category));
+            const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(client, framework, guildSettings, category));
             await interaction.deferUpdate();
             await interaction.editReply({
                 embeds: [categoryEmbed],
@@ -164,7 +167,7 @@ export class Help extends Command {
             const commandEmbed = this.getCommandEmbed( framework, command!, guildSettings );
             
             const row: any = new ActionRowBuilder()
-            .addComponents(this.getCategoriesSelectMenu(framework, guildSettings));
+            .addComponents(this.getCategoriesSelectMenu(client, framework, guildSettings));
             await interaction.deferUpdate();
             await interaction.editReply({
                 embeds: [commandEmbed],
@@ -176,7 +179,7 @@ export class Help extends Command {
         }
     }
             
-            getCategoriesSelectMenu( framework: ZumitoFramework, guildSettings: any, selectedCategory?: string ): AnyComponentBuilder {
+            getCategoriesSelectMenu( client: Client, framework: ZumitoFramework, guildSettings: any, selectedCategory?: string ): AnyComponentBuilder {
                 let categories: string[] = [];
                 framework.commands.getAll().forEach((command: Command) => {
                     for (let category of command.categories) {
@@ -191,13 +194,13 @@ export class Help extends Command {
                 
                 for (let category of categories) {
                     let selectMenuOption: any = { 
-                        label: framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang) + " " + framework.translations.get(`global.category.${category}.name`, guildSettings.lang),
+                        label: framework.translations.get(`global.category.${category}.name`, guildSettings.lang),
                         value: category,
                         description: framework.translations.get(`global.category.${category}.description`, guildSettings.lang)
                     };
                     
-                    if (framework.translations.has(`command.category.${category}.emoji`)) {
-                        selectMenuOption.emoji = framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang);
+                    if (EmojiFallback.getEmoji(client, framework.translations.get(`command.category.${category}.emoji`), framework.translations.get(`command.category.${category}.emoji`))) {
+                        selectMenuOption.emoji = EmojiFallback.getEmoji(client, framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang), framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang));
                     }
                     
                     if (selectedCategory == category) {
@@ -213,7 +216,7 @@ export class Help extends Command {
                 .addOptions(selectMenuOptions);
             }
             
-            getCommandsSelectMenu(framework: ZumitoFramework, category: string, guildSettings: any): AnyComponentBuilder {
+            getCommandsSelectMenu(client: Client, framework: ZumitoFramework, category: string, guildSettings: any): AnyComponentBuilder {
                 
                 let commands = Array.from(framework.commands.getAll().values()).filter((c: Command) => c.categories.includes(category));
                 let selectMenuOptions: any = [];
@@ -224,9 +227,9 @@ export class Help extends Command {
                         description: framework.translations.get(`command.${command.name}.description`, guildSettings.lang)
                     };
                     
-                    if (framework.translations.has(`command.category.${category}.emoji`)) 
+                    if (EmojiFallback.getEmoji(client, framework.translations.get(`command.category.${category}.emoji`), framework.translations.get(`command.category.${category}.emoji`))) 
                     {
-                        selectMenuOption.emoji = framework.translations.get(`command.category.${category}.emoji`, guildSettings.lang);
+                        selectMenuOption.emoji = EmojiFallback.getEmoji(client, framework.translations.get(`command.category.${category}.emoji`), framework.translations.get(`command.category.${category}.emoji`));
                     }
                     
                     selectMenuOptions.push(selectMenuOption);
