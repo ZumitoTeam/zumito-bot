@@ -6,7 +6,7 @@
         "type": "node",
         "request": "launch",
         "runtimeExecutable": "node",
-        "runtimeArgs": ["--loader", "ts-node/esm", "--preserve-symlinks"],
+        "runtimeArgs": ["--import", "tsx", "--preserve-symlinks"],
   
         "args": ["src/Bot.ts"],
         
