@@ -109,7 +109,7 @@ export class Help extends Command {
                 if (interaction.values[0] === "information" && i % 4 == 0) { i == 4 && categoryEmbed
                     .addFields(
                         {
-                            name: "📖" + " " + framework.translations.get("command.help.commands", guildSettings.lang),
+                            name: EmojiFallback.getEmoji(client, '', "📖") + " " + framework.translations.get("command.help.commands", guildSettings.lang),
                             value: "```" + 
                             (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
                             (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
@@ -133,7 +133,7 @@ export class Help extends Command {
                         categoryEmbed
                         .addFields(
                             {
-                                name: "📖" + " " + framework.translations.get("command.help.commands", guildSettings.lang),
+                                name: EmojiFallback.getEmoji(client, '', "📖") + " " + framework.translations.get("command.help.commands", guildSettings.lang),
                                 value: "```" + 
                                 (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
                                 (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
