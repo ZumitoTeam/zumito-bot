@@ -11,7 +11,7 @@
     "author": {
         "command": "Comando"
     },
-    "commands_of": "Comandos de {name]",
+    "commands_of": "Comandos de {name}",
     "commands": "Comandos",
     "usage": "Uso",
     "examples": "Ejemplos",
