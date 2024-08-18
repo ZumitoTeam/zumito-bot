@@ -1,6 +1,8 @@
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType } from "zumito-framework/discord";
-import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback, TextFormatter } from "zumito-framework";
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, Client } from "zumito-framework/discord";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback, ServiceContainer, ZumitoFramework } from "zumito-framework";
 import { config } from "../../../config/index.js";
+import { TranscodeEncoding } from "buffer";
+
 export class BotInfo extends Command {
 
     categories = ['information'];
@@ -9,6 +11,17 @@ export class BotInfo extends Command {
     args: CommandArgDefinition[] = [];
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
+
+    client: Client;
+    framework: ZumitoFramework;
+    emojiFallback: EmojiFallback;
+
+    constructor() {
+        super();
+        this.client = ServiceContainer.getService(Client.name) as Client;
+        this.framework = ServiceContainer.getService(ZumitoFramework.name) as ZumitoFramework;
+        this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
+    }
 
     execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
 
@@ -21,7 +34,7 @@ export class BotInfo extends Command {
 
         let description = [
             '> ' + framework.translations.get('command.botinfo.hello', guildSettings.lang),
-            ' > ',
+            '> ',
             '> ' + framework.translations.get('command.botinfo.together', guildSettings.lang)
 
         ];
@@ -31,34 +44,35 @@ export class BotInfo extends Command {
         const embed = new EmbedBuilder()
 
             .setDescription(description.join('\n'))
+
             .addFields(
                 {
-                    name: EmojiFallback.getEmoji(client, '', ':date:') + ' ' + framework.translations.get('command.botinfo.birthday', guildSettings.lang), 
+                    name: this.emojiFallback.getEmoji('', '📅') + ' ' + framework.translations.get('command.botinfo.birthday', guildSettings.lang), 
                     value: '``' + birthday + '``',
                     inline: true
                 },
                 {
-                    name: EmojiFallback.getEmoji(client, '', ':japanese_castle:') + ' ' + framework.translations.get('command.botinfo.servers', guildSettings.lang), 
+                    name: this.emojiFallback.getEmoji('', '🏯') + ' ' + framework.translations.get('command.botinfo.servers', guildSettings.lang), 
                     value: '``' + `${client.guilds.cache.size}` + '``',
                     inline: true
                 },
                 {
-                    name: EmojiFallback.getEmoji(client, '', ':satellite:') + ' ' + framework.translations.get('command.botinfo.channels', guildSettings.lang), 
+                    name: this.emojiFallback.getEmoji('', '📡') + ' ' + framework.translations.get('command.botinfo.channels', guildSettings.lang), 
                     value: '``' + `${client.channels.cache.size}` + '``',
                     inline: true
                 },
                 {
-                    name: EmojiFallback.getEmoji(client, '', '🙍‍♂️') + ' ' + framework.translations.get('command.botinfo.users', guildSettings.lang), 
+                    name: this.emojiFallback.getEmoji('', '🙍‍♂️') + ' ' + framework.translations.get('command.botinfo.users', guildSettings.lang), 
                     value: '``' + `${client.users.cache.size}` + '``',
                     inline: true
                 },
                 {
-                    name: EmojiFallback.getEmoji(client, '', ':headphones:') + ' ' + framework.translations.get('command.botinfo.transmissions', guildSettings.lang), 
+                    name: this.emojiFallback.getEmoji('', '🎧') + ' ' + framework.translations.get('command.botinfo.transmissions', guildSettings.lang), 
                     value: '``' + `${totalTransmissionChannels}` + '``',
                     inline: true
                 },
                 {
-                    name: EmojiFallback.getEmoji(client, '', ':signal_strength:') + ' ' + framework.translations.get('command.botinfo.online', guildSettings.lang), 
+                    name: this.emojiFallback.getEmoji('', '📶') + ' ' + framework.translations.get('command.botinfo.online', guildSettings.lang), 
                     value: '``' + this.uptimeToDHMS(client.uptime!) + '``',
                     inline: true
                 }
@@ -79,7 +93,8 @@ export class BotInfo extends Command {
 
 
             const row: any = new ActionRowBuilder()
-        .addComponents(
+            
+            .addComponents(
 
             new ButtonBuilder()
             .setLabel(framework.translations.get('command.botinfo.button.website', guildSettings.lang))
