@@ -1,5 +1,5 @@
-import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder } from "zumito-framework/discord";
-import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ZumitoFramework } from "zumito-framework";
+import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, Client } from "zumito-framework/discord";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ZumitoFramework, ServiceContainer } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
 export class Lang extends Command {
@@ -16,6 +16,17 @@ export class Lang extends Command {
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
 
+    client: Client;
+    framework: ZumitoFramework;
+    emojiFallback: EmojiFallback;
+
+    constructor() {
+        super();
+        this.client = ServiceContainer.getService(Client.name) as Client;
+        this.framework = ServiceContainer.getService(ZumitoFramework.name) as ZumitoFramework;
+        this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
+    }
+
     async execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): Promise<void> {
         if (args.has('lang')) {
             const lang = args.get('lang')?.toLowerCase();
@@ -23,7 +34,7 @@ export class Lang extends Command {
                 guildSettings.lang = lang;
                 await guildSettings.save();
                 (message || interaction!)?.reply({
-                    content: EmojiFallback.getEmoji(client, '879047636194316300', '♻') + ' ' + trans('changed', { lang: { lang }}), 
+                    content: this.emojiFallback.getEmoji('879047636194316300', '♻') + ' ' + trans('changed', { lang: { lang }}), 
                     allowedMentions: { 
                         repliedUser: false 
                     }
@@ -125,7 +136,7 @@ export class Lang extends Command {
             guildSettings.lang = lang;
             await guildSettings.save();
             interaction.reply({
-                content: EmojiFallback.getEmoji(client, '', '♻') + ' ' + framework.translations.get('command.lang.changed', lang, { lang }), 
+                content: this.emojiFallback.getEmoji('', '♻') + ' ' + framework.translations.get('command.lang.changed', lang, { lang }), 
                 allowedMentions: { 
                     repliedUser: false 
                 }
