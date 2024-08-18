@@ -1,7 +1,7 @@
-import { ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, StringSelectMenuBuilder } from "zumito-framework/discord";
+import { ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, Client } from "zumito-framework/discord";
 import { Command, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters, EmojiFallback, ButtonPressedParams, ServiceContainer } from "zumito-framework";
 import { config } from "../../../config/index.js";
-import { ButtonBuilder, ButtonStyle, Client } from "discord.js";
+import { TranscodeEncoding } from "buffer";
 
 export class Help extends Command {
     categories = ["information"];
@@ -27,31 +27,33 @@ export class Help extends Command {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
-    execute({ message, interaction, args, guildSettings }: CommandParameters): void {
+    execute({ message, interaction, args, guildSettings, trans }: CommandParameters): void {
 
         if (args.has("command")) {
 
             if (this.framework.commands.getAll().has(args.get("command"))) {
 
+                const closeButton: any = new ButtonBuilder().setCustomId('help.close').setLabel(this.emojiFallback.getEmoji(trans('button.close'), trans('button.close'))).setStyle(ButtonStyle.Danger);
+                const closeRow: any = new ActionRowBuilder().addComponents(closeButton)
                 const command: Command = this.framework.commands.get(args.get("command"))!;
                 const commandRow: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(this.client, this.framework, guildSettings));
                 const commandEmbed = this.getCommandEmbed( this.framework, command, guildSettings );
+                
                 (message || (interaction as unknown as CommandInteraction)).reply({
                     embeds: [commandEmbed],
-                    components: [commandRow],
+                    components: [commandRow, closeRow],
                     allowedMentions: {
                         repliedUser: false,
                     },
                 });
             }
         } else {
-            const closeButton: any = new ButtonBuilder().setCustomId('help.close').setLabel('close').setStyle(ButtonStyle.Danger);
-            const row: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(this.client, this.framework, guildSettings));
-            const closeRow: any = new ActionRowBuilder().addComponents(closeButton)
+            
+            const row: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(this.client, this.framework, guildSettings))
             
             const description = [
 
-                this.framework.translations.get("command.help.greeting.0", guildSettings.lang,
+                trans("greeting.0",
                     {
                         name: this.client!.user!.displayName
                     }
@@ -59,13 +61,13 @@ export class Help extends Command {
                 
                 + ' ' + this.emojiFallback.getEmoji('', '😊'), '\n' +
 
-                this.framework.translations.get("command.help.greeting.1", guildSettings.lang),
-                this.framework.translations.get("command.help.greeting.2", guildSettings.lang) + ' ' +this.emojiFallback.getEmoji('', '🎉'),
-                this.framework.translations.get("command.help.greeting.3", guildSettings.lang) + ' ' +this.emojiFallback.getEmoji('', '🎮') + ' ' +this.emojiFallback.getEmoji('', '🤖')
+                trans("greeting.1"),
+                trans("greeting.2") + ' ' + this.emojiFallback.getEmoji('', '🎉'),
+                trans("greeting.3") + ' ' + this.emojiFallback.getEmoji('', '🎮') + ' ' + this.emojiFallback.getEmoji('', '🤖')
             ];
             
             const embed = new EmbedBuilder()
-                .setTitle(this.framework.translations.get("command.help.title", guildSettings.lang))
+                .setTitle(trans("title"))
                 .setDescription(description.join('\n'))
                 .setColor(config.colors.default);
             
@@ -80,7 +82,7 @@ export class Help extends Command {
 
             (message || (interaction as unknown as CommandInteraction)).reply({
                 embeds: [embed],
-                components: [row, closeRow],
+                components: [row],
                 allowedMentions: {
                     repliedUser: false,
                 },
@@ -94,7 +96,7 @@ export class Help extends Command {
         }
     }
 
-    async selectMenu({ path, interaction, client, framework, guildSettings }: SelectMenuParameters): Promise<void> {
+    async selectMenu({ path, interaction, client, framework, guildSettings, trans }: SelectMenuParameters): Promise<void> {
        
         if (path[1] == "category") {
             
@@ -103,17 +105,19 @@ export class Help extends Command {
             const categoryEmbed = new EmbedBuilder()
             
                 .setAuthor({
-                    name: framework.translations.get("command.help.commands_of", guildSettings.lang,
+                    name: trans("commands_of",
                         {
                             name: client!.user!.displayName
-                        }),
+                        }
+                    ),
+                    
                     iconURL: client!.user!.displayAvatarURL(),
                 })
 
                 .addFields({
-                    name: this.emojiFallback.getEmoji(framework.translations.get(`global.category.${category}.emoji`), this.framework.translations.get(`global.category.${category}.emoji`))+ ' ' + framework.translations.get(`global.category.${category}.name`, guildSettings.lang),
-                    value: framework.translations.get("command.help.field.detailed", guildSettings.lang) + ": " + "" + "`" +
-                    this.getPrefix(guildSettings) + "help [command]" + "`" + "\n" + framework.translations.get("command.help.field.support", guildSettings.lang) + " [" + framework.translations.get("command.help.field.support_server", guildSettings.lang) + "](" + config.links.support + ")",
+                    name: this.emojiFallback.getEmoji(trans(`$global.category.${category}.emoji`), trans(`$global.category.${category}.emoji`))+ ' ' + trans(`$global.category.${category}.name`),
+                    value: trans("field.detailed") + ": " + "" + "`" +
+                    this.getPrefix(guildSettings) + "help [<command>]" + "`" + "\n" + trans("field.support") + " [" + trans("field.support_server") + "](" + config.links.support + ")",
                 });
                     
             const commands: Command[] = Array.from(framework.commands.getAll().values()).filter((c: Command) => c.categories.includes(category));
@@ -123,7 +127,7 @@ export class Help extends Command {
                     if (i == 4) {
                         categoryEmbed.addFields(
                             {
-                                name: this.emojiFallback.getEmoji('', "📖") + " " + framework.translations.get("command.help.commands", guildSettings.lang),
+                                name: this.emojiFallback.getEmoji('', "📖") + " " + trans("commands"),
                                 value: "```" + 
                                     (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
                                     (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
@@ -147,7 +151,7 @@ export class Help extends Command {
                         categoryEmbed
                             .addFields(
                                 {
-                                    name: this.emojiFallback.getEmoji('', "📖") + " " + framework.translations.get("command.help.commands", guildSettings.lang),
+                                    name: this.emojiFallback.getEmoji('', "📖") + " " + trans("commands"),
                                     value: "```" + 
                                 (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
                                 (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
@@ -161,11 +165,14 @@ export class Help extends Command {
                 }
             }
                     
+            const closeButton: any = new ButtonBuilder().setCustomId('help.close').setLabel(this.emojiFallback.getEmoji(trans('button.close'), trans('button.close'))).setStyle(ButtonStyle.Danger);
             const row1: any = new ActionRowBuilder().addComponents(this.getCategoriesSelectMenu(client, framework, guildSettings, category));
-            //await interaction.deferUpdate();
+            const closeRow: any = new ActionRowBuilder().addComponents(closeButton)
+
+            await interaction.deferUpdate();
             await interaction.editReply({
                 embeds: [categoryEmbed],
-                components: [row1],
+                components: [row1, closeRow],
                 allowedMentions: {
                     repliedUser: false
                 }
@@ -176,7 +183,6 @@ export class Help extends Command {
             const command: Command | undefined = framework.commands.get(interaction.values[0]);
             
             const commandEmbed = this.getCommandEmbed( framework, command!, guildSettings );
-            
             const row: any = new ActionRowBuilder()
                 .addComponents(this.getCategoriesSelectMenu(client, framework, guildSettings));
             await interaction.deferUpdate();
@@ -274,7 +280,7 @@ export class Help extends Command {
         const examples: string[] = [];
         if (command.examples && command.examples.length > 0) {
             for (const example of command.examples) {
-                const commandText = command.aliases[Math.floor(Math.random() * command.aliases.length + 1)] || command.name; 
+                const commandText = command.name; 
                 examples.push(prefix + commandText + " " + example);
             }
         }

@@ -29,7 +29,9 @@
     "select": {
         "command": "Select a command"
     },
-    
+    "button": {
+        "close": "❌"
+    },
     "arguments": {
         "command": {
             "name": "command",
