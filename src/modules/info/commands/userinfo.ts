@@ -1,5 +1,5 @@
 import { EmbedBuilder, GuildMember, ActionRowBuilder, StringSelectMenuBuilder, Client } from "zumito-framework/discord";
-import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, TextFormatter, EmojiFallback, ServiceContainer, ZumitoFramework } from "zumito-framework";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, TextFormatter, EmojiFallback, ServiceContainer } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
 export class UserInfo extends Command {
@@ -14,14 +14,10 @@ export class UserInfo extends Command {
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
 
-    client: Client;
-    framework: ZumitoFramework;
     emojiFallback: EmojiFallback;
 
     constructor() {
         super();
-        this.client = ServiceContainer.getService(Client.name) as Client;
-        this.framework = ServiceContainer.getService(ZumitoFramework.name) as ZumitoFramework;
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
     

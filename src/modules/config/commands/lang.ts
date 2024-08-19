@@ -16,14 +16,10 @@ export class Lang extends Command {
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
 
-    client: Client;
-    framework: ZumitoFramework;
     emojiFallback: EmojiFallback;
 
     constructor() {
         super();
-        this.client = ServiceContainer.getService(Client.name) as Client;
-        this.framework = ServiceContainer.getService(ZumitoFramework.name) as ZumitoFramework;
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
