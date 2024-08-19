@@ -5,41 +5,54 @@ import { config } from "../../../config/index.js";
 export class Avatar extends Command {
 
     categories = ['information'];
-    examples: string[] = ['', "@zumito"]; 
+    examples: string[] = ['', "@member"]; 
     args: CommandArgDefinition[] = [{
         name: "user",
         type: "member",
         optional: true,
     }];
-    botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'EMBED_LINKS', 'USE_EXTERNAL_EMOJIS'];
+    botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'EMBED_LINKS'];
     type = CommandType.any;
     
 
-    execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
+    execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): void {
+
         let member: GuildMember = args.get('user') || (message||interaction!).member;
+
         if (!member) {
             (message||interaction!)?.reply({
-                content: framework.translations.get('command.avatar.error', guildSettings.lang), 
+                content: trans('error'), 
                 allowedMentions: { 
                     repliedUser: false 
                 }
             });
             return;
         }
+        
         let embed = new EmbedBuilder()
-            .setTitle( framework.translations.get('command.avatar.title', guildSettings.lang, {
+
+            .setTitle(trans('title', {
                 user: member.user.globalName || member.user.displayName
             }))
+           
             .setImage(member.user.displayAvatarURL({ 
                 forceStatic: false, 
                 size: 4096 
             }))
+
+            .setFooter({
+                text: trans('$global.requested', {
+                    user: message?.author.globalName || interaction?.user.globalName
+                }),
+                iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
+            })
+
             .setColor(config.colors.default);
 
             const row: any = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                .setLabel(framework.translations.get('command.avatar.button.browser', guildSettings.lang))
+                .setLabel(trans('button.browser'))
                 .setStyle(ButtonStyle.Link)
                 .setURL(`${member.user.displayAvatarURL({forceStatic: false, size: 4096 })}`)
             );
