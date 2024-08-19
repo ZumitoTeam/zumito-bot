@@ -5,7 +5,7 @@ import { config } from "../../../config/index.js";
 export class Avatar extends Command {
 
     categories = ['information'];
-    examples: string[] = ['', "@member"]; 
+    examples: string[] = ['', "@zumito"]; 
     args: CommandArgDefinition[] = [{
         name: "user",
         type: "member",
