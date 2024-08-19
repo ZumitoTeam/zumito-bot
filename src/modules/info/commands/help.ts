@@ -1,7 +1,6 @@
 import { ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, Client } from "zumito-framework/discord";
 import { Command, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters, EmojiFallback, ButtonPressedParams, ServiceContainer } from "zumito-framework";
 import { config } from "../../../config/index.js";
-import { TranscodeEncoding } from "buffer";
 
 export class Help extends Command {
     categories = ["information"];
