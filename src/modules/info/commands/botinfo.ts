@@ -28,7 +28,9 @@ export class BotInfo extends Command {
         let birthday = `${day}/${month}/${year}`;
 
         let description = [
-            '> ' + framework.translations.get('command.botinfo.hello', guildSettings.lang),
+            '> ' + framework.translations.get('command.botinfo.hello', guildSettings.lang, {
+                name: client!.user!.displayName
+            }),
             '> ',
             '> ' + framework.translations.get('command.botinfo.together', guildSettings.lang)
 

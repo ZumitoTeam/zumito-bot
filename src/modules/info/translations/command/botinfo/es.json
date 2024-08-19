@@ -6,8 +6,8 @@
       "users": "Usuarios",
       "transmissions": "Transmisiones",
       "online": "En línea",
-      "hello": "¡Hola! Soy tu amiguito de entretenimiento, aquí para endulzar tu día con un toque a sabor a uva delicioso. 🍇 Mi misión es llenar tu servidor con risas y diversión.",
-      "together": "¡Vamos a disfrutar juntos! 😊✨",
+      "hello": "Hola, soy {name}. Soy tu compañero de entretenimiento y diversión. Estoy aquí para alegrar tu día con un delicioso toque de sabor a uva. 🍇 Mi misión es llenar tu servidor de risas y diversión.",
+      "together": "¡Disfrutemos juntos! 😊✨",
       "button":{
           "invite": "Invitacion",
           "support": "Soporte",
