@@ -20,12 +20,11 @@ export default [
             "@typescript-eslint": typescriptEslint,
         },
 
-        "env": {
-            "node": true,
-        },
-
         languageOptions: {
             parser: tsParser,
+            globals: {
+                "node": true,
+            }
         },
 
         rules: {
@@ -40,6 +39,14 @@ export default [
             "@typescript-eslint/no-explicit-any": "warn",
             "@typescript-eslint/no-unused-expressions": "error",
             "prefer-const": "error",
+            "brace-style": ["error", "1tbs"],
+            "max-depth": ["warn", 4],
+            "object-curly-spacing": ["error", "always"],
+            "array-bracket-spacing": ["error", "never"],
+            "linebreak-style": ["error", "unix"],
+            "camelcase": ["error", { "properties": "always" }],
+            "prefer-template": "warn",
+            "spaced-comment": ["error", "always", { "markers": ["/"] }]
         },
     },
 ];
