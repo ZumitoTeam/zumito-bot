@@ -1,10 +1,10 @@
 {
     "args": {
         "lang":{
-            "description": "Choose your preferred language"
+            "description": "Choose your preferred language."
         }
     },
-    "description": "Get or edit the language of the current server",
+    "description": "Get or edit the language of the current server.",
     "arguments": {
         "lang": {
             "name": "language",
@@ -12,10 +12,12 @@
         }
     },
     "language": "Language",
-    "current": "My language in this server is: `{lang}`",
-    "drop": "Drop down the menu and select your preferred language.",
+    "current": "My language on this server is: {lang}",
+    "drop": "Expand the menu and select your preferred language.",
     "select": "Select language",
-    "invalid": "Invalid language: `{lang}`",
+    "invalid": "The language entered is not valid.",
     "valid": "The available languages are: ```{langs}```",
-    "changed": "Language changed to: `{lang}`"
+    "use": "Use the language code, for example: {example}",
+    "changed": "My language has been set to: {lang}, on this server.",
+    "alreadySet": "My language is already set to: {lang}"
 }
