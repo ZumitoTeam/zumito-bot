@@ -83,7 +83,7 @@ export class Lang extends Command {
                 // Resto del código para manejar idiomas inválidos
                 const description = [
                     trans('invalid') + '\n\n',
-                    trans('valid', { langs: ['English(en)', 'Español(es)'].join(', ') }) + '\n',
+                    `${trans('valid', { langs: ['English(en)', 'Español(es)'].join(', ') })  }\n`,
                     trans('use', {
                         example: '`' + prefix + 'lang en`'
                     }) + '\n\n',
