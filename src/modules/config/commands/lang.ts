@@ -80,7 +80,6 @@ export class Lang extends Command {
                     });
                 }
             } else {
-                // Resto del código para manejar idiomas inválidos
                 const description = [
                     trans('invalid') + '\n\n',
                     `${trans('valid', { langs: ['English(en)', 'Español(es)'].join(', ') })  }\n`,
