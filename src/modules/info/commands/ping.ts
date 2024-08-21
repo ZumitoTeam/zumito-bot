@@ -1,4 +1,4 @@
-import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters } from "zumito-framework";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback, ServiceContainer } from "zumito-framework";
 
 export class Ping extends Command {
 
@@ -8,10 +8,17 @@ export class Ping extends Command {
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
 
-    execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
+    emojiFallback: EmojiFallback;
+
+    constructor() {
+        super();
+        this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
+    }
+
+    execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): void {
         
         (message || interaction!)?.reply({
-            content: framework.translations.get('command.ping.emoji', guildSettings.lang) + ' ' + framework.translations.get('command.ping.pong', guildSettings.lang) + ' ' + `\`\`${Date.now() - (message||interaction!)?.createdTimestamp}ms\`\`` + ' | ' + framework.translations.get('command.ping.ws', guildSettings.lang) + ' ' + `\`\`${client.ws.ping}ms\`\``, 
+            content: this.emojiFallback.getEmoji('', '🏓') + ' ' + trans('pong') + ' ' + `\`\`${Date.now() - (message||interaction!)?.createdTimestamp}ms\`\`` + ' | ' + trans('ws') + ' ' + `\`\`${client.ws.ping}ms\`\``, 
             allowedMentions: { 
                 repliedUser: false 
             }
