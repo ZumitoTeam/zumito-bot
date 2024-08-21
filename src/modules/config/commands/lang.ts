@@ -1,5 +1,5 @@
 import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder } from "zumito-framework/discord";
-import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ZumitoFramework, ServiceContainer } from "zumito-framework";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ZumitoFramework, ServiceContainer, CommandChoiceDefinition, TranslationManager } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
 export class Lang extends Command {
@@ -11,16 +11,26 @@ export class Lang extends Command {
         name: 'lang',
         type: 'string',
         optional: true,
+        choices: () => {
+            const choices: CommandChoiceDefinition[] = [];
+            this.translator.getLanguages().forEach(lang => choices.push({
+                name: this.formatLang(lang),
+                value: lang
+            }))
+            return choices;
+        },
     }];
     adminOnly = true;
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
 
     emojiFallback: EmojiFallback;
+    translator: TranslationManager;
 
     constructor() {
         super();
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
+        this.translator = ServiceContainer.getService(TranslationManager) as TranslationManager;
     }
 
     private formatLang(lang: string): string {
@@ -81,7 +91,7 @@ export class Lang extends Command {
                 }
             } else {
                 const description = [
-                    trans('invalid') + '\n\n',
+                    `${trans('invalid')  }\n\n`,
                     `${trans('valid', { langs: ['English(en)', 'Español(es)'].join(', ') })  }\n`,
                     trans('use', {
                         example: '`' + prefix + 'lang en`'
