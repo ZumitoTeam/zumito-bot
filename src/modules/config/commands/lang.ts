@@ -28,7 +28,7 @@ export class Lang extends Command {
         case 'en':
                   return ':flag_us: English';
         case 'es':
-                  return ':flag_es: Español';
+            return ':flag_es: Español';
         default:
                   return lang;
         }
