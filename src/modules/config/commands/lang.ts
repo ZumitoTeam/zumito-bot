@@ -103,7 +103,7 @@ export class Lang extends Command {
                 }
 
                 const row: any = new ActionRowBuilder()
-                .addComponents(this.getLanguageSelectMenu(framework, guildSettings.lang));
+                    .addComponents(this.getLanguageSelectMenu(framework, guildSettings.lang));
 
                 if (interaction) {
                     await interaction.reply({
