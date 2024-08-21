@@ -25,12 +25,12 @@ export class Lang extends Command {
 
     private formatLang(lang: string): string {
         switch (lang) {
-            case 'en':
-                return ':flag_us: English';
-            case 'es':
-                return ':flag_es: Español';
-            default:
-                return lang;
+              case 'en':
+                  return ':flag_us: English';
+              case 'es':
+                  return ':flag_es: Español';
+              default:
+                  return lang;
         }
     }
 
