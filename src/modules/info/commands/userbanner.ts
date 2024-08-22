@@ -1,75 +1,92 @@
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "zumito-framework/discord";
-import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters } from "zumito-framework";
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, User } from "zumito-framework/discord";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback, ServiceContainer } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
 export class UserBanner extends Command {
 
     categories = ['information'];
-    examples: string[] = ['', '@Zumito']; 
+    examples: string[] = ['', '@zumito']; 
     args: CommandArgDefinition[] = [{
         name: 'user',
         type: 'user',
         optional: true
     }];
-    botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'USE_EXTERNAL_EMOJIS'];
+    botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES','USE_EXTERNAL_EMOJIS'];
     type = CommandType.any;
 
-    async execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): Promise<void> {
+    emojiFallback: EmojiFallback;
 
-        let user = args.get('user') || message?.author || interaction?.user;
+    constructor() {
+        super();
+        this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
+    }
 
-        let banner = user.bannerURL({ format: 'png', size: 4096, force: true });
+    async execute({ message, interaction, args, trans }: CommandParameters): Promise<void> {
 
-        if (!banner) {
-            await user.fetch();
-            banner = user.bannerURL({ format: 'png', size: 4096, force: true });
+        const user = args.get('user') || message?.author || interaction?.user;
+
+        if (user.id === (message?.author || interaction?.user)?.id) {
+            const emoji = this.emojiFallback.getEmoji('', '😥');
+            await (message || interaction!)?.reply({
+                content: `${ emoji } ${trans('no.banner')}`,
+                allowedMentions: { 
+                    repliedUser: false 
+                }
+            });
+            return;
         }
 
+        const banner = await this.getUserBanner(user);
         if (banner) {
-            
+
             const embed = new EmbedBuilder()
-            .setTitle(framework.translations.get('command.userbanner.title', guildSettings.lang, {
+                .setTitle(trans('title', {
                     name: user.globalName || user.displayName
                 }))
                 .setImage(banner)
                 .setColor(config.colors.default);
                 
-                const row: any = new ActionRowBuilder()
+            const row: any = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
-                    .setLabel(framework.translations.get('command.userbanner.button.browser', guildSettings.lang))
-                    .setStyle(ButtonStyle.Link)
-                    .setURL(banner)
-                    );
+                        .setLabel(trans('button.browser'))
+                        .setStyle(ButtonStyle.Link)
+                        .setURL(banner),
                     
-                    (message || interaction!)?.reply({
-                        embeds: [embed],
-                        components: [row],
-                        allowedMentions: {
-                            repliedUser: false
-                        }
-                    });
+                );
+                
+            (message || interaction!)?.reply({
+                embeds: [embed],
+                components: [row],
+                allowedMentions: {
+                    repliedUser: false
+                }
+            });
+
         } else {
-            if (!args.has('user')) {
-                (message || interaction!)?.reply({
-                    content: framework.translations.get('command.userbanner.no.banner', guildSettings.lang),
-                    allowedMentions: { 
-                        repliedUser: false 
-                    }
-                })
-            } else {
-                (message || interaction!)?.reply({
-                    content: `${args.get('user').globalName || args.get('user').displayName} ` + framework.translations.get('command.userbanner.no.mention', guildSettings.lang),
-                    allowedMentions: { 
-                        repliedUser: false 
-                    }
-                })
-            }
+
+            const username = user ? user.globalName || user.displayName : '';
+            const emoji = this.emojiFallback.getEmoji('', '😥');
+
+            (message || interaction!)?.reply({
+                content: `${emoji} ${trans('no.mention', { name: username })}`,
+                allowedMentions: { 
+                    repliedUser: false 
+                }
+            });
+            
         }
     }
 
+    async getUserBanner(user: User) {
+        let banner = user.bannerURL({ extension: 'png', size: 4096, forceStatic: true });
+        if (!banner) {
+            await user.fetch();
+            banner = user.bannerURL({ extension: 'png', size: 4096, forceStatic: true });
+        }
+        return banner;
+    }
 
-    selectMenu({ path, interaction, client, framework }: SelectMenuParameters): void {
-
+    selectMenu(): void {
     }
 }
