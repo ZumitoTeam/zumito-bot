@@ -1,4 +1,5 @@
 {
+    "description": "Displays detailed server information",
     "id": "ID Server",
     "owner": "Owner",
     "dateCreated": "Date created",
