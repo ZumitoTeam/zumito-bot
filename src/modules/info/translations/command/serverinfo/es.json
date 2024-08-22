@@ -1,4 +1,5 @@
 {
+    "description": "Muestra información detallada del servidor",
     "id": "ID Servidor",
     "owner": "Dueño",
     "dateCreated": "Fecha creación",
