@@ -58,7 +58,7 @@ export class ServerInfo extends Command {
             .setThumbnail(message?.guild?.iconURL({ forceStatic: false }) || interaction?.guild?.iconURL({ forceStatic: false }) || '')
             .addFields(
                 {
-                    name: this.emojiFallback.getEmoji('', '🆔') + ' ' + trans('id'), 
+                    name: `${this.emojiFallback.getEmoji('', '🆔')  } ${  trans('id')}`, 
                     value: (message?.guild?.id || interaction!.guild!.id) + '', 
                     inline: true
                 }, {
