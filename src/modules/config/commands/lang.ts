@@ -14,7 +14,7 @@ export class Lang extends Command {
         choices: () => {
             const choices: CommandChoiceDefinition[] = [];
             this.translator.getLanguages().forEach(lang => choices.push({
-                name: this.formatLang(lang),
+                name: this.getLanguageString(lang, false),
                 value: lang
             }))
             return choices;
@@ -33,14 +33,16 @@ export class Lang extends Command {
         this.translator = ServiceContainer.getService(TranslationManager) as TranslationManager;
     }
 
-    private formatLang(lang: string): string {
+    private getLanguageString(lang: string, emoji = true): string {
         switch (lang) {
         case 'en':
-            return ':flag_us: English';
+            if (!emoji) return `English`;
+            return `${this.emojiFallback.getEmoji('', ':flag_us:')  } `+ `English`;
         case 'es':
-            return ':flag_es: Español';
+            if (!emoji) return `Español`;
+            return `${this.emojiFallback.getEmoji('', ':flag_es:')  } `+ `Español`;
         default:
-                  return lang;
+            return lang;
         }
     }
 
@@ -55,7 +57,7 @@ export class Lang extends Command {
                 
                 if (interaction) {
                     await interaction.reply({
-                        content: trans('alreadySet', { lang: this.formatLang(lang) }), 
+                        content: trans('alreadySet', { lang: this.getLanguageString(lang) }), 
                         allowedMentions: { 
                             repliedUser: false 
                         },
@@ -63,7 +65,7 @@ export class Lang extends Command {
                     });
                 } else {
                     await message?.reply({
-                        content: trans('alreadySet', { lang: this.formatLang(lang) }), 
+                        content: trans('alreadySet', { lang: this.getLanguageString(lang) }), 
                         allowedMentions: { 
                             repliedUser: false 
                         }
@@ -75,7 +77,7 @@ export class Lang extends Command {
 
                 if (interaction) {
                     await interaction.reply({
-                        content: trans('changed', { lang: this.formatLang(lang) }), 
+                        content: trans('changed', { lang: this.getLanguageString(lang) }), 
                         allowedMentions: { 
                             repliedUser: false 
                         },
@@ -83,7 +85,7 @@ export class Lang extends Command {
                     });
                 } else {
                     await message?.reply({
-                        content: trans('changed', { lang: this.formatLang(lang) }), 
+                        content: trans('changed', { lang: this.getLanguageString(lang) }), 
                         allowedMentions: { 
                             repliedUser: false 
                         }
@@ -93,9 +95,9 @@ export class Lang extends Command {
                 const description = [
                     `${trans('invalid')  }\n\n`,
                     `${trans('valid', { langs: ['English(en)', 'Español(es)'].join(', ') })  }\n`,
-                    trans('use', {
-                        example: '`' + prefix + 'lang en`'
-                    }) + '\n\n',
+                    `${trans('use', {
+                        example: `\`${  prefix  }lang en\``
+                    })  }\n\n`,
                     trans('drop')
                 ];
 
@@ -136,7 +138,7 @@ export class Lang extends Command {
         } else {
             const embed = new EmbedBuilder()
                 .setTitle(trans('language'))
-                .setDescription(`${trans('current', { lang: this.formatLang(guildSettings.lang) })}\n\n${trans('drop')}`)
+                .setDescription(`${trans('current', { lang: this.getLanguageString(guildSettings.lang) })}\n\n${trans('drop')}`)
                 .setColor(config.colors.default);
 
             if (client && client.user) {
@@ -190,7 +192,7 @@ export class Lang extends Command {
             );
     }
 
-    async selectMenu({ path, interaction, client, framework, guildSettings, trans }: SelectMenuParameters): Promise<void> {
+    async selectMenu({ path, interaction, guildSettings, trans }: SelectMenuParameters): Promise<void> {
         if (path[1] === 'select') {
             const lang = interaction.values[0];
 
@@ -198,14 +200,14 @@ export class Lang extends Command {
 
                 if (interaction.replied || interaction.deferred) {
                     await interaction.editReply({
-                        content: trans('alreadySet', { lang: this.formatLang(lang) }), 
+                        content: trans('alreadySet', { lang: this.getLanguageString(lang) }), 
                         allowedMentions: { 
                             repliedUser: false 
                         }
                     });
                 } else {
                     await interaction.reply({
-                        content: trans('alreadySet', { lang: this.formatLang(lang) }), 
+                        content: trans('alreadySet', { lang: this.getLanguageString(lang) }), 
                         allowedMentions: { 
                             repliedUser: false 
                         },
@@ -218,14 +220,14 @@ export class Lang extends Command {
 
                 if (interaction.replied || interaction.deferred) {
                     await interaction.editReply({
-                        content: trans('changed', { lang: this.formatLang(lang) }), 
+                        content: trans('changed', { lang: this.getLanguageString(lang) }), 
                         allowedMentions: { 
                             repliedUser: false 
                         }
                     });
                 } else {
                     await interaction.reply({
-                        content: trans('changed', { lang: this.formatLang(lang) }), 
+                        content: trans('changed', { lang: this.getLanguageString(lang) }), 
                         allowedMentions: { 
                             repliedUser: false 
                         },

@@ -24,6 +24,7 @@ export default [
             parser: tsParser,
             globals: {
                 "node": true,
+                process: true
             }
         },
 
@@ -43,7 +44,6 @@ export default [
             "max-depth": ["warn", 4],
             "object-curly-spacing": ["error", "always"],
             "array-bracket-spacing": ["error", "never"],
-            "linebreak-style": ["error", "unix"],
             "camelcase": ["error", { "properties": "always" }],
             "prefer-template": "warn",
             "spaced-comment": ["error", "always", { "markers": ["/"] }]
