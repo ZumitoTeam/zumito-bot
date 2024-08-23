@@ -11,7 +11,7 @@ export class Ping extends Command {
     emojiFallback: EmojiFallback; 
 
     constructor() {
-            super();
+        super();
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
