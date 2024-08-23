@@ -11,6 +11,7 @@ export default [
             "parser": tsParser,
             "globals": {
                 "node": true,
+                process: true
             }
         },
 
