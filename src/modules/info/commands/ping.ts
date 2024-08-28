@@ -1,4 +1,4 @@
-import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, EmojiFallback, ServiceContainer } from "zumito-framework";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, ServiceContainer } from "zumito-framework";
 
 export class Ping extends Command {
 
@@ -15,7 +15,7 @@ export class Ping extends Command {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
-    execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): void {
+    execute({ message, interaction, client, trans }: CommandParameters): void {
         
         (message || interaction!)?.reply({
             content: `${this.emojiFallback.getEmoji('', '🏓')  } ${  trans('pong')  } ` + `\`\`${Date.now() - (message||interaction!)?.createdTimestamp}ms\`\`` + ` | ${  trans('ws')  } ` + `\`\`${client.ws.ping}ms\`\``, 
@@ -25,7 +25,4 @@ export class Ping extends Command {
         });
     }
 
-    selectMenu({ path, interaction, client, framework }: SelectMenuParameters): void {
-
-    }
 }

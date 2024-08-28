@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActionRowBuilder, AnyComponentBuilder, CommandInteraction, EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, Client } from "zumito-framework/discord";
 import { Command, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters, EmojiFallback, ButtonPressedParams, ServiceContainer } from "zumito-framework";
 import { config } from "../../../config/index.js";
@@ -11,7 +12,7 @@ export class Help extends Command {
         type: "string",
         optional: true,
     }];
-    botPermissions = [ "VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS" ];
+    botPermissions = ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"];
     userPermissions = [];
     type = CommandType.any;
 
@@ -52,17 +53,17 @@ export class Help extends Command {
             
             const description = [
 
-                trans("greeting.0",
+                `${trans("greeting.0",
                     {
                         name: this.client!.user!.displayName
                     }
                 ) 
                 
-                + ' ' + this.emojiFallback.getEmoji('', '😊'), '\n' +
+                } ${  this.emojiFallback.getEmoji('', '😊')}`, `\n${ 
 
-                trans("greeting.1"),
-                trans("greeting.2") + ' ' + this.emojiFallback.getEmoji('', '🎉'),
-                trans("greeting.3") + ' ' + this.emojiFallback.getEmoji('', '🎮') + ' ' + this.emojiFallback.getEmoji('', '🤖')
+                    trans("greeting.1")}`,
+                `${trans("greeting.2")  } ${  this.emojiFallback.getEmoji('', '🎉')}`,
+                `${trans("greeting.3")  } ${  this.emojiFallback.getEmoji('', '🎮')  } ${  this.emojiFallback.getEmoji('', '🤖')}`
             ];
             
             const embed = new EmbedBuilder()
@@ -114,9 +115,9 @@ export class Help extends Command {
                 })
 
                 .addFields({
-                    name: this.emojiFallback.getEmoji(trans(`$global.category.${category}.emoji`), trans(`$global.category.${category}.emoji`))+ ' ' + trans(`$global.category.${category}.name`),
-                    value: trans("field.detailed") + ": " + "" + "`" +
-                    this.getPrefix(guildSettings) + "help [<command>]" + "`" + "\n" + trans("field.support") + " [" + trans("field.support_server") + "](" + config.links.support + ")",
+                    name: `${this.emojiFallback.getEmoji(trans(`$global.category.${category}.emoji`), trans(`$global.category.${category}.emoji`)) } ${  trans(`$global.category.${category}.name`)}`,
+                    value: `${trans("field.detailed")  }: ` + `` + `\`${ 
+                        this.getPrefix(guildSettings)  }help [<command>]` + `\`` + `\n${  trans("field.support")  } [${  trans("field.support_server")  }](${  config.links.support  })`,
                 });
                     
             const commands: Command[] = Array.from(framework.commands.getAll().values()).filter((c: Command) => c.categories.includes(category));
@@ -126,13 +127,13 @@ export class Help extends Command {
                     if (i == 4) {
                         categoryEmbed.addFields(
                             {
-                                name: this.emojiFallback.getEmoji('', "📖") + " " + trans("commands"),
-                                value: "```" + 
-                                    (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
-                                    (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
-                                    (commands[i + 2]?.name || "") + Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('') + 
-                                    (commands[i + 3]?.name || "")
-                                    + valuesToPush.join("") + "```",
+                                name: `${this.emojiFallback.getEmoji('', "📖")  } ${  trans("commands")}`,
+                                value: `\`\`\`${  
+                                    commands[i]?.name || ""  }${Array(15 - commands[i]?.name.length).fill(" ").join('')  
+                                }${commands[i + 1]?.name || ""  }${Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('')  
+                                }${commands[i + 2]?.name || ""  }${Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('')  
+                                }${commands[i + 3]?.name || ""
+                                }${valuesToPush.join("")  }\`\`\``,
                             }
                         ).setColor(config.colors.default);
                     }
@@ -150,13 +151,13 @@ export class Help extends Command {
                         categoryEmbed
                             .addFields(
                                 {
-                                    name: this.emojiFallback.getEmoji('', "📖") + " " + trans("commands"),
-                                    value: "```" + 
-                                (commands[i]?.name || "") + Array(15 - commands[i]?.name.length).fill(" ").join('') + 
-                                (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') + 
-                                (commands[i + 2]?.name || "") + Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('') + 
-                                (commands[i + 3]?.name || "")
-                                + "       " + "```",
+                                    name: `${this.emojiFallback.getEmoji('', "📖")  } ${  trans("commands")}`,
+                                    value: `\`\`\`${  
+                                        commands[i]?.name || ""  }${Array(15 - commands[i]?.name.length).fill(" ").join('')  
+                                    }${commands[i + 1]?.name || ""  }${Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('')  
+                                    }${commands[i + 2]?.name || ""  }${Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('')  
+                                    }${commands[i + 3]?.name || ""
+                                    }       ` + `\`\`\``,
                                 }
                             )
                             .setColor(config.colors.default);
@@ -246,8 +247,7 @@ export class Help extends Command {
                 description: framework.translations.get(`command.${command.name}.description`, guildSettings.lang)
             };
                     
-            if (this.emojiFallback.getEmoji(framework.translations.get(`command.category.${category}.emoji`), framework.translations.get(`command.category.${category}.emoji`))) 
-            {
+            if (this.emojiFallback.getEmoji(framework.translations.get(`command.category.${category}.emoji`), framework.translations.get(`command.category.${category}.emoji`))) {
                 selectMenuOption.emoji = this.emojiFallback.getEmoji(
                     framework.translations.get(`command.category.${category}.emoji`), 
                     framework.translations.get(`command.category.${category}.emoji`)
@@ -265,13 +265,13 @@ export class Help extends Command {
     getCommandEmbed( framework: ZumitoFramework, command: Command, guildSettings: any ): EmbedBuilder {
                 
         const prefix = this.getPrefix(guildSettings);
-        let ussage: string = prefix + command.name + " ";
+        let ussage: string = `${prefix + command.name  } `;
         if (command.args && command.args.length > 0) {
             for (const arg of command.args) {
                 if (arg.optional) {
-                    ussage += "<" + framework.translations.get(`command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang) + ">";
+                    ussage += `<${  framework.translations.get(`command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang)  }>`;
                 } else {
-                    ussage += "[" + framework.translations.get( `command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang ) + "]";
+                    ussage += `[${  framework.translations.get( `command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang )  }]`;
                 }
             }
         }
@@ -280,13 +280,13 @@ export class Help extends Command {
         if (command.examples && command.examples.length > 0) {
             for (const example of command.examples) {
                 const commandText = command.name; 
-                examples.push(prefix + commandText + " " + example);
+                examples.push(`${prefix + commandText  } ${  example}`);
             }
         }
         return new EmbedBuilder()
             .setAuthor(
                 {
-                    name:framework.translations.get("command.help.author.command", guildSettings.lang) + " " + `${command.name}`, 
+                    name:`${framework.translations.get("command.help.author.command", guildSettings.lang)  } ` + `${command.name}`, 
                     iconURL: framework.client.user!.displayAvatarURL(),
                     url: "https://zumito.ga/commands/" + `${command.name}`
                 })
@@ -294,7 +294,7 @@ export class Help extends Command {
             .addFields(
                 {
                     name: framework.translations.get("command.help.usage", guildSettings.lang),
-                    value: "`" + (ussage || framework.translations.get("global.none", guildSettings.lang)) + "`",
+                    value: `\`${  ussage || framework.translations.get("global.none", guildSettings.lang)  }\``,
                 },
                 {
                     name: framework.translations.get("command.help.examples", guildSettings.lang),
