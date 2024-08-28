@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { DatabaseConfigLoader, ZumitoFramework } from 'zumito-framework';
 
 import dotenv from 'dotenv'

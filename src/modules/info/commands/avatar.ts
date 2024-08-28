@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { EmbedBuilder, GuildMember, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "zumito-framework/discord";
-import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters } from "zumito-framework";
+import { Command, CommandArgDefinition, CommandParameters, CommandType } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
 export class Avatar extends Command {
@@ -14,10 +15,9 @@ export class Avatar extends Command {
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'EMBED_LINKS'];
     type = CommandType.any;
     
+    execute({ message, interaction, args, trans }: CommandParameters): void {
 
-    execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): void {
-
-        let member: GuildMember = args.get('user') || (message||interaction!).member;
+        const member: GuildMember = args.get('user') || (message||interaction!).member;
 
         if (!member) {
             (message||interaction!)?.reply({
@@ -29,7 +29,7 @@ export class Avatar extends Command {
             return;
         }
         
-        let embed = new EmbedBuilder()
+        const embed = new EmbedBuilder()
 
             .setTitle(trans('title', {
                 user: member.user.globalName || member.user.displayName
@@ -49,12 +49,12 @@ export class Avatar extends Command {
 
             .setColor(config.colors.default);
 
-            const row: any = new ActionRowBuilder()
+        const row: any = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                .setLabel(trans('button.browser'))
-                .setStyle(ButtonStyle.Link)
-                .setURL(`${member.user.displayAvatarURL({forceStatic: false, size: 4096 })}`)
+                    .setLabel(trans('button.browser'))
+                    .setStyle(ButtonStyle.Link)
+                    .setURL(`${member.user.displayAvatarURL({ forceStatic: false, size: 4096 })}`)
             );
 
         (message||interaction!)?.reply({ 
@@ -65,7 +65,5 @@ export class Avatar extends Command {
             } 
         });
     }
-
-    selectMenu({ path, interaction, client, framework }: SelectMenuParameters): void {}
 
 }

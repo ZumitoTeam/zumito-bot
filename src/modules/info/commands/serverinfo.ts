@@ -1,5 +1,5 @@
-import { ChannelType, EmbedBuilder, Client } from "zumito-framework/discord";
-import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, TextFormatter, ServiceContainer } from "zumito-framework";
+import { ChannelType, EmbedBuilder } from "zumito-framework/discord";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, TextFormatter, ServiceContainer } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
 export class ServerInfo extends Command {
@@ -17,12 +17,12 @@ export class ServerInfo extends Command {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
-    execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): void {
+    execute({ message, interaction, client, framework, guildSettings, trans }: CommandParameters): void {
 
-        let guildOwner = client.users.cache.get(message?.guild?.ownerId || interaction!.guild!.ownerId)!;
-        let serverCreationDate = message?.guild?.createdAt || interaction!.guild!.createdAt;
-        let description = [
-            "**" + trans('no.description', guildSettings.lang) + "**\n",
+        const guildOwner = client.users.cache.get(message?.guild?.ownerId || interaction!.guild!.ownerId)!;
+        const serverCreationDate = message?.guild?.createdAt || interaction!.guild!.createdAt;
+        const description = [
+            `**${  trans('no.description', guildSettings.lang)  }**\n`,
             trans('id', {
                 id: message?.guild?.id || interaction?.guild?.id
             }),
@@ -30,14 +30,14 @@ export class ServerInfo extends Command {
                 owner: guildOwner.tag
             }),
             trans('created', {
-                created: TextFormatter.getTimestampFromDate(serverCreationDate, 'd') + ` (${TextFormatter.getTimestampFromDate(serverCreationDate, 'R')})`
+                created: `${TextFormatter.getTimestampFromDate(serverCreationDate, 'd')  } (${TextFormatter.getTimestampFromDate(serverCreationDate, 'R')})`
             }),
             trans('language', {
                 language: guildSettings.lang
             })
         ];
 
-        let stats = [
+        const stats = [
             trans('members', {
                 members: message?.guild?.memberCount || interaction?.guild?.memberCount
             }),
@@ -49,7 +49,7 @@ export class ServerInfo extends Command {
             })
         ];
 
-        let channels = [
+        const channels = [
             trans('total', {
                 total: message?.guild?.channels.cache.size || interaction?.guild?.channels.cache.size
             }),
@@ -77,22 +77,22 @@ export class ServerInfo extends Command {
         ]
         
         const embed = new EmbedBuilder()
-            .setTitle(this.emojiFallback.getEmoji('974087795616407583', '🔸') + ' ' +  (message?.guild?.name || interaction!.guild!.name))
+            .setTitle(`${this.emojiFallback.getEmoji('974087795616407583', '🔸')  } ${   message?.guild?.name || interaction!.guild!.name}`)
             .setThumbnail(message?.guild?.iconURL({ forceStatic: false }) || interaction?.guild?.iconURL({ forceStatic: false }) || '')
             .setDescription(description.join('\n'))
             .addFields(
                 {
-                    name: this.emojiFallback.getEmoji('975563717439795250', '♻') + ' ' + framework.translations.get('command.serverinfo.stats', guildSettings.lang), 
+                    name: `${this.emojiFallback.getEmoji('975563717439795250', '♻')  } ${  framework.translations.get('command.serverinfo.stats', guildSettings.lang)}`, 
                     value: stats.join('\n'), 
                     inline: true
                 }, {
-                    name: this.emojiFallback.getEmoji('975583443113095168', '📕') + ' ' + framework.translations.get('command.serverinfo.details', guildSettings.lang), 
+                    name: `${this.emojiFallback.getEmoji('975583443113095168', '📕')  } ${  framework.translations.get('command.serverinfo.details', guildSettings.lang)}`, 
                     value: trans('verification', {
                         verification: message?.guild?.verificationLevel || interaction?.guild?.verificationLevel
                     }), 
                     inline: true 
                 }, {
-                    name: this.emojiFallback.getEmoji('974540778305105930', '💬') + ' ' + framework.translations.get('command.serverinfo.channels', guildSettings.lang), 
+                    name: `${this.emojiFallback.getEmoji('974540778305105930', '💬')  } ${  framework.translations.get('command.serverinfo.channels', guildSettings.lang)}`, 
                     value: channels.join('\n'),
                 }
             )
@@ -104,7 +104,6 @@ export class ServerInfo extends Command {
             })
             .setColor(config.colors.default);
 
-
         (message || interaction!)?.reply({
             embeds:[embed],
             allowedMentions: { 
@@ -113,7 +112,4 @@ export class ServerInfo extends Command {
         });
     }
 
-    selectMenu({ path, interaction, client, framework }: SelectMenuParameters): void {
-
-    }
 }
