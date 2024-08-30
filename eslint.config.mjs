@@ -1,33 +1,26 @@
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-});
 
 export default [
-    ...compat.extends("eslint:recommended", "plugin:@typescript-eslint/recommended"),
     {
-        plugins: {
+        "plugins": {
             "@typescript-eslint": typescriptEslint,
         },
 
-        languageOptions: {
-            parser: tsParser,
-            globals: {
+        "languageOptions": {
+            "parser": tsParser,
+            "globals": {
                 "node": true,
+                process: true
             }
         },
 
-        rules: {
+        "files": [
+            '**/*.js',
+            '**/*.ts',
+        ],
+
+        "rules": {
             "no-unused-vars": "error",
             "no-undef": "error",
             "indent": ["error", 4],
@@ -43,7 +36,6 @@ export default [
             "max-depth": ["warn", 4],
             "object-curly-spacing": ["error", "always"],
             "array-bracket-spacing": ["error", "never"],
-            "linebreak-style": ["error", "unix"],
             "camelcase": ["error", { "properties": "always" }],
             "prefer-template": "warn",
             "spaced-comment": ["error", "always", { "markers": ["/"] }]
