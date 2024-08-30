@@ -32,18 +32,18 @@ export class UserInfo extends Command {
         
         const badges = user.flags.toArray();
         const badgeEmojiMap = {
-            ActiveDeveloper: this.emojiFallback.getEmoji('1200907904543371284', '💻'), // 💻 Developer
-            BugHunterLevel1: this.emojiFallback.getEmoji('1200907027896086598', '🐞'), // 🐞 Bug Hunter Level 1
-            BugHunterLevel2: this.emojiFallback.getEmoji('1200907027896086598', '🐛'), // 🐛 Bug Hunter Level 2
-            CertifiedModerator: this.emojiFallback.getEmoji('1200907027896086598', '🛡️'), // 🛡️ Certified Moderator
-            HypeSquadOnlineHouse1: this.emojiFallback.getEmoji('1200907027896086598', '🏠'), // 🏠 HypeSquad House 1
-            HypeSquadOnlineHouse2: this.emojiFallback.getEmoji('1200907027896086598', '🏡'), // 🏡 HypeSquad House 2
-            HypeSquadOnlineHouse3: this.emojiFallback.getEmoji('1200910182914465842', '🏰'), // 🏰 HypeSquad House 3
-            Hypesquad: this.emojiFallback.getEmoji('1200910182914465842', '🎉'), // 🎉 HypeSquad
-            Partner: this.emojiFallback.getEmoji('1200910182914465842', '🤝'), // 🤝 Partner
-            PremiumEarlySupporter: this.emojiFallback.getEmoji('1200910182914465842', '🌟'), // 🌟 Early Supporter
-            VerifiedBot: this.emojiFallback.getEmoji('1200910182914465842', '🤖'), // 🤖 Verified Bot
-            VerifiedDeveloper: this.emojiFallback.getEmoji('1200910182914465842', '🔧') // 🔧 Verified Developer
+            ActiveDeveloper: this.emojiFallback.getEmoji('', '💻'), // 💻 Developer
+            BugHunterLevel1: this.emojiFallback.getEmoji('', '🐞'), // 🐞 Bug Hunter Level 1
+            BugHunterLevel2: this.emojiFallback.getEmoji('', '🐛'), // 🐛 Bug Hunter Level 2
+            CertifiedModerator: this.emojiFallback.getEmoji('', '🛡️'), // 🛡️ Certified Moderator
+            HypeSquadOnlineHouse1: this.emojiFallback.getEmoji('', '🏠'), // 🏠 HypeSquad House 1
+            HypeSquadOnlineHouse2: this.emojiFallback.getEmoji('', '🏡'), // 🏡 HypeSquad House 2
+            HypeSquadOnlineHouse3: this.emojiFallback.getEmoji('', '🏰'), // 🏰 HypeSquad House 3
+            Hypesquad: this.emojiFallback.getEmoji('', '🎉'), // 🎉 HypeSquad
+            Partner: this.emojiFallback.getEmoji('', '🤝'), // 🤝 Partner
+            PremiumEarlySupporter: this.emojiFallback.getEmoji('', '🌟'), // 🌟 Early Supporter
+            VerifiedBot: this.emojiFallback.getEmoji('', '🤖'), // 🤖 Verified Bot
+            VerifiedDeveloper: this.emojiFallback.getEmoji('', '🔧') // 🔧 Verified Developer
         };
         
         const badgesWithEmojis = badges
