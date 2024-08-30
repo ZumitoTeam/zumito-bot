@@ -1,14 +1,12 @@
 {
     "description": "Displays a user's banner",
     "title": "Banner of {name}",
-    "full": "**Full image**",
-    "click": "Click here",
     "button":{
         "browser": "View in browser"
     },
     "no": {
-        "banner": "No banner",
-        "mention": "no banner"
+        "banner": "You have no banner.",
+        "mention": "**{name}** has no banner."
     },
     "arguments": {
         "user": {
