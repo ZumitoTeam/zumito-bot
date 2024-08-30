@@ -34,6 +34,7 @@ export default [
             "prefer-const": "error",
             "brace-style": ["error", "1tbs"],
             "max-depth": ["warn", 4],
+            "object-curly-spacing": ["error", "always"],
             "array-bracket-spacing": ["error", "never"],
             "camelcase": ["error", { "properties": "always" }],
             "prefer-template": "warn",
