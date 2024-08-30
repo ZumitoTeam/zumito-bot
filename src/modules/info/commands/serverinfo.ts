@@ -1,5 +1,5 @@
-import { ChannelType, EmbedBuilder, StringSelectMenuBuilder } from "zumito-framework/discord";
-import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, TextFormatter, ServiceContainer } from "zumito-framework";
+import { ChannelType, EmbedBuilder } from "zumito-framework/discord";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, TextFormatter, ServiceContainer } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
 export class ServerInfo extends Command {
@@ -17,10 +17,10 @@ export class ServerInfo extends Command {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
-    execute({ message, interaction, args, client, framework, guildSettings, trans }: CommandParameters): void {
+    execute({ message, interaction, client, trans }: CommandParameters): void {
 
-        let guildOwner = client.users.cache.get(message?.guild?.ownerId || interaction!.guild!.ownerId)!;
-        let serverCreationDate = message?.guild?.createdAt || interaction!.guild!.createdAt;
+        const guildOwner = client.users.cache.get(message?.guild?.ownerId || interaction!.guild!.ownerId)!;
+        const serverCreationDate = message?.guild?.createdAt || interaction!.guild!.createdAt;
         const premiumSubscriptionCount = message?.guild?.premiumSubscriptionCount || interaction?.guild?.premiumSubscriptionCount || 0;
         
         const verificationLevels: { [key: number]: string } = {
@@ -59,40 +59,40 @@ export class ServerInfo extends Command {
             .addFields(
                 {
                     name: `${this.emojiFallback.getEmoji('', '🆔')  } ${  trans('id')}`, 
-                    value: (message?.guild?.id || interaction!.guild!.id) + '', 
+                    value: `${message?.guild?.id || interaction!.guild!.id  }`, 
                     inline: true
                 }, {
-                    name: this.emojiFallback.getEmoji('', '👑') + ' ' + trans('owner'),
+                    name: `${this.emojiFallback.getEmoji('', '👑')  } ${  trans('owner')}`,
                     value: guildOwner.toString(),
                     inline: true
                 }, {
-                    name: this.emojiFallback.getEmoji('', '📅') + ' ' + trans('dateCreated'),
+                    name: `${this.emojiFallback.getEmoji('', '📅')  } ${  trans('dateCreated')}`,
                     value: TextFormatter.getTimestampFromDate(serverCreationDate, 'd'),
                     inline: true
                 }, {
-                    name: this.emojiFallback.getEmoji('', '💬') + ' ' + trans('channels', { channels: totalChannels }),
-                    value: trans('text', {text: textChannels}) + ' | ' +
-                           trans('voice', {voice: voiceChannels}) + ' | ' +
-                           trans('thread', {thread: threadChannels}),
+                    name: `${this.emojiFallback.getEmoji('', '💬')  } ${  trans('channels', { channels: totalChannels })}`,
+                    value: `${trans('text', { text: textChannels })  } | ${ 
+                        trans('voice', { voice: voiceChannels })  } | ${ 
+                        trans('thread', { thread: threadChannels })}`,
                     inline: true
                 }, {
-                    name: this.emojiFallback.getEmoji('', '👥') + ' ' + trans('members'),
-                    value: (message?.guild?.memberCount || interaction?.guild?.memberCount) + '', 
+                    name: `${this.emojiFallback.getEmoji('', '👥')  } ${  trans('members')}`,
+                    value: `${message?.guild?.memberCount || interaction?.guild?.memberCount  }`, 
                     inline: true
                 }, {
-                    name: this.emojiFallback.getEmoji('', '✨') + ' ' + trans('upgrades'),
-                    value: premiumSubscriptionCount + '',
+                    name: `${this.emojiFallback.getEmoji('', '✨')  } ${  trans('upgrades')}`,
+                    value: `${premiumSubscriptionCount  }`,
                     inline: true
                 }, {
-                    name: this.emojiFallback.getEmoji('', '🏜') + ' ' + trans('emojis'),
-                    value: (message?.guild?.emojis.cache.size || interaction?.guild?.emojis.cache.size) + '',
+                    name: `${this.emojiFallback.getEmoji('', '🏜')  } ${  trans('emojis')}`,
+                    value: `${message?.guild?.emojis.cache.size || interaction?.guild?.emojis.cache.size  }`,
                     inline: true
                 }, {
-                    name: this.emojiFallback.getEmoji('', '🗡') + ' ' + trans('roles'),
-                    value: rolesCount + '',
+                    name: `${this.emojiFallback.getEmoji('', '🗡')  } ${  trans('roles')}`,
+                    value: `${rolesCount  }`,
                     inline: true
                 }, {
-                    name: this.emojiFallback.getEmoji('', '📖') + ' ' + trans('verification'),
+                    name: `${this.emojiFallback.getEmoji('', '📖')  } ${  trans('verification')}`,
                     value: verificationText,
                     inline: true
                 }
@@ -113,7 +113,7 @@ export class ServerInfo extends Command {
         });
     }
 
-    selectMenu({ path, interaction, client, framework }: SelectMenuParameters): void {
+    selectMenu(): void {
 
     }
 }
