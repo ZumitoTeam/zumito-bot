@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { EmbedBuilder, GuildMember, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "zumito-framework/discord";
 import { Command, CommandArgDefinition, CommandParameters, CommandType } from "zumito-framework";
 import { config } from "../../../config/index.js";
