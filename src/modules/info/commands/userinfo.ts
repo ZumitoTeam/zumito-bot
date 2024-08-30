@@ -1,6 +1,5 @@
-import { EmbedBuilder, GuildMember, ActionRowBuilder, StringSelectMenuBuilder, Client } from "zumito-framework/discord";
+import { EmbedBuilder, GuildMember, ActionRowBuilder, UserSelectMenuBuilder } from "zumito-framework/discord";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, SelectMenuParameters, TextFormatter, EmojiFallback, ServiceContainer } from "zumito-framework";
-import { config } from "../../../config/index.js";
 
 export class UserInfo extends Command {
 
@@ -21,81 +20,69 @@ export class UserInfo extends Command {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
     
-    execute({ message, interaction, args, client, framework, guildSettings }: CommandParameters): void {
+    execute({ message, interaction, args, framework, guildSettings, trans }: CommandParameters): void {
 
-        let user = args.get('user') || (message||(interaction!)).member!.user;
-        let member: GuildMember | undefined = (message||(interaction!)).guild?.members.cache.get(user.id) as unknown as GuildMember;
-        let userCreateDate = user.createdAt;
-        let userGuildJoinDate = member.joinedAt as Date;
+        const user = args.get('user') || (message||(interaction!)).member!.user;
+        const member: GuildMember | undefined = (message||(interaction!)).guild?.members.cache.get(user.id) as unknown as GuildMember;
+        const userCreateDate = user.createdAt;
+        const userGuildJoinDate = member.joinedAt as Date;
         const isOwner = member?.guild && member.guild.ownerId === user?.id;
-        const ownerEmoji = isOwner ? '👑' : '';
-        const finalName = `${ownerEmoji}`+ ' ' +`${isOwner ? user.globalName : user.displayName}`;
+
+        const finalName = `${isOwner ? '👑 ' : ''}${user.globalName || user.displayName}`;
         
-        let badges = user.flags.toArray();
-
-        // Flags doc: https://discord-api-types.dev/api/discord-api-types-v10/enum/UserFlags
+        const badges = user.flags.toArray();
         const badgeEmojiMap = {
-            ActiveDeveloper: this.emojiFallback.getEmoji('1200907904543371284', '💻'),
-            BotHTTPInteractions: this.emojiFallback.getEmoji('1200907027896086598', '🎈'),
-            BugHunterLevel1: this.emojiFallback.getEmoji('1200907027896086598', '🧨'),
-            BugHunterLevel2: this.emojiFallback.getEmoji('1200907027896086598', '🎎'),
-            CertifiedModerator: this.emojiFallback.getEmoji('1200907027896086598', '🎭'),
-            Collaborator: this.emojiFallback.getEmoji('1200907027896086598', '👓'),
-            DisablePremium: this.emojiFallback.getEmoji('1200907027896086598', '🥼'),
-            HasUnreadUrgentMessages: this.emojiFallback.getEmoji('1200907027896086598', '🥻'),
-            HypeSquadOnlineHouse1: this.emojiFallback.getEmoji('1200907027896086598', '💄'),
-            HypeSquadOnlineHouse2: this.emojiFallback.getEmoji('1200907027896086598', '👑'),
-            HypeSquadOnlineHouse3: this.emojiFallback.getEmoji('1200910182914465842', '✨'),
-            Hypesquad: this.emojiFallback.getEmoji('1200910182914465842', '🎠'),
-            MFASMS: this.emojiFallback.getEmoji('1200910182914465842', '🕶'),
-            Partner: this.emojiFallback.getEmoji('1200910182914465842', '📯'),
-            PremiumEarlySupporter: this.emojiFallback.getEmoji('1200910182914465842', '📀'),
-            PremiumPromoDismissed: this.emojiFallback.getEmoji('1200910182914465842', '🔮'),
-            Quarantined: this.emojiFallback.getEmoji('1200910182914465842', '🔍'),
-            RestrictedCollaborator: this.emojiFallback.getEmoji('1200910182914465842', '📕'),
-            Spammer: this.emojiFallback.getEmoji('1200910182914465842', '🔍'),
-            Staff: this.emojiFallback.getEmoji('1200910182914465842', '🎪'),
-            TeamPseudoUser: this.emojiFallback.getEmoji('1200910182914465842', '🖼'),
-            VerifiedBot:this.emojiFallback.getEmoji('1200910182914465842', '🚬'),
-            VerifiedDeveloper: this.emojiFallback.getEmoji('1200910182914465842', '🔉')
-            
-          };
-
-        let badgesWithEmojis = badges.map((badge: string | number) => badgeEmojiMap[badge as keyof typeof badgeEmojiMap]);
-
+            ActiveDeveloper: this.emojiFallback.getEmoji('', '💻'), // 💻 Developer
+            BugHunterLevel1: this.emojiFallback.getEmoji('', '🐞'), // 🐞 Bug Hunter Level 1
+            BugHunterLevel2: this.emojiFallback.getEmoji('', '🐛'), // 🐛 Bug Hunter Level 2
+            CertifiedModerator: this.emojiFallback.getEmoji('', '🛡️'), // 🛡️ Certified Moderator
+            HypeSquadOnlineHouse1: this.emojiFallback.getEmoji('', '🏠'), // 🏠 HypeSquad House 1
+            HypeSquadOnlineHouse2: this.emojiFallback.getEmoji('', '🏡'), // 🏡 HypeSquad House 2
+            HypeSquadOnlineHouse3: this.emojiFallback.getEmoji('', '🏰'), // 🏰 HypeSquad House 3
+            Hypesquad: this.emojiFallback.getEmoji('', '🎉'), // 🎉 HypeSquad
+            Partner: this.emojiFallback.getEmoji('', '🤝'), // 🤝 Partner
+            PremiumEarlySupporter: this.emojiFallback.getEmoji('', '🌟'), // 🌟 Early Supporter
+            VerifiedBot: this.emojiFallback.getEmoji('', '🤖'), // 🤖 Verified Bot
+            VerifiedDeveloper: this.emojiFallback.getEmoji('', '🔧') // 🔧 Verified Developer
+        };
+        
+        const badgesWithEmojis = badges
+            .map((badge: string) => badgeEmojiMap[badge as keyof typeof badgeEmojiMap])
+            .filter(Boolean) 
+            .join(' ');
 
         let userRoles: any = member.roles.cache;
         if (userRoles.size > 10) {
-            userRoles = framework.translations.get('command.userinfo.roles', guildSettings.language, {
+            userRoles = trans('roles', {
                 roles: userRoles.size
             });
         } else if (userRoles <= 1) {
-            userRoles = framework.translations.get('command.userinfo.noRoles', guildSettings.language);
+            userRoles = trans('noRoles');
         } else {
             userRoles = userRoles.filter((r: any) => r.id !== (message||(interaction!)).guild?.id)
                 .map((r: any) => r)
                 .join(' • ');
         }
 
-        let statusGame = member?.presence?.activities[0];
+        const statusGame = member?.presence?.activities[0];
        
-        let description = [];
+        const description = [];
         
         // Title
         description.push(
-            framework.translations.get('command.userinfo.info', guildSettings.lang),
+            trans('info'),
         );
 
         // Id
         description.push(
-            framework.translations.get('command.userinfo.id', guildSettings.lang, {
+            trans('id', {
                 id: user.id
             }),
         );
 
         // User
         description.push(
-            framework.translations.get('command.userinfo.user', guildSettings.lang, {
+            trans('user', {
                 user: user.username, 
             }),
         )
@@ -103,7 +90,7 @@ export class UserInfo extends Command {
         // Name
         if (user.globalName) {
             description.push(
-                framework.translations.get('command.userinfo.name', guildSettings.lang, {
+                trans('name', {
                     name: user.globalName, 
                 }),
             )
@@ -112,75 +99,68 @@ export class UserInfo extends Command {
         // Nickname
         if (member.nickname) {
             description.push(
-                framework.translations.get('command.userinfo.nickname', guildSettings.lang, {
-                    nick: (member.nickname || framework.translations.get('command.userinfo.noNickname', guildSettings.lang))
+                trans('nickname', {
+                    nick: (member.nickname || trans('noNickname'))
                 }),
             )
         }
 
         // Color
         description.push(
-            framework.translations.get('command.userinfo.color', guildSettings.lang, {
+            trans('color', {
                 color: (member.roles.color?.hexColor || "#99AAB5").toUpperCase()
             }),
         )
 
         // Badges
-        if (badgesWithEmojis.length > 0) {
+        if (badgesWithEmojis) {
             description.push(
-                framework.translations.get('command.userinfo.badges', guildSettings.lang, {
-                    badges: badgesWithEmojis.join(' ')
-                }),
-            )
+                trans('badges', {
+                    badges: badgesWithEmojis
+                })
+            );
         }
 
         // Status
         description.push(
-            framework.translations.get('command.userinfo.playing', guildSettings.lang, {
-                playing: statusGame || framework.translations.get('command.userinfo.noPlaying', guildSettings.lang)
+            trans('playing', {
+                playing: statusGame || trans('noPlaying')
             })
         )
 
         const embed = new EmbedBuilder()
             .setTitle(finalName)
-            .setURL('https://discord.com/users/' + user.id)
+            .setURL(`https://discord.com/users/${user.id}`)
             .setThumbnail(member.displayAvatarURL({ size: 4096, forceStatic: false }))
             .setDescription(description.join('\n'))
             .addFields(
                 { 
-                    name: framework.translations.get('command.userinfo.membership', guildSettings.lang), 
-                    value: TextFormatter.getTimestampFromDate(userCreateDate, 'f') + ` (${TextFormatter.getTimestampFromDate(userCreateDate, 'R')})`
+                    name: trans('membership'), 
+                    value: `${TextFormatter.getTimestampFromDate(userCreateDate, 'f')  } (${TextFormatter.getTimestampFromDate(userCreateDate, 'R')})`
                 }, { 
-                    name: framework.translations.get('command.userinfo.join', guildSettings.lang, {
+                    name: trans('join', {
                         server: (message?.guild?.name || interaction!.guild!.name)
                     }), 
-                    value: TextFormatter.getTimestampFromDate(userGuildJoinDate, 'f') + ` (${TextFormatter.getTimestampFromDate(userGuildJoinDate, 'R')})`
+                    value: `${TextFormatter.getTimestampFromDate(userGuildJoinDate, 'f')  } (${TextFormatter.getTimestampFromDate(userGuildJoinDate, 'R')})`
                 }, { 
-                    name: framework.translations.get('command.userinfo.roles', guildSettings.lang), 
-                    value: userRoles || framework.translations.get('command.userinfo.noRoles', guildSettings.language)
+                    name: trans('roles'), 
+                    value: userRoles || trans('noRoles')
                 }
             )    
             .setFooter({
                 text: framework.translations.get('global.requested', guildSettings.lang, {
-                        user: message?.author.globalName || interaction?.user.globalName
-                    }),
+                    user: message?.author.globalName || interaction?.user.globalName
+                }),
                 iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
             })
-            .setColor(config.colors.default);
+            .setColor((member.roles.color?.hexColor || "#99AAB5"));
 
-            const option = {
-                label: user.globalName || user.displayName + ' ' + user.displayName || user.displayName,
-                value: user.id
-            };
-            
+        const select = new UserSelectMenuBuilder()
+            .setCustomId('userinfo.user')
+            .setPlaceholder(trans('select'));
 
-            const select = new StringSelectMenuBuilder()
-			.setCustomId('userinfo.user')
-			.setPlaceholder(framework.translations.get('command.userinfo.select', guildSettings.lang))
-			.addOptions([option]);
-
-            const row: any = new ActionRowBuilder()
-			.addComponents(select);
+        const row: any = new ActionRowBuilder()
+            .addComponents(select);
 
         (message || interaction!)?.reply({ 
             embeds: [embed], 
@@ -191,7 +171,7 @@ export class UserInfo extends Command {
         });
     }
 
-    selectMenu({ path, interaction, client, framework }: SelectMenuParameters): void {
+    selectMenu({  }: SelectMenuParameters): void {
 
     }
 }
