@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export const links: any = {
       
     support: "https://bot.zumito.dev/server",
