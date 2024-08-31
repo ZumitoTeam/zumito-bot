@@ -1,11 +1,13 @@
-import { statusOptions } from "./StatusOptions.js";
-import { global } from "./Global.js";
-import { links } from "./Links.js";
 import { colors } from "./Colors.js";
+import { global } from "./Global.js";
+import { images } from "./Images.js";
+import { links } from "./Links.js";
+import { statusOptions } from "./StatusOptions.js";
 
 export const config = {
-    statusOptions,
-    global,
-    links,
     colors,
+    global,
+    images,
+    links,
+    statusOptions,
 };
