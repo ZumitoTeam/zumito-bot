@@ -7,15 +7,21 @@
             "USE_EXTERNAL_EMOJIS": "Use external emojis"
         },
         "category": {
-            "information": {
-                "name": "Information",
-                "description": "Information commands",
-                "emoji": "🏳️"
-            },
             "configuration": {
                 "name": "Configuration",
                 "description": "Configuration commands",
                 "emoji": "⚙️"
+            },
+            "giveaway":{
+                "name": "Giveaway",
+                "description": "Giveaway commands",
+                "emoji": "🎉"
+
+            },
+            "information": {
+                "name": "Information",
+                "description": "Information commands",
+                "emoji": "🏳️"
             }
         },
         "requested": "Requested by {user}",
