@@ -1,0 +1,8 @@
+{
+      "description": "Change bot prefix.",
+      "args": "Type the new prefix.",
+      "message": "My prefix on this server is: ``{prefix}``",
+      "changed": "My prefix has changed to: ``{prefix}``",
+      "permissions": "In order to execute this command you must have the permissions: ``{permissions}``",
+      "directMSG": "Error: cannot execute command in direct messages."
+}
