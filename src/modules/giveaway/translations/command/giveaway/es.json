@@ -1,0 +1,15 @@
+{
+      "description": "Crea sorteos en su servidor.",
+      "title": "Giveaway",
+      "greeting": {
+            "0": "¡Hola y bienvenido al sistema de sorteos de **{name}**!",
+            "1": "Aquí puedes organizar sorteos emocionantes para alegrar a tu comunidad.",
+            "2": "**Consejo:** Usa ``{prefix}help giveaway`` giveaway para descubrir todos los comandos disponibles en esta categoría.",
+            "3": "O simplemente presiona los botones de abajo para empezar a crear diversión."
+      },
+      "button": {
+            "create": "Crear",
+            "list": "Lista",
+            "delete": "Eliminar"
+      }
+}
