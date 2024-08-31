@@ -1,0 +1,15 @@
+{
+      "description": "Create giveaway on your server.",
+      "title": "Giveaway",
+      "greeting": {
+            "0": "Hello and welcome to **{name}** giveaway system!",
+            "1": "Here you can organize exciting giveaways to delight your community.",
+            "2": "**Tip:** Use ``{prefix}help giveaway`` to discover all the available commands in this category.",
+            "3": "Or just press the buttons below to start creating some fun."
+      },
+      "button": {
+            "create": "Create",
+            "list": "List",
+            "delete": "Delete"
+      }
+}
