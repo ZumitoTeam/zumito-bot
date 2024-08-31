@@ -30,7 +30,7 @@ export class Prefix extends Command {
             */   
 
         (message || interaction!)?.reply({
-            content: `${this.emojiFallback.getEmoji('', '⚠️')  } ${ trans('directMSG')}`, 
+            content: `${this.emojiFallback.getEmoji('', 'ℹ️')  } ${  trans('message', { prefix: ['h!'] })}`, 
             allowedMentions: { 
                 repliedUser: false 
             },
