@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from "zumito-framework/discord";
+import { EmbedBuilder } from "zumito-framework/discord"; // ActionRowBuilder, ButtonBuilder, ButtonStyle,
 import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ServiceContainer, ZumitoFramework } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
@@ -38,7 +38,7 @@ export class Giveaway extends Command {
             .setDescription(description.join('\n'))
             .setColor(config.colors.default);
 
-        const row: any = new ActionRowBuilder()
+        /* const row: any = new ActionRowBuilder()
             
             .addComponents(
 
@@ -61,10 +61,10 @@ export class Giveaway extends Command {
                     .setEmoji(this.emojiFallback.getEmoji('','🗑')),
             
             );
-            
+            */
         (message || interaction!)?.reply({
             embeds: [embed],
-            components: [row],
+            // components: [row],
             allowedMentions: { 
                 repliedUser: false 
             }
