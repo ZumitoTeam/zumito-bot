@@ -1,0 +1,8 @@
+{
+      "description": "Cambia el prefijo del bot.",
+      "args": "Escribe el nuevo prefijo.",
+      "message": "Mi prefijo en este servidor es: ``{prefix}``",
+      "changed": "Mi prefijo ha cambiado a: ``{prefix}``",
+      "permissions": "Para ejecutar este comando debe tener los permisos: ``{permissions}``",
+      "directMSG": "Error: No se puede ejecutar el comando en mensajes directos."
+}
