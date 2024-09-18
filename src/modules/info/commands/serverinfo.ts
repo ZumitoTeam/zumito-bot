@@ -17,7 +17,7 @@ export class ServerInfo extends Command {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
-    execute({ message, interaction, client, framework, guildSettings, trans }: CommandParameters): void {
+    async execute({ message, interaction, client, framework, guildSettings, trans }: CommandParameters): Promise<void> {
 
         const guildOwner = client.users.cache.get(message?.guild?.ownerId || interaction!.guild!.ownerId)!;
         const serverCreationDate = message?.guild?.createdAt || interaction!.guild!.createdAt;
