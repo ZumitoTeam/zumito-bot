@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "zumito-framework/discord"; // ActionRowBuilder, ButtonBuilder, ButtonStyle,
-import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ServiceContainer, ZumitoFramework } from "zumito-framework";
+import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, ServiceContainer, ZumitoFramework } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
 export class Giveaway extends Command {
@@ -17,7 +17,7 @@ export class Giveaway extends Command {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
-    execute({ message, interaction, client, guildSettings, framework, trans }: CommandParameters): void {
+    async execute({ message, interaction, client, guildSettings, framework, trans }: CommandParameters): Promise<void> {
 
         const prefix = this.getPrefix(guildSettings, framework);
 
@@ -69,9 +69,6 @@ export class Giveaway extends Command {
                 repliedUser: false 
             }
         });
-    }
-    async selectMenu({  }: SelectMenuParameters): Promise<void> {
-
     }
     getPrefix(guildSettings: any, framework?: ZumitoFramework): string {
         return ( guildSettings?.prefix || process.env.BOT_PREFIX || framework?.settings.defaultPrefix || "!");
