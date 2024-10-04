@@ -1,20 +1,31 @@
 {
     "description": "Muestra información detallada del servidor",
-    "id": "ID Servidor",
-    "owner": "Dueño",
-    "dateCreated": "Fecha creación",
-    "channels": "Canales ({channels})",
-    "text": "**{text}** texto",
-    "voice": "**{voice}** voz",
-    "thread": "**{thread}** hilo",
-    "members": "Miembros",
-    "upgrades": "Mejoras",
-    "emojis": "Emojis",
-    "roles": "Roles",
-    "verification": "Verificación",
+    "id": "ID: **{id}**",
+    "owner": "Dueño/a: {owner}",
+    "dateCreated": "Fecha de creación: **{dateCreated}**",
+    "members": "Miembros: **{members}**",
+    "channels": "Canales: **{channels}**",
+    "roles": "Roles: **{roles}**",
+    "emojis": "Emojis: **{emojis}**",
+    "upgrades": "Mejoras: **{upgrades}**",
+    "verification": "Verificación: **{verification}**",
     "none": "Ninguno",
     "low": "Bajo",
     "medium": "Medio",
     "high": "Alto",
-    "very_high": "Muy Alto"
+    "very_high": "Muy Alto",
+    "select": {
+        "server": {
+            "title": "Servidor",
+            "description": "Muestra informcion general del servidor."
+        },
+        "roles": {
+            "title": "Roles",
+            "description": "Muestra los roles del servidor."
+        },
+        "emojis": {
+            "title": "Emojis",
+            "description": "Muestra los emojis del servidor."
+        }
+    }
 }

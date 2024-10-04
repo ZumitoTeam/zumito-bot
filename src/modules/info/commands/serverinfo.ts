@@ -1,6 +1,4 @@
-import { ChannelType, EmbedBuilder } from "zumito-framework/discord";
-import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, TextFormatter, ServiceContainer } from "zumito-framework";
-import { ChannelType, EmbedBuilder } from "zumito-framework/discord";
+import { ChannelType, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "zumito-framework/discord";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, TextFormatter, ServiceContainer } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
@@ -19,12 +17,12 @@ export class ServerInfo extends Command {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
-    async execute({ message, interaction, client, framework, guildSettings, trans }: CommandParameters): Promise<void> {
+    async execute({ message, interaction, client, trans }: CommandParameters): Promise<void> {
 
         const guildOwner = client.users.cache.get(message?.guild?.ownerId || interaction!.guild!.ownerId)!;
         const serverCreationDate = message?.guild?.createdAt || interaction!.guild!.createdAt;
         const premiumSubscriptionCount = message?.guild?.premiumSubscriptionCount || interaction?.guild?.premiumSubscriptionCount || 0;
-        
+
         const verificationLevels: { [key: number]: string } = {
             0: trans('none'), 
             1: trans('low'),
@@ -38,136 +36,56 @@ export class ServerInfo extends Command {
         const rolesCount = (message?.guild?.roles.cache || interaction!.guild!.roles.cache).filter(role => role.name !== '@everyone').size;
     
         const channels = message?.guild?.channels.cache || interaction!.guild!.channels.cache;
-
-        const textChannels = channels.filter(channel => 
-            channel.type === ChannelType.GuildText ||
-            channel.type === ChannelType.GuildAnnouncement ||
-            channel.type === ChannelType.GuildForum).size;
-
-        const voiceChannels = channels.filter(channel => 
-            channel.type === ChannelType.GuildVoice ||
-            channel.type === ChannelType.GuildStageVoice).size;
-
-        const threadChannels = channels.filter(channel => 
-            channel.type === ChannelType.PublicThread ||
-            channel.type === ChannelType.PrivateThread).size;
-
+        
+        const textChannels = channels.filter(channel => channel.type === ChannelType.GuildText || channel.type === ChannelType.GuildAnnouncement || channel.type === ChannelType.GuildForum).size;
+        const voiceChannels = channels.filter(channel => channel.type === ChannelType.GuildVoice || channel.type === ChannelType.GuildStageVoice).size;
+        const threadChannels = channels.filter(channel => channel.type === ChannelType.PublicThread || channel.type === ChannelType.PrivateThread).size;
         const totalChannels = textChannels + voiceChannels + threadChannels;
 
-        const guildOwner = client.users.cache.get(message?.guild?.ownerId || interaction!.guild!.ownerId)!;
-        const serverCreationDate = message?.guild?.createdAt || interaction!.guild!.createdAt;
-        const premiumSubscriptionCount = message?.guild?.premiumSubscriptionCount || interaction?.guild?.premiumSubscriptionCount || 0;
-        
-        const verificationLevels: { [key: number]: string } = {
-            0: trans('none'), 
-            1: trans('low'),
-            2: trans('medium'),
-            3: trans('high'),
-            4: trans('very_high')
-        };
-        
-        const verificationLevel = (message?.guild?.verificationLevel || interaction?.guild?.verificationLevel) as 0 | 1 | 2 | 3 | 4;
-        const verificationText = verificationLevels[verificationLevel] || trans('unknown');
-        const rolesCount = (message?.guild?.roles.cache || interaction!.guild!.roles.cache).filter(role => role.name !== '@everyone').size;
-    
-        const channels = message?.guild?.channels.cache || interaction!.guild!.channels.cache;
+        const description = [
 
-        const textChannels = channels.filter(channel => 
-            channel.type === ChannelType.GuildText ||
-            channel.type === ChannelType.GuildAnnouncement ||
-            channel.type === ChannelType.GuildForum).size;
+            `${this.emojiFallback.getEmoji('', '🆔') } ${  trans('id', {
+                id: message?.guild?.id || interaction!.guild!.id
+            })}`,
 
-        const voiceChannels = channels.filter(channel => 
-            channel.type === ChannelType.GuildVoice ||
-            channel.type === ChannelType.GuildStageVoice).size;
+            `${this.emojiFallback.getEmoji('', '👑')  } ${  trans('owner', {
+                owner: guildOwner
+            })}`,
 
-        const threadChannels = channels.filter(channel => 
-            channel.type === ChannelType.PublicThread ||
-            channel.type === ChannelType.PrivateThread).size;
+            `${this.emojiFallback.getEmoji('', '📅')  } ${  trans('dateCreated', {
+                dateCreated: TextFormatter.getTimestampFromDate(serverCreationDate, 'd')
+            })}`,
 
-        const totalChannels = textChannels + voiceChannels + threadChannels;
+            `${this.emojiFallback.getEmoji('', '👥')  } ${  trans('members', {
+                members: message?.guild?.memberCount || interaction?.guild?.memberCount
+            })}`,
+
+            `${this.emojiFallback.getEmoji('', '💬')  } ${  trans('channels', { 
+                channels: totalChannels 
+            })}`,
+
+            `${this.emojiFallback.getEmoji('', '⭐')  } ${  trans('roles', {
+                roles: rolesCount
+            })}`,
+
+            `${this.emojiFallback.getEmoji('', '🏜')  } ${  trans('emojis', {
+                emojis: message?.guild?.emojis.cache.size || interaction?.guild?.emojis.cache.size
+            })}`,
+
+            `${this.emojiFallback.getEmoji('', '✨')  } ${  trans('upgrades', {
+                upgrades: premiumSubscriptionCount
+            })}`,
+
+            `${this.emojiFallback.getEmoji('', '📖')  } ${  trans('verification', {
+                verification: `**${  verificationText  }**`
+            })}`
+        ];
 
         const embed = new EmbedBuilder()
 
             .setTitle((message?.guild?.name || interaction!.guild!.name))
-
-            .setTitle((message?.guild?.name || interaction!.guild!.name))
             .setThumbnail(message?.guild?.iconURL({ forceStatic: false }) || interaction?.guild?.iconURL({ forceStatic: false }) || '')
-            .addFields(
-                {
-                    name: `${this.emojiFallback.getEmoji('', '🆔')  } ${  trans('id')}`, 
-                    value: `${message?.guild?.id || interaction!.guild!.id  }`, 
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '👑')  } ${  trans('owner')}`,
-                    value: guildOwner.toString(),
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '📅')  } ${  trans('dateCreated')}`,
-                    value: TextFormatter.getTimestampFromDate(serverCreationDate, 'd'),
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '💬')  } ${  trans('channels', { channels: totalChannels })}`,
-                    value: `${trans('text', { text: textChannels })  } | ${ 
-                        trans('voice', { voice: voiceChannels })  } | ${ 
-                        trans('thread', { thread: threadChannels })}`,
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '👥')  } ${  trans('members')}`,
-                    value: `${message?.guild?.memberCount || interaction?.guild?.memberCount  }`, 
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '✨')  } ${  trans('upgrades')}`,
-                    value: `${premiumSubscriptionCount  }`,
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '🏜')  } ${  trans('emojis')}`,
-                    value: `${message?.guild?.emojis.cache.size || interaction?.guild?.emojis.cache.size  }`,
-                    name: `${this.emojiFallback.getEmoji('', '🆔')  } ${  trans('id')}`, 
-                    value: `${message?.guild?.id || interaction!.guild!.id  }`, 
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '👑')  } ${  trans('owner')}`,
-                    value: guildOwner.toString(),
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '📅')  } ${  trans('dateCreated')}`,
-                    value: TextFormatter.getTimestampFromDate(serverCreationDate, 'd'),
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '💬')  } ${  trans('channels', { channels: totalChannels })}`,
-                    value: `${trans('text', { text: textChannels })  } | ${ 
-                        trans('voice', { voice: voiceChannels })  } | ${ 
-                        trans('thread', { thread: threadChannels })}`,
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '👥')  } ${  trans('members')}`,
-                    value: `${message?.guild?.memberCount || interaction?.guild?.memberCount  }`, 
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '✨')  } ${  trans('upgrades')}`,
-                    value: `${premiumSubscriptionCount  }`,
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '🏜')  } ${  trans('emojis')}`,
-                    value: `${message?.guild?.emojis.cache.size || interaction?.guild?.emojis.cache.size  }`,
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '🗡')  } ${  trans('roles')}`,
-                    value: `${rolesCount  }`,
-                    inline: true
-                    name: `${this.emojiFallback.getEmoji('', '🗡')  } ${  trans('roles')}`,
-                    value: `${rolesCount  }`,
-                    inline: true
-                }, {
-                    name: `${this.emojiFallback.getEmoji('', '📖')  } ${  trans('verification')}`,
-                    value: verificationText,
-                    inline: true
-                    name: `${this.emojiFallback.getEmoji('', '📖')  } ${  trans('verification')}`,
-                    value: verificationText,
-                    inline: true
-                }
-            )
+            .setDescription(description.join('\n'))
             .setFooter({
                 text: trans('$global.requested', {
                     user: message?.author.globalName || interaction?.user.globalName
@@ -175,9 +93,37 @@ export class ServerInfo extends Command {
                 iconURL: message?.author.displayAvatarURL({ forceStatic: false }) || interaction?.user.displayAvatarURL({ forceStatic: false })
             })
             .setColor(config.colors.default);
+            
+        const select = new StringSelectMenuBuilder()
+            .setCustomId('select')
+            .addOptions(
 
+                new StringSelectMenuOptionBuilder()
+                    .setLabel(trans('select.server.title'))
+                    .setValue('server')
+                    .setDescription(trans('select.server.description'))
+                    .setEmoji(this.emojiFallback.getEmoji('', '🏠'))
+                    .setDefault(true),
+
+                new StringSelectMenuOptionBuilder()
+                    .setLabel(trans('select.roles.title'))
+                    .setValue('roles')
+                    .setDescription(trans('select.roles.description'))
+                    .setEmoji(this.emojiFallback.getEmoji('', '⭐')),
+
+                new StringSelectMenuOptionBuilder()
+                    .setLabel(trans('select.emojis.title'))
+                    .setValue('emojis')
+                    .setDescription(trans('select.roles.description'))
+                    .setEmoji(this.emojiFallback.getEmoji('', '🏜')),
+            );
+
+        const row: any = new ActionRowBuilder()
+            .addComponents(select);
+            
         (message || interaction!)?.reply({
             embeds:[embed],
+            components: [row],
             allowedMentions: { 
                 repliedUser: false 
             }
