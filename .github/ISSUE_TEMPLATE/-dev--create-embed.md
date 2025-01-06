@@ -1,7 +1,7 @@
 ---
 name: "[DEV] Create embed"
 about: Issue for creating new embed
-title: ''
+title: '[🗨️]Create new embed for <name>'
 labels: embed
 assignees: ''
 
