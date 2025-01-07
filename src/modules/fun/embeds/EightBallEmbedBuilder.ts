@@ -23,12 +23,12 @@ export class EightBallEmbedBuilder {
             `\n> \`\`\`${  answer  }\`\`\``
         ];
       
-        const exampleEmbed = new EmbedBuilder()
+        const EightBallEmbed = new EmbedBuilder()
         
             .setThumbnail(config.images.eightBall)
             .setDescription(description.join(''))
             .setColor(config.colors.default);
 	
-        return exampleEmbed;
+        return EightBallEmbed;
     }
 }
