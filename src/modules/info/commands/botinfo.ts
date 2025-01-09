@@ -18,7 +18,7 @@ export class BotInfo extends Command {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
-    execute({ message, interaction, client, framework, guildSettings }: CommandParameters): void {
+    async execute({ message, interaction, client, framework, guildSettings }: CommandParameters): Promise<void> {
 
         const userCreateDate = client.user!.createdAt;
         const date = new Date(userCreateDate);

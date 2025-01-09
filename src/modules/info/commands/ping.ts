@@ -15,7 +15,7 @@ export class Ping extends Command {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
-    execute({ message, interaction, client, trans }: CommandParameters): void {
+    async execute({ message, interaction, client, trans }: CommandParameters): Promise<void> {
         
         (message || interaction!)?.reply({
             content: `${this.emojiFallback.getEmoji('', '🏓')  } ${  trans('pong')  } ` + `\`\`${Date.now() - (message||interaction!)?.createdTimestamp}ms\`\`` + ` | ${  trans('ws')  } ` + `\`\`${client.ws.ping}ms\`\``, 
