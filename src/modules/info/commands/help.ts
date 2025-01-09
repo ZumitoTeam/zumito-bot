@@ -21,12 +21,12 @@ export class Help extends Command {
 
     constructor() {
         super();
-        this.client = ServiceContainer.getService(Client.name) as Client;
-        this.framework = ServiceContainer.getService(ZumitoFramework.name) as ZumitoFramework;
-        this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
+        this.client = ServiceContainer.getService(Client);
+        this.framework = ServiceContainer.getService(ZumitoFramework);
+        this.emojiFallback = ServiceContainer.getService(EmojiFallback);
     }
 
-    execute({ message, interaction, args, guildSettings, trans }: CommandParameters): void {
+    async execute({ message, interaction, args, guildSettings, trans }: CommandParameters): Promise<void> {
 
         if (args.has("command")) {
 

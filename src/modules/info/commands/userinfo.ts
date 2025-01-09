@@ -21,7 +21,7 @@ export class UserInfo extends Command {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
     
-    execute({ message, interaction, args, framework, guildSettings }: CommandParameters): void {
+    async execute({ message, interaction, args, framework, guildSettings }: CommandParameters): Promise<void> {
 
         const user = args.get('user') || (message||(interaction!)).member!.user;
         const member: GuildMember | undefined = (message||(interaction!)).guild?.members.cache.get(user.id) as unknown as GuildMember;
