@@ -1,0 +1,6 @@
+{
+    "description": "🍌 How big is your banana?",
+    "greeting": "The banana of **{name}** is**{banana}** cm long",
+    "rating": "Banana rating for {name}"
+
+} 

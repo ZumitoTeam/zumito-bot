@@ -12,7 +12,14 @@ export class BananaEmbedBuilder {
         this.translator = ServiceContainer.getService(TranslationManager);
     }
 
-    getEmbed({ AuthorName, AuthorIcon, UserName, UserIcon, RandomNumber, locale }: any) {
+    getEmbed({ authorName: AuthorName, authorIcon: AuthorIcon, userName: UserName, userIcon: UserIcon, randomNumber: RandomNumber, locale }: {
+        authorName: string,
+        authorIcon: string,
+        userName: string,
+        userIcon: string,
+        randomNumber: number,
+        locale: string
+    }) {
       
         const BananaEmbed = new EmbedBuilder()
         

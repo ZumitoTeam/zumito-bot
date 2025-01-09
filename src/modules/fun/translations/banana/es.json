@@ -2,5 +2,4 @@
       "description": "🍌 ¿Cuánto mide tu banana?",
       "greeting": "La banana de **{name}** mide **{banana}** cm",
       "rating": "Evaluación de la banana de {name}"
-
-  } 
+} 
