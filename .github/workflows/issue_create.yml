@@ -35,46 +35,89 @@ jobs:
           module_name="${{ steps.issue-parser.outputs.issueparser_module }}"
           embed_name="${{ steps.issue-parser.outputs.issueparser_name }}"
           
-          # Use sed to update the instructions with the user input
-          instructions=$(echo '
-            \n${{ github.event.issue.body }}
-            ## Instructions:
-            Please follow the instructions below before submitting your issue.
+          # continue code here
+          name: Generate Embed Builder Instructions
 
-            1. Create a file in /src/modules/$module_name/embeds/${embed_name}EmbedBuilder.ts
-            2. Replace $module_name and $embed_name with the respective names provided in the form.
+on:
+  issues:
+    types: [opened]
 
-            Example code:
+jobs:
+  generate-instructions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-            \`\`\`js
-            import { EmbedBuilder } from \'zumito-framework/discord\';
-            import { TranslationManager } from "zumito-framework";
+      - uses: stefanbuck/github-issue-parser@v3
+        id: issue-parser
+        with:
+          template-path: .github/ISSUE_TEMPLATE/02-new_embed.yml
 
-            export class ${embed_name}EmbedBuilder {
+      - name: Check if issue was created using the correct template
+        id: check_template
+        run: |
+          issue_body="${{ github.event.issue.body }}"
+          if [[ "$issue_body" == *"Embed Name"* && "$issue_body" == *"Module Name"* ]]; then
+            echo "Template matched"
+            echo "template=true" >> $GITHUB_ENV
+          else
+            echo "Template not matched"
+            echo "template=false" >> $GITHUB_ENV
+          fi
 
-                translator: TranslationManager;
-
-                constructor() {
-                    this.translator = ServiceContainer.getService(TranslationManager);
-                }
-
-                getEmbed({question, answer, locale}: any) {
-                    const exampleEmbed = new EmbedBuilder()
-                        .setColor(0x0099FF)
-                        .setTitle(\'Some title\')
-                        .setDescription(this.translator.get(\'examplePhrase1\', locale));
-
-                    return exampleEmbed;
-                }
-            }
-            \`\`\`
-            '
-          )
-
-          echo "instructions $instructions"
+      - name: Generate instructions
+        id: generate_instructions
+        if: env.template == 'true'
+        run: |
+          module_name="${{ steps.issue-parser.outputs.issueparser_module }}"
+          embed_name="${{ steps.issue-parser.outputs.issueparser_name }}"
           
-          # Use GitHub API to update the issue body with new instructions
-          curl -X PATCH "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -d "{\"body\": \"$instructions\"}"
+          # Generate the instructions message
+          instructions=""
 
+          # Line-by-line appending
+          instructions+='\n'${{ github.event.issue.body }}
+          instructions+='\n## Instructions:'
+          instructions+='\nPlease follow the instructions below before submitting your issue.'
+          instructions+='\n'
+          instructions+='\n1. Create a file in /src/modules/${module_name}/embeds/${embed_name}EmbedBuilder.ts'
+          instructions+='\n2. Replace ${module_name} and ${embed_name} with the respective names provided in the form.'
+          instructions+='\n'
+          instructions+='\nExample code:'
+          instructions+='\n\`\`\`js'
+          instructions+='\nimport { EmbedBuilder } from "zumito-framework/discord";' 
+          instructions+='\nimport { TranslationManager } from "zumito-framework";'
+          instructions+='\n'
+          instructions+='\nexport class ${embed_name}EmbedBuilder {'
+          instructions+='\n'
+          instructions+='\n    translator: TranslationManager;'
+          instructions+='\n'
+          instructions+='\n    constructor() {'
+          instructions+='\n        this.translator = ServiceContainer.getService(TranslationManager);'
+          instructions+='\n    }'
+          instructions+='\n'
+          instructions+='\n    getEmbed({question, answer, locale}: any) {'
+          instructions+='\n        const exampleEmbed = new EmbedBuilder()'
+          instructions+='\n            .setColor(0x0099FF)'
+          instructions+='\n            .setTitle("Some title")'
+          instructions+='\n            .setDescription(this.translator.get("examplePhrase1", locale));'
+          instructions+='\n'
+          instructions+='\n        return exampleEmbed;'
+          instructions+='\n    }'
+          instructions+='\n}'
+          instructions+='\n\`\`\`'
+
+          # Append the instructions as a comment on the issue
+          echo "Generated instructions:\n$instructions"
+
+      - name: Comment on the issue with generated instructions
+        if: env.template == 'true'
+        run: |
+          instructions="${{ steps.generate_instructions.outputs.instructions }}"
+          
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\": \"$instructions\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments"
