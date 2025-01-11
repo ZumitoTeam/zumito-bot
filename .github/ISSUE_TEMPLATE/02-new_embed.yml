@@ -7,6 +7,23 @@ body:
     attributes:
       value: |
         All suggestion are welcomed!
+  - type: input
+    id: module
+    attributes:
+      label: Module Name
+      description: What module the embed should be used?
+      placeholder: The embed should be used in...
+      default: 'unknown'
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Embed Name
+      description: What name the embed should be used?
+      placeholder: The embed should be used as...
+    validations:
+      required: true
   - type: textarea
     id: description
     attributes:

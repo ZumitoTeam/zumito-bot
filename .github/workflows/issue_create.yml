@@ -20,8 +20,22 @@ jobs:
           owner: ${{ github.repository_owner }}
           repo: ${{ github.repository }}
 
+      - name: Check if issue was created using the correct template
+        id: check_template
+        run: |
+          issue_body="${{ github.event.issue.body }}"
+          echo "Issue body: $issue_body"
+          if [[ "$issue_body" == *"Embed Name"* && "$issue_body" == *"Module Name"* ]]; then
+            echo "Template matched"
+            echo "template=true" >> $GITHUB_ENV
+          else
+            echo "Template not matched"
+            echo "template=false" >> $GITHUB_ENV
+          fi
+
       - name: Generate instructions
         id: generate_instructions
+        if: env.template == 'true'
         run: |
           module_name="${{ github.event.issue.body | fromJSON | .ModuleName }}"
           embed_name="${{ github.event.issue.body | fromJSON | .EmbedName }}"
