@@ -38,41 +38,41 @@ jobs:
           
           # Use sed to update the instructions with the user input
           instructions=$(cat <<EOF
-\## Instructions\:
-Please follow the instructions below before submitting your issue.
+            ## Instructions:
+            Please follow the instructions below before submitting your issue.
 
-1. Create a file in /src/modules/$module_name/embeds/${embed_name}EmbedBuilder.ts
-2. Replace $module_name and $embed_name with the respective names provided in the form.
+            1. Create a file in /src/modules/$module_name/embeds/${embed_name}EmbedBuilder.ts
+            2. Replace $module_name and $embed_name with the respective names provided in the form.
 
-Example code\:
+            Example code:
 
-\`\`\`js
-import { EmbedBuilder } from 'zumito-framework/discord';
-import { TranslationManager } from "zumito-framework";
+            \`\`\`js
+            import { EmbedBuilder } from 'zumito-framework/discord';
+            import { TranslationManager } from "zumito-framework";
 
-export class ${embed_name}EmbedBuilder {
+            export class ${embed_name}EmbedBuilder {
 
-    translator: TranslationManager;
+                translator: TranslationManager;
 
-    constructor() {
-        this.translator = ServiceContainer.getService(TranslationManager);
-    }
+                constructor() {
+                    this.translator = ServiceContainer.getService(TranslationManager);
+                }
 
-    getEmbed({question, answer, locale}: any) {
-        const exampleEmbed = new EmbedBuilder()
-            .setColor(0x0099FF)
-            .setTitle('Some title')
-            .setDescription(this.translator.get('examplePhrase1', locale));
+                getEmbed({question, answer, locale}: any) {
+                    const exampleEmbed = new EmbedBuilder()
+                        .setColor(0x0099FF)
+                        .setTitle('Some title')
+                        .setDescription(this.translator.get('examplePhrase1', locale));
 
-        return exampleEmbed;
-    }
-}
-\`\`\`
-EOF
-)
+                    return exampleEmbed;
+                }
+            }
+            \`\`\`
+          EOF
+          )
           
-          # Use GitHub API to update the issue body with new instructions
-          curl -X PATCH "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -d "{\"body\": \"$instructions\"}"
+        # Use GitHub API to update the issue body with new instructions
+        curl -X PATCH "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
+        -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        -d "{\"body\": \"$instructions\"}"
 
