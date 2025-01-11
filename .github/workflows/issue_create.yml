@@ -68,8 +68,6 @@ jobs:
           # Append the instructions as a comment on the issue
           echo "Generated instructions:\n$instructions"
 
-          echo " { \"body\": \"$(echo $instructions\" } " \
-
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
