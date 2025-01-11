@@ -29,9 +29,6 @@ body:
         - NSFW
         - Tools
         - Config
-      default: 0
-    validations:
-      required: true
   - type: checkboxes
     id: nsfw
     attributes:
