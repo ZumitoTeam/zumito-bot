@@ -68,7 +68,7 @@ jobs:
                 }
             }
             \`\`\`
-            EOF
+            \nEOF
           )
 
           echo "instructions $instructions"
