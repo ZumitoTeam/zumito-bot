@@ -11,14 +11,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Fetch issue details
-        id: issue
-        uses: octokit/request-action@v2
+      - uses: stefanbuck/github-issue-parser@v3
+        id: issue-parser
         with:
-          route: GET /repos/{owner}/{repo}/issues/{issue_number}
-          issue_number: ${{ github.event.issue.number }}
-          owner: ${{ github.repository_owner }}
-          repo: ${{ github.repository }}
+          template-path: .github/ISSUE_TEMPLATE/02-new_embed.yml
 
       - name: Check if issue was created using the correct template
         id: check_template
@@ -37,18 +33,18 @@ jobs:
         id: generate_instructions
         if: env.template == 'true'
         run: |
-          module_name="${{ github.event.issue.body | fromJSON | .ModuleName }}"
-          embed_name="${{ github.event.issue.body | fromJSON | .EmbedName }}"
+          module_name="${{ steps.issue-parser.outputs.issueparser_module }}"
+          embed_name="${{ steps.issue-parser.outputs.issueparser_name }}"
           
           # Use sed to update the instructions with the user input
           instructions=$(cat <<EOF
-## Instructions:
+\## Instructions\:
 Please follow the instructions below before submitting your issue.
 
 1. Create a file in /src/modules/$module_name/embeds/${embed_name}EmbedBuilder.ts
 2. Replace $module_name and $embed_name with the respective names provided in the form.
 
-Example code:
+Example code\:
 
 \`\`\`js
 import { EmbedBuilder } from 'zumito-framework/discord';
