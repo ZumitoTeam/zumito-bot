@@ -34,11 +34,9 @@ jobs:
         run: |
           module_name="${{ steps.issue-parser.outputs.issueparser_module }}"
           embed_name="${{ steps.issue-parser.outputs.issueparser_name }}"
-          echo "module_name: $module_name" 
-          echo "embed_name: $embed_name"
           
           # Use sed to update the instructions with the user input
-          instructions=$(echo
+          instructions=$(cat << EOF
             ${{ github.event.issue.body }}
             ## Instructions:
             Please follow the instructions below before submitting your issue.
@@ -70,6 +68,7 @@ jobs:
                 }
             }
             \`\`\`
+            EOF
           )
 
           echo "instructions $instructions"
