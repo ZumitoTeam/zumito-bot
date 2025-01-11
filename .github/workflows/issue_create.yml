@@ -1,0 +1,68 @@
+name: Generate Embed Builder Instructions
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  generate-instructions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Fetch issue details
+        id: issue
+        uses: octokit/request-action@v2
+        with:
+          route: GET /repos/{owner}/{repo}/issues/{issue_number}
+          issue_number: ${{ github.event.issue.number }}
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.repository }}
+
+      - name: Generate instructions
+        id: generate_instructions
+        run: |
+          module_name="${{ github.event.issue.body | fromJSON | .ModuleName }}"
+          embed_name="${{ github.event.issue.body | fromJSON | .EmbedName }}"
+          
+          # Use sed to update the instructions with the user input
+          instructions=$(cat <<EOF
+## Instructions:
+Please follow the instructions below before submitting your issue.
+
+1. Create a file in /src/modules/$module_name/embeds/${embed_name}EmbedBuilder.ts
+2. Replace $module_name and $embed_name with the respective names provided in the form.
+
+Example code:
+
+\`\`\`js
+import { EmbedBuilder } from 'zumito-framework/discord';
+import { TranslationManager } from "zumito-framework";
+
+export class ${embed_name}EmbedBuilder {
+
+    translator: TranslationManager;
+
+    constructor() {
+        this.translator = ServiceContainer.getService(TranslationManager);
+    }
+
+    getEmbed({question, answer, locale}: any) {
+        const exampleEmbed = new EmbedBuilder()
+            .setColor(0x0099FF)
+            .setTitle('Some title')
+            .setDescription(this.translator.get('examplePhrase1', locale));
+
+        return exampleEmbed;
+    }
+}
+\`\`\`
+EOF
+)
+          
+          # Use GitHub API to update the issue body with new instructions
+          curl -X PATCH "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d "{\"body\": \"$instructions\"}"
+
