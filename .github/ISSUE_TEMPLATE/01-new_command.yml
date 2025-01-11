@@ -9,12 +9,12 @@ body:
         All suggestion are welcomed!
   - type: textarea
     id: description
+    validations:
+      required: true
     attributes:
       label: What your command should do?
       description: Tell us how the command should work and what they do.
       placeholder: The command should say hello to the user...
-    validations:
-      required: true
   - type: dropdown
     id: category
     attributes:
