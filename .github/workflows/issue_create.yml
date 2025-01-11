@@ -68,11 +68,6 @@ jobs:
           # Append the instructions as a comment on the issue
           echo "Generated instructions:\n$instructions"
 
-      - name: Comment on the issue with generated instructions
-        if: env.template == 'true'
-        run: |
-          instructions="${{ steps.generate_instructions.outputs.instructions }}"
-          
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
