@@ -20,7 +20,6 @@ jobs:
         id: check_template
         run: |
           issue_body="${{ github.event.issue.body }}"
-          echo "Issue body: $issue_body"
           if [[ "$issue_body" == *"Embed Name"* && "$issue_body" == *"Module Name"* ]]; then
             echo "Template matched"
             echo "template=true" >> $GITHUB_ENV
@@ -35,9 +34,13 @@ jobs:
         run: |
           module_name="${{ steps.issue-parser.outputs.issueparser_module }}"
           embed_name="${{ steps.issue-parser.outputs.issueparser_name }}"
+          actual_body="${{ github.event.issue.body }}"
+          echo "module_name: $module_name" 
+          echo "embed_name: $embed_name"
           
           # Use sed to update the instructions with the user input
-          instructions=$(cat <<EOF
+          instructions=$(echo <<EOF
+            $actual_body
             ## Instructions:
             Please follow the instructions below before submitting your issue.
 
