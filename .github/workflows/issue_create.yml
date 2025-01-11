@@ -73,5 +73,5 @@ jobs:
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d " { \"body\": \"$(echo $instructions)\" } " \
+             -d "{\"body\": \"$instructions\"}" \
             "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments"
