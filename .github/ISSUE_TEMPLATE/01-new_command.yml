@@ -9,12 +9,12 @@ body:
         All suggestion are welcomed!
   - type: textarea
     id: description
-    validations:
-      required: true
     attributes:
       label: What your command should do?
       description: Tell us how the command should work and what they do.
       placeholder: The command should say hello to the user...
+    validations:
+      required: true
   - type: dropdown
     id: category
     attributes:
@@ -29,6 +29,7 @@ body:
         - NSFW
         - Tools
         - Config
+  - type: dropdown
     id: nsfw
     attributes:
       label: Is the command NSFW?
@@ -37,8 +38,8 @@ body:
         - No, the command is not NSFW and can be used on any channel (default)
         - Yes, the command is NSFW and can be used only on nsfw channels
       default: 0
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     id: embeds
     attributes:
