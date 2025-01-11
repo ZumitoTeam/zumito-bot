@@ -43,8 +43,8 @@ jobs:
           instructions+='\n'
           instructions+='\nExample code:'
           instructions+='\n\`\`\`js'
-          instructions+='\nimport { EmbedBuilder } from "zumito-framework/discord";' 
-          instructions+='\nimport { TranslationManager } from "zumito-framework";'
+          instructions+="\nimport { EmbedBuilder } from 'zumito-framework/discord';"  
+          instructions+="\nimport { TranslationManager } from 'zumito-framework';"
           instructions+='\n'
           instructions+='\nexport class ${embed_name}EmbedBuilder {'
           instructions+='\n'
@@ -57,8 +57,8 @@ jobs:
           instructions+='\n    getEmbed({question, answer, locale}: any) {'
           instructions+='\n        const exampleEmbed = new EmbedBuilder()'
           instructions+='\n            .setColor(0x0099FF)'
-          instructions+='\n            .setTitle("Some title")'
-          instructions+='\n            .setDescription(this.translator.get("examplePhrase1", locale));'
+          instructions+="\n            .setTitle('Some title')"
+          instructions+="\n            .setDescription(this.translator.get('examplePhrase1', locale));"
           instructions+='\n'
           instructions+='\n        return exampleEmbed;'
           instructions+='\n    }'
@@ -68,10 +68,10 @@ jobs:
           # Append the instructions as a comment on the issue
           echo "Generated instructions:\n$instructions"
 
-          echo " { \"body\": \"$(echo $instructions | sed 's/\"/\\\"/g') \" } "
+          echo " { \"body\": \"$(echo $instructions\" } " \
 
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d " { \"body\": \"$(echo $instructions | sed 's/\"/\\\"/g') \" } " \
+            -d " { \"body\": \"$(echo $instructions)\" } " \
             "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments"
