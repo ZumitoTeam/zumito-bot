@@ -71,8 +71,8 @@ jobs:
           EOF
           )
           
-        # Use GitHub API to update the issue body with new instructions
-        curl -X PATCH "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
-        -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-        -d "{\"body\": \"$instructions\"}"
+          # Use GitHub API to update the issue body with new instructions
+          curl -X PATCH "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d "{\"body\": \"$instructions\"}"
 
