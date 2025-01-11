@@ -42,7 +42,7 @@ jobs:
           instructions+='\n2. Replace ${module_name} and ${embed_name} with the respective names provided in the form.'
           instructions+='\n'
           instructions+='\nExample code:'
-          instructions+='\n\`\`\`js'
+          instructions+='\n```js'
           instructions+="\nimport { EmbedBuilder } from 'zumito-framework/discord';"  
           instructions+="\nimport { TranslationManager } from 'zumito-framework';"
           instructions+='\n'
@@ -63,7 +63,7 @@ jobs:
           instructions+='\n        return exampleEmbed;'
           instructions+='\n    }'
           instructions+='\n}'
-          instructions+='\n\`\`\`'
+          instructions+='\n```'
 
           # Append the instructions as a comment on the issue
           echo "Generated instructions:\n$instructions"
