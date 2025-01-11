@@ -29,15 +29,6 @@ body:
         - NSFW
         - Tools
         - Config
-  - type: checkboxes
-    id: nsfw
-    attributes:
-      label: Is the command NSFW?
-      description: Should the command can only be runned only on nsfw channels?
-      options:
-        - label: The command is NSFW
-          required: false
-  - type: dropdown
     id: nsfw
     attributes:
       label: Is the command NSFW?
