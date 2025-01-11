@@ -35,18 +35,21 @@ jobs:
           module_name="${{ steps.issue-parser.outputs.issueparser_module }}"
           embed_name="${{ steps.issue-parser.outputs.issueparser_name }}"
           
+          module_name=$(echo "$module_name" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
+          embed_name=$(echo "$embed_name" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
+          
           instructions=""
           instructions+='\n## Instructions:'
           instructions+='\n'
-          instructions+='\n1. Create a file in /src/modules/${module_name}/embeds/${embed_name}EmbedBuilder.ts'
-          instructions+='\n2. Replace ${module_name} and ${embed_name} with the respective names provided in the form.'
+          instructions+="\n1. Create a file in /src/modules/${module_name}/embeds/${embed_name}EmbedBuilder.ts"
+          instructions+="\n2. Replace $module_name and $embed_name with the respective names provided in the form."
           instructions+='\n'
           instructions+='\nExample code:'
           instructions+='\n```js'
           instructions+="\nimport { EmbedBuilder } from 'zumito-framework/discord';"  
           instructions+="\nimport { TranslationManager } from 'zumito-framework';"
           instructions+='\n'
-          instructions+='\nexport class ${embed_name}EmbedBuilder {'
+          instructions+="\nexport class ${embed_name}EmbedBuilder {" 
           instructions+='\n'
           instructions+='\n    translator: TranslationManager;'
           instructions+='\n'
