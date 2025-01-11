@@ -68,10 +68,10 @@ jobs:
           # Append the instructions as a comment on the issue
           echo "Generated instructions:\n$instructions"
 
-          echo "{\"body\": \"$(echo $instructions | sed 's/\"/\\\"/g')\"}\"}"
+          echo " { \"body\": \"$(echo $instructions | sed 's/\"/\\\"/g') \" } "
 
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "{\"body\": \"$(echo $instructions | sed 's/\"/\\\"/g')\"}" \
+            -d " { \"body\": \"$(echo $instructions | sed 's/\"/\\\"/g') \" } " \
             "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments"
