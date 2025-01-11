@@ -36,9 +36,7 @@ jobs:
           embed_name="${{ steps.issue-parser.outputs.issueparser_name }}"
           
           instructions=""
-          instructions+='\n'${{ github.event.issue.body }}
           instructions+='\n## Instructions:'
-          instructions+='\nPlease follow the instructions below before submitting your issue.'
           instructions+='\n'
           instructions+='\n1. Create a file in /src/modules/${module_name}/embeds/${embed_name}EmbedBuilder.ts'
           instructions+='\n2. Replace ${module_name} and ${embed_name} with the respective names provided in the form.'
