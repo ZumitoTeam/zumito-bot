@@ -25,6 +25,9 @@ body:
         - Moderation
         - Fun
         - Info
+        - Music
+        - NSFW
+        - Tools
         - Config
       default: 0
     validations:
@@ -37,17 +40,20 @@ body:
       options:
         - label: The command is NSFW
           required: false
+  - type: dropdown
+    id: nsfw
+    attributes:
+      label: Is the command NSFW?
+      description: Should the command can only be runned only on nsfw channels?
+      options:
+        - No, the command is not NSFW and can be used on any channel (default)
+        - Yes, the command is NSFW and can be used only on nsfw channels
+      default: 0
+      validations:
+        required: true
   - type: textarea
     id: embeds
     attributes:
-      label: Embed design
+      label: Embed design (optional)
       description: If you have any concept embed JSON, please attach here for make the work easier
       render: json
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
