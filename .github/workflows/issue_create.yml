@@ -36,7 +36,7 @@ jobs:
           embed_name="${{ steps.issue-parser.outputs.issueparser_name }}"
           
           # Use sed to update the instructions with the user input
-          instructions=$(cat <<EOF
+          instructions=$(cat <<-EOF
             \n${{ github.event.issue.body }}
             ## Instructions:
             Please follow the instructions below before submitting your issue.
