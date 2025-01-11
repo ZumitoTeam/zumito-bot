@@ -35,48 +35,7 @@ jobs:
           module_name="${{ steps.issue-parser.outputs.issueparser_module }}"
           embed_name="${{ steps.issue-parser.outputs.issueparser_name }}"
           
-          # continue code here
-          name: Generate Embed Builder Instructions
-
-on:
-  issues:
-    types: [opened]
-
-jobs:
-  generate-instructions:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - uses: stefanbuck/github-issue-parser@v3
-        id: issue-parser
-        with:
-          template-path: .github/ISSUE_TEMPLATE/02-new_embed.yml
-
-      - name: Check if issue was created using the correct template
-        id: check_template
-        run: |
-          issue_body="${{ github.event.issue.body }}"
-          if [[ "$issue_body" == *"Embed Name"* && "$issue_body" == *"Module Name"* ]]; then
-            echo "Template matched"
-            echo "template=true" >> $GITHUB_ENV
-          else
-            echo "Template not matched"
-            echo "template=false" >> $GITHUB_ENV
-          fi
-
-      - name: Generate instructions
-        id: generate_instructions
-        if: env.template == 'true'
-        run: |
-          module_name="${{ steps.issue-parser.outputs.issueparser_module }}"
-          embed_name="${{ steps.issue-parser.outputs.issueparser_name }}"
-          
-          # Generate the instructions message
           instructions=""
-
-          # Line-by-line appending
           instructions+='\n'${{ github.event.issue.body }}
           instructions+='\n## Instructions:'
           instructions+='\nPlease follow the instructions below before submitting your issue.'
