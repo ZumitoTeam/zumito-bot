@@ -39,9 +39,9 @@ jobs:
           embed_name=$(echo "$embed_name" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
           
           instructions=""
-          instructions+='\n## Instructions for creating the embed:'
+          instructions+='\n## Instructions for creating the embed builder:'
           instructions+='\n'
-          instructions+="\n1. Create a file in /src/modules/${module_name}/embeds/${embed_name}EmbedBuilder.ts"
+          instructions+="\n1. Create a file in /src/modules/${module_name}/services/embeds/${embed_name}EmbedBuilder.ts"
           instructions+='\n'
           instructions+='\nExample code:'
           instructions+='\n```js'
