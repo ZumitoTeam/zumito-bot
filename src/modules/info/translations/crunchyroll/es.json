@@ -1,0 +1,5 @@
+{
+      "name": "**Nombre del anime:** {name}",
+      "episode": "**Episodio**: {episode}",
+      "descriptionAnime": "**Descripción:** {description}"
+}
