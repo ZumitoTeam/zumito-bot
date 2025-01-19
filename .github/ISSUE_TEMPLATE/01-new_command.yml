@@ -43,6 +43,6 @@ body:
   - type: textarea
     id: embeds
     attributes:
-      label: Embed design (optional)
-      description: If you have any concept embed JSON, please attach here for make the work easier
-      render: json
+      label: Embed to use (Optional)
+      description: Put here if there is any service created that build the embed
+      placeholder: src/modules/fun/services/embeds/ExampleEmbedBuilder.ts
