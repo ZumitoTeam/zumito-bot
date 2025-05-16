@@ -25,7 +25,8 @@
         ],
         "paths": {
             "@config/*": ["./src/config/*"]
-        }
+        },
+        "jsx": "react",
     },
     "ts-node": {
         "compilerOptions": {

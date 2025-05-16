@@ -25,6 +25,7 @@
     "@discordjs/rest": "^1.7.0",
     "@discordjs/voice": "^0.16.1",
     "@distube/yt-dlp": "^2.0.1",
+    "@remotion/renderer": "^4.0.288",
     "discord.js": "^14.14.1",
     "distube": "^5.0.4",
     "dotenv": "^16.0.3",
