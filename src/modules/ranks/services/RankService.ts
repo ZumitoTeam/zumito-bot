@@ -8,7 +8,7 @@ export class RankService {
 
     async addXp(guildId: string, userId: string, amount: number = 1) {
         const RankUser = this.framework.database.models.RankUser;
-        let user = await RankUser.findOne({ where: { guildId, userId } });
+        let user = await this.getUser(guildId, userId);
         if (!user) {
             user = await RankUser.create({ guildId, userId, xp: 0, level: 1 });
         }
@@ -24,14 +24,28 @@ export class RankService {
         return user;
     }
 
+    async setXp(guildId: string, userId: string, amount: number) {
+        const RankUser = this.framework.database.models.RankUser;
+        let user = await this.getUser(guildId, userId);
+        if (!user) {
+            user = await RankUser.create({ guildId, userId, xp: 0, level: 1 });
+        }
+        user.xp = amount;
+        // Recalculate level based on new XP
+        user.level = Math.floor(user.xp / 100) + 1; // Assuming 100xp per level
+        user.lastMessage = new Date();
+        await user.save();
+        return user;
+    }
+
     async getUser(guildId: string, userId: string) {
-        return this.framework.database.models.RankUser.findOne({ where: { guildId, userId } });
+        return await this.framework.database.models.RankUser.findOne({ where: { guildId, userId } });
     }
 
     async getLeaderboard(guildId: string, limit: number = 10) {
-        return this.framework.database.models.RankUser.find({
+        return await this.framework.database.models.RankUser.find({
             where: { guildId },
-            order: [["xp", "DESC"]],
+            order: ["xp", "DESC"],
             limit
         });
     }
