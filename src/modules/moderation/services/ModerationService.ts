@@ -22,27 +22,17 @@ export class ModerationService {
     }
 
     async warn(guildId: string, targetId: string, moderatorId: string, reason: string = "No reason provided.") {
-        await this.framework.database.models.ModerationLog.create({
-            guildId: guildId,
-            targetId: targetId,
-            moderatorId: moderatorId,
-            action: 'warn',
-            reason: reason,
-            date: new Date()
-        }).catch((error: any) => {
-            console.error("Failed to log moderation action:", error);
-            throw error;
-        });
+        this.logModerationAction(guildId, targetId, moderatorId, 'warn', reason);
     }
 
     async getUserWarnings(guildId: string, targetId: string) {
-        return this.framework.database.models.ModerationLog.findAll({
+        return this.framework.database.models.ModerationLog.all({
             where: {
                 guildId: guildId,
                 targetId: targetId,
                 action: 'warn'
             },
-            order: [['date', 'DESC']]
+            order: 'date DESC'
         }).catch((error: any) => {
             console.error("Failed to retrieve user warnings:", error);
             throw error;
@@ -50,12 +40,12 @@ export class ModerationService {
     }
 
     async getGuildWarnings(guildId: string) {
-        return this.framework.database.models.ModerationLog.findAll({
+        return this.framework.database.models.ModerationLog.all({
             where: {
                 guildId: guildId,
                 action: 'warn'
             },
-            order: [['date', 'DESC']]
+            order: 'date DESC'
         }).catch((error: any) => {
             console.error("Failed to retrieve guild warnings:", error);
             throw error;
@@ -63,13 +53,13 @@ export class ModerationService {
     }
 
     async getUserBans(guildId: string, targetId: string) {
-        return this.framework.database.models.ModerationLog.findAll({
+        return this.framework.database.models.ModerationLog.all({
             where: {
                 guildId: guildId,
                 targetId: targetId,
                 action: 'ban'
             },
-            order: [['date', 'DESC']]
+            order: 'date DESC'
         }).catch((error: any) => {
             console.error("Failed to retrieve user bans:", error);
             throw error;
@@ -77,12 +67,12 @@ export class ModerationService {
     }
 
     async getGuildBans(guildId: string) {
-        return this.framework.database.models.ModerationLog.findAll({
+        return this.framework.database.models.ModerationLog.all({
             where: {
                 guildId: guildId,
                 action: 'ban'
             },
-            order: [['date', 'DESC']]
+            order: 'date DESC'
         }).catch((error: any) => {
             console.error("Failed to retrieve guild bans:", error);
             throw error;
@@ -90,13 +80,13 @@ export class ModerationService {
     }
 
     async getUserKicks(guildId: string, targetId: string) {
-        return this.framework.database.models.ModerationLog.findAll({
+        return this.framework.database.models.ModerationLog.all({
             where: {
                 guildId: guildId,
                 targetId: targetId,
                 action: 'kick'
             },
-            order: [['date', 'DESC']]
+            order: 'date DESC'
         }).catch((error: any) => {
             console.error("Failed to retrieve user kicks:", error);
             throw error;
@@ -104,12 +94,12 @@ export class ModerationService {
     }
 
     async getGuildKicks(guildId: string) {
-        return this.framework.database.models.ModerationLog.findAll({
+        return this.framework.database.models.ModerationLog.all({
             where: {
                 guildId: guildId,
                 action: 'kick'
             },
-            order: [['date', 'DESC']]
+            order: 'date DESC'
         }).catch((error: any) => {
             console.error("Failed to retrieve guild kicks:", error);
             throw error;

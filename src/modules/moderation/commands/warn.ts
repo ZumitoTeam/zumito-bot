@@ -1,5 +1,6 @@
 import { PermissionsBitField } from "discord.js";
-import { Command, CommandParameters } from "zumito-framework";
+import { Command, CommandParameters, ServiceContainer } from "zumito-framework";
+import { ModerationService } from "../services/ModerationService";
 
 export class WarnCommand extends Command {
     name = "warn";
@@ -10,9 +11,21 @@ export class WarnCommand extends Command {
     ];
     userPermissions: bigint[] = [PermissionsBitField.Flags.Administrator]
 
+    constructor(
+        private moderationService = ServiceContainer.getService(ModerationService)
+    ) {
+        super();
+    }
+
     async execute({ message, interaction, args }: CommandParameters) {
         const user = args.get("user");
         const reason = args.get("reason") || "No reason provided.";
+        await this.moderationService.warn(
+            message?.guild?.id || interaction?.guild?.id!,
+            user.id,
+            message?.author.id || interaction?.user.id!,
+            reason
+        );
         if (message) {
             await message.reply(`User <@${user.id}> has been warned. Reason: ${reason}`);
         } else if (interaction) {
