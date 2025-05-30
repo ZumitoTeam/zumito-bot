@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:20-alpine
 WORKDIR /usr/app
 COPY package.json .
 RUN apk add --no-cache --virtual .gyp python3 make g++ \
