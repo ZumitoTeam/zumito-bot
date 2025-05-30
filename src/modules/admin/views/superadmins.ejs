@@ -1,0 +1,47 @@
+<div class="card mt-6" x-data="{ open: false }">
+    <div class="flex items-center justify-between mb-4">
+        <div class="text-lg font-semibold">Superadmins</div>
+        <!-- Botón para abrir el modal -->
+        <button class="btn-primary" @click="open = true">Agregar Superadmin</button>
+    </div>
+    <!-- Modal Alpine.js -->
+    <div x-show="open" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div @click.away="open = false" class="bg-discord-dark-200 p-6 rounded-lg shadow-lg w-full max-w-sm">
+            <div class="text-lg font-semibold mb-2">Agregar Superadmin</div>
+            <form method="POST" action="/admin/superadmins/add" @submit="open = false">
+                <label class="block mb-2 text-sm">Discord User ID</label>
+                <input name="discordUserId" type="text" required class="w-full px-3 py-2 rounded bg-discord-dark-300 text-white mb-4 focus:outline-none focus:ring-2 focus:ring-discord-primary" placeholder="Ej: 123456789012345678" />
+                <div class="flex justify-end gap-2">
+                    <button type="button" class="px-4 py-2 rounded bg-gray-500 text-white hover:bg-gray-600" @click="open = false">Cancelar</button>
+                    <button type="submit" class="btn-primary">Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table class="w-full text-sm">
+        <thead>
+            <tr>
+                <th class="text-left py-2">Discord ID</th>
+                <th class="text-left py-2">Username</th>
+                <th class="text-left py-2">Creado</th>
+                <th class="text-left py-2">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% superadmins.forEach(admin => { %>
+                <tr>
+                    <td class="py-1"><%= admin.discordUserId %></td>
+                    <td class="py-1"><%= admin.username || '-' %></td>
+                    <td class="py-1"><%= admin.createdAt ? admin.createdAt.toLocaleString() : '-' %></td>
+                    <td class="py-1">
+                        <!-- Botón para eliminar o degradar -->
+                        <form method="POST" action="/admin/superadmins/remove" style="display:inline">
+                            <input type="hidden" name="discordUserId" value="<%= admin.discordUserId %>"/>
+                            <button type="submit" class="text-red-500 hover:underline">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

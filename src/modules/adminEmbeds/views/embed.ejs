@@ -1,0 +1,379 @@
+<%/* Template para enviar embeds personalizados */%>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@skyra/discord-components-core@3.6.1/dist/skyra-discord-components-core/skyra-discord-components-core.esm.min.js"></script>
+<div class="min-h-screen bg-discord-dark-200 text-white p-6">
+    <div class="max-w-4xl mx-auto">
+        <h2 class="text-2xl font-bold mb-6 text-discord-white flex items-center">
+            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.2L4 17.2V4H20V16Z"/>
+            </svg>
+            Send Custom Embed
+        </h2>
+        
+        <form id="embedForm" class="space-y-6 bg-discord-dark-300 rounded-lg p-6 shadow-lg" novalidate>
+            <div class="space-y-2">
+                <label for="serverSelect" class="block text-sm font-medium text-discord-white">Server</label>
+                <select id="serverSelect" required
+                    class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary">
+                    <option value="">Select a server...</option>
+                    <% guilds.forEach(guild => { %>
+                        <option value="<%= guild.id %>"><%= guild.name %></option>
+                    <% }); %>
+                </select>
+            </div>
+
+            <div class="space-y-2">
+                <label for="channelSelect" class="block text-sm font-medium text-discord-white">Channel</label>
+                <select id="channelSelect" required disabled
+                    class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary disabled:opacity-50">
+                    <option value="">Select a channel...</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Panel de Controles del Embed -->
+                <div class="space-y-4">
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-discord-white">Título</label>
+                        <input type="text" id="embedTitle" class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary"/>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-discord-white">URL</label>
+                        <input type="url" id="embedUrl" class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary"/>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-discord-white">Autor</label>
+                        <input type="text" id="embedAuthorName" placeholder="Nombre" class="w-full px-3 py-2 mb-1 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary"/>
+                        <input type="url" id="embedAuthorIcon" placeholder="Icon URL" class="w-full px-3 py-2 mb-1 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary"/>
+                        <input type="url" id="embedAuthorUrl" placeholder="Author URL" class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary"/>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-discord-white">Descripción</label>
+                        <textarea id="embedDescription" rows="3" class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary resize-none"></textarea>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-discord-white">Color</label>
+                        <input type="color" id="embedColor" class="w-full h-10 bg-discord-dark-400 border border-discord-dark-100 rounded-md cursor-pointer"/>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-discord-white">Thumbnail URL</label>
+                        <input type="url" id="embedThumbnailUrl" class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary"/>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-discord-white">Image URL</label>
+                        <input type="url" id="embedImageUrl" class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary"/>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-discord-white">Timestamp</label>
+                        <input type="datetime-local" id="embedTimestamp" class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary"/>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-discord-white">Footer</label>
+                        <input type="text" id="embedFooterText" placeholder="Texto" class="w-full px-3 py-2 mb-1 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary"/>
+                        <input type="url" id="embedFooterIcon" placeholder="Icon URL" class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary"/>
+                    </div>
+                    
+                    <div id="fieldsContainer" class="space-y-4">
+                        <!-- Los campos se agregarán aquí dinámicamente -->
+                    </div>
+                    
+                    <button type="button" id="addFieldBtn" 
+                        class="w-full py-2 px-4 bg-discord-dark-100 hover:bg-opacity-80 text-white font-medium rounded-md transition-colors duration-200 flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        <span>Add Field</span>
+                    </button>
+                </div>
+
+                <!-- Panel del JSON -->
+                <div class="space-y-2">
+                    <label for="embedJson" class="block text-sm font-medium text-discord-white">Generated JSON</label>
+                    <div class="relative">
+                        <textarea id="embedJson" rows="10" required
+                            class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md font-mono text-sm focus:outline-none focus:ring-2 focus:ring-discord-primary resize-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" 
+                class="w-full py-2 px-4 bg-discord-primary hover:bg-opacity-80 text-white font-medium rounded-md transition-colors duration-200 flex items-center justify-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                </svg>
+                <span>Send Embed</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const serverSelect = document.getElementById('serverSelect');
+    const channelSelect = document.getElementById('channelSelect');
+    const embedForm = document.getElementById('embedForm');
+
+    // Cuando se selecciona un servidor, cargar sus canales
+    serverSelect.addEventListener('change', async function() {
+        channelSelect.innerHTML = '<option value="">Loading channels...</option>';
+        channelSelect.disabled = true;
+
+        if (!this.value) {
+            channelSelect.innerHTML = '<option value="">Select a channel...</option>';
+            return;
+        }
+
+        try {
+            const response = await fetch(`/admin/api/channels/${this.value}`);
+            const channels = await response.json();
+            
+            channelSelect.innerHTML = '<option value="">Select a channel...</option>';
+            channels.forEach(channel => {
+                const option = document.createElement('option');
+                option.value = channel.id;
+                option.textContent = '#' + channel.name;
+                channelSelect.appendChild(option);
+            });
+            
+            channelSelect.disabled = false;
+        } catch (error) {
+            console.error('Error loading channels:', error);
+            channelSelect.innerHTML = '<option value="">Error loading channels</option>';
+        }
+    });
+
+    let fieldCount = 0;
+
+    // Función para generar el JSON del embed
+    function generateEmbedJSON() {
+        const embed = {
+            title: document.getElementById('embedTitle').value,
+            url: document.getElementById('embedUrl').value,
+            author: {
+                name: document.getElementById('embedAuthorName').value,
+                icon_url: document.getElementById('embedAuthorIcon').value,
+                url: document.getElementById('embedAuthorUrl').value,
+            },
+            description: document.getElementById('embedDescription').value,
+            color: parseInt(document.getElementById('embedColor').value.substring(1), 16),
+            thumbnail: {
+                url: document.getElementById('embedThumbnailUrl').value,
+            },
+            image: {
+                url: document.getElementById('embedImageUrl').value,
+            },
+            timestamp: document.getElementById('embedTimestamp').value,
+            footer: {
+                text: document.getElementById('embedFooterText').value,
+                icon_url: document.getElementById('embedFooterIcon').value,
+            },
+            fields: []
+        };
+        // Limpiar objetos vacíos
+        if (!embed.url) delete embed.url;
+        if (!embed.author.name && !embed.author.icon_url && !embed.author.url) delete embed.author;
+        if (!embed.thumbnail.url) delete embed.thumbnail;
+        if (!embed.image.url) delete embed.image;
+        if (!embed.timestamp) delete embed.timestamp;
+        if (!embed.footer.text && !embed.footer.icon_url) delete embed.footer;
+        // Recopilar campos
+        const fieldGroups = document.querySelectorAll('.field-group');
+        fieldGroups.forEach(group => {
+            const nameInput = group.querySelector('.field-name');
+            const valueInput = group.querySelector('.field-value');
+            const inlineCheck = group.querySelector('.field-inline');
+            if (nameInput.value && valueInput.value) {
+                embed.fields.push({
+                    name: nameInput.value,
+                    value: valueInput.value,
+                    inline: inlineCheck.checked
+                });
+            }
+        });
+        Object.keys(embed).forEach(key => {
+            if (!embed[key] || (Array.isArray(embed[key]) && embed[key].length === 0)) {
+                delete embed[key];
+            }
+        });
+        return embed;
+    }
+
+    // Solo actualizar el textarea del JSON cuando se edite manualmente o desde los campos
+    function updateJsonFromFields() {
+        const embed = generateEmbedJSON();
+        document.getElementById('embedJson').value = JSON.stringify(embed, null, 4);
+    }
+
+    // Función para agregar un nuevo campo
+    function addField() {
+        const fieldsContainer = document.getElementById('fieldsContainer');
+        const fieldId = fieldCount++;
+        
+        const fieldGroup = document.createElement('div');
+        fieldGroup.className = 'field-group p-4 bg-discord-dark-300 rounded-lg space-y-2';
+        fieldGroup.innerHTML = `
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium">Field ${fieldId + 1}</span>
+                <button type="button" class="delete-field-btn text-red-500 hover:text-red-400">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                </button>
+            </div>
+            <input type="text" placeholder="Field Name" class="field-name w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary">
+            <textarea placeholder="Field Value" class="field-value w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary resize-none"></textarea>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" class="field-inline">
+                <label class="text-sm">Inline field</label>
+            </div>
+        `;
+
+        fieldsContainer.appendChild(fieldGroup);
+
+        // Agregar event listeners para este campo
+        const deleteBtn = fieldGroup.querySelector('.delete-field-btn');
+        deleteBtn.addEventListener('click', () => {
+            fieldGroup.remove();
+            updateJsonFromFields();
+        });
+
+        fieldGroup.querySelectorAll('input, textarea').forEach(input => {
+            input.addEventListener('input', updateJsonFromFields);
+            input.addEventListener('change', updateJsonFromFields);
+        });
+    }
+
+    // Event listeners para los campos del formulario
+    document.getElementById('embedTitle').addEventListener('input', updateJsonFromFields);
+    document.getElementById('embedDescription').addEventListener('input', updateJsonFromFields);
+    document.getElementById('embedColor').addEventListener('input', updateJsonFromFields);
+    document.getElementById('addFieldBtn').addEventListener('click', function() {
+        addField();
+        updateJsonFromFields();
+    });
+
+    // Actualizar JSON al editar campos dinámicos
+    function addField() {
+        const fieldsContainer = document.getElementById('fieldsContainer');
+        const fieldId = fieldCount++;
+        
+        const fieldGroup = document.createElement('div');
+        fieldGroup.className = 'field-group p-4 bg-discord-dark-300 rounded-lg space-y-2';
+        fieldGroup.innerHTML = `
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium">Field ${fieldId + 1}</span>
+                <button type="button" class="delete-field-btn text-red-500 hover:text-red-400">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                </button>
+            </div>
+            <input type="text" placeholder="Field Name" class="field-name w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary">
+            <textarea placeholder="Field Value" class="field-value w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary resize-none"></textarea>
+            <div class="flex items-center space-x-2">
+                <input type="checkbox" class="field-inline">
+                <label class="text-sm">Inline field</label>
+            </div>
+        `;
+
+        fieldsContainer.appendChild(fieldGroup);
+
+        // Agregar event listeners para este campo
+        const deleteBtn = fieldGroup.querySelector('.delete-field-btn');
+        deleteBtn.addEventListener('click', () => {
+            fieldGroup.remove();
+            updateJsonFromFields();
+        });
+
+        fieldGroup.querySelectorAll('input, textarea').forEach(input => {
+            input.addEventListener('input', updateJsonFromFields);
+            input.addEventListener('change', updateJsonFromFields);
+        });
+    }
+
+    // Permitir edición manual del JSON
+    const embedJson = document.getElementById('embedJson');
+    embedJson.removeAttribute('readonly');
+    // Sincronizar el formulario al editar el JSON manualmente
+    embedJson.addEventListener('input', function() {
+        try {
+            const data = JSON.parse(embedJson.value);
+            if (typeof data === 'object' && data !== null) {
+                document.getElementById('embedTitle').value = data.title || '';
+                document.getElementById('embedUrl').value = data.url || '';
+                document.getElementById('embedAuthorName').value = (data.author && data.author.name) || '';
+                document.getElementById('embedAuthorIcon').value = (data.author && data.author.icon_url) || '';
+                document.getElementById('embedAuthorUrl').value = (data.author && data.author.url) || '';
+                document.getElementById('embedDescription').value = data.description || '';
+                document.getElementById('embedColor').value = data.color ? '#' + data.color.toString(16).padStart(6, '0') : '#5865F2';
+                document.getElementById('embedThumbnailUrl').value = (data.thumbnail && data.thumbnail.url) || '';
+                document.getElementById('embedImageUrl').value = (data.image && data.image.url) || '';
+                document.getElementById('embedTimestamp').value = data.timestamp ? new Date(data.timestamp).toISOString().slice(0,16) : '';
+                document.getElementById('embedFooterText').value = (data.footer && data.footer.text) || '';
+                document.getElementById('embedFooterIcon').value = (data.footer && data.footer.icon_url) || '';
+                // Actualizar fields
+                const fieldsContainer = document.getElementById('fieldsContainer');
+                fieldsContainer.innerHTML = '';
+                if (Array.isArray(data.fields)) {
+                    data.fields.forEach((field, idx) => {
+                        addField();
+                        const fieldGroups = fieldsContainer.querySelectorAll('.field-group');
+                        const group = fieldGroups[fieldGroups.length - 1];
+                        group.querySelector('.field-name').value = field.name || '';
+                        group.querySelector('.field-value').value = field.value || '';
+                        group.querySelector('.field-inline').checked = !!field.inline;
+                    });
+                }
+            }
+        } catch (e) {
+            // No hacer nada si el JSON es inválido
+        }
+    });
+    // Inicializar con un color por defecto y JSON inicial
+    document.getElementById('embedColor').value = '#5865F2';
+    updateJsonFromFields();
+
+    // Manejo del envío del formulario
+    embedForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Validación básica
+        if (!serverSelect.value || !channelSelect.value) {
+            alert('Please select both a server and a channel');
+            return;
+        }
+
+        let embedData;
+        try {
+            embedData = JSON.parse(document.getElementById('embedJson').value);
+        } catch (error) {
+            alert('Invalid JSON format');
+            return;
+        }
+
+        try {
+            const response = await fetch('/admin/api/send-embed', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    guildId: serverSelect.value,
+                    channelId: channelSelect.value,
+                    embed: embedData
+                })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                alert('Embed sent successfully!');
+            } else {
+                alert('Error sending embed: ' + result.error);
+            }
+        } catch (error) {
+            console.error('Error sending embed:', error);
+            alert('Error sending embed');
+        }
+    });
+});</script>

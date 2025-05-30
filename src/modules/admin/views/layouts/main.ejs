@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - <%= title %></title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        discord: {
+                            primary: '#5865F2',
+                            green: '#57F287',
+                            yellow: '#FEE75C',
+                            fuchsia: '#EB459E',
+                            red: '#ED4245',
+                            white: '#FFFFFF',
+                            dark: {
+                                100: '#424549',
+                                200: '#36393f',
+                                300: '#282b30',
+                                400: '#1e2124'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom Styles -->
+    <style type="text/tailwind">
+        @layer components {
+            .btn-primary {
+                @apply px-4 py-2 bg-discord-primary text-white rounded hover:bg-discord-primary/90 transition-colors;
+            }
+            .card {
+                @apply p-6 bg-discord-dark-200 rounded-lg shadow-lg text-white;
+            }
+        }
+    </style>
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-discord-dark-300 min-h-screen text-white">
+    <!-- Navbar -->
+    <nav class="bg-discord-dark-400 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-semibold text-discord-primary"><%= botName %> Admin</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <% if (user) { %>
+                        <span class="text-discord-white">Bienvenido, <%= user.name %></span>
+                        <a href="/admin/logout" class="btn-primary">Cerrar Sesión</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="flex">
+        <!-- Server Bar (estilo Discord) -->
+        <aside class="w-[72px] bg-discord-dark-400 h-screen fixed left-0 flex flex-col items-center pt-3 gap-2">
+            
+            <% for (const item of navItems) { %>
+                <a href="<%= item.url %>" class="w-12 h-12 bg-discord-dark-200 rounded-[24px] hover:rounded-[16px] hover:bg-discord-primary transition-all duration-200 flex items-center justify-center group relative<% if (selectedNavItem && item.url === selectedNavItem.url) { %> ring-4 ring-discord-primary ring-offset-2 ring-offset-discord-dark-400<% } %>">
+                    <% if (item.icon) { %>
+                        <%- item.icon %>
+                    <% } else { %>
+                        <svg class="w-6 h-6 text-discord-white/60 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                    <% } %>
+                    <span class="absolute left-0 transform -translate-x-full bg-black text-white px-2 py-1 rounded text-sm opacity-0 group-hover:opacity-100 ml-[-8px] pointer-events-none"><%= item.label %></span>
+                </a>
+            <% } %>
+            
+        </aside>
+
+        <!-- Channel List (como Discord) -->
+        <aside class="w-60 bg-discord-dark-300 h-screen fixed left-[72px] pt-3">
+            <div class="px-3">
+                <div class="flex items-center justify-between p-2 bg-discord-dark-400 rounded-lg hover:bg-discord-dark-200 cursor-pointer">
+                    <span class="font-medium text-discord-white">Panel de Control</span>
+                    <svg class="w-4 h-4 text-discord-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+                
+                <!-- Categorías -->
+                <% if (selectedNavItem && selectedNavItem.sidebar && selectedNavItem.sidebar.sections) { %>
+                    <% for (const section of selectedNavItem.sidebar.sections) { %>
+                        <div class="mt-6">
+                            <div class="text-discord-white/40 uppercase text-xs font-semibold px-2"><%= section.label %></div>
+                            <div class="mt-2 space-y-1">
+                                <% for (const item of section.items) { %>
+                                    <a href="<%= item.url %>" class="flex items-center px-2 py-1 rounded text-discord-white/60 hover:text-discord-white hover:bg-discord-dark-200<% if (reqPath === item.url) { %> bg-discord-dark-200 text-white font-bold<% } %>">
+                                        # <%= item.label %>
+                                    </a>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } else { %>
+                    <div class="mt-6 text-discord-white/40 text-xs px-2">Ninguna sección disponible</div>
+                <% } %>
+
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="ml-[calc(72px+240px)] px-8 py-6 flex-1">
+            <%- content %>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 right-0 left-[calc(72px+240px)] bg-discord-dark-400 shadow-lg">
+        <div class="px-4 py-3 text-center text-discord-white/40 text-sm">
+            ZumitoBot Admin Panel &copy; <%= new Date().getFullYear() %>
+        </div>
+    </footer>
+</body>
+</html>

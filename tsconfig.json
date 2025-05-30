@@ -23,7 +23,7 @@
         "lib": [
             "ESNext"
         ],
-        "paths": {
+                "paths": {
             "@config/*": ["./src/config/*"]
         }
     },
