@@ -21,7 +21,8 @@ export class LandingViewService {
             {
                 title,
                 content,
-                ...extra
+                ...extra,
+                theme: (extra && extra.theme) || LandingViewService.getTheme()
             }
         );
     }

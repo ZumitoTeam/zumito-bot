@@ -105,7 +105,8 @@ export class Landing extends Route {
         const landingView = new LandingViewService();
         const html = await landingView.render({
             title: "Inicio",
-            content
+            content,
+            extra: { theme }
         });
         res.send(html);
     }
