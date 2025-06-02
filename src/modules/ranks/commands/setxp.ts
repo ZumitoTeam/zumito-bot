@@ -6,6 +6,9 @@ import { PermissionsBitField } from "zumito-framework/discord";
 export class SetXpCommand extends Command {
     name = "setxp";
     description = "Set the XP of a user (admin only).";
+    categories = ["ranks"];
+    examples = ["setxp @usuario 1000", "setxp 1234567890 500"];
+    usage = "setxp <user> <amount>";
     userPermissions: bigint[] = [PermissionsBitField.Flags.Administrator];
     args = [
         { name: "user", type: "user", optional: false },

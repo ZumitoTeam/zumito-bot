@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        discord: {
+                            primary: "<%= theme && theme.primary ? theme.primary : '#5865F2' %>",
+                            accent: "<%= theme && theme.accent ? theme.accent : '#57F287' %>",
+                            secondary: "<%= theme && theme.secondary ? theme.secondary : '#36393f' %>"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --primary: <%= theme && theme.primary ? theme.primary : '#5865F2' %>;
+            --secondary: <%= theme && theme.secondary ? theme.secondary : '#36393f' %>;
+            --accent: <%= theme && theme.accent ? theme.accent : '#57F287' %>;
+            --gradient-from: <%= theme && theme.gradientFrom ? theme.gradientFrom : '#23272A' %>;
+            --gradient-via: <%= theme && theme.gradientVia ? theme.gradientVia : '#36393f' %>;
+            --gradient-to: <%= theme && theme.gradientTo ? theme.gradientTo : '#5865F2' %>;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-900 via-indigo-700 to-indigo-500 min-h-screen flex flex-col">
+    <%- content %>
+</body>
+</html>

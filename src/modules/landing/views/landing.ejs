@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= botName %> - Discord Bot</title>
+    <!-- Tailwind y tema ahora están en el layout -->
+    <style>
+        :root {
+            --primary: <%= theme.primary %>;
+            --secondary: <%= theme.secondary %>;
+            --accent: <%= theme.accent %>;
+            --gradient-from: <%= theme.gradientFrom %>;
+            --gradient-via: <%= theme.gradientVia %>;
+            --gradient-to: <%= theme.gradientTo %>;
+        }
+        body {
+            background: linear-gradient(135deg, var(--gradient-from) 0%, var(--gradient-via) 60%, var(--gradient-to) 100%);
+        }
+        .btn-primary {
+            background: <%= theme.primary %>;
+            color: #000;
+        }
+        .btn-primary:hover {
+            background: <%= theme.accent %>;
+        }
+        .card {
+            background: <%= theme.secondary %>CC;
+            color: #000;
+        }
+    </style>
+</head>
+<body style="background: linear-gradient(135deg, <%= theme.gradientFrom %> 0%, <%= theme.gradientVia %> 60%, <%= theme.gradientTo %> 100%); min-height: 100vh;" class="flex flex-col">
+    <header class="py-10 text-center flex flex-col items-center">
+        <img src="<%= botAvatar %>" alt="Avatar del bot" class="w-32 h-32 rounded-full shadow-lg border-4" style="border-color: <%= theme.primary %>;" />
+        <h1 class="text-5xl font-extrabold text-white drop-shadow-lg flex items-center justify-center gap-2">
+            <span><%= botName %></span>
+            <span class="text-indigo-300 text-2xl font-mono">#<%= botTag.split('#')[1] || '' %></span>
+        </h1>
+        <p class="mt-4 text-2xl text-indigo-100 font-semibold animate-fade-in"><%= tagline %></p>
+    </header>
+    <main class="flex-1 flex flex-col items-center justify-center">
+        <div class="max-w-lg w-full flex flex-col items-center rounded-xl shadow-lg p-8" style="background: <%= theme.secondary %>CC; color: #fff;">
+            <div class="flex justify-center gap-6 mb-6 w-full">
+                <div class="flex flex-col items-center">
+                    <span class="text-3xl font-bold" style="color: <%= theme.primary %>;"><%= servers %></span>
+                    <span class="text-indigo-200 text-sm">Servidores</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-3xl font-bold" style="color: <%= theme.primary %>;"><%= users %></span>
+                    <span class="text-indigo-200 text-sm">Usuarios</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-3xl font-bold" style="color: <%= theme.primary %>;"><%= channels %></span>
+                    <span class="text-indigo-200 text-sm">Canales</span>
+                </div>
+            </div>
+            <img src="/assets/images/banner.png" alt="Bot banner" class="rounded-lg shadow mb-6 w-full animate-fade-in">
+            <div class="flex flex-col gap-4 w-full">
+                <a href="<%= inviteUrl %>" class="w-full block text-center text-lg font-bold rounded-lg transition py-3 px-6" style="background: <%= theme.primary %>; color: #fff;" onmouseover="this.style.background='<%= theme.accent %>'" onmouseout="this.style.background='<%= theme.primary %>'">✨ Invitar al bot</a>
+                <a href="<%= supportUrl %>" class="w-full block py-3 px-6 bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-semibold rounded-lg text-center text-lg transition">Servidor de soporte</a>
+                <a href="<%= githubUrl %>" class="w-full block py-3 px-6 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-lg text-center text-lg transition">GitHub</a>
+            </div>
+            <div class="mt-6 text-indigo-200 text-xs">Versión del bot: <span class="font-mono"><%= version %></span></div>
+        </div>
+
+        <!-- Sección: Comandos Destacados -->
+        <section class="w-full max-w-3xl mt-16 px-4">
+            <h2 class="text-3xl font-bold text-white mb-6 text-center">Comandos Destacados</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <% featuredCommands.forEach(cmd => { %>
+                    <div class="rounded-lg shadow-lg p-6 flex items-center gap-4 hover:scale-105 transition-transform" style="background: <%= theme.secondary %>CC; color: #fff;">
+                        <span class="text-4xl"><%= cmd.emoji %></span>
+                        <div>
+                            <div class="font-bold text-lg" style="color: <%= theme.primary %>;">/<%= cmd.name %></div>
+                            <div class="text-indigo-100 text-sm"><%= cmd.description %></div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+
+        <!-- Sección: FAQs -->
+        <section class="w-full max-w-3xl mt-20 px-4">
+            <h2 class="text-3xl font-bold text-white mb-6 text-center">Preguntas Frecuentes</h2>
+            <div class="space-y-4">
+                <% faqs.forEach(faq => { %>
+                    <details class="rounded-lg p-4 shadow group" style="background: <%= theme.secondary %>CC; color: #fff;">
+                        <summary class="font-semibold cursor-pointer group-open:text-white transition" style="color: <%= theme.primary %>;">❓ <%= faq.q %></summary>
+                        <div class="mt-2 text-indigo-100 text-sm"><%= faq.a %></div>
+                    </details>
+                <% }) %>
+            </div>
+        </section>
+    </main>
+    <footer class="py-6 text-center text-indigo-100 text-sm">
+        &copy; <%= new Date().getFullYear() %> <%= botName %> &mdash; Hecho con <span class="text-pink-400">♥</span> para Discord
+    </footer>
+</body>
+</html>

@@ -5,6 +5,9 @@ import { ServiceContainer } from "zumito-framework";
 export class Leaderboard extends Command {
     name = "leaderboard";
     description = "Show the top users by XP in this server.";
+    categories = ["ranks"];
+    examples = ["leaderboard"];
+    usage = "leaderboard";
     async execute({ message, interaction }: CommandParameters): Promise<void> {
         const guild = message?.guild || interaction?.guild;
         if (!guild) return;

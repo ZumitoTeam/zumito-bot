@@ -4,6 +4,9 @@ import { PermissionsBitField } from "zumito-framework/discord";
 export class BanCommand extends Command {
     name = "ban";
     description = "Ban a user from the server.";
+    categories = ["moderation"];
+    examples = ["ban @usuario", "ban 1234567890 Spamming"];
+    usage = "ban <user> [reason]";
     userPermissions: bigint[] = [PermissionsBitField.Flags.Administrator];
     args = [
         { name: "user", type: "user", optional: false },

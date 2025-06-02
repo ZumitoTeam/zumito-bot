@@ -6,6 +6,9 @@ import { PermissionsBitField } from "zumito-framework/discord";
 export class WarningsCommand extends Command {
     name = "warnings";
     description = "List warnings for a user (admin: any user, others: self).";
+    categories = ["moderation"];
+    examples = ["warnings", "warnings @usuario"];
+    usage = "warnings [user]";
     userPermissions: bigint[] = [];
     args = [
         { name: "user", type: "user", optional: true }

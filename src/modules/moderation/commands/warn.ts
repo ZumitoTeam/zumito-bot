@@ -5,6 +5,9 @@ import { ModerationService } from "../services/ModerationService";
 export class WarnCommand extends Command {
     name = "warn";
     description = "Warn a user in the server.";
+    categories = ["moderation"];
+    examples = ["warn @usuario", "warn 1234567890 Conducta inapropiada"];
+    usage = "warn <user> [reason]";
     args = [
         { name: "user", type: "user", optional: false },
         { name: "reason", type: "string", optional: true }

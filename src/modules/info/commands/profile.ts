@@ -4,6 +4,9 @@ import { EmbedBuilder } from "zumito-framework/discord";
 export class ProfileCommand extends Command {
     name = "profile";
     description = "Show a user's Discord profile info in an embed.";
+    categories = ["information"];
+    examples = ["profile", "profile @usuario"];
+    usage = "profile [user]";
     args = [
         { name: "user", type: "user", optional: true }
     ];

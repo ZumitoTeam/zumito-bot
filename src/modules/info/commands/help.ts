@@ -216,10 +216,12 @@ export class Help extends Command {
             };
                     
             if (this.emojiFallback.getEmoji(framework.translations.get(`command.category.${category}.emoji`), framework.translations.get(`command.category.${category}.emoji`))) {
-                selectMenuOption.emoji = this.emojiFallback.getEmoji(
-                    framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang), 
-                    framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang)
-                );
+                if (framework.translations.has(`global.category.${category}.emoji`)) {
+                    selectMenuOption.emoji = this.emojiFallback.getEmoji(
+                        framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang), 
+                        framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang)
+                    );
+                }
             }
                     
             if (selectedCategory == category) {

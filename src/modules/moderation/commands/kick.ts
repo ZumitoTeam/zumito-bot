@@ -4,6 +4,9 @@ import { PermissionsBitField } from "zumito-framework/discord";
 export class KickCommand extends Command {
     name = "kick";
     description = "Kick a user from the server.";
+    categories = ["moderation"];
+    examples = ["kick @usuario", "kick 1234567890 Flood"];
+    usage = "kick <user> [reason]";
     userPermissions: bigint[] = [PermissionsBitField.Flags.Administrator];
     args = [
         { name: "user", type: "user", optional: false },
