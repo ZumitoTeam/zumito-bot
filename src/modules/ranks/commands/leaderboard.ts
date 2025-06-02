@@ -2,7 +2,7 @@ import { Command, CommandParameters } from "zumito-framework";
 import { RankService } from "../services/RankService";
 import { ServiceContainer } from "zumito-framework";
 
-export class LeaderboardCommand extends Command {
+export class Leaderboard extends Command {
     name = "leaderboard";
     description = "Show the top users by XP in this server.";
     async execute({ message, interaction }: CommandParameters): Promise<void> {
