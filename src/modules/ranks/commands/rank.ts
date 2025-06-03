@@ -13,7 +13,7 @@ export class RankCommand extends Command {
         const user = message?.author || interaction?.user;
         if (!guild || !user) return;
         const rankService = ServiceContainer.getService(RankService) as RankService;
-        const data = await rankService.getUser(guild.id, user.id);
+        const data = await rankService.getUser(guild.id, user.id).catch(() => null);
         if (!data) {
             const reply = `${user}, you have no XP yet! Start chatting to earn XP.`;
             if (message) {
