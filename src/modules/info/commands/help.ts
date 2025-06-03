@@ -119,7 +119,11 @@ export class Help extends Command {
                         this.getPrefix(guildSettings)  }help [<command>]` + `\`` + `\n${  trans("field.support")  } [${  trans("field.support_server")  }](${  config.links.support  })`,
                 });
                     
-            const commands: Command[] = Array.from(framework.commands.getAll().values()).filter((c: Command) => c.categories.includes(category));
+            let commands: Command[] = Array.from(framework.commands.getAll().values()).filter((c: Command) => c.categories.includes(category));
+            // filter commmands with same name
+            commands = commands.filter((c: Command, index: number, self: Command[]) =>
+                index === self.findIndex((t: Command) => t.name === c.name)
+            );
             const valuesToPush: string[] = [];
             for (let i = 0; i < commands.length; i++) {
                 if (interaction.values[0] === "information" && i % 4 == 0) { 
@@ -153,8 +157,8 @@ export class Help extends Command {
                                     name: `${this.emojiFallback.getEmoji('', "📖")  } ${  trans("commands")}`,
                                     value: `\`\`\`${  
                                         commands[i]?.name || ""  }${Array(15 - commands[i]?.name.length).fill(" ").join('')  
-                                    }${commands[i + 1]?.name || ""  }${Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('')  
-                                    }${commands[i + 2]?.name || ""  }${Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('')  
+                                    }${commands[i + 1]?.name || ""  }${Array(15 - Math.min(commands[i + 1]?.name?.length || 0, 15)).fill(" ").join('')  
+                                    }${commands[i + 2]?.name || ""  }${Array(15 - Math.min(commands[i + 2]?.name?.length || 0, 15)).fill(" ").join('')  
                                     }${commands[i + 3]?.name || ""
                                     }       ` + `\`\`\``,
                                 }
@@ -239,7 +243,11 @@ export class Help extends Command {
             
     getCommandsSelectMenu(framework: ZumitoFramework, category: string, guildSettings: any): AnyComponentBuilder {
                 
-        const commands = Array.from(framework.commands.getAll().values()).filter((c: Command) => c.categories.includes(category));
+        let commands = Array.from(framework.commands.getAll().values()).filter((c: Command) => c.categories.includes(category));
+        // filter commmands with same name
+        commands = commands.filter((c: Command, index: number, self: Command[]) =>
+            index === self.findIndex((t: Command) => t.name === c.name)
+        );
         const selectMenuOptions: any = [];
         for (const command of commands) {
             const selectMenuOption: any = {

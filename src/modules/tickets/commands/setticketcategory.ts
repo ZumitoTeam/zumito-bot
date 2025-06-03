@@ -2,7 +2,7 @@ import { Command, CommandParameters } from "zumito-framework";
 import { PermissionsBitField } from "zumito-framework/discord";
 
 // Este comando es solo un placeholder, ya que la lógica real de guardar la categoría debe implementarse en la config global del bot o guild
-export class SetTicketCategoryCommand extends Command {
+export class SetTicketCategory extends Command {
     name = "setticketcategory";
     description = "Establece la categoría donde se crearán los tickets (solo admins)";
     categories = ["tickets"];
