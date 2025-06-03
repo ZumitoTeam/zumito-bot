@@ -25,12 +25,12 @@ export class BalanceCommand extends Command {
         if (!target) target = message?.author || interaction?.user;
         if (!target) return;
         // Always show global balances
-        const userData = await economyService.getUser(target.id);
+        const userData = await economyService.getUser(target.id).catch(() => null);
         const free = userData?.free || 0;
         const paid = userData?.paid || 0;
         // Guild balance
-        const guildBalance = await economyService.getGuildBalance(target.id, guild.id);
-        const currencyName = await economyService.getGuildCurrencyName(guild.id);
+        const guildBalance = await economyService.getGuildBalance(target.id, guild.id).catch(() => 0);
+        const currencyName = await economyService.getGuildCurrencyName(guild.id).catch(() => "Guild Coins");
         let reply = `💰 Balance for <@${target.id}>\n`;
         reply += `• Free: ${free}\n`;
         reply += `• Paid: ${paid}\n`;
