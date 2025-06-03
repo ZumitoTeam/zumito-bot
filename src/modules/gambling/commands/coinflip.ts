@@ -1,44 +1,27 @@
 import { Command, CommandParameters } from "zumito-framework";
-import { GamblingService } from "../services/GamblingService";
-import { ServiceContainer } from "zumito-framework";
 
 export class CoinflipCommand extends Command {
     name = "coinflip";
-    description = "Bet an amount and flip a coin!";
+    description = "¡Lanza una moneda y apuesta si sale cara o cruz!";
     categories = ["gambling"];
-    examples = ["coinflip 100", "coinflip 50"];
-    usage = "coinflip <amount>";
+    examples = ["coinflip cara", "coinflip cruz"];
+    usage = "coinflip <cara|cruz>";
     args = [
-        { name: "amount", type: "integer", optional: false }
+        { name: "eleccion", type: "string", optional: true }
     ];
     async execute({ message, interaction, args }: CommandParameters): Promise<void> {
-        const guild = message?.guild || interaction?.guild;
         const user = message?.author || interaction?.user;
-        if (!guild || !user) return;
-        const amount = args.get("amount");
-        if (typeof amount !== "number" || amount <= 0) {
-            const reply = `You must bet a positive amount.`;
-            if (message) {
-                await message.reply(reply);
-                return;
-            }
-            if (interaction) {
-                await interaction.reply(reply);
-                return;
-            }
-            return;
+        if (!user) return;
+        const eleccion = (args.get("eleccion") || "").toLowerCase();
+        const resultado = Math.random() < 0.5 ? "cara" : "cruz";
+        let reply = `🪙 La moneda cayó en **${resultado}**.`;
+        if (eleccion === "cara" || eleccion === "cruz") {
+            const gano = eleccion === resultado;
+            reply += ` ${gano ? "¡Ganaste! 🎉" : "Perdiste. 😢"}`;
+        } else if (eleccion) {
+            reply += " Debes elegir 'cara' o 'cruz'. Ejemplo: /coinflip cara";
         }
-        const gambling = ServiceContainer.getService(GamblingService) as GamblingService;
-        const { result, newBalance } = await gambling.coinflip(user.id, guild.id, amount);
-        let reply = `🪙 Coinflip: You ${result === "win" ? "won" : "lost"} ${amount}!\n`;
-        reply += `Your new balance: ${newBalance}`;
-        if (message) {
-            await message.reply(reply);
-            return;
-        }
-        if (interaction) {
-            await interaction.reply(reply);
-            return;
-        }
+        if (message) { await message.reply(reply); return; }
+        if (interaction) { await interaction.reply(reply); return; }
     }
 }
