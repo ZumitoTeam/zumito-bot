@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import ejs from 'ejs';
 import { Client, version as discordjsVersion } from "zumito-framework/discord";
 import { AdminViewService } from "../services/AdminViewService";
+import { AdminAuthService } from "../services/AdminAuthService";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -12,16 +13,15 @@ export class Admin extends Route {
     method = RouteMethod.get;
     path = '/admin';
 
-    client: Client;
-
-    constructor() {
+    constructor(
+        private client: Client = ServiceContainer.getService(Client),
+        private adminAuthService = ServiceContainer.getService(AdminAuthService)
+    ) {
         super();
-        this.client = ServiceContainer.getService(Client);
     }
 
     async execute(req, res) {
-        if (!this.isLoginValid(req, res)) return res.redirect('/admin/test');
-
+        if (!this.adminAuthService.isLoginValid(req).isValid) return res.redirect('/admin/login');
         const client = this.client;
         const botUser = client.user;
         const botAvatar = botUser?.avatarURL?.() || botUser?.displayAvatarURL?.() || '';
@@ -75,14 +75,5 @@ export class Admin extends Route {
         });
 
         res.send(html)
-    }
-
-    isLoginValid(req, res) {
-        return true;
-        const token = req.cookies.token;
-        if (!token) return false;
-        const jwt = JSON.parse(Buffer.from(token, 'base64').toString());
-        const now = Math.floor(Date.now() / 1000);
-        return now < jwt.expires_in;
     }
 }

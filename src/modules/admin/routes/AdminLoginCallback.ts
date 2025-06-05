@@ -17,7 +17,6 @@ export class AdminLoginCallback extends Route {
             redirect_uri: process.env.FRONTEND_URL ?? `https://${host}/admin/login/callback`,
             scope: 'identify',
         }
-        console.log(params);
         const tokenResponseData = await fetch('https://discord.com/api/oauth2/token', {
             method: 'POST',
             body: new URLSearchParams(params).toString(),
@@ -43,16 +42,14 @@ export class AdminLoginCallback extends Route {
             .setExpirationTime('2h')
             .sign(secret);
 
-        console.log(jwt);
-
-        res.cookie('token', jwt, {
+        res.cookie('admin_token', jwt, {
             httpOnly: true,
             secure: true,
             sameSite: 'strict',
             maxAge: 30 * 24 * 60 * 60 * 1000,
-            path: '/admin',
+            path: '/',
         });
 
-        return res.json(oauthData);
+        return res.redirect('/admin/dashboard');
     }
 }

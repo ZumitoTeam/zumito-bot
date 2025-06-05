@@ -12,21 +12,30 @@ export class AdminAuthService {
      * @returns {Promise<{ isValid: boolean, data?: any }>} true if valid, false otherwise
      */
     isLoginValid(req: any): { isValid: boolean, data?: any } {
-        const token = req.cookies?.token;
+        const token = req.cookies?.admin_token;
         if (!token) return {
-            isValid: false
+            isValid: false,
+            data: {
+                reason: 'No token provided'
+            }
         };
         let jwt: any;
         try {
             jwt = JSON.parse(Buffer.from(token, 'base64').toString());
         } catch {
             return {
-                isValid: false
+                isValid: false,
+                data: {
+                    reason: 'Invalid token format'
+                }
             };
         }
         const now = Math.floor(Date.now() / 1000);
         if (!jwt.expires_in || now >= jwt.expires_in) return {
-            isValid: false
+            isValid: false,
+            data: {
+                reason: 'Token expired'
+            }
         };
         return {
             isValid: true,
