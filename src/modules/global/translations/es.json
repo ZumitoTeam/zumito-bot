@@ -22,6 +22,51 @@
                 "name": "Informacion",
                 "description": "Comandos de información",
                 "emoji": "🏳️"
+            },
+            "music": {
+                "name": "Música",
+                "description": "Comandos de música",
+                "emoji": "🎵"
+            },
+            "gambling": {
+                "name": "Apuestas",
+                "description": "Comandos de apuestas y juegos de azar",
+                "emoji": "🎲"
+            },
+            "admin": {
+                "name": "Admin",
+                "description": "Comandos de administración",
+                "emoji": "🛡️"
+            },
+            "economy": {
+                "name": "Economía",
+                "description": "Comandos de economía y dinero",
+                "emoji": "💰"
+            },
+            "fun": {
+                "name": "Diversión",
+                "description": "Comandos divertidos y de entretenimiento",
+                "emoji": "😄"
+            },
+            "moderation": {
+                "name": "Moderación",
+                "description": "Comandos de moderación",
+                "emoji": "🔨"
+            },
+            "tickets": {
+                "name": "Tickets",
+                "description": "Comandos de soporte y tickets",
+                "emoji": "🎫"
+            },
+            "ranks": {
+                "name": "Rangos",
+                "description": "Comandos de rangos y XP",
+                "emoji": "🏆"
+            },
+            "utilities": {
+                "name": "Utilidades",
+                "description": "Comandos de utilidades y herramientas",
+                "emoji": "🛠️"
             }
         },
         "requested": "Pedido por {user}",
