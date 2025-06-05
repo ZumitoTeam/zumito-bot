@@ -1,6 +1,6 @@
 import { Route, RouteMethod, ServiceContainer } from "zumito-framework";
 import { AdminLoginCallback } from "./AdminLoginCallback";
-import { AdminAuthService, AdminAuthService } from "../services/AdminAuthService";
+import { AdminAuthService } from "../services/AdminAuthService";
 
 export class AdminLogin extends Route {
 
@@ -13,8 +13,8 @@ export class AdminLogin extends Route {
         super();
     }
 
-    execute(req, res) {
-        if (this.adminAuthService.isLoginValid(req).isValid) return res.redirect('/admin');   
+    async execute(req, res) {
+        if (await this.adminAuthService.isLoginValid(req).then(r => r.isValid)) return res.redirect('/admin');    
         const clientId = process.env.DISCORD_CLIENT_ID;
         if (!clientId) throw new Error('DISCORD_CLIET_ID .env var not defined');
         const host = process.env.HOST ??req.get('host');

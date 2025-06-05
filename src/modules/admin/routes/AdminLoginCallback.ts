@@ -43,13 +43,12 @@ export class AdminLoginCallback extends Route {
             .sign(secret);
 
         res.cookie('admin_token', jwt, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
+            httpOnly: false,
+            sameSite: 'lax',
             maxAge: 30 * 24 * 60 * 60 * 1000,
             path: '/',
         });
 
-        return res.redirect('/admin/dashboard');
+        return res.redirect('/admin/');
     }
 }

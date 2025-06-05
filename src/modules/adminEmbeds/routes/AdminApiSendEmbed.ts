@@ -14,7 +14,7 @@ export class AdminApiSendEmbed extends Route {
     }
 
     async execute(req, res) {
-        if (!this.adminAuthService.isLoginValid(req).isValid) {
+        if (!await this.adminAuthService.isLoginValid(req).then(r => r.isValid)) {
             return res.status(403).json({ error: 'Access Denied' });
         }
 

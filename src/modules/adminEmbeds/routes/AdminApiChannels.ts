@@ -15,8 +15,7 @@ export class AdminApiChannels extends Route {
     }
 
     async execute(req, res) {
-        if (!this.adminAuthService.isLoginValid(req).isValid) return res.status(403).json({ error: 'Access Denied' });
-        if (!this.isLoginValid(req, res)) return res.status(401).json({ error: 'Unauthorized' });
+        if (!await this.adminAuthService.isLoginValid(req).then(r => r.isValid)) return res.status(403).json({ error: 'Access Denied' });
 
         const { guildId } = req.params;
         const guild = this.client.guilds.cache.get(guildId);
@@ -36,7 +35,4 @@ export class AdminApiChannels extends Route {
         res.json(textChannels);
     }
 
-    isLoginValid(req, res) {
-        return true; // TODO: Implement proper validation
-    }
 }

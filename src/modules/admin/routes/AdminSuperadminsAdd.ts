@@ -16,7 +16,7 @@ export class AdminSuperadminsAdd extends Route {
     }
 
     async execute(req: any, res: any) {
-        if (!this.adminAuthService.isLoginValid(req).isValid) return res.status(403).send('Access Denied');
+        if (!await this.adminAuthService.isLoginValid(req).then(r => r.isValid)) return res.status(403).send('Access Denied');
         try {
             const { discordUserId } = req.body;
             if (!discordUserId) {

@@ -21,7 +21,7 @@ export class Admin extends Route {
     }
 
     async execute(req, res) {
-        if (!this.adminAuthService.isLoginValid(req).isValid) return res.redirect('/admin/login');
+        if (!await this.adminAuthService.isLoginValid(req).then(r => r.isValid)) return res.redirect('/admin/login');
         const client = this.client;
         const botUser = client.user;
         const botAvatar = botUser?.avatarURL?.() || botUser?.displayAvatarURL?.() || '';

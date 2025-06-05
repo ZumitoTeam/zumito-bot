@@ -18,7 +18,7 @@ export class AdminSuperadmins extends Route {
     }
 
     async execute(req: any, res: any) {
-        if (!this.adminAuthService.isLoginValid(req).isValid) return res.redirect('/admin/login');
+        if (!await this.adminAuthService.isLoginValid(req).then(r => r.isValid)) return res.redirect('/admin/login');
         const superadmins = await this.framework.database.models.AdminUser.find({ where: { isSuperAdmin: true } });
         const content = await ejs.renderFile(
             path.resolve(__dirname, '../views/superadmins.ejs'),

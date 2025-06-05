@@ -21,7 +21,7 @@ export class AdminEmbed extends Route {
     }
 
     async execute(req, res) {
-        if (!this.adminAuthService.isLoginValid(req).isValid) return res.redirect('/admin/login');
+        if (!await this.adminAuthService.isLoginValid(req).then(r => r.isValid)) return res.redirect('/admin/login');
 
         const guilds = Array.from(this.client.guilds.cache.values()).map(guild => ({
             id: guild.id,

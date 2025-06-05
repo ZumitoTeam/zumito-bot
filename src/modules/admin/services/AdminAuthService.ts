@@ -1,5 +1,6 @@
 import { ServiceContainer } from "zumito-framework";
 import { ZumitoFramework } from "zumito-framework";
+import * as jose from 'jose';
 
 export class AdminAuthService {
     private framework: ZumitoFramework;
@@ -11,7 +12,7 @@ export class AdminAuthService {
      * Checks if the user is logged in.
      * @returns {Promise<{ isValid: boolean, data?: any }>} true if valid, false otherwise
      */
-    isLoginValid(req: any): { isValid: boolean, data?: any } {
+    async isLoginValid(req: any): Promise<{ isValid: boolean, data?: any }> {
         const token = req.cookies?.admin_token;
         if (!token) return {
             isValid: false,
@@ -21,17 +22,20 @@ export class AdminAuthService {
         };
         let jwt: any;
         try {
-            jwt = JSON.parse(Buffer.from(token, 'base64').toString());
-        } catch {
+            const secret = new TextEncoder().encode(process.env.SECRET_KEY);
+            const { payload } = await jose.jwtVerify(token, secret);
+            jwt = payload;
+        } catch (e) {
             return {
                 isValid: false,
                 data: {
-                    reason: 'Invalid token format'
+                    reason: 'Invalid or expired token',
+                    error: e instanceof Error ? e.message : e
                 }
             };
         }
         const now = Math.floor(Date.now() / 1000);
-        if (!jwt.expires_in || now >= jwt.expires_in) return {
+        if (!jwt.expires_in || now >= jwt.exp) return {
             isValid: false,
             data: {
                 reason: 'Token expired'
