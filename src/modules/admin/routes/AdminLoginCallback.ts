@@ -26,12 +26,27 @@ export class AdminLoginCallback extends Route {
           });
         
           const oauthData: any = await tokenResponseData.json();
-          /* {"token_type":"Bearer","access_token":"F0oULj6D6RccSxngb5aNOzMF9kikzW","expires_in":604800,"refresh_token":"0ZNlw5WHP8ouUTgMeabyCLdThoX8PE","scope":"identify guilds"} */
-          
-          const payload = { 
+          /* {"token_type":"Bearer","access_token":"...","expires_in":604800,"refresh_token":"...","scope":"identify guilds"} */
+
+        // Obtener el perfil del usuario de Discord
+        let discordUserId = null;
+        try {
+            const userResponse = await fetch('https://discord.com/api/users/@me', {
+                headers: {
+                    'Authorization': `Bearer ${oauthData.access_token}`
+                }
+            });
+            if (userResponse.ok) {
+                const userData = await userResponse.json();
+                discordUserId = (userData as any).id;
+            }
+        } catch {}
+
+        const payload = {
             discordToken: oauthData.access_token,
             discordRefreshToken: oauthData.refresh_token,
             expires_in: oauthData.expires_in,
+            discordUserId
         };
 
         const secret = new TextEncoder().encode(process.env.SECRET_KEY);
