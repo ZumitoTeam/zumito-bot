@@ -4,7 +4,7 @@ import { Client } from "zumito-framework/discord";
 export class InviteCommand extends Command {
     name = "invite";
     description = "Get an invite link for the bot or the current server.";
-    categories = ["utility"];
+    categories = ["utilities"];
     examples = ["invite bot", "invite server"];
     usage = "invite <bot|server>";
     args = [
