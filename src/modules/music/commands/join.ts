@@ -1,6 +1,7 @@
 import { Command, CommandParameters } from "zumito-framework";
 import { ServiceContainer } from "zumito-framework";
 import { MusicService } from "../services/MusicService";
+import { joinVoiceChannel } from "@discordjs/voice";
 
 export class JoinCommand extends Command {
     name = "join";
@@ -17,7 +18,12 @@ export class JoinCommand extends Command {
             return;
         }
         try {
-            await voiceChannel.join();
+            joinVoiceChannel({
+                channelId: voiceChannel.id,
+                guildId: voiceChannel.guild.id,
+                adapterCreator: voiceChannel.guild.voiceAdapterCreator,
+                selfDeaf: false
+            });
             const reply = `✅ Me he unido a tu canal de voz.`;
             if (interaction) await interaction.reply({ content: reply });
             if (message) await message.reply(reply);
