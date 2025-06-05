@@ -38,7 +38,7 @@ export class EconomyService {
 
     async addGuildBalance(userId: string, guildId: string, amount: number) {
         const EconomyUser = this.framework.database.models.EconomyUser;
-        let user = await this.getUser(userId);
+        let user = await this.getUser(userId).catch(() => null);
         if (!user) user = await EconomyUser.create({ userId, free: 0, paid: 0, guilds: {} });
         if (!user.guilds[guildId]) user.guilds[guildId] = { balance: 0 };
         user.guilds[guildId].balance += amount;
