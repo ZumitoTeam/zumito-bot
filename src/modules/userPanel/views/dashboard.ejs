@@ -23,7 +23,7 @@
                     </div>
                 <% } else { %>
                     <% servers.forEach(server => { %>
-                        <a href="/userpanel/server/<%= server.id %>" class="group">
+                        <a href="/panel/<%= server.id %>" class="group">
                             <div class="flex items-center p-3 bg-[#40444b] rounded-md hover:bg-[#454950] transition-all duration-200">
                                 <div class="flex-shrink-0 mr-3">
                                     <% if (server.icon) { %>

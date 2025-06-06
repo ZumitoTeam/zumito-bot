@@ -26,15 +26,12 @@ export class UserPanelLoginCallback extends Route {
         // Obtener el perfil del usuario de Discord
         let discordUserData = null;
         try {
-            console.log('Access token:', oauthData.access_token);
             const userResponse = await fetch('https://discord.com/api/users/@me', {
                 headers: {
                     'Authorization': `Bearer ${oauthData.access_token}`
                 }
             });
-            console.log('User response status:', userResponse.status);
             const userData = await userResponse.json();
-            console.log('User data:', userData);
             if (userResponse.ok) {
                 discordUserData = (userData as any);
             }

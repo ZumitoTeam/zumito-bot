@@ -67,7 +67,6 @@
         <% if (!hideSidebar) { %>
         <!-- Server Bar (estilo Discord) -->
         <aside class="w-[72px] bg-discord-dark-400 h-screen fixed left-0 flex flex-col items-center pt-3 gap-2">
-            
             <% for (const item of navItems) { %>
                 <a href="<%= item.url %>" class="w-12 h-12 bg-discord-dark-200 rounded-[24px] hover:rounded-[16px] hover:bg-discord-primary transition-all duration-200 flex items-center justify-center group relative<% if (selectedNavItem && item.url === selectedNavItem.url) { %> ring-4 ring-discord-primary ring-offset-2 ring-offset-discord-dark-400<% } %>">
                     <% if (item.icon) { %>
@@ -116,7 +115,7 @@
         <% } %>
 
         <!-- Main content -->
-        <main class="<% if (!hideSidebar) { %>"ml-[calc(72px+240px)]<% } %> px-8 py-6 flex-1 pb-16">
+        <main class="<% if (!hideSidebar) { %>ml-[calc(72px+240px)]<% } %> px-8 py-6 flex-1 pb-16">
             <%- content %>
         </main>
     </div>

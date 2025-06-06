@@ -1,0 +1,524 @@
+<div class="min-h-full" x-data="{ activeTab: 'general' }">
+    <!-- Encabezado del servidor con banner de fondo -->
+    <div class="relative w-full bg-discord-dark-200 rounded-lg shadow-xl overflow-hidden mb-6">
+        <!-- Banner del servidor (fondo decorativo) -->
+        <div class="h-36 bg-gradient-to-r from-discord-primary/90 to-discord-primary/60 relative">
+            <!-- Overlay con patrón sutil -->
+            <div class="absolute inset-0 bg-black/10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E');"></div>
+            
+            <!-- Ícono del servidor (posicionado para que sobresalga) -->
+            <div class="absolute -bottom-10 left-8">
+                <% if (guild.icon) { %>
+                    <img src="<%= guild.icon %>" alt="<%= guild.name %>" class="w-24 h-24 rounded-full border-4 border-discord-dark-200 shadow-lg">
+                <% } else { %>
+                    <div class="w-24 h-24 rounded-full bg-discord-dark-400 border-4 border-discord-dark-200 shadow-lg flex items-center justify-center">
+                        <span class="text-3xl font-bold text-discord-white"><%= guild.name.charAt(0) %></span>
+                    </div>
+                <% } %>
+            </div>
+            
+            <!-- Información del usuario -->
+            <div class="absolute bottom-3 right-4 flex items-center bg-discord-dark-300/70 backdrop-blur-sm px-3 py-2 rounded-lg">
+                <img src="<%= member.avatar %>" alt="<%= member.username %>" class="w-8 h-8 rounded-full mr-2">
+                <div>
+                    <span class="text-sm font-medium text-discord-white"><%= member.username %></span>
+                    <% if (guild.isOwner) { %>
+                        <span class="ml-2 px-2 py-0.5 bg-discord-primary text-xs rounded-full text-white">Propietario</span>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Información del servidor -->
+        <div class="pt-14 pb-4 px-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-discord-white mb-1"><%= guild.name %></h1>
+                    <p class="text-discord-gray-300 text-sm">ID: <%= guild.id %></p>
+                </div>
+                
+                <!-- Botón de configuración -->
+                <button class="bg-discord-dark-300 hover:bg-discord-dark-400 text-discord-white px-4 py-2 rounded-md transition-colors flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Configuración
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navegación con pestañas -->
+    <div class="bg-discord-dark-300 rounded-lg shadow-md mb-6 px-1">
+        <nav class="flex border-b border-discord-dark-400">
+            <button 
+                @click="activeTab = 'general'" 
+                :class="activeTab === 'general' ? 'border-discord-primary text-discord-white' : 'border-transparent text-discord-gray-300 hover:text-discord-white hover:border-discord-gray-300'" 
+                class="px-4 py-3 border-b-2 font-medium text-sm transition-colors flex items-center"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                General
+            </button>
+            <button 
+                @click="activeTab = 'stats'" 
+                :class="activeTab === 'stats' ? 'border-discord-primary text-discord-white' : 'border-transparent text-discord-gray-300 hover:text-discord-white hover:border-discord-gray-300'" 
+                class="px-4 py-3 border-b-2 font-medium text-sm transition-colors flex items-center"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Estadísticas
+            </button>
+            <button 
+                @click="activeTab = 'commands'" 
+                :class="activeTab === 'commands' ? 'border-discord-primary text-discord-white' : 'border-transparent text-discord-gray-300 hover:text-discord-white hover:border-discord-gray-300'" 
+                class="px-4 py-3 border-b-2 font-medium text-sm transition-colors flex items-center"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                </svg>
+                Comandos
+            </button>
+            <button 
+                @click="activeTab = 'settings'" 
+                :class="activeTab === 'settings' ? 'border-discord-primary text-discord-white' : 'border-transparent text-discord-gray-300 hover:text-discord-white hover:border-discord-gray-300'" 
+                class="px-4 py-3 border-b-2 font-medium text-sm transition-colors flex items-center"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+                Ajustes
+            </button>
+        </nav>
+    </div>
+    
+    <!-- Contenido de las pestañas -->
+    <!-- 1. Pestaña General -->
+    <div x-show="activeTab === 'general'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <!-- Resumen del servidor -->
+            <div class="bg-discord-dark-200 rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-discord-white mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Información del Servidor
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-discord-gray-300">Nombre:</span>
+                        <span class="text-discord-white font-medium"><%= guild.name %></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-discord-gray-300">ID:</span>
+                        <span class="text-discord-white font-medium"><%= guild.id %></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-discord-gray-300">Tu rol:</span>
+                        <span class="text-discord-white font-medium">
+                            <% if (guild.isOwner) { %>
+                                <span class="px-2 py-1 bg-discord-primary text-xs rounded-full">Propietario</span>
+                            <% } else { %>
+                                <span class="px-2 py-1 bg-discord-dark-100 text-xs rounded-full">Administrador</span>
+                            <% } %>
+                        </span>
+                    </div>
+                    <div class="pt-3 border-t border-discord-dark-300">
+                        <button class="w-full bg-discord-dark-100 hover:bg-discord-dark-300 text-discord-white py-2 rounded-md transition-colors">
+                            Ver detalles completos
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Estado del Bot -->
+            <div class="bg-discord-dark-200 rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-discord-white mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-discord-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Estado del Bot
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-discord-gray-300">Estado:</span>
+                        <span class="text-discord-green font-medium flex items-center">
+                            <span class="w-2 h-2 bg-discord-green rounded-full mr-2"></span>
+                            Online
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-discord-gray-300">Comandos habilitados:</span>
+                        <span class="text-discord-white font-medium">42</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-discord-gray-300">Último comando:</span>
+                        <span class="text-discord-white font-medium">Hace 5 minutos</span>
+                    </div>
+                    <div class="pt-3 border-t border-discord-dark-300">
+                        <button class="w-full bg-discord-dark-100 hover:bg-discord-dark-300 text-discord-white py-2 rounded-md transition-colors">
+                            Ver actividad reciente
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Comandos Populares -->
+        <div class="bg-discord-dark-200 rounded-lg shadow-md p-6 mb-6">
+            <h3 class="text-lg font-semibold text-discord-white mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+                Comandos Populares
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                    <div class="font-mono text-discord-primary mb-2">!help</div>
+                    <p class="text-discord-gray-300 text-sm">Muestra la lista de comandos disponibles</p>
+                </div>
+                <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                    <div class="font-mono text-discord-primary mb-2">!ping</div>
+                    <p class="text-discord-gray-300 text-sm">Comprueba la latencia del bot</p>
+                </div>
+                <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                    <div class="font-mono text-discord-primary mb-2">!config</div>
+                    <p class="text-discord-gray-300 text-sm">Configura el comportamiento del bot</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Actividad Reciente -->
+        <div class="bg-discord-dark-200 rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-discord-white mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Actividad Reciente
+            </h3>
+            <div class="space-y-3">
+                <div class="flex items-start p-3 bg-discord-dark-300 rounded-md">
+                    <div class="flex-shrink-0 mr-3 mt-1">
+                        <div class="w-2 h-2 bg-discord-green rounded-full"></div>
+                    </div>
+                    <div>
+                        <p class="text-discord-white text-sm">
+                            <span class="font-semibold">Usuario123</span> utilizó el comando <span class="font-mono text-discord-primary">!help</span>
+                        </p>
+                        <span class="text-discord-gray-300 text-xs">Hace 5 minutos</span>
+                    </div>
+                </div>
+                <div class="flex items-start p-3 bg-discord-dark-300 rounded-md">
+                    <div class="flex-shrink-0 mr-3 mt-1">
+                        <div class="w-2 h-2 bg-discord-yellow rounded-full"></div>
+                    </div>
+                    <div>
+                        <p class="text-discord-white text-sm">
+                            <span class="font-semibold">Admin456</span> modificó la configuración del bot
+                        </p>
+                        <span class="text-discord-gray-300 text-xs">Hace 2 horas</span>
+                    </div>
+                </div>
+                <div class="flex items-start p-3 bg-discord-dark-300 rounded-md">
+                    <div class="flex-shrink-0 mr-3 mt-1">
+                        <div class="w-2 h-2 bg-discord-red rounded-full"></div>
+                    </div>
+                    <div>
+                        <p class="text-discord-white text-sm">
+                            <span class="font-semibold">Sistema</span> reinició automáticamente el bot
+                        </p>
+                        <span class="text-discord-gray-300 text-xs">Hace 1 día</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 2. Pestaña Estadísticas -->
+    <div x-show="activeTab === 'stats'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="bg-discord-dark-200 rounded-lg shadow-md p-6 mb-6">
+            <h3 class="text-lg font-semibold text-discord-white mb-6 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Estadísticas de Uso
+            </h3>
+            
+            <!-- Tarjetas de estadísticas -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-discord-dark-300 rounded-md p-4">
+                    <div class="text-discord-gray-300 text-sm mb-1">Comandos Totales</div>
+                    <div class="text-2xl font-bold text-discord-white">2,384</div>
+                    <div class="text-discord-green text-xs flex items-center mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                        </svg>
+                        12% este mes
+                    </div>
+                </div>
+                <div class="bg-discord-dark-300 rounded-md p-4">
+                    <div class="text-discord-gray-300 text-sm mb-1">Usuarios Activos</div>
+                    <div class="text-2xl font-bold text-discord-white">156</div>
+                    <div class="text-discord-green text-xs flex items-center mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                        </svg>
+                        8% este mes
+                    </div>
+                </div>
+                <div class="bg-discord-dark-300 rounded-md p-4">
+                    <div class="text-discord-gray-300 text-sm mb-1">Tiempo Activo</div>
+                    <div class="text-2xl font-bold text-discord-white">99.8%</div>
+                    <div class="text-discord-green text-xs flex items-center mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                        </svg>
+                        0.2% más que el mes pasado
+                    </div>
+                </div>
+                <div class="bg-discord-dark-300 rounded-md p-4">
+                    <div class="text-discord-gray-300 text-sm mb-1">Promedio Diario</div>
+                    <div class="text-2xl font-bold text-discord-white">78</div>
+                    <div class="text-discord-red text-xs flex items-center mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                        5% menos que el mes pasado
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gráfico (simulado) -->
+            <div class="bg-discord-dark-300 rounded-lg p-4 h-64 flex items-center justify-center">
+                <p class="text-discord-gray-300 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Aquí se mostrará el gráfico de actividad<br>
+                    <span class="text-sm">(Implementación pendiente)</span>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Tabla de comandos más usados -->
+        <div class="bg-discord-dark-200 rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-discord-white mb-4">Comandos Más Utilizados</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="text-left text-discord-gray-300 border-b border-discord-dark-400">
+                            <th class="pb-2 font-medium">Comando</th>
+                            <th class="pb-2 font-medium">Usos</th>
+                            <th class="pb-2 font-medium">Último uso</th>
+                            <th class="pb-2 font-medium">Tendencia</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-discord-white">
+                        <tr class="border-b border-discord-dark-400">
+                            <td class="py-3 font-mono">!help</td>
+                            <td class="py-3">682</td>
+                            <td class="py-3">Hace 5 minutos</td>
+                            <td class="py-3 text-discord-green">↑ 12%</td>
+                        </tr>
+                        <tr class="border-b border-discord-dark-400">
+                            <td class="py-3 font-mono">!ping</td>
+                            <td class="py-3">493</td>
+                            <td class="py-3">Hace 2 horas</td>
+                            <td class="py-3 text-discord-green">↑ 8%</td>
+                        </tr>
+                        <tr class="border-b border-discord-dark-400">
+                            <td class="py-3 font-mono">!config</td>
+                            <td class="py-3">287</td>
+                            <td class="py-3">Hace 1 día</td>
+                            <td class="py-3 text-discord-red">↓ 3%</td>
+                        </tr>
+                        <tr class="border-b border-discord-dark-400">
+                            <td class="py-3 font-mono">!ban</td>
+                            <td class="py-3">175</td>
+                            <td class="py-3">Hace 3 días</td>
+                            <td class="py-3 text-discord-green">↑ 5%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 font-mono">!play</td>
+                            <td class="py-3">142</td>
+                            <td class="py-3">Hace 4 horas</td>
+                            <td class="py-3 text-discord-green">↑ 15%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 3. Pestaña Comandos -->
+    <div x-show="activeTab === 'commands'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="bg-discord-dark-200 rounded-lg shadow-md p-6 mb-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-discord-white">Lista de Comandos</h3>
+                <div class="relative">
+                    <input type="text" placeholder="Buscar comandos..." class="bg-discord-dark-300 text-discord-white border-none rounded-md px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-discord-primary">
+                    <div class="absolute left-3 top-2.5 text-discord-gray-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Grupo de comandos: Moderación -->
+                <div>
+                    <h4 class="text-discord-primary font-medium mb-2">Moderación</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                            <div class="font-mono text-discord-white mb-1">!ban @usuario [razón]</div>
+                            <p class="text-discord-gray-300 text-sm">Banea a un usuario del servidor</p>
+                        </div>
+                        <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                            <div class="font-mono text-discord-white mb-1">!kick @usuario [razón]</div>
+                            <p class="text-discord-gray-300 text-sm">Expulsa a un usuario del servidor</p>
+                        </div>
+                        <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                            <div class="font-mono text-discord-white mb-1">!mute @usuario [duración]</div>
+                            <p class="text-discord-gray-300 text-sm">Silencia a un usuario por un tiempo</p>
+                        </div>
+                        <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                            <div class="font-mono text-discord-white mb-1">!clear [número]</div>
+                            <p class="text-discord-gray-300 text-sm">Elimina un número de mensajes</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grupo de comandos: Utilidades -->
+                <div>
+                    <h4 class="text-discord-primary font-medium mb-2">Utilidades</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                            <div class="font-mono text-discord-white mb-1">!help [comando]</div>
+                            <p class="text-discord-gray-300 text-sm">Muestra ayuda sobre los comandos</p>
+                        </div>
+                        <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                            <div class="font-mono text-discord-white mb-1">!ping</div>
+                            <p class="text-discord-gray-300 text-sm">Comprueba la latencia del bot</p>
+                        </div>
+                        <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                            <div class="font-mono text-discord-white mb-1">!serverinfo</div>
+                            <p class="text-discord-gray-300 text-sm">Muestra información del servidor</p>
+                        </div>
+                        <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                            <div class="font-mono text-discord-white mb-1">!userinfo [@usuario]</div>
+                            <p class="text-discord-gray-300 text-sm">Muestra información de un usuario</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grupo de comandos: Configuración -->
+                <div>
+                    <h4 class="text-discord-primary font-medium mb-2">Configuración</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                            <div class="font-mono text-discord-white mb-1">!config prefix [prefijo]</div>
+                            <p class="text-discord-gray-300 text-sm">Cambia el prefijo del bot</p>
+                        </div>
+                        <div class="bg-discord-dark-300 rounded-md p-4 hover:bg-discord-dark-400 transition-colors">
+                            <div class="font-mono text-discord-white mb-1">!config welcome [mensaje]</div>
+                            <p class="text-discord-gray-300 text-sm">Configura el mensaje de bienvenida</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 4. Pestaña Ajustes -->
+    <div x-show="activeTab === 'settings'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="bg-discord-dark-200 rounded-lg shadow-md p-6 mb-6">
+            <h3 class="text-lg font-semibold text-discord-white mb-6">Configuración del Bot</h3>
+            
+            <div class="space-y-6">
+                <!-- Prefijo del bot -->
+                <div>
+                    <label for="prefix" class="block text-discord-white font-medium mb-2">Prefijo del Bot</label>
+                    <div class="flex">
+                        <input type="text" id="prefix" value="!" class="bg-discord-dark-300 text-discord-white border-none rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-discord-primary flex-grow">
+                        <button class="bg-discord-primary hover:bg-discord-primary/90 text-white px-4 py-2 rounded-r-md transition-colors">
+                            Guardar
+                        </button>
+                    </div>
+                    <p class="text-discord-gray-300 text-xs mt-1">El prefijo que los usuarios deben usar para los comandos</p>
+                </div>
+                
+                <!-- Canal de bienvenida -->
+                <div>
+                    <label for="welcome-channel" class="block text-discord-white font-medium mb-2">Canal de Bienvenida</label>
+                    <div class="flex">
+                        <select id="welcome-channel" class="bg-discord-dark-300 text-discord-white border-none rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-discord-primary flex-grow">
+                            <option>Selecciona un canal</option>
+                            <option>#bienvenida</option>
+                            <option>#general</option>
+                            <option>#nuevos-miembros</option>
+                        </select>
+                        <button class="bg-discord-primary hover:bg-discord-primary/90 text-white px-4 py-2 rounded-r-md transition-colors">
+                            Guardar
+                        </button>
+                    </div>
+                    <p class="text-discord-gray-300 text-xs mt-1">Canal donde se enviarán los mensajes de bienvenida</p>
+                </div>
+                
+                <!-- Mensaje de bienvenida -->
+                <div>
+                    <label for="welcome-message" class="block text-discord-white font-medium mb-2">Mensaje de Bienvenida</label>
+                    <textarea id="welcome-message" rows="3" class="w-full bg-discord-dark-300 text-discord-white border-none rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-discord-primary">¡Bienvenido {usuario} a {servidor}! Esperamos que disfrutes tu estancia.</textarea>
+                    <p class="text-discord-gray-300 text-xs mt-1">Usa {usuario} para el nombre y {servidor} para el nombre del servidor</p>
+                    <button class="mt-2 bg-discord-primary hover:bg-discord-primary/90 text-white px-4 py-2 rounded-md transition-colors">
+                        Guardar Mensaje
+                    </button>
+                </div>
+                
+                <!-- Opciones adicionales -->
+                <div>
+                    <h4 class="text-discord-white font-medium mb-3">Opciones Adicionales</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="log-commands" class="mr-2 h-4 w-4 rounded bg-discord-dark-300 border-none focus:ring-discord-primary text-discord-primary">
+                            <label for="log-commands" class="text-discord-white">Registrar todos los comandos utilizados</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="auto-role" class="mr-2 h-4 w-4 rounded bg-discord-dark-300 border-none focus:ring-discord-primary text-discord-primary">
+                            <label for="auto-role" class="text-discord-white">Asignar rol automáticamente a nuevos miembros</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="delete-command" class="mr-2 h-4 w-4 rounded bg-discord-dark-300 border-none focus:ring-discord-primary text-discord-primary" checked>
+                            <label for="delete-command" class="text-discord-white">Eliminar mensajes de comandos después de ejecutarlos</label>
+                        </div>
+                    </div>
+                    <button class="mt-4 bg-discord-primary hover:bg-discord-primary/90 text-white px-4 py-2 rounded-md transition-colors">
+                        Guardar Configuración
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Opciones Avanzadas -->
+        <div class="bg-discord-dark-200 rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-discord-white mb-4">Opciones Avanzadas</h3>
+            <div class="space-y-3">
+                <button class="w-full bg-discord-yellow hover:bg-discord-yellow/90 text-black font-medium py-2 rounded-md transition-colors flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Reiniciar Bot
+                </button>
+                <button class="w-full bg-discord-red hover:bg-discord-red/90 text-white font-medium py-2 rounded-md transition-colors flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Eliminar Bot del Servidor
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
