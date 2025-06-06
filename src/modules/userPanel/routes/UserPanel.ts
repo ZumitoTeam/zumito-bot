@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import ejs from 'ejs';
 import { Client } from "zumito-framework/discord";
 import { UserPanelViewService } from "../services/UserPanelViewService";
+import { UserPanelAuthService } from "../services/UserPanelAuthService";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -13,11 +14,16 @@ export class UserPanel extends Route {
 
     constructor(
         private client: Client = ServiceContainer.getService(Client),
+        private userPanelAuthService = ServiceContainer.getService(UserPanelAuthService),
     ) {
         super();
     }
 
     async execute(req, res) {
+        const isLoginValid = await this.userPanelAuthService.isLoginValid(req).then(result => result.isValid);
+        if (!isLoginValid) {
+            return res.redirect('/panel/login');
+        }
         // Aquí deberías validar que el usuario es admin de algún servidor
         // y obtener la lista de servidores donde es admin
         // Por ahora, solo mostramos el dashboard básico
@@ -61,7 +67,7 @@ export class UserPanel extends Route {
         const html = await userPanelView.render({
             content,
             reqPath: this.path,
-            user: { name: 'Usuario' },
+            req, res,
             options: {
                 hideSidebar: true,
             },

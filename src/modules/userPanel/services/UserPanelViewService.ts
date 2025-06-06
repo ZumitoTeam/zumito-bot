@@ -4,28 +4,29 @@ import { UserPanelNavigationService } from "./UserPanelNavigationService";
 import ejs from "ejs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { UserPanelAuthService } from "./UserPanelAuthService";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export class UserPanelViewService {
     private static layoutPath = path.resolve(__dirname, '../views/layouts/main.ejs');
-    private client: Client;
-    private navigationService: UserPanelNavigationService;
 
-    constructor() {
-        this.client = ServiceContainer.getService(Client);
-        this.navigationService = ServiceContainer.getService(UserPanelNavigationService);
-    }
+    constructor(
+        private client = ServiceContainer.getService(Client),
+        private navigationService = ServiceContainer.getService(UserPanelNavigationService),
+        private userPanelAuthService = ServiceContainer.getService(UserPanelAuthService),
+    ) {}
 
     async render({
         content,
         reqPath,
-        user = { name: "Usuario" },
+        req, res,
         options = {},
     }: {
         content: string;
         reqPath: string;
-        user?: any;
+        req: any; // Express request object
+        res: any; // Express response object
         options?: {
             extra?: Record<string, any>,
             hideSidebar?: boolean,
@@ -42,11 +43,12 @@ export class UserPanelViewService {
             );
         }
         const botName = this.client.user?.username || "Zumito";
+        const tokenData = await this.userPanelAuthService.isLoginValid(req).then(result => result.data);
         return await ejs.renderFile(
             UserPanelViewService.layoutPath,
             {
                 content,
-                user,
+                tokenData,
                 navItems,
                 selectedNavItem,
                 botName,

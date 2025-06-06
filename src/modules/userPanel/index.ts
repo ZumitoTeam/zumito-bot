@@ -1,6 +1,7 @@
 import { Module, ServiceContainer, ZumitoFramework } from "zumito-framework";
 import { UserPanelNavigationService } from "./services/UserPanelNavigationService";
 import { UserPanelViewService } from "./services/UserPanelViewService";
+import { UserPanelAuthService } from "./services/UserPanelAuthService";
 
 export class UserPanelModule extends Module {
     constructor(modulePath: string, framework: ZumitoFramework) {
@@ -8,6 +9,7 @@ export class UserPanelModule extends Module {
 
         ServiceContainer.addService(UserPanelNavigationService, [], true);
         ServiceContainer.addService(UserPanelViewService, [], true);
+        ServiceContainer.addService(UserPanelAuthService, [], true);
 
         this.registerDashboardItem();
     }

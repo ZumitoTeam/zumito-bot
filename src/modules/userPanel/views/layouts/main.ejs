@@ -53,8 +53,8 @@
                     <span class="text-xl font-semibold text-discord-primary"><%= botName %> Panel</span>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <% if (user) { %>
-                        <span class="text-discord-white">Bienvenido, <%= user.name %></span>
+                    <% if (tokenData) { %>
+                        <span class="text-discord-white">Bienvenido, <%= tokenData.discordUserData.username %></span>
                         <a href="/admin/logout" class="btn-primary">Cerrar Sesión</a>
                     <% } %>
                 </div>
@@ -122,7 +122,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="fixed bottom-0 right-0 left-[calc(72px+240px)] bg-discord-dark-400 shadow-lg">
+    <footer class="fixed bottom-0 right-0 <% if (!hideSidebar) { %>left-[calc(72px+240px)]<% } else { %>left-0<% } %> bg-discord-dark-400 shadow-lg">
         <div class="px-4 py-3 text-center text-discord-white/40 text-sm">
             <%= botName %> Panel &copy; <%= new Date().getFullYear() %>
         </div>
