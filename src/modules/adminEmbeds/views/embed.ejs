@@ -48,7 +48,7 @@
                     </div>
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-discord-white">Descripción</label>
-                        <textarea id="embedDescription" rows="3" class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary resize-none"></textarea>
+                        <textarea id="embedDescription" rows="3" class="w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary"></textarea>
                     </div>
                     
                     <div class="space-y-2">
@@ -105,29 +105,39 @@
                 <span>Send Embed</span>
             </button>
         </form>
+        <!-- Vista previa del embed -->
+        <div class="mt-10">
+            <h3 class="text-lg font-semibold mb-2 text-discord-white">Vista previa</h3>
+            <discord-messages>
+                <discord-message id="embedPreviewMsg" author="Bot" avatar="https://cdn.discordapp.com/embed/avatars/0.png">
+                    <discord-embed id="embedPreview"></discord-embed>
+                </discord-message>
+            </discord-messages>
+        </div>
     </div>
 </div>
 
 <script>
+
 document.addEventListener('DOMContentLoaded', function() {
     const serverSelect = document.getElementById('serverSelect');
     const channelSelect = document.getElementById('channelSelect');
     const embedForm = document.getElementById('embedForm');
+    let fieldCount = 0;
+    const embedPreview = document.getElementById('embedPreview');
+    const embedJson = document.getElementById('embedJson');
 
-    // Cuando se selecciona un servidor, cargar sus canales
+    // Cargar canales al seleccionar servidor
     serverSelect.addEventListener('change', async function() {
         channelSelect.innerHTML = '<option value="">Loading channels...</option>';
         channelSelect.disabled = true;
-
         if (!this.value) {
             channelSelect.innerHTML = '<option value="">Select a channel...</option>';
             return;
         }
-
         try {
             const response = await fetch(`/admin/api/channels/${this.value}`);
             const channels = await response.json();
-            
             channelSelect.innerHTML = '<option value="">Select a channel...</option>';
             channels.forEach(channel => {
                 const option = document.createElement('option');
@@ -135,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 option.textContent = '#' + channel.name;
                 channelSelect.appendChild(option);
             });
-            
             channelSelect.disabled = false;
         } catch (error) {
             console.error('Error loading channels:', error);
@@ -143,9 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    let fieldCount = 0;
-
-    // Función para generar el JSON del embed
     function generateEmbedJSON() {
         const embed = {
             title: document.getElementById('embedTitle').value,
@@ -170,14 +176,12 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             fields: []
         };
-        // Limpiar objetos vacíos
         if (!embed.url) delete embed.url;
         if (!embed.author.name && !embed.author.icon_url && !embed.author.url) delete embed.author;
         if (!embed.thumbnail.url) delete embed.thumbnail;
         if (!embed.image.url) delete embed.image;
         if (!embed.timestamp) delete embed.timestamp;
         if (!embed.footer.text && !embed.footer.icon_url) delete embed.footer;
-        // Recopilar campos
         const fieldGroups = document.querySelectorAll('.field-group');
         fieldGroups.forEach(group => {
             const nameInput = group.querySelector('.field-name');
@@ -199,17 +203,66 @@ document.addEventListener('DOMContentLoaded', function() {
         return embed;
     }
 
-    // Solo actualizar el textarea del JSON cuando se edite manualmente o desde los campos
     function updateJsonFromFields() {
         const embed = generateEmbedJSON();
-        document.getElementById('embedJson').value = JSON.stringify(embed, null, 4);
+        embedJson.value = JSON.stringify(embed, null, 4);
     }
 
-    // Función para agregar un nuevo campo
+    function updateEmbedPreview() {
+        const embed = generateEmbedJSON();
+        embedPreview.removeAttribute('author-name');
+        embedPreview.removeAttribute('author-url');
+        embedPreview.removeAttribute('author-icon');
+        embedPreview.removeAttribute('title');
+        embedPreview.removeAttribute('url');
+        embedPreview.removeAttribute('description');
+        embedPreview.removeAttribute('color');
+        embedPreview.removeAttribute('thumbnail');
+        embedPreview.removeAttribute('image');
+        embedPreview.removeAttribute('footer-text');
+        embedPreview.removeAttribute('footer-icon');
+        embedPreview.removeAttribute('timestamp');
+        if (embed.author) {
+            if (embed.author.name) embedPreview.setAttribute('author-name', embed.author.name);
+            if (embed.author.url) embedPreview.setAttribute('author-url', embed.author.url);
+            if (embed.author.icon_url) embedPreview.setAttribute('author-icon', embed.author.icon_url);
+        }
+        if (embed.title) embedPreview.setAttribute('title', embed.title);
+        if (embed.url) embedPreview.setAttribute('url', embed.url);
+        if (embed.color) embedPreview.setAttribute('color', '#' + embed.color.toString(16).padStart(6, '0'));
+        if (embed.thumbnail && embed.thumbnail.url) embedPreview.setAttribute('thumbnail', embed.thumbnail.url);
+        if (embed.image && embed.image.url) embedPreview.setAttribute('image', embed.image.url);
+        if (embed.footer) {
+            if (embed.footer.text) embedPreview.setAttribute('footer-text', embed.footer.text);
+            if (embed.footer.icon_url) embedPreview.setAttribute('footer-icon', embed.footer.icon_url);
+        }
+        if (embed.timestamp) embedPreview.setAttribute('timestamp', new Date(embed.timestamp).toISOString());
+        while (embedPreview.firstChild) embedPreview.removeChild(embedPreview.firstChild);
+        if (Array.isArray(embed.fields)) {
+            embed.fields.forEach(field => {
+                const fieldEl = document.createElement('discord-embed-field');
+                fieldEl.setAttribute('name', field.name || '');
+                fieldEl.setAttribute('value', field.value || '');
+                if (field.inline) fieldEl.setAttribute('inline', '');
+                embedPreview.appendChild(fieldEl);
+            });
+        }
+        if (embed.title || embed.description) {
+            let html = '';
+            if (embed.title) html += `<span slot="title">${embed.title}</span>`;
+            if (embed.description) html += `<span slot="description">${embed.description}</span>`;
+            embedPreview.insertAdjacentHTML('afterbegin', html);
+        }
+    }
+
+    function updateJsonAndPreview() {
+        updateJsonFromFields();
+        updateEmbedPreview();
+    }
+
     function addField() {
         const fieldsContainer = document.getElementById('fieldsContainer');
         const fieldId = fieldCount++;
-        
         const fieldGroup = document.createElement('div');
         fieldGroup.className = 'field-group p-4 bg-discord-dark-300 rounded-lg space-y-2';
         fieldGroup.innerHTML = `
@@ -228,74 +281,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label class="text-sm">Inline field</label>
             </div>
         `;
-
         fieldsContainer.appendChild(fieldGroup);
-
-        // Agregar event listeners para este campo
         const deleteBtn = fieldGroup.querySelector('.delete-field-btn');
         deleteBtn.addEventListener('click', () => {
             fieldGroup.remove();
-            updateJsonFromFields();
+            updateJsonAndPreview();
         });
-
         fieldGroup.querySelectorAll('input, textarea').forEach(input => {
-            input.addEventListener('input', updateJsonFromFields);
-            input.addEventListener('change', updateJsonFromFields);
+            input.addEventListener('input', updateJsonAndPreview);
+            input.addEventListener('change', updateJsonAndPreview);
         });
     }
 
-    // Event listeners para los campos del formulario
-    document.getElementById('embedTitle').addEventListener('input', updateJsonFromFields);
-    document.getElementById('embedDescription').addEventListener('input', updateJsonFromFields);
-    document.getElementById('embedColor').addEventListener('input', updateJsonFromFields);
+    document.getElementById('embedTitle').addEventListener('input', updateJsonAndPreview);
+    document.getElementById('embedDescription').addEventListener('input', updateJsonAndPreview);
+    document.getElementById('embedColor').addEventListener('input', updateJsonAndPreview);
     document.getElementById('addFieldBtn').addEventListener('click', function() {
         addField();
-        updateJsonFromFields();
+        updateJsonAndPreview();
     });
 
-    // Actualizar JSON al editar campos dinámicos
-    function addField() {
-        const fieldsContainer = document.getElementById('fieldsContainer');
-        const fieldId = fieldCount++;
-        
-        const fieldGroup = document.createElement('div');
-        fieldGroup.className = 'field-group p-4 bg-discord-dark-300 rounded-lg space-y-2';
-        fieldGroup.innerHTML = `
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-sm font-medium">Field ${fieldId + 1}</span>
-                <button type="button" class="delete-field-btn text-red-500 hover:text-red-400">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                </button>
-            </div>
-            <input type="text" placeholder="Field Name" class="field-name w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary">
-            <textarea placeholder="Field Value" class="field-value w-full px-3 py-2 bg-discord-dark-400 border border-discord-dark-100 rounded-md focus:outline-none focus:ring-2 focus:ring-discord-primary resize-none"></textarea>
-            <div class="flex items-center space-x-2">
-                <input type="checkbox" class="field-inline">
-                <label class="text-sm">Inline field</label>
-            </div>
-        `;
-
-        fieldsContainer.appendChild(fieldGroup);
-
-        // Agregar event listeners para este campo
-        const deleteBtn = fieldGroup.querySelector('.delete-field-btn');
-        deleteBtn.addEventListener('click', () => {
-            fieldGroup.remove();
-            updateJsonFromFields();
-        });
-
-        fieldGroup.querySelectorAll('input, textarea').forEach(input => {
-            input.addEventListener('input', updateJsonFromFields);
-            input.addEventListener('change', updateJsonFromFields);
-        });
-    }
-
-    // Permitir edición manual del JSON
-    const embedJson = document.getElementById('embedJson');
     embedJson.removeAttribute('readonly');
-    // Sincronizar el formulario al editar el JSON manualmente
     embedJson.addEventListener('input', function() {
         try {
             const data = JSON.parse(embedJson.value);
@@ -312,7 +318,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('embedTimestamp').value = data.timestamp ? new Date(data.timestamp).toISOString().slice(0,16) : '';
                 document.getElementById('embedFooterText').value = (data.footer && data.footer.text) || '';
                 document.getElementById('embedFooterIcon').value = (data.footer && data.footer.icon_url) || '';
-                // Actualizar fields
                 const fieldsContainer = document.getElementById('fieldsContainer');
                 fieldsContainer.innerHTML = '';
                 if (Array.isArray(data.fields)) {
@@ -325,25 +330,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         group.querySelector('.field-inline').checked = !!field.inline;
                     });
                 }
+                updateEmbedPreview();
             }
-        } catch (e) {
-            // No hacer nada si el JSON es inválido
-        }
+        } catch (e) {}
     });
-    // Inicializar con un color por defecto y JSON inicial
     document.getElementById('embedColor').value = '#5865F2';
-    updateJsonFromFields();
+    updateJsonAndPreview();
 
-    // Manejo del envío del formulario
     embedForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-
-        // Validación básica
         if (!serverSelect.value || !channelSelect.value) {
             alert('Please select both a server and a channel');
             return;
         }
-
         let embedData;
         try {
             embedData = JSON.parse(document.getElementById('embedJson').value);
@@ -351,7 +350,6 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Invalid JSON format');
             return;
         }
-
         try {
             const response = await fetch('/admin/api/send-embed', {
                 method: 'POST',
@@ -364,7 +362,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     embed: embedData
                 })
             });
-
             const result = await response.json();
             if (result.success) {
                 alert('Embed sent successfully!');
@@ -376,4 +373,6 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Error sending embed');
         }
     });
-});</script>
+});
+
+</script>
