@@ -11,7 +11,8 @@ export class PlayCommand extends Command {
         { name: "query", type: "string", optional: false }
     ];
     async execute({ message, interaction, args }: CommandParameters): Promise<void> {
-        const musicService = ServiceContainer.getService(MusicService) as MusicService;
+        debugger;
+        const musicService = ServiceContainer.getService(MusicService);
         const query = args.get("query");
         const member = message?.member || interaction?.member;
         // Check if member is a GuildMember (has 'voice' property)
@@ -24,7 +25,16 @@ export class PlayCommand extends Command {
         }
         try {
             await musicService.distube.play(voiceChannel, query, {});
-            const reply = `🔎 Buscando: **${query}** ...`;
+            // Esperar un breve momento para que la canción se agregue a la cola
+            const guild = message?.guild ?? interaction?.guild;
+            let songName = query;
+            if (guild) {
+                const queue = musicService.distube.getQueue(guild.id);
+                if (queue && queue.songs.length > 0) {
+                    songName = queue.songs[0].name;
+                }
+            }
+            const reply = `🎶 Reproduciendo: **${songName}**`;
             if (interaction) await interaction.reply({ content: reply });
             if (message) await message.reply(reply);
             return;
