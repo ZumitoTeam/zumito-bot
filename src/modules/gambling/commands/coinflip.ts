@@ -4,7 +4,7 @@ export class CoinflipCommand extends Command {
     name = "coinflip";
     description = "¡Lanza una moneda y apuesta si sale cara o cruz!";
     categories = ["gambling"];
-    examples = ["coinflip cara", "coinflip cruz"];
+    examples = ["cara", "cruz"];
     usage = "coinflip <cara|cruz>";
     args = [
         { name: "eleccion", type: "string", optional: true }

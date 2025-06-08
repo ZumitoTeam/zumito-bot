@@ -6,7 +6,7 @@ export class SlotsCommand extends Command {
     name = "slots";
     description = "Bet an amount and spin the slots!";
     categories = ["gambling"];
-    examples = ["slots 100", "slots 25"];
+    examples = ["100", "25"];
     usage = "slots <amount>";
     args = [
         { name: "amount", type: "integer", optional: false }

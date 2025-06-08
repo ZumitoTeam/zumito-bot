@@ -7,7 +7,7 @@ export class BalanceCommand extends Command {
     name = "balance";
     description = "Check your balance. Admins can check another user's guild balance.";
     categories = ["economy"];
-    examples = ["balance", "balance @usuario"];
+    examples = ["@usuario"];
     usage = "balance [user]";
     userPermissions: bigint[] = [];
     args = [

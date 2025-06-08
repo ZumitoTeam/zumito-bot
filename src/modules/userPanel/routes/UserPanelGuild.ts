@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class UserPanelGuild extends Route {
     method = RouteMethod.get;
-    path = '/panel/:guildId';
+    path = '/panel/:guildId(\\d+)'; // Solo acepta IDs numéricos
 
     constructor(
         private client: Client = ServiceContainer.getService(Client),

@@ -7,7 +7,7 @@ export class AddXp extends Command {
     name = "addxp";
     description = "Add XP to a user (admin only).";
     categories = ["ranks"];
-    examples = ["addxp @usuario 100", "addxp 1234567890 250"];
+    examples = ["@usuario 100", "1234567890 250"];
     usage = "addxp <user> <amount>";
     userPermissions: bigint[] = [PermissionsBitField.Flags.Administrator];
     args = [

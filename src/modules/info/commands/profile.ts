@@ -5,7 +5,7 @@ export class ProfileCommand extends Command {
     name = "profile";
     description = "Show a user's Discord profile info in an embed.";
     categories = ["information"];
-    examples = ["profile", "profile @usuario"];
+    examples = ["@usuario", "@usuario"];
     usage = "profile [user]";
     args = [
         { name: "user", type: "user", optional: true }

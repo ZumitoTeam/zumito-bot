@@ -6,7 +6,7 @@ export class Leaderboard extends Command {
     name = "leaderboard";
     description = "Show the top users by XP in this server.";
     categories = ["ranks"];
-    examples = ["leaderboard"];
+    examples = [""];
     usage = "leaderboard";
     async execute({ message, interaction }: CommandParameters): Promise<void> {
         const guild = message?.guild || interaction?.guild;

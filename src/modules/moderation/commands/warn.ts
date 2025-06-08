@@ -6,7 +6,7 @@ export class WarnCommand extends Command {
     name = "warn";
     description = "Warn a user in the server.";
     categories = ["moderation"];
-    examples = ["warn @usuario", "warn 1234567890 Conducta inapropiada"];
+    examples = ["@usuario", "1234567890 Conducta inapropiada"];
     usage = "warn <user> [reason]";
     args = [
         { name: "user", type: "user", optional: false },

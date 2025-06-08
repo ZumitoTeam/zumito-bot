@@ -1,9 +1,10 @@
-import { DatabaseConfigLoader, ZumitoFramework } from 'zumito-framework';
+import { DatabaseConfigLoader, ServiceContainer, ZumitoFramework } from 'zumito-framework';
 
 import dotenv from 'dotenv'
 dotenv.config()
 
 import { config } from './config/index.js';
+import { UserPanelNavigationService } from './modules/userPanel/services/UserPanelNavigationService.js';
  
 if (!process.env.DISCORD_TOKEN) {
     throw new Error("Discord Token not found");
@@ -12,6 +13,8 @@ if (!process.env.DISCORD_TOKEN) {
 } else if (!process.env.DATABASE_TYPE) {
     throw new Error("No database type specified in .env file");
 } 
+
+ServiceContainer.addService(UserPanelNavigationService, [], true);
 
 new ZumitoFramework({
     discordClientOptions: {

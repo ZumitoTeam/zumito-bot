@@ -6,7 +6,7 @@ export class RankCommand extends Command {
     name = "rank";
     description = "Show your current XP and level.";
     categories = ["ranks"];
-    examples = ["rank", "rank @usuario"];
+    examples = ["@usuario"];
     usage = "rank [user]";
     async execute({ message, interaction }: CommandParameters): Promise<void> {
         const guild = message?.guild || interaction?.guild;
