@@ -1,7 +1,7 @@
 FROM node:20-alpine
 WORKDIR /usr/app
 COPY package.json .
-RUN apk add --no-cache --virtual .gyp python3 make g++ \
+RUN apk add --no-cache --virtual .gyp python3 make g++ opus \
     && npm install \
     && apk del .gyp
 COPY . .
