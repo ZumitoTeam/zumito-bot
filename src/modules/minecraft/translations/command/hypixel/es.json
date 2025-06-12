@@ -1,0 +1,15 @@
+{
+    "description": "Muestra estadísticas básicas de Hypixel de un jugador.",
+    "title": "Estadísticas de Hypixel de {user}",
+    "level": "Nivel",
+    "rank": "Rango",
+    "bedwars": "Nivel de BedWars",
+    "notfound": "Jugador no encontrado.",
+    "error": "Debes proporcionar un nombre de usuario.",
+    "arguments": {
+        "username": { "name": "usuario" }
+    },
+    "args": {
+        "username": { "description": "Nombre de usuario" }
+    }
+}
