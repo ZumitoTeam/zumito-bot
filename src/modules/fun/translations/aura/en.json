@@ -1,0 +1,4 @@
+{
+  "description": "🔮 Analyze your aura based on your user and recent activity.",
+  "result": "Your aura is **{color}**, element **{element}**. {description}"
+}
