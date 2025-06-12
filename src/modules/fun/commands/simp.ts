@@ -1,6 +1,6 @@
 import { Command, CommandParameters, CommandType } from 'zumito-framework';
 import { EmbedBuilder } from 'zumito-framework/discord';
-import { config } from '../../config/index.js';
+import { config } from '../../../config/index.js';
 
 export class Simp extends Command {
     type = CommandType.any;

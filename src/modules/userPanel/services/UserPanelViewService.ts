@@ -32,7 +32,15 @@ export class UserPanelViewService {
             hideSidebar?: boolean,
         }
     }) {
-        const navItems = this.navigationService.getItems();
+        const guildId = req.params?.guildId;
+        const navItems = guildId
+            ? this.navigationService.getItemsWithGuildId(guildId)
+            : this.navigationService.getItems();
+
+        if (guildId) {
+            reqPath = reqPath.replace(/:guildId(?:\(.*?\))?/, guildId);
+        }
+
         let selectedNavItem = navItems.find(item => item.url === reqPath);
         if (!selectedNavItem) {
             selectedNavItem = navItems.find(item =>

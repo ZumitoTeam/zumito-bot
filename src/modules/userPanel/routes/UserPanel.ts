@@ -66,7 +66,7 @@ export class UserPanel extends Route {
         const userPanelView = new UserPanelViewService();
         const html = await userPanelView.render({
             content,
-            reqPath: this.path,
+            reqPath: req.path,
             req, res,
             options: {
                 hideSidebar: true,
