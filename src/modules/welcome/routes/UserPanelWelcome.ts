@@ -46,7 +46,7 @@ export class UserPanelWelcome extends Route {
             { guild, config, channels }
         );
         const view = new UserPanelViewService();
-        const html = await view.render({ content, reqPath: this.path, req, res });
+        const html = await view.render({ content, reqPath: req.path, req, res });
         res.send(html);
     }
 }
