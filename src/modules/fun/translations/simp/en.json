@@ -1,0 +1,5 @@
+{
+  "description": "Find out who you simp for according to your recent messages.",
+  "result": "You seem to simp for {user}!",
+  "none": "I couldn't figure out who you simp for."
+}
