@@ -36,14 +36,24 @@ export class UserPanelWelcome extends Route {
         }
 
         const WelcomeModel = this.framework.database.models.WelcomeConfig;
-        const config = await WelcomeModel.findOne({ where: { guildId } });
+        const config = await WelcomeModel.findOne({ where: { guildId } }).catch(() => null);
+        if (!config) {
+            await WelcomeModel.create({
+                guildId,
+                channelId: null,
+                message: '¡Bienvenido al servidor!',
+                enabled: false
+            });
+        }
         const channels = guild.channels.cache
             .filter(c => c.isTextBased())
             .map(c => ({ id: c.id, name: (c as any).name }));
 
         const content = await ejs.renderFile(
             path.resolve(__dirname, '../views/welcome-config.ejs'),
-            { guild, config, channels }
+            { guild, config, channels, 
+                botName: this.client.user?.username || 'Zumito Bot',
+             }
         );
         const view = new UserPanelViewService();
         const html = await view.render({ content, reqPath: req.path, req, res });
