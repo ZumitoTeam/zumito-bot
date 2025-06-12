@@ -1,0 +1,5 @@
+{
+  "description": "Te dice a quién simpeas según tus mensajes recientes.",
+  "result": "¡Parece que simpeas a {user}!",
+  "none": "No pude detectar a quién simpeas."
+}
