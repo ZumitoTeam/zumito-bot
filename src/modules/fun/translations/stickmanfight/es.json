@@ -1,0 +1,4 @@
+{
+  "description": "Inicia una pelea animada de stickmans entre dos usuarios.",
+  "result": "{user1} vs {user2}! Gana {winner}"
+}
