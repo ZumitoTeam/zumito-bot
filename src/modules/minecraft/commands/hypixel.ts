@@ -13,7 +13,7 @@ export class HypixelCommand extends Command {
         optional: false,
     }];
     botPermissions = ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"];
-    type = CommandType.any;
+
 
     hypixel: HypixelService;
 

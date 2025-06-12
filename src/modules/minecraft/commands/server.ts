@@ -12,7 +12,7 @@ export class ServerCommand extends Command {
         optional: false,
     }];
     botPermissions = ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"];
-    type = CommandType.any;
+
 
     async execute({ message, interaction, args, trans }: CommandParameters): Promise<void> {
         const ip = args.get("ip");

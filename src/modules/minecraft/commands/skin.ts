@@ -12,7 +12,7 @@ export class SkinCommand extends Command {
         optional: false,
     }];
     botPermissions = ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"];
-    type = CommandType.any;
+
 
     async execute({ message, interaction, args, trans }: CommandParameters): Promise<void> {
         const username = args.get("username");
