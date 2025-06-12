@@ -1,0 +1,14 @@
+{
+    "description": "Configure the welcome channel and message.",
+    "arguments": {
+        "channel": {
+            "name": "channel",
+            "description": "Channel to send welcomes"
+        },
+        "message": {
+            "name": "message",
+            "description": "Welcome text. Use {user} and {server}"
+        }
+    },
+    "success": "Welcome messages will be sent in {channel}"
+}
