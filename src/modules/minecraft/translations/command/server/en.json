@@ -1,0 +1,13 @@
+{
+    "description": "Checks the status of a Minecraft server.",
+    "title": "Server {server}",
+    "players": "Players",
+    "version": "Version",
+    "offline": "The server {server} appears to be offline.",
+    "arguments": {
+        "ip": { "name": "ip" }
+    },
+    "args": {
+        "ip": { "description": "Server address" }
+    }
+}

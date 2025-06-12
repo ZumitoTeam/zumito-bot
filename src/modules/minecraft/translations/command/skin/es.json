@@ -1,0 +1,11 @@
+{
+    "description": "Muestra la skin de un jugador de Minecraft.",
+    "title": "Skin de {user}",
+    "error": "Debes indicar un nombre de usuario de Minecraft.",
+    "arguments": {
+        "username": { "name": "usuario" }
+    },
+    "args": {
+        "username": { "description": "Nombre de usuario" }
+    }
+}

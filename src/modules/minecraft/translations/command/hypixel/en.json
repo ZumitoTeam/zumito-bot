@@ -1,0 +1,15 @@
+{
+    "description": "Shows basic Hypixel statistics of a player.",
+    "title": "Hypixel stats for {user}",
+    "level": "Level",
+    "rank": "Rank",
+    "bedwars": "BedWars Level",
+    "notfound": "Player not found.",
+    "error": "You must provide a username.",
+    "arguments": {
+        "username": { "name": "username" }
+    },
+    "args": {
+        "username": { "description": "Player username" }
+    }
+}
