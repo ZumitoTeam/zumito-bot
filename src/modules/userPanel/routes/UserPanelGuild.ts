@@ -59,7 +59,7 @@ export class UserPanelGuild extends Route {
         const userPanelView = new UserPanelViewService();
         const html = await userPanelView.render({
             content,
-            reqPath: this.path,
+            reqPath: req.path,
             req, res,
         });
         res.send(html);
