@@ -1,0 +1,4 @@
+{
+  "description": "💘 Calculate compatibility between two server users. If none are specified, two random members will be chosen.",
+  "result": "{user1} ❤️ {user2} \u2192 {percent}% compatible"
+}
