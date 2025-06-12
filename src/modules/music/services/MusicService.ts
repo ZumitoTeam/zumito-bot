@@ -4,7 +4,7 @@ import { SpotifyPlugin } from "@distube/spotify";
 import { SoundCloudPlugin } from "@distube/soundcloud";
 import { YtDlpPlugin } from "@distube/yt-dlp";
 import { YouTubePlugin } from "@distube/youtube";
-import { ServiceContainer } from "zumito-framework/dist";
+import { ServiceContainer } from "zumito-framework";
 
 export class MusicService {
     public distube: DisTube;
