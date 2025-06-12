@@ -1,6 +1,6 @@
 import { GuildMember, User, EmbedBuilder } from "zumito-framework/discord";
 import { Command, CommandParameters, CommandType, CommandArgDefinition } from "zumito-framework";
-import { config } from "../../config/index.js";
+import { config } from "../../../config/index.js";
 
 export class Ship extends Command {
     args: CommandArgDefinition[] = [
