@@ -1,0 +1,19 @@
+<div class="card" >
+    <h2 class="text-2xl font-bold mb-4">Configurar Bienvenida</h2>
+    <form method="POST" action="/panel/<%= guild.id %>/welcome" class="space-y-4">
+        <div>
+            <label class="block mb-1">Canal</label>
+            <select name="channelId" class="w-full bg-discord-dark-300 text-white px-3 py-2 rounded">
+                <% channels.forEach(c => { %>
+                    <option value="<%= c.id %>" <%= config && config.channelId === c.id ? 'selected' : '' %>>#<%= c.name %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div>
+            <label class="block mb-1">Mensaje</label>
+            <textarea name="message" rows="3" class="w-full bg-discord-dark-300 text-white px-3 py-2 rounded"><%= config?.message || '' %></textarea>
+            <p class="text-xs text-discord-gray-300 mt-1">Usa {user} y {server} para mencionar al usuario y servidor</p>
+        </div>
+        <button type="submit" class="btn-primary">Guardar</button>
+    </form>
+</div>
