@@ -67,6 +67,11 @@
                 "name": "Utilidades",
                 "description": "Comandos de utilidades y herramientas",
                 "emoji": "🛠️"
+            },
+            "reputation": {
+                "name": "Reputación",
+                "description": "Comandos de reputación",
+                "emoji": "⭐"
             }
         },
         "requested": "Pedido por {user}",
