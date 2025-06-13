@@ -38,4 +38,5 @@ export class AdminModule extends Module {
             },
         });
     }
+
 }

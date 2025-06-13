@@ -56,6 +56,16 @@ export class EconomyService {
         return user.guilds[guildId].balance;
     }
 
+    async setGlobal(userId: string, which: "free" | "paid", amount: number) {
+        const EconomyUser = this.framework.database.models.EconomyUser;
+        let user = await this.getUser(userId);
+        if (!user) user = await EconomyUser.create({ userId, free: 0, paid: 0, guilds: {} });
+        if (which === "free") user.free = Math.max(0, amount);
+        if (which === "paid") user.paid = Math.max(0, amount);
+        await user.save();
+        return user;
+    }
+
     async setGuildCurrencyName(guildId: string, name: string) {
         const EconomyGuild = this.framework.database.models.EconomyGuild;
         let guild = await EconomyGuild.findOne({ where: { guildId } });
