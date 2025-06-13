@@ -18,7 +18,7 @@ export class PetCommand extends Command {
         const action = (args.get('action') || '').toLowerCase();
         const petService = ServiceContainer.getService(PetService) as PetService;
 
-        let pet = await petService.getPet(user.id);
+        let pet = await petService.getPet(user.id).catch(() => null);
         if (!pet) pet = await petService.createPet(user.id);
 
         let reply = '';
