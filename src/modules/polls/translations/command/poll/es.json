@@ -1,0 +1,8 @@
+{
+    "description": "Crea una encuesta con reacciones.",
+    "error": "Opciones de encuesta inválidas.",
+    "arguments": {
+        "question": { "name": "pregunta" },
+        "options": { "name": "opciones" }
+    }
+}
