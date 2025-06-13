@@ -1,0 +1,12 @@
+{
+    "description": "Shows the crafting recipe of a Minecraft item.",
+    "title": "Crafting recipe for {item}",
+    "error": "You must provide an item name.",
+    "notfound": "Recipe not found.",
+    "arguments": {
+        "item": { "name": "item" }
+    },
+    "args": {
+        "item": { "description": "Item name" }
+    }
+}
