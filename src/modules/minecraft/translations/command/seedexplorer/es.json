@@ -1,0 +1,11 @@
+{
+    "description": "Muestra una vista previa de una seed de Minecraft.",
+    "title": "Vista previa de la seed {seed}",
+    "error": "Debes proporcionar una seed.",
+    "arguments": {
+        "seed": { "name": "seed" }
+    },
+    "args": {
+        "seed": { "description": "Seed del mundo" }
+    }
+}
