@@ -1,0 +1,13 @@
+{
+    "description": "Show information about a Valorant agent.",
+    "role": "Role",
+    "unknown": "Unknown",
+    "fail": "Could not retrieve agent information.",
+    "notfound": "Agent {agent} not found.",
+    "arguments": {
+        "agent": { "name": "agent" }
+    },
+    "args": {
+        "agent": { "description": "Agent name" }
+    }
+}
