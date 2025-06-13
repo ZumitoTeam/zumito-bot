@@ -12,8 +12,21 @@ export class Familytree extends Command {
         if (!channel || !guild || !('messages' in channel)) return;
 
         const target = (args.get('user') as User) || interaction?.user || message?.author!;
-        const fetched = await channel.messages.fetch({ limit: 50 }).catch(() => null);
+        const fetched = await channel.messages.fetch({ limit: 100 }).catch(() => null);
         if (!fetched) return;
+
+        const getTopMention = (authorId: string): string | null => {
+            const cnt: Record<string, number> = {};
+            fetched.forEach(msg => {
+                if (msg.author.id !== authorId) return;
+                msg.mentions.users.forEach(u => {
+                    if (u.bot || u.id === authorId) return;
+                    cnt[u.id] = (cnt[u.id] || 0) + 1;
+                });
+            });
+            const sortedEntries = Object.entries(cnt).sort((a, b) => b[1] - a[1]);
+            return sortedEntries.length ? sortedEntries[0][0] : null;
+        };
 
         const counts: Record<string, number> = {};
         fetched.forEach(msg => {
@@ -29,7 +42,7 @@ export class Familytree extends Command {
 
         const { createCanvas, loadImage } = await import('canvas');
         const width = 500;
-        const height = 250;
+        const height = 340;
         const canvas = createCanvas(width, height);
         const ctx = canvas.getContext('2d');
 
@@ -72,6 +85,29 @@ export class Familytree extends Command {
             ctx.drawImage(avatar, x - 30, y - 30, 60, 60);
             ctx.restore();
             ctx.fillText(member.user.globalName || member.user.username, x, y + 50);
+
+            const subId = getTopMention(member.id);
+            if (subId) {
+                const subMember = await guild.members.fetch(subId).catch(() => null);
+                if (subMember) {
+                    const subX = x;
+                    const subY = 300;
+                    ctx.beginPath();
+                    ctx.moveTo(x, y + 30);
+                    ctx.lineTo(subX, subY - 30);
+                    ctx.stroke();
+
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(subX, subY, 30, 0, Math.PI * 2);
+                    ctx.closePath();
+                    ctx.clip();
+                    const subAvatar = await loadImage(subMember.user.displayAvatarURL({ extension: 'png', size: 64 }));
+                    ctx.drawImage(subAvatar, subX - 30, subY - 30, 60, 60);
+                    ctx.restore();
+                    ctx.fillText(subMember.user.globalName || subMember.user.username, subX, subY + 50);
+                }
+            }
         }
 
         const buffer = canvas.toBuffer();
