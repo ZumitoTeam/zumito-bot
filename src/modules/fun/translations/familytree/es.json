@@ -1,0 +1,4 @@
+{
+  "description": "📖 Genera un árbol genealógico sencillo basado en menciones recientes.",
+  "result": "Árbol genealógico de {user}"
+}
