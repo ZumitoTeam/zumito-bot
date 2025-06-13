@@ -1,0 +1,14 @@
+{
+    "description": "Show information about a Valorant weapon.",
+    "category": "Category",
+    "cost": "Cost",
+    "unknown": "Unknown",
+    "fail": "Could not retrieve weapon information.",
+    "notfound": "Weapon {weapon} not found.",
+    "arguments": {
+        "weapon": { "name": "weapon" }
+    },
+    "args": {
+        "weapon": { "description": "Weapon name" }
+    }
+}
