@@ -3,8 +3,11 @@ import { AdminAuthService } from '../../admin/services/AdminAuthService';
 import { AdminViewService } from '../../admin/services/AdminViewService';
 import { EconomyService } from '../services/EconomyService';
 import { Client } from 'zumito-framework/discord';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import ejs from 'ejs';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class AdminEconomy extends Route {
     method = RouteMethod.get;
