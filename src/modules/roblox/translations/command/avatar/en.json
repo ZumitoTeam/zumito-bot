@@ -1,0 +1,12 @@
+{
+    "description": "Shows the Roblox avatar of a user.",
+    "title": "Avatar of {user}",
+    "notfound": "User not found.",
+    "error": "You must provide a username.",
+    "arguments": {
+        "username": { "name": "username" }
+    },
+    "args": {
+        "username": { "description": "Roblox username" }
+    }
+}

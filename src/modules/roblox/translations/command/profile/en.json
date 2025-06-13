@@ -1,0 +1,16 @@
+{
+    "description": "Displays information about a Roblox user.",
+    "title": "Roblox profile for {user}",
+    "id": "ID",
+    "created": "Created",
+    "about": "About",
+    "none": "No description.",
+    "notfound": "User not found.",
+    "error": "You must provide a username.",
+    "arguments": {
+        "username": { "name": "username" }
+    },
+    "args": {
+        "username": { "description": "Roblox username" }
+    }
+}
