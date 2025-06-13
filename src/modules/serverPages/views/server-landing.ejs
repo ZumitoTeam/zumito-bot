@@ -1,0 +1,10 @@
+<main class="flex flex-col items-center justify-center flex-1 p-8 text-center">
+    <% if (guild.iconURL()) { %>
+        <img src="<%= guild.iconURL() %>" alt="<%= guild.name %>" class="w-32 h-32 rounded-full shadow-lg mb-4">
+    <% } %>
+    <h1 class="text-4xl font-bold text-white mb-2"><%= guild.name %></h1>
+    <p class="text-white/80 mb-6"><%= tagline %></p>
+    <a href="<%= inviteUrl %>" class="px-6 py-3 rounded-md text-white font-medium" style="background: <%= theme.primary %>;">
+        Unirse al servidor
+    </a>
+</main>
