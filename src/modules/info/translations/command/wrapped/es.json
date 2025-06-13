@@ -1,0 +1,14 @@
+{
+    "description": "Muestra el resumen anual de tu servidor.",
+    "title": "Wrapped {year}",
+    "polls": "Encuestas creadas",
+    "tickets": "Tickets abiertos",
+    "moderation": "Acciones de moderación",
+    "topUsers": "Usuarios con más XP",
+    "noData": "Sin datos disponibles.",
+    "galleryTitle": "Galería de usuarios",
+    "button": {
+        "previous": "Anterior",
+        "next": "Siguiente"
+    }
+}
