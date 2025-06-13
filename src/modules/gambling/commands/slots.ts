@@ -9,7 +9,7 @@ export class SlotsCommand extends Command {
     examples = ["100", "25"];
     usage = "slots <amount>";
     args = [
-        { name: "amount", type: "integer", optional: false }
+        { name: "amount", type: "number", optional: false }
     ];
     async execute({ message, interaction, args }: CommandParameters): Promise<void> {
         const guild = message?.guild || interaction?.guild;

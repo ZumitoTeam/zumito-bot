@@ -9,10 +9,10 @@ export class SetTicketCategory extends Command {
     usage = "setticketcategory <categoryId>";
     userPermissions: bigint[] = [PermissionsBitField.Flags.Administrator];
     args = [
-        { name: "categoryId", type: "string", optional: false }
+        { name: "category_id", type: "string", optional: false }
     ];
     async execute({ message, interaction, args }: CommandParameters): Promise<void> {
-        const categoryId = args.get("categoryId");
+        const categoryId = args.get("category_id");
         if (!categoryId) {
             const reply = "Debes especificar el ID de la categoría.";
             if (interaction) {

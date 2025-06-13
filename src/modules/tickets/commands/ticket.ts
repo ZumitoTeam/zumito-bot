@@ -13,9 +13,9 @@ export class TicketCommand extends Command {
         if (!guild || !member) return;
         // Aquí deberías obtener la categoría de tickets de la configuración de tu bot/guild
         // Por simplicidad, pedimos el ID de categoría como argumento temporalmente
-        const categoryId = args.get("category") || null;
+        const categoryId = args.get("category_id") || null;
         if (!categoryId) {
-            const reply = "Debes especificar el ID de la categoría de tickets. Ejemplo: /ticket <categoryId>";
+            const reply = "Debes especificar el ID de la categoría de tickets. Ejemplo: /ticket <category_id>";
             if (interaction) { await interaction.reply({ content: reply, ephemeral: true }); return; }
             if (message) { await message.reply(reply); return; }
             return;
