@@ -140,11 +140,11 @@ export class TetrisCommand extends Command {
             height: 20,
         };
         spawnPiece(state);
+        const sent = message ? await message.reply(render(state)) : await interaction.reply({ ...render(state), fetchReply: true });
         state.interval = setInterval(async () => {
             step(state);
-            if (msg.edit) { await msg.edit(render(state)); }
+            await sent.edit(render(state));
         }, 1000);
-        const sent = message ? await message.reply(render(state)) : await interaction.reply({ ...render(state), fetchReply: true });
         games.set(sent.id, state);
     }
 
