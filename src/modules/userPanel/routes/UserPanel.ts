@@ -3,6 +3,7 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import ejs from 'ejs';
 import { Client } from "zumito-framework/discord";
+import { PermissionFlagsBits } from "discord.js";
 import { UserPanelViewService } from "../services/UserPanelViewService";
 import { UserPanelAuthService } from "../services/UserPanelAuthService";
 
@@ -37,23 +38,25 @@ export class UserPanel extends Route {
         const userId = req.session?.user?.id || '963953391061585972'; // ID de ejemplo
         
         // Filtrar solo los servidores donde el usuario es administrador
-        const servers = client.guilds.cache
-            .filter(guild => {
-                // Intentar obtener el miembro del servidor
-                const member = guild.members.cache.get(userId);
-                // Verificar si el usuario es administrador del servidor
-                return member && (
-                    member.permissions.has('ADMINISTRATOR') || 
-                    member.permissions.has('MANAGE_GUILD') ||
-                    guild.ownerId === userId
-                );
-            })
-            .map(g => ({
-                id: g.id,
-                name: g.name,
-                icon: g.iconURL?.() || '',
-                isOwner: g.ownerId === userId
-            }));
+        const servers = [] as Array<{ id: string; name: string; icon: string; isOwner: boolean }>;
+        for (const guild of client.guilds.cache.values()) {
+            let member = guild.members.cache.get(userId);
+            if (!member) {
+                member = await guild.members.fetch(userId).catch(() => null);
+            }
+            if (member && (
+                member.permissions.has(PermissionFlagsBits.Administrator) ||
+                member.permissions.has(PermissionFlagsBits.ManageGuild) ||
+                guild.ownerId === userId
+            )) {
+                servers.push({
+                    id: guild.id,
+                    name: guild.name,
+                    icon: guild.iconURL?.() || '',
+                    isOwner: guild.ownerId === userId,
+                });
+            }
+        }
         const content = await ejs.renderFile(
             path.resolve(__dirname, '../views/dashboard.ejs'),
             {

@@ -30,7 +30,10 @@ export class UserPanelGuild extends Route {
         const client = this.client;
         const guild = client.guilds.cache.get(guildId);
         if (!guild) return res.status(404).send('Servidor no encontrado');
-        const member = guild.members.cache.get(userId);
+        let member = guild.members.cache.get(userId);
+        if (!member) {
+            member = await guild.members.fetch(userId).catch(() => null);
+        }
         if (!member || !(member.permissions.has(PermissionFlagsBits.Administrator) || member.permissions.has(PermissionFlagsBits.ManageGuild) || guild.ownerId === userId)) {
             console.log('Member:', member);
             console.log('Member Admin Permissions:', member?.permissions.has(PermissionFlagsBits.Administrator));
