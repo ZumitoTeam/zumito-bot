@@ -68,6 +68,11 @@
                 "description": "Utility and tools commands",
                 "emoji": "🛠️"
             },
+            "minecraft": {
+                "name": "Minecraft",
+                "description": "Minecraft related commands",
+                "emoji": "⛏️"
+            },
             "reputation": {
                 "name": "Reputation",
                 "description": "Reputation system commands",

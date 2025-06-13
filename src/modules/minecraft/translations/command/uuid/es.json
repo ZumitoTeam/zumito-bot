@@ -1,0 +1,13 @@
+{
+    "description": "Muestra el UUID de un jugador de Minecraft.",
+    "title": "UUID de {user}",
+    "uuid": "{uuid}",
+    "notfound": "Jugador no encontrado.",
+    "error": "Debes proporcionar un nombre de usuario de Minecraft.",
+    "arguments": {
+        "username": { "name": "usuario" }
+    },
+    "args": {
+        "username": { "description": "Nombre de usuario" }
+    }
+}
