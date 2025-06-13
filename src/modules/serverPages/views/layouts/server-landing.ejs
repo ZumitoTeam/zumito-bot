@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: <%= theme.primary %>;
+            --secondary: <%= theme.secondary %>;
+            --accent: <%= theme.accent %>;
+        }
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 60%, var(--accent) 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <%- content %>
+</body>
+</html>
