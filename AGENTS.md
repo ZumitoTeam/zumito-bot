@@ -13,5 +13,5 @@ Estas directrices aplican a cualquier cambio en este repositorio.
 
 ## Pull Requests
 - Incluye una sección **Summary** explicando los cambios realizados.
-- Incluye una sección **Testing** con el resultado de `npx eslint .` u otras pruebas. Si algún comando no puede ejecutarse (por ejemplo, por restricciones de red), menciónalo de forma breve.
+- Incluye una sección **Testing** con el resultado de `node_modules/.bin/eslint .` u otras pruebas. Si algún comando no puede ejecutarse (por ejemplo, por restricciones de red), menciónalo de forma breve.
 - No modifiques archivos de licencia.
