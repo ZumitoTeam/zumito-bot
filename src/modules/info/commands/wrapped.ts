@@ -16,23 +16,39 @@ export class Wrapped extends Command {
         const startOfYear = new Date(new Date().getFullYear(), 0, 1);
 
         const pollModel = (framework.database.models as any)?.Poll;
-        const polls = pollModel ? await pollModel.find({ where: { guildId } }).catch(() => []) : [];
+        const polls = pollModel ? await pollModel
+            .find({ where: { guildId } })
+            .then((r: any) => r ?? [])
+            .catch(() => [])
+            : [];
         const pollCount = polls.filter((p: any) => new Date(p.createdAt) >= startOfYear).length;
 
         const ticketModel = (framework.database.models as any)?.Ticket;
-        const tickets = ticketModel ? await ticketModel.find({ where: { guildId } }).catch(() => []) : [];
+        const tickets = ticketModel ? await ticketModel
+            .find({ where: { guildId } })
+            .then((r: any) => r ?? [])
+            .catch(() => [])
+            : [];
         const ticketCount = tickets.filter((t: any) => new Date(t.createdAt) >= startOfYear).length;
 
         const logModel = (framework.database.models as any)?.ModerationLog;
-        const logs = logModel ? await logModel.find({ where: { guildId } }).catch(() => []) : [];
+        const logs = logModel ? await logModel
+            .find({ where: { guildId } })
+            .then((r: any) => r ?? [])
+            .catch(() => [])
+            : [];
         const moderationCount = logs.filter((l: any) => new Date(l.date) >= startOfYear).length;
 
         const rankModel = (framework.database.models as any)?.RankUser;
-        const topUsers = rankModel ? await rankModel.find({
-            where: { guildId },
-            order: ["xp", "DESC"],
-            limit: 3
-        }).catch(() => []) : [];
+        const topUsers = rankModel ? await rankModel
+            .find({
+                where: { guildId },
+                order: ["xp", "DESC"],
+                limit: 3
+            })
+            .then((r: any) => r ?? [])
+            .catch(() => [])
+            : [];
 
         let galleryAttachment: AttachmentBuilder | null = null;
         if (topUsers.length > 0) {
