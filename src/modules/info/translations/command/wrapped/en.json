@@ -1,0 +1,14 @@
+{
+    "description": "Show your server's year in review.",
+    "title": "Guild Wrapped {year}",
+    "polls": "Polls created",
+    "tickets": "Tickets opened",
+    "moderation": "Moderation actions",
+    "topUsers": "Top XP users",
+    "noData": "No data available.",
+    "galleryTitle": "Top Users Gallery",
+    "button": {
+        "previous": "Prev",
+        "next": "Next"
+    }
+}
