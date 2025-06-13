@@ -1,0 +1,11 @@
+{
+    "description": "Displays the Minecraft avatar of a player.",
+    "title": "{user}'s avatar",
+    "error": "You must provide a Minecraft username.",
+    "arguments": {
+        "username": { "name": "username" }
+    },
+    "args": {
+        "username": { "description": "Player username" }
+    }
+}
