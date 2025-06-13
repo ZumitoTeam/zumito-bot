@@ -54,8 +54,8 @@ export class Familytree extends Command {
         ctx.fillText(target.globalName || target.username, rootX, rootY + 50);
 
         const startX = width / (members.length + 1);
-        members.forEach((member, index) => {
-            if (!member) return;
+        for (const [index, member] of members.entries()) {
+            if (!member) continue;
             const x = startX * (index + 1);
             const y = 180;
             ctx.beginPath();
@@ -68,10 +68,11 @@ export class Familytree extends Command {
             ctx.arc(x, y, 30, 0, Math.PI * 2);
             ctx.closePath();
             ctx.clip();
-            ctx.drawImage(member.user.displayAvatarURL({ extension: 'png', size: 64 }), x - 30, y - 30, 60, 60);
+            const avatar = await loadImage(member.user.displayAvatarURL({ extension: 'png', size: 64 }));
+            ctx.drawImage(avatar, x - 30, y - 30, 60, 60);
             ctx.restore();
             ctx.fillText(member.user.globalName || member.user.username, x, y + 50);
-        });
+        }
 
         const buffer = canvas.toBuffer();
         const attachment = new AttachmentBuilder(buffer, { name: 'familytree.png' });
