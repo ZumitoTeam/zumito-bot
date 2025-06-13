@@ -32,6 +32,10 @@ export class RobloxAvatarCommand extends Command {
             return;
         }
         const avatarUrl = await this.roblox.getAvatarUrl(userId);
+        if (!avatarUrl) {
+            (message || interaction)?.reply({ content: trans('notfound'), allowedMentions: { repliedUser: false } });
+            return;
+        }
         const embed = new EmbedBuilder()
             .setTitle(trans('title', { user: username }))
             .setImage(avatarUrl)
