@@ -67,6 +67,11 @@
                 "name": "Utilities",
                 "description": "Utility and tools commands",
                 "emoji": "🛠️"
+            },
+            "reputation": {
+                "name": "Reputation",
+                "description": "Reputation system commands",
+                "emoji": "⭐"
             }
         },
         "requested": "Requested by {user}",
