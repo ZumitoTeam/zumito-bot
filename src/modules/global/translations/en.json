@@ -77,6 +77,26 @@
                 "name": "Reputation",
                 "description": "Reputation system commands",
                 "emoji": "⭐"
+            },
+            "roblox": {
+                "name": "Roblox",
+                "description": "Roblox commands",
+                "emoji": "🧱"
+            },
+            "minigames": {
+                "name": "Minigames",
+                "description": "Minigames commands",
+                "emoji": "🎮"
+            },
+            "valorant": {
+                "name": "Valorant",
+                "description": "Valorant commands",
+                "emoji": "🔫"
+            },
+            "utils": {
+                "name": "Utils",
+                "description": "Utility commands",
+                "emoji": "📊"
             }
         },
         "requested": "Requested by {user}",
