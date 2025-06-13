@@ -1,0 +1,8 @@
+{
+    "description": "Create a reaction poll.",
+    "error": "Invalid poll options.",
+    "arguments": {
+        "question": { "name": "question" },
+        "options": { "name": "options" }
+    }
+}
