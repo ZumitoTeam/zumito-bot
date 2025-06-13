@@ -30,7 +30,7 @@
     "@distube/yt-dlp": "^2.0.1",
     "@distube/ytdl-core": "^4.16.11",
     "canvas": "^2.11.2",
-    "discord.js": "^14.14.1",
+    "discord.js": "^14.19.3",
     "distube": "^5.0.7",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.10",
