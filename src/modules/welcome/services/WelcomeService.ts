@@ -15,7 +15,7 @@ export class WelcomeService {
         this.client.on('guildMemberAdd', async (member) => {
             const WelcomeModel = this.framework.database.models.WelcomeConfig;
             if (!WelcomeModel) return;
-            const config = await WelcomeModel.findOne({ where: { guildId: member.guild.id } });
+            const config = await WelcomeModel.findOne({ where: { guildId: member.guild.id } }).catch(() => null);
             if (!config) return;
             const channel = member.guild.channels.cache.get(config.channelId) as TextBasedChannel | undefined;
             if (!channel || !('send' in channel)) return;
