@@ -1,13 +1,17 @@
-import { Command, CommandParameters, CommandType } from 'zumito-framework';
-import { EmbedBuilder } from 'zumito-framework/discord';
+import { Command, CommandParameters, CommandType, CommandArgDefinition } from 'zumito-framework';
+import { EmbedBuilder, User } from 'zumito-framework/discord';
 import { config } from '../../../config/index.js';
 
 export class Simp extends Command {
     type = CommandType.any;
+    args: CommandArgDefinition[] = [
+        { name: 'user', type: 'user', optional: true },
+    ];
 
-    async execute({ message, interaction, guildSettings, trans }: CommandParameters): Promise<void> {
+    async execute({ message, interaction, args, guildSettings, trans }: CommandParameters): Promise<void> {
         const channel = message?.channel || interaction?.channel;
-        const authorId = message?.author?.id || interaction?.user?.id;
+        const target = args.get('user') as User | undefined;
+        const authorId = target?.id || message?.author?.id || interaction?.user?.id;
 
         if (!channel || !('messages' in channel) || !authorId) return;
 
