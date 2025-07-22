@@ -17,10 +17,10 @@
             <tbody>
                 <% panels.forEach(panel => { %>
                     <tr class="border-t border-discord-dark-300">
-                        <td class="py-2"><%= panel._id %></td>
+                        <td class="py-2"><%= panel._id.toString() %></td>
                         <td class="py-2"><%= panel.embed?.title || '' %></td>
                         <td class="py-2 space-x-2">
-                            <a href="/panel/<%= guild.id %>/ticket/panels/editor/<%= panel._id %>" class="btn-primary">Editar</a>
+                            <a href="/panel/<%= guild.id %>/ticket/panels/editor/<%= panel._id.toString() %>" class="btn-primary">Editar</a>
                             <button disabled class="btn-primary">Enviar</button>
                             <button disabled class="btn-primary">Eliminar</button>
                         </td>
