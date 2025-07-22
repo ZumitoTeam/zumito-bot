@@ -42,7 +42,7 @@ export class Landing extends Route {
         // Comandos destacados (ahora desde la base de datos)
         const featuredCommands = (await this.framework.database.collection('featuredcommands').find({}).sort({ order: 1 }).toArray()).map(command => ({
             ...command,
-            description: this.translationService.get('command.' + command.commandName + '.description')
+            description: this.translationService.get('command.' + command.commandName + '.description', 'es')
         }));
         
 
