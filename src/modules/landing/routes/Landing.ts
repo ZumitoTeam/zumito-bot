@@ -34,6 +34,7 @@ export class Landing extends Route {
         const inviteUrl = process.env.BOT_INVITE_URL || `https://discord.com/oauth2/authorize?client_id=${botId}&scope=bot+applications.commands&permissions=8`;
         const supportUrl = process.env.BOT_SUPPORT_URL || "https://discord.gg/soporte";
         const githubUrl = process.env.BOT_GITHUB_URL || "https://github.com/zumito/zumito-bot";
+        const host = process.env.HOST || req.header('host');
 
         // Comandos destacados (pueden venir de config, aquí ejemplo hardcode)
         const featuredCommands = [
@@ -99,6 +100,7 @@ export class Landing extends Route {
                 featuredCommands,
                 faqs,
                 theme,
+                host,
             }
         );
 
