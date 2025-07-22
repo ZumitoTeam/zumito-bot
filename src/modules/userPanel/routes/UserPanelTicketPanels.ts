@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class UserPanelTicketPanels extends Route {
     method = RouteMethod.get;
-    path = '/panel/:guildId(\\d+)/ticket-panels';
+    path = '/panel/:guildId(\\d+)/ticket/panels';
 
     constructor(
         private client: Client = ServiceContainer.getService(Client),

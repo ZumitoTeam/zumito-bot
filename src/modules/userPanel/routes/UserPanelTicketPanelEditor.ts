@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export class UserPanelTicketPanelEditor extends Route {
     method = RouteMethod.get;
-    path = '/panel/:guildId(\\d+)/ticket-panels/editor/:panelId?';
+    path = '/panel/:guildId(\\d+)/ticket/panels/editor/:panelId?';
 
     constructor(
         private client: Client = ServiceContainer.getService(Client),
@@ -49,7 +49,7 @@ export class UserPanelTicketPanelEditor extends Route {
 
 export class UserPanelTicketPanelEditorSave extends Route {
     method = RouteMethod.post;
-    path = '/panel/:guildId(\\d+)/ticket-panels/editor/:panelId?';
+    path = '/panel/:guildId(\\d+)/ticket/panels/editor/:panelId?';
 
     constructor(
         private client: Client = ServiceContainer.getService(Client),
@@ -85,6 +85,6 @@ export class UserPanelTicketPanelEditorSave extends Route {
         } else {
             await this.ticketPanelService.createTicketPanel(guildId, panelData);
         }
-        res.redirect(`/panel/${guildId}/ticket-panels`);
+        res.redirect(`/panel/${guildId}/ticket/panels`);
     }
 }
