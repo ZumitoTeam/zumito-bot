@@ -27,10 +27,12 @@ export class Lang extends Command {
     emojiFallback: EmojiFallback;
     translator: TranslationManager;
 
-    constructor() {
+    constructor(
+        private framework: ZumitoFramework = ServiceContainer.getService(ZumitoFramework)
+    ) {
         super();
-        this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
-        this.translator = ServiceContainer.getService(TranslationManager) as TranslationManager;
+        this.emojiFallback = ServiceContainer.getService(EmojiFallback);
+        this.translator = ServiceContainer.getService(TranslationManager);
     }
 
     private getLanguageString(lang: string, emoji = true): string {
@@ -73,7 +75,12 @@ export class Lang extends Command {
                 }
             } else if (lang === 'es' || lang === 'en') {
                 guildSettings.lang = lang;
-                await guildSettings.save();
+                await this.framework.database.collection('guild_settings').updateOne(
+                    { guildId: guildSettings.guildId },
+                    { $set: { lang } }
+                ).then((result) => {
+                    console.log(result);
+                });
 
                 if (interaction) {
                     await interaction.reply({
@@ -215,8 +222,7 @@ export class Lang extends Command {
                     });
                 }
             } else {
-                guildSettings.lang = lang;
-                await guildSettings.save();
+                this.framework.database.collection('guild_settings').updateOne({ guildId: guildSettings.guildId }, { $set: { lang } });
 
                 if (interaction.replied || interaction.deferred) {
                     await interaction.editReply({
