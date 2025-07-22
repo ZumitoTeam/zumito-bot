@@ -14,8 +14,18 @@ export class PlayCommand extends Command {
         if (interaction) await interaction.deferReply();
         const musicService = ServiceContainer.getService(MusicService);
         const query = args.get("query");
+
+        // Validar que el comando se use en un guild
+        const guild = message?.guild ?? interaction?.guild;
+        if (!guild) {
+            const reply = "❌ Este comando solo puede usarse en servidores (no en mensajes directos).";
+            if (interaction) await interaction.followUp({ content: reply, ephemeral: true });
+            if (message) await message.reply(reply);
+            return;
+        }
+
         const member = message?.member || interaction?.member;
-        // Check if member is a GuildMember (has 'voice' property)
+        // Validar que el usuario sea miembro del guild y esté en un canal de voz
         const voiceChannel = (member && "voice" in member) ? (member as any).voice.channel : null;
         if (!voiceChannel) {
             const reply = "❌ Debes estar en un canal de voz para usar este comando.";
@@ -26,13 +36,10 @@ export class PlayCommand extends Command {
         try {
             await musicService.distube.play(voiceChannel, query, {});
             // Esperar un breve momento para que la canción se agregue a la cola
-            const guild = message?.guild ?? interaction?.guild;
             let songName = query;
-            if (guild) {
-                const queue = musicService.distube.getQueue(guild.id);
-                if (queue && queue.songs.length > 0) {
-                    songName = queue.songs[0].name;
-                }
+            const queue = musicService.distube.getQueue(guild.id);
+            if (queue && queue.songs.length > 0) {
+                songName = queue.songs[0].name;
             }
             const reply = `🎶 Reproduciendo: **${songName}**`;
             if (interaction) await interaction.followUp({ content: reply });

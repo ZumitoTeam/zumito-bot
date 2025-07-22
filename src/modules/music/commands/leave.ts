@@ -17,13 +17,23 @@ export class LeaveCommand extends Command {
             return;
         }
         const queue = musicService.distube.getQueue(guild.id);
-        if (!queue) {
+        const voiceConnection = musicService.distube.voices.get(guild.id);
+
+        // Verifica si el bot está en un canal de voz usando la API de Discord
+        const botMember = guild.members.me || await guild.members.fetchMe();
+        const botVoiceChannel = botMember.voice?.channel;
+
+        if (!botVoiceChannel) {
             const reply = "❌ No estoy en ningún canal de voz.";
             if (interaction) await interaction.reply({ content: reply, ephemeral: true });
             if (message) await message.reply(reply);
             return;
         }
+
         await musicService.distube.voices.leave(guild.id);
+        if (botMember.voice?.channelId === botVoiceChannel.id) {
+            await botMember.voice.disconnect();
+        }
         const reply = `👋 Me he desconectado del canal de voz.`;
         if (interaction) await interaction.reply({ content: reply });
         if (message) await message.reply(reply);
