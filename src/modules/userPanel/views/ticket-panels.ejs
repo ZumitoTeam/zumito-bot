@@ -1,0 +1,32 @@
+<div class="card mt-6">
+    <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-bold">Ticket Panels</h2>
+        <a href="/panel/<%= guild.id %>/ticket/panels/editor" class="btn-primary">Crear Nuevo Panel</a>
+    </div>
+    <% if (panels.length === 0) { %>
+        <p>No hay paneles configurados.</p>
+    <% } else { %>
+        <table class="min-w-full text-left">
+            <thead>
+                <tr>
+                    <th class="pb-2">ID</th>
+                    <th class="pb-2">Título</th>
+                    <th class="pb-2">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% panels.forEach(panel => { %>
+                    <tr class="border-t border-discord-dark-300">
+                        <td class="py-2"><%= panel._id %></td>
+                        <td class="py-2"><%= panel.embed?.title || '' %></td>
+                        <td class="py-2 space-x-2">
+                            <a href="/panel/<%= guild.id %>/ticket/panels/editor/<%= panel._id %>" class="btn-primary">Editar</a>
+                            <button disabled class="btn-primary">Enviar</button>
+                            <button disabled class="btn-primary">Eliminar</button>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</div>
