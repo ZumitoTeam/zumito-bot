@@ -1,16 +1,10 @@
 import { Route, RouteMethod, ServiceContainer } from 'zumito-framework';
-import { Client, PermissionFlagsBits, ChannelType } from 'discord.js';
+import { Client, PermissionFlagsBits } from 'discord.js';
 import { UserPanelAuthService } from '../services/UserPanelAuthService';
-import { UserPanelViewService } from '../services/UserPanelViewService';
 import { TicketPanelService } from '../../tickets/services/TicketPanelService';
-import ejs from 'ejs';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-export class UserPanelTicketPanelEditor extends Route {
-    method = RouteMethod.get;
+export class UserPanelTicketPanelEditorPost extends Route {
+    method = RouteMethod.post;
     path = '/panel/:guildId(\\d+)/ticket/panels/editor/:panelId?';
 
     constructor(
@@ -33,20 +27,20 @@ export class UserPanelTicketPanelEditor extends Route {
         if (!member || !(member.permissions.has(PermissionFlagsBits.Administrator) || member.permissions.has(PermissionFlagsBits.ManageGuild) || guild.ownerId === userId)) {
             return res.status(403).send('No tienes permisos en este servidor');
         }
-        let panel = null;
+        const panelData = {
+            embed: {
+                title: req.body.title,
+                description: req.body.description,
+                color: req.body.color,
+            },
+            button: { label: req.body.buttonLabel },
+            channelId: req.body.channelId,
+        };
         if (req.params.panelId) {
-            panel = await this.ticketPanelService.getTicketPanel(req.params.panelId).catch(() => null);
+            await this.ticketPanelService.updateTicketPanel(req.params.panelId, panelData);
+        } else {
+            await this.ticketPanelService.createTicketPanel(guildId, panelData);
         }
-        const channels = guild.channels.cache
-            .filter(channel => channel.type === ChannelType.GuildText)
-            .map(channel => ({ id: channel.id, name: channel.name }));
-        const content = await ejs.renderFile(
-            path.resolve(__dirname, '../views/ticket-panel-editor.ejs'),
-            { guild, panel, channels }
-        );
-        const view = new UserPanelViewService();
-        const html = await view.render({ content, reqPath: req.path, req, res });
-        res.send(html);
+        res.redirect(`/panel/${guildId}/ticket/panels`);
     }
 }
-
