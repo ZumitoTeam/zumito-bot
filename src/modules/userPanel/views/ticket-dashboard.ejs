@@ -1,0 +1,45 @@
+<div class="card">
+    <h2 class="text-xl font-bold mb-4">Resumen de Tickets</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+        <div class="bg-discord-dark-300 rounded p-4">
+            <div class="text-discord-gray-300 text-sm">Totales</div>
+            <div class="text-2xl font-bold text-discord-white"><%= stats.total %></div>
+        </div>
+        <div class="bg-discord-dark-300 rounded p-4">
+            <div class="text-discord-gray-300 text-sm">Abiertos</div>
+            <div class="text-2xl font-bold text-discord-white"><%= stats.open %></div>
+        </div>
+        <div class="bg-discord-dark-300 rounded p-4">
+            <div class="text-discord-gray-300 text-sm">Cerrados</div>
+            <div class="text-2xl font-bold text-discord-white"><%= stats.closed %></div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-6">
+    <h2 class="text-xl font-bold mb-4">Últimos Tickets</h2>
+    <% if (tickets.length === 0) { %>
+        <p>No hay tickets recientes.</p>
+    <% } else { %>
+        <table class="min-w-full text-left">
+            <thead>
+                <tr>
+                    <th class="pb-2">Canal</th>
+                    <th class="pb-2">Usuario</th>
+                    <th class="pb-2">Estado</th>
+                    <th class="pb-2">Creado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% tickets.forEach(t => { %>
+                    <tr class="border-t border-discord-dark-300">
+                        <td class="py-2"><%= t.channelId %></td>
+                        <td class="py-2"><%= t.userTag %></td>
+                        <td class="py-2"><%= t.status %></td>
+                        <td class="py-2"><%= t.createdAt.toLocaleString() %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</div>
