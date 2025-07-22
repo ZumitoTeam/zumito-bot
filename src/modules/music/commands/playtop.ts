@@ -1,6 +1,7 @@
 import { Command, CommandParameters } from "zumito-framework";
 import { ServiceContainer } from "zumito-framework";
 import { MusicService } from "../services/MusicService";
+import { MessageFlags } from "zumito-framework/discord";
 
 export class PlaytopCommand extends Command {
     name = "playtop";
@@ -17,7 +18,7 @@ export class PlaytopCommand extends Command {
         const voiceChannel = (member as any)?.voice?.channel;
         if (!voiceChannel) {
             const reply = "❌ Debes estar en un canal de voz para usar este comando.";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }
@@ -28,7 +29,7 @@ export class PlaytopCommand extends Command {
             if (message) await message.reply(reply);
         } catch (e) {
             const reply = `❌ Error al añadir: ${e}`;
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
         }
     }

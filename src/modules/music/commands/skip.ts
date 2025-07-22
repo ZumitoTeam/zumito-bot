@@ -1,6 +1,7 @@
 import { Command, CommandParameters } from "zumito-framework";
 import { ServiceContainer } from "zumito-framework";
 import { MusicService } from "../services/MusicService";
+import { MessageFlags } from "zumito-framework/discord";
 
 export class SkipCommand extends Command {
     name = "skip";
@@ -13,7 +14,7 @@ export class SkipCommand extends Command {
         const voiceChannel = (member as any)?.voice?.channel;
         if (!voiceChannel) {
             const reply = "❌ Debes estar en un canal de voz para usar este comando.";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }
@@ -24,7 +25,7 @@ export class SkipCommand extends Command {
             if (message) await message.reply(reply);
         } catch (e) {
             const reply = `❌ No se pudo saltar la canción: ${e}`;
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
         }
     }

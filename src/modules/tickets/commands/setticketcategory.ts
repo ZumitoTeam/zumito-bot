@@ -1,5 +1,5 @@
 import { Command, CommandParameters } from "zumito-framework";
-import { PermissionsBitField } from "zumito-framework/discord";
+import { MessageFlags, PermissionsBitField } from "zumito-framework/discord";
 
 // Este comando es solo un placeholder, ya que la lógica real de guardar la categoría debe implementarse en la config global del bot o guild
 export class SetTicketCategory extends Command {
@@ -16,7 +16,7 @@ export class SetTicketCategory extends Command {
         if (!categoryId) {
             const reply = "Debes especificar el ID de la categoría.";
             if (interaction) {
-                await interaction.reply({ content: reply, ephemeral: true });
+                await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             } else if (message) {
                 await message.reply(reply);
             }
@@ -26,7 +26,7 @@ export class SetTicketCategory extends Command {
         // Por ahora solo respondemos con éxito
         const reply = `Categoría de tickets configurada: ${categoryId}`; 
         if (interaction) {
-            await interaction.reply({ content: reply, ephemeral: true });
+            await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
         } else if (message) {
             await message.reply(reply);
         }

@@ -45,7 +45,7 @@
     "opusscript": "^0.0.8",
     "sodium-native": "^4.3.1",
     "zumito-db": "^1.0.1",
-    "zumito-framework": "^1.8.5"
+    "zumito-framework": "^1.9.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

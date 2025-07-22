@@ -1,5 +1,5 @@
 import { Command, CommandParameters } from "zumito-framework";
-import { AttachmentBuilder } from "discord.js";
+import { AttachmentBuilder, MessageFlags } from "discord.js";
 import googleTTS from "google-tts-api";
 
 export class TTSCommand extends Command {
@@ -15,7 +15,7 @@ export class TTSCommand extends Command {
         const text = args.get("texto");
         if (!text) {
             const reply = "Debes proporcionar un texto.";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }
@@ -31,7 +31,7 @@ export class TTSCommand extends Command {
             if (message) await message.reply({ files: [attachment] });
         } catch (e) {
             const reply = `❌ Error generando audio: ${e}`;
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
         }
     }

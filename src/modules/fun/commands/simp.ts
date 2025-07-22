@@ -1,5 +1,5 @@
 import { Command, CommandParameters, CommandType, CommandArgDefinition } from 'zumito-framework';
-import { EmbedBuilder, User } from 'zumito-framework/discord';
+import { EmbedBuilder, User, MessageFlags } from 'zumito-framework/discord';
 import { config } from '../../../config/index.js';
 
 export class Simp extends Command {
@@ -37,7 +37,7 @@ export class Simp extends Command {
         }
 
         if (!topUserId) {
-            (message || interaction!)?.reply({ content: trans('none'), ephemeral: true });
+            (message || interaction!)?.reply({ content: trans('none'), flags: MessageFlags.Ephemeral });
             return;
         }
 

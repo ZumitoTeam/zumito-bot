@@ -1,5 +1,5 @@
 import { Command, CommandParameters } from 'zumito-framework';
-import { PermissionsBitField, TextChannel } from 'zumito-framework/discord';
+import { MessageFlags, PermissionsBitField, TextChannel } from 'zumito-framework/discord';
 import { ZumitoFramework } from 'zumito-framework';
 
 export class SetWelcomeCommand extends Command {
@@ -18,7 +18,7 @@ export class SetWelcomeCommand extends Command {
         const welcomeMessage = args.get('message');
         if (!guild || !channel || !welcomeMessage) {
             const reply = 'Missing channel or message.';
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             else if (message) await message.reply(reply);
             return;
         }
@@ -32,7 +32,7 @@ export class SetWelcomeCommand extends Command {
             await config.save();
         }
         const reply = `Welcome message configured for <#${channel.id}>`;
-        if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+        if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
         else if (message) await message.reply(reply);
     }
 }

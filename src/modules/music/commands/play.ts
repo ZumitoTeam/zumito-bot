@@ -1,6 +1,7 @@
 import { Command, CommandParameters } from "zumito-framework";
 import { ServiceContainer } from "zumito-framework";
 import { MusicService } from "../services/MusicService";
+import { MessageFlags } from "zumito-framework/discord";
 
 export class PlayCommand extends Command {
     name = "play";
@@ -19,7 +20,7 @@ export class PlayCommand extends Command {
         const guild = message?.guild ?? interaction?.guild;
         if (!guild) {
             const reply = "❌ Este comando solo puede usarse en servidores (no en mensajes directos).";
-            if (interaction) await interaction.followUp({ content: reply, ephemeral: true });
+            if (interaction) await interaction.followUp({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }
@@ -29,7 +30,7 @@ export class PlayCommand extends Command {
         const voiceChannel = (member && "voice" in member) ? (member as any).voice.channel : null;
         if (!voiceChannel) {
             const reply = "❌ Debes estar en un canal de voz para usar este comando.";
-            if (interaction) await interaction.followUp({ content: reply, ephemeral: true });
+            if (interaction) await interaction.followUp({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }
@@ -47,7 +48,7 @@ export class PlayCommand extends Command {
             return;
         } catch (e) {
             const reply = `❌ Error al reproducir: ${e}`;
-            if (interaction && await interaction.isRepliable()) await interaction.followUp({ content: reply, ephemeral: true });
+            if (interaction && await interaction.isRepliable()) await interaction.followUp({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
         }
     }

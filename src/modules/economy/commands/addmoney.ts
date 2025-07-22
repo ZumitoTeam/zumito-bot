@@ -1,6 +1,7 @@
 import { Command, CommandParameters } from "zumito-framework";
 import { ServiceContainer } from "zumito-framework";
 import { EconomyService } from "../services/EconomyService";
+import { MessageFlags } from "zumito-framework/discord";
 
 export class AddMoneyCommand extends Command {
     name = "addmoney";
@@ -22,7 +23,7 @@ export class AddMoneyCommand extends Command {
         ) || false;
         if (!isAdmin) {
             const reply = "❌ Solo administradores pueden usar este comando.";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             else if (message) await message.reply(reply);
             return;
         }
@@ -32,7 +33,7 @@ export class AddMoneyCommand extends Command {
         if (!user || isNaN(cantidad) || cantidad <= 0) {
             const reply = "Debes mencionar un usuario y una cantidad válida. Ejemplo: /addmoney @usuario 100";
             if (interaction) {
-                await interaction.reply({ content: reply, ephemeral: true });
+                await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
                 return;
             }
             if (message) {
@@ -46,7 +47,7 @@ export class AddMoneyCommand extends Command {
         const guild = interaction?.guild ?? message?.guild;
         if (!guild) {
             const reply = "No se pudo determinar el servidor (guild).";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             else if (message) await message.reply(reply);
             return;
         }

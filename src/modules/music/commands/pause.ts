@@ -1,6 +1,7 @@
 import { Command, CommandParameters } from "zumito-framework";
 import { ServiceContainer } from "zumito-framework";
 import { MusicService } from "../services/MusicService";
+import { MessageFlags } from "zumito-framework/discord";
 
 export class PauseCommand extends Command {
     name = "pause";
@@ -11,7 +12,7 @@ export class PauseCommand extends Command {
         const guild = message?.guild ?? interaction?.guild;
         if (!guild) {
             const reply = "❌ No se pudo determinar el servidor (guild).";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }
@@ -19,7 +20,7 @@ export class PauseCommand extends Command {
         const queue = musicService.distube.getQueue(guild.id);
         if (!queue) {
             const reply = "❌ No hay música en reproducción.";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }
@@ -30,7 +31,7 @@ export class PauseCommand extends Command {
             if (message) await message.reply(reply);
         } catch (e) {
             const reply = `❌ No se pudo pausar la música: ${e}`;
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
         }
     }

@@ -1,6 +1,7 @@
 import { Command, CommandParameters } from "zumito-framework";
 import { ServiceContainer } from "zumito-framework";
 import { MusicService } from "../services/MusicService";
+import { MessageFlags } from "zumito-framework/discord";
 
 export class MoveCommand extends Command {
     name = "move";
@@ -16,7 +17,7 @@ export class MoveCommand extends Command {
         const guild = message?.guild ?? interaction?.guild;
         if (!guild) {
             const reply = "❌ No se pudo determinar el servidor.";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }
@@ -25,7 +26,7 @@ export class MoveCommand extends Command {
         const a = Number(args.get("a"));
         if (!queue || isNaN(de) || isNaN(a) || de < 1 || de >= queue.songs.length || a < 1 || a >= queue.songs.length) {
             const reply = "❌ Posiciones inválidas.";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }

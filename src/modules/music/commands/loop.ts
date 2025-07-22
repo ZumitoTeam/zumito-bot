@@ -1,6 +1,7 @@
 import { Command, CommandParameters } from "zumito-framework";
 import { ServiceContainer } from "zumito-framework";
 import { MusicService } from "../services/MusicService";
+import { MessageFlags } from "zumito-framework/discord";
 
 export class LoopCommand extends Command {
     name = "loop";
@@ -15,7 +16,7 @@ export class LoopCommand extends Command {
         const guild = message?.guild ?? interaction?.guild;
         if (!guild) {
             const reply = "❌ No se pudo determinar el servidor (guild).";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }
@@ -23,7 +24,7 @@ export class LoopCommand extends Command {
         const modo = (args.get("modo") || "off").toLowerCase();
         if (!queue || !["off","song","queue"].includes(modo)) {
             const reply = "❌ Debes elegir: off, song o queue.";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }

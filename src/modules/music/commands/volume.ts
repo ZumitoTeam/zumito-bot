@@ -1,6 +1,7 @@
 import { Command, CommandParameters } from "zumito-framework";
 import { ServiceContainer } from "zumito-framework";
 import { MusicService } from "../services/MusicService";
+import { MessageFlags } from "zumito-framework/discord";
 
 export class VolumeCommand extends Command {
     name = "volume";
@@ -15,7 +16,7 @@ export class VolumeCommand extends Command {
         const guild = message?.guild ?? interaction?.guild;
         if (!guild) {
             const reply = "❌ No se pudo determinar el servidor (guild).";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }
@@ -23,7 +24,7 @@ export class VolumeCommand extends Command {
         const porcentaje = Number(args.get("porcentaje"));
         if (!queue || isNaN(porcentaje) || porcentaje < 0 || porcentaje > 100) {
             const reply = "❌ Debes especificar un volumen entre 0 y 100.";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }

@@ -1,5 +1,5 @@
 import { Command, CommandParameters } from "zumito-framework";
-import { PermissionsBitField } from "zumito-framework/discord";
+import { MessageFlags, PermissionsBitField } from "zumito-framework/discord";
 import { TicketService } from "../services/TicketService";
 
 export class TicketCommand extends Command {
@@ -16,7 +16,7 @@ export class TicketCommand extends Command {
         const categoryId = args.get("category_id") || null;
         if (!categoryId) {
             const reply = "Debes especificar el ID de la categoría de tickets. Ejemplo: /ticket <category_id>";
-            if (interaction) { await interaction.reply({ content: reply, ephemeral: true }); return; }
+            if (interaction) { await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral }); return; }
             if (message) { await message.reply(reply); return; }
             return;
         }
@@ -25,18 +25,18 @@ export class TicketCommand extends Command {
         const openTicket = await ticketService.getOpenTicketByUser(guild.id, member.user.id);
         if (openTicket) {
             const reply = `Ya tienes un ticket abierto: <#${openTicket.channelId}>`;
-            if (interaction) { await interaction.reply({ content: reply, ephemeral: true }); return; }
+            if (interaction) { await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral }); return; }
             if (message) { await message.reply(reply); return; }
             return;
         }
         try {
             const channel = await ticketService.createTicket(guild, member, categoryId);
             const reply = `Tu ticket ha sido creado: <#${channel.id}>`;
-            if (interaction) { await interaction.reply({ content: reply, ephemeral: true }); return; }
+            if (interaction) { await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral }); return; }
             if (message) { await message.reply(reply); return; }
         } catch (e) {
             const reply = `Error al crear el ticket: ${e}`;
-            if (interaction) { await interaction.reply({ content: reply, ephemeral: true }); return; }
+            if (interaction) { await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral }); return; }
             if (message) { await message.reply(reply); return; }
         }
     }

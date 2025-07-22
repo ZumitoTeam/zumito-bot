@@ -1,5 +1,5 @@
 import { Command, CommandParameters, CommandType, CommandArgDefinition } from 'zumito-framework';
-import { AttachmentBuilder, EmbedBuilder, GuildMember, User } from 'zumito-framework/discord';
+import { AttachmentBuilder, EmbedBuilder, GuildMember, User, MessageFlags } from 'zumito-framework/discord';
 import { config } from '../../../config/index.js';
 
 export class Stickmanfight extends Command {
@@ -14,7 +14,7 @@ export class Stickmanfight extends Command {
         if (!guild) return;
         const members = guild.members.cache.filter(m => !m.user.bot).map(m => m as GuildMember);
         if (members.length < 2) {
-            (message || interaction!)?.reply({ content: 'Not enough members', ephemeral: true });
+            (message || interaction!)?.reply({ content: 'Not enough members', flags: MessageFlags.Ephemeral });
             return;
         }
         const first = args.get('user1') as User | undefined;

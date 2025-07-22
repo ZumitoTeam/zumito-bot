@@ -1,4 +1,4 @@
-import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder } from "zumito-framework/discord";
+import { ActionRowBuilder, EmbedBuilder, StringSelectMenuBuilder, MessageFlags } from "zumito-framework/discord";
 import { Command, CommandArgDefinition, CommandParameters, CommandType, EmojiFallback, SelectMenuParameters, ZumitoFramework, ServiceContainer, CommandChoiceDefinition, TranslationManager } from "zumito-framework";
 import { config } from "../../../config/index.js";
 
@@ -63,7 +63,7 @@ export class Lang extends Command {
                         allowedMentions: { 
                             repliedUser: false 
                         },
-                        ephemeral: true
+                        flags: MessageFlags.Ephemeral
                     });
                 } else {
                     await message?.reply({
@@ -88,7 +88,7 @@ export class Lang extends Command {
                         allowedMentions: { 
                             repliedUser: false 
                         },
-                        ephemeral: true
+                        flags: MessageFlags.Ephemeral
                     });
                 } else {
                     await message?.reply({
@@ -130,7 +130,7 @@ export class Lang extends Command {
                         allowedMentions: { 
                             repliedUser: false 
                         },
-                        ephemeral: true
+                        flags: MessageFlags.Ephemeral
                     });
                 } else {
                     await message?.reply({
@@ -164,7 +164,7 @@ export class Lang extends Command {
                     allowedMentions: { 
                         repliedUser: false 
                     },
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
             } else {
                 await message?.reply({
@@ -218,7 +218,7 @@ export class Lang extends Command {
                         allowedMentions: { 
                             repliedUser: false 
                         },
-                        ephemeral: true
+                        flags: MessageFlags.Ephemeral
                     });
                 }
             } else {
@@ -237,7 +237,7 @@ export class Lang extends Command {
                         allowedMentions: { 
                             repliedUser: false 
                         },
-                        ephemeral: true
+                        flags: MessageFlags.Ephemeral
                     });
                 }
             }

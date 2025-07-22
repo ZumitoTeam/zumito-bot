@@ -1,5 +1,5 @@
 import { Command, CommandParameters } from "zumito-framework";
-import { PermissionsBitField } from "zumito-framework/discord";
+import { MessageFlags, PermissionsBitField } from "zumito-framework/discord";
 import { TicketService } from "../services/TicketService";
 
 export class CloseTicket extends Command {
@@ -18,7 +18,7 @@ export class CloseTicket extends Command {
         } catch (e) {
             const reply = `Error al cerrar el ticket: ${e}`;
             if (interaction) {
-                await interaction.reply({ content: reply, ephemeral: true });
+                await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             } else if (message) {
                 await message.reply(reply);
             }

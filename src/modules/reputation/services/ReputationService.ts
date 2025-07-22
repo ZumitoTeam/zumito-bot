@@ -1,5 +1,5 @@
 import { ServiceContainer, ZumitoFramework } from 'zumito-framework';
-import { Client, ApplicationCommandType, Interaction } from 'zumito-framework/discord';
+import { Client, ApplicationCommandType, Interaction, MessageFlags } from 'zumito-framework/discord';
 
 export class ReputationService {
     private client: Client;
@@ -23,10 +23,10 @@ export class ReputationService {
 
             if (interaction.commandName === 'Upvote') {
                 await this.addReputation(target.id, 1);
-                await interaction.reply({ content: `Gave +1 reputation to ${target}.`, ephemeral: true });
+                await interaction.reply({ content: `Gave +1 reputation to ${target}.`, flags: MessageFlags.Ephemeral });
             } else if (interaction.commandName === 'Downvote') {
                 await this.addReputation(target.id, -1);
-                await interaction.reply({ content: `Gave -1 reputation to ${target}.`, ephemeral: true });
+                await interaction.reply({ content: `Gave -1 reputation to ${target}.`, flags: MessageFlags.Ephemeral });
             }
         });
     }
