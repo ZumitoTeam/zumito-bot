@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["nodejs_20", "python3", "gnumake", "gcc", "libopus", "ffmpeg"]
+nixPkgs = ["nodejs_20", "python3", "gnumake", "gcc", "libopus", "ffmpeg", "libwebp", "vips"]
 
 [phases.install]
 cmds = ["npm ci"]

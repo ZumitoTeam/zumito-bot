@@ -1,6 +1,7 @@
 import { createCanvas, Canvas, CanvasRenderingContext2D, Image } from 'canvas';
 import GIFEncoder from 'gifencoder';
 import { AttachmentBuilder } from 'zumito-framework/discord';
+import sharp from 'sharp';
 
 interface CanvasConfig {
     width: number;
@@ -117,7 +118,18 @@ export class CanvasUtils {
 
     // Utility to load images
     static async loadImage(src: string): Promise<Image> {
-        const { loadImage } = await import('canvas');
-        return loadImage(src);
+        try {
+            const response = await fetch(src);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch image: ${response.statusText}`);
+            }
+            const arrayBuffer = await response.arrayBuffer();
+            const imgBuffer = await sharp(Buffer.from(arrayBuffer)).toFormat('png').toBuffer();
+            const { loadImage } = await import('canvas');
+            return loadImage(imgBuffer);
+        } catch (error) {
+            console.error("Error loading image with Sharp:", error);
+            throw error; // Re-throw the error to be caught by the command
+        }
     }
 }
