@@ -45,7 +45,6 @@ export class Landing extends Route {
             description: this.translationService.get('command.' + command.commandName + '.description', 'es')
         }));
         
-
         // FAQs (pueden venir de config, aquí ejemplo hardcode)
         const faqs = [
             {
@@ -87,6 +86,7 @@ export class Landing extends Route {
                 faqs,
                 theme,
                 host,
+                t: this.translationService,
             }
         );
 

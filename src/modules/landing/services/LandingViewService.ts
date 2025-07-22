@@ -27,7 +27,7 @@ export class LandingViewService {
         );
     }
 
-    static getTheme() {
+    /* static getTheme() {
         return {
             primary: process.env.LANDING_COLOR_PRIMARY || '#5865F2',
             secondary: process.env.LANDING_COLOR_SECONDARY || '#36393f',
@@ -35,6 +35,23 @@ export class LandingViewService {
             gradientFrom: process.env.LANDING_GRADIENT_FROM || '#23272A',
             gradientVia: process.env.LANDING_GRADIENT_VIA || '#36393f',
             gradientTo: process.env.LANDING_GRADIENT_TO || '#5865F2',
+            textMain: process.env.LANDING_TEXT_MAIN || '#fff',
+            textSecondary: process.env.LANDING_TEXT_SECONDARY || '#fgf',
+            background: process.env.LANDING_BACKGROUND || '#1e2124'
+        };
+    } */
+
+    static getTheme() {
+        return {
+            primary: process.env.LANDING_PRIMARY_COLOR || '#e11d48',         // rose-600
+            secondary: process.env.LANDING_SECONDARY_COLOR || '#a78bfa',     // purple-400
+            accent: process.env.LANDING_ACCENT_COLOR || '#f472b6',           // pink-400
+            gradientFrom: process.env.LANDING_GRADIENT_FROM || '#e11d48',    // rose-600
+            gradientVia: process.env.LANDING_GRADIENT_VIA || '#f472b6',      // pink-400
+            gradientTo: process.env.LANDING_GRADIENT_TO || '#7dd3fc',        // sky-300
+            textMain: process.env.LANDING_TEXT_MAIN || '#222',
+            textSecondary: process.env.LANDING_TEXT_SECONDARY || '#444',
+            background: process.env.LANDING_BACKGROUND || '#fff', // white
         };
     }
 }
