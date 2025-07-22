@@ -126,7 +126,6 @@ function drop(state: GameState): void {
 
 export class TetrisCommand extends Command {
     name = 'tetris';
-    description = 'Play a simple game of Tetris.';
     categories = ['minigames'];
     usage = 'tetris';
 
