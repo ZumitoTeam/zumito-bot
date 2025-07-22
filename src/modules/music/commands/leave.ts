@@ -1,6 +1,7 @@
 import { Command, CommandParameters } from "zumito-framework";
 import { ServiceContainer } from "zumito-framework";
 import { MusicService } from "../services/MusicService";
+import { MessageFlags } from "discord.js";
 
 export class LeaveCommand extends Command {
     name = "leave";
@@ -16,8 +17,6 @@ export class LeaveCommand extends Command {
             if (message) await message.reply(reply);
             return;
         }
-        const queue = musicService.distube.getQueue(guild.id);
-        const voiceConnection = musicService.distube.voices.get(guild.id);
 
         // Verifica si el bot está en un canal de voz usando la API de Discord
         const botMember = guild.members.me || await guild.members.fetchMe();
@@ -25,7 +24,7 @@ export class LeaveCommand extends Command {
 
         if (!botVoiceChannel) {
             const reply = "❌ No estoy en ningún canal de voz.";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.reply({ content: reply, flags: MessageFlags.Ephemeral });
             if (message) await message.reply(reply);
             return;
         }
