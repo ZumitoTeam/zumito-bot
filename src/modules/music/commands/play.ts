@@ -50,8 +50,7 @@ export class PlayCommand extends Command {
 
             // Draw background
             canvasUtil.drawBackground('#2C2F33', '#23272A');
-
-            // Load and draw thumbnail
+            
             // Load and draw thumbnail
             const thumbnail = await CanvasUtils.loadImage(song.thumbnail);
             ctx.drawImage(thumbnail, 20, 20, 160, 160);
