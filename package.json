@@ -46,7 +46,7 @@
     "sharp": "^0.33.4",
     "sodium-native": "^4.3.1",
     "zumito-db": "^1.0.1",
-    "zumito-framework": "^1.9.0"
+    "zumito-framework": "^1.10.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
