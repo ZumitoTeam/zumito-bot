@@ -3,7 +3,7 @@ import { UserPanelNavigationService } from "../userPanel/services/UserPanelNavig
 
 export class ConfessionModule extends Module {
     requeriments = {
-        services: ["UserPanelNavigationService"],
+        services: ["UserPanelNavigationService", "UserPanelAuthService"],
     };
 
     constructor(modulePath: string, framework: ZumitoFramework) {
