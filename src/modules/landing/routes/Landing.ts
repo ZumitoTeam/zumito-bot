@@ -1,4 +1,4 @@
-import { Route, RouteMethod, ServiceContainer } from "zumito-framework";
+import { Route, RouteMethod, ServiceContainer, TranslationManager, ZumitoFramework } from "zumito-framework";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import ejs from 'ejs';
@@ -14,7 +14,10 @@ export class Landing extends Route {
 
     client: Client;
 
-    constructor() {
+    constructor(
+        private framework: ZumitoFramework = ServiceContainer.getService(ZumitoFramework),
+        private translationService: TranslationManager = ServiceContainer.getService(TranslationManager),
+    ) {
         super();
         this.client = ServiceContainer.getService(Client);
     }
@@ -36,29 +39,12 @@ export class Landing extends Route {
         const githubUrl = process.env.BOT_GITHUB_URL || "https://github.com/zumito/zumito-bot";
         const host = process.env.HOST || req.header('host');
 
-        // Comandos destacados (pueden venir de config, aquí ejemplo hardcode)
-        const featuredCommands = [
-            {
-                name: 'ban',
-                description: 'Banea a un usuario problemático de tu servidor.',
-                emoji: '🔨',
-            },
-            {
-                name: 'rank',
-                description: 'Consulta tu nivel y XP en el servidor.',
-                emoji: '🏆',
-            },
-            {
-                name: 'coinflip',
-                description: '¡Apuesta y lanza una moneda para ganar monedas!',
-                emoji: '🪙',
-            },
-            {
-                name: 'profile',
-                description: 'Muestra tu perfil de Discord en un embed bonito.',
-                emoji: '👤',
-            },
-        ];
+        // Comandos destacados (ahora desde la base de datos)
+        const featuredCommands = (await this.framework.database.collection('featuredcommands').find({}).sort({ order: 1 }).toArray()).map(command => ({
+            ...command,
+            description: this.translationService.get('command.' + command.commandName + '.description')
+        }));
+        
 
         // FAQs (pueden venir de config, aquí ejemplo hardcode)
         const faqs = [

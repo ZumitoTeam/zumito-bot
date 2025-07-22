@@ -1,0 +1,394 @@
+<div class="card mt-6" x-data="{ openAddModal: false, openEditModal: false, currentCommand: null }">
+  <div class="flex items-center justify-between mb-4">
+    <div class="text-lg font-semibold">Featured Commands</div>
+    <!-- Botón para abrir el modal de agregar -->
+    <button class="btn-primary" @click="openAddModal = true">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Add Command
+    </button>
+  </div>
+
+  <!-- Tabla de comandos destacados -->
+  <div class="bg-discord-dark-200 rounded-lg overflow-hidden shadow">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="bg-discord-dark-300">
+          <th class="text-left p-3 w-16">Order</th>
+          <th class="text-left p-3 w-16">Emoji</th>
+          <th class="text-left p-3">Command</th>
+          <th class="text-left p-3">Description</th>
+          <th class="text-right p-3 w-24">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (featuredCommands.length === 0) { %>
+          <tr>
+            <td colspan="5" class="p-4 text-center text-discord-light-300">
+              No featured commands yet
+              <div class="mt-2">
+                <button @click="openAddModal = true" class="text-discord-primary hover:underline">Add your first command</button>
+              </div>
+            </td>
+          </tr>
+        <% } %>
+        
+        <% featuredCommands.forEach(function(command, index) { %>
+          <tr class="border-t border-discord-dark-400 <%= index % 2 === 0 ? 'bg-discord-dark-250' : '' %> hover:bg-discord-dark-350 transition-colors">
+            <td class="p-3">
+              <span class="bg-discord-primary text-white text-xs font-medium px-2.5 py-1 rounded-full"><%= command.order %></span>
+            </td>
+            <td class="p-3 text-xl"><%= command.emoji %></td>
+            <td class="p-3 font-medium"><%= command.commandName %></td>
+            <td class="p-3 text-discord-light-300"><%= t.get(command.commandName) %></td>
+            <td class="p-3 text-right space-x-1">
+              <button 
+                @click="currentCommand = { name: '<%= command.commandName %>', order: <%= command.order %>, emoji: '<%= command.emoji %>', description: '<%= command.description %>' }; openEditModal = true"
+                class="inline-flex items-center p-1.5 text-discord-light-100 bg-discord-dark-400 rounded hover:bg-discord-blue transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </button>
+              <button 
+                @click="deleteCommand('<%= command.commandName %>')"
+                class="inline-flex items-center p-1.5 text-discord-light-100 bg-discord-dark-400 rounded hover:bg-discord-red transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal para agregar comando -->
+  <div x-show="openAddModal" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div @click.away="openAddModal = false" class="bg-discord-dark-200 p-6 rounded-lg shadow-lg w-full max-w-md">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Add Featured Command</h3>
+        <button @click="openAddModal = false" class="text-discord-light-300 hover:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      
+      <form id="addFeaturedCommandForm" class="space-y-4">
+        <div>
+          <label class="block mb-1 text-sm font-medium">Command</label>
+          <select id="commandSelect" name="commandName" required class="w-full px-3 py-2 rounded bg-discord-dark-300 text-white focus:outline-none focus:ring-2 focus:ring-discord-primary">
+            <option value="" selected disabled>Choose a command...</option>
+            <% allCommands.forEach(function(command) { %>
+              <option value="<%= command.name %>" data-emoji="<%= command.emoji %>"><%= command.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        
+        <div>
+          <label class="block mb-1 text-sm font-medium">Emoji</label>
+          <div class="flex items-center gap-3">
+            <!-- Emoji preview grande -->
+            <div id="emojiPreview"
+                 class="w-12 h-12 flex items-center justify-center text-3xl bg-discord-dark-400 rounded shadow border border-discord-dark-300 transition">
+              😊
+            </div>
+            <!-- Botón para abrir el picker -->
+            <button type="button"
+                    id="openEmojiPicker"
+                    class="px-4 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500 text-white font-semibold shadow transition"
+                    title="Pick emoji">
+              Elegir emoji
+            </button>
+            <!-- Input oculto para el valor -->
+            <input type="hidden" id="commandEmoji" name="emoji" />
+          </div>
+          <!-- Picker flotante -->
+          <emoji-picker id="emojiPicker" style="display:none; position:absolute; z-index:1000;"></emoji-picker>
+        </div>
+        
+        <div>
+          <label class="block mb-1 text-sm font-medium">Display Order</label>
+          <input type="number" id="commandOrder" name="order" min="1" required class="w-full px-3 py-2 rounded bg-discord-dark-300 text-white focus:outline-none focus:ring-2 focus:ring-discord-primary" />
+          <p class="mt-1 text-xs text-discord-light-300">Lower numbers will be displayed first</p>
+        </div>
+        
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" @click="openAddModal = false" class="px-4 py-2 rounded bg-discord-dark-400 text-white hover:bg-discord-dark-500">
+            Cancel
+          </button>
+          <button type="button" id="submitFeaturedCommand" class="btn-primary">
+            Add Command
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Modal para editar comando -->
+  <div x-show="openEditModal" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div @click.away="openEditModal = false" class="bg-discord-dark-200 p-6 rounded-lg shadow-lg w-full max-w-md">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold">Edit Featured Command</h3>
+        <button @click="openEditModal = false" class="text-discord-light-300 hover:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      
+      <form id="editFeaturedCommandForm" class="space-y-4">
+        <div>
+          <label class="block mb-1 text-sm font-medium">Command</label>
+          <input type="text" name="commandName" x-bind:value="currentCommand?.name" readonly class="w-full px-3 py-2 rounded bg-discord-dark-400 text-discord-light-200 focus:outline-none" />
+        </div>
+        
+        <div>
+          <label class="block mb-1 text-sm font-medium">Display Order</label>
+          <input type="number" name="order" x-bind:value="currentCommand?.order" min="1" required class="w-full px-3 py-2 rounded bg-discord-dark-300 text-white focus:outline-none focus:ring-2 focus:ring-discord-primary" />
+          <p class="mt-1 text-xs text-discord-light-300">Lower numbers will be displayed first</p>
+        </div>
+        
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" @click="openEditModal = false" class="px-4 py-2 rounded bg-discord-dark-400 text-white hover:bg-discord-dark-500">
+            Cancel
+          </button>
+          <button type="button" id="updateFeaturedCommand" class="btn-primary">
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const commandSelect = document.getElementById('commandSelect');
+    const commandEmoji = document.getElementById('commandEmoji');
+    const emojiPreview = document.getElementById('emojiPreview');
+    const addFeaturedCommandForm = document.getElementById('addFeaturedCommandForm');
+    const submitButton = document.getElementById('submitFeaturedCommand');
+    const updateButton = document.getElementById('updateFeaturedCommand');
+    const openEmojiPickerBtn = document.getElementById('openEmojiPicker');
+    const emojiPicker = document.getElementById('emojiPicker');
+    
+    // Valor inicial (puedes poner un emoji por defecto si quieres)
+    commandEmoji.value = emojiPreview.textContent.trim();
+
+    // Función para actualizar detalles del comando
+    function updateCommandDetails() {
+      const selectedOption = commandSelect.options[commandSelect.selectedIndex];
+      if (selectedOption.value) {
+        commandEmoji.value = selectedOption.dataset.emoji || '';
+        emojiPreview.textContent = selectedOption.dataset.emoji || '';
+      } else {
+        commandEmoji.value = '';
+        emojiPreview.textContent = '';
+      }
+    }
+
+    commandSelect.addEventListener('change', updateCommandDetails);
+    updateCommandDetails(); // Actualización inicial
+    
+    // Gestionar envío del formulario de agregar
+    submitButton.addEventListener('click', async function() {
+      if (!addFeaturedCommandForm.checkValidity()) {
+        addFeaturedCommandForm.reportValidity();
+        return;
+      }
+
+      const formData = new FormData(addFeaturedCommandForm);
+      const data = Object.fromEntries(formData.entries());
+      data.order = parseInt(data.order);
+      
+      submitButton.disabled = true;
+      submitButton.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Adding...
+      `;
+
+      try {
+        const response = await fetch('/admin/landing/featured-commands', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          showNotification('Command added successfully!', 'success');
+          setTimeout(() => window.location.reload(), 1000);
+        } else {
+          const errorData = await response.json();
+          showNotification(errorData.message || 'Failed to add command', 'error');
+          submitButton.disabled = false;
+          submitButton.textContent = 'Add Command';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showNotification('An unexpected error occurred', 'error');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Add Command';
+      }
+    });
+    
+    // Gestionar envío del formulario de editar
+    if (updateButton) {
+      updateButton.addEventListener('click', async function() {
+        const editForm = document.getElementById('editFeaturedCommandForm');
+        if (!editForm.checkValidity()) {
+          editForm.reportValidity();
+          return;
+        }
+
+        const formData = new FormData(editForm);
+        const data = Object.fromEntries(formData.entries());
+        data.order = parseInt(data.order);
+        
+        updateButton.disabled = true;
+        updateButton.innerHTML = `
+          <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Updating...
+        `;
+
+        try {
+          const response = await fetch(`/admin/landing/featured-commands/${data.commandName}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ order: data.order }),
+          });
+
+          if (response.ok) {
+            showNotification('Command updated successfully!', 'success');
+            setTimeout(() => window.location.reload(), 1000);
+          } else {
+            const errorData = await response.json();
+            showNotification(errorData.message || 'Failed to update command', 'error');
+            updateButton.disabled = false;
+            updateButton.textContent = 'Update';
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          showNotification('An unexpected error occurred', 'error');
+          updateButton.disabled = false;
+          updateButton.textContent = 'Update';
+        }
+      });
+    }
+    
+    // Función para eliminar comandos
+    window.deleteCommand = async function(commandName) {
+      if (confirm(`Are you sure you want to remove "${commandName}" from featured commands?`)) {
+        try {
+          const response = await fetch(`/admin/landing/featured-commands/${commandName}`, {
+            method: 'DELETE',
+          });
+
+          if (response.ok) {
+            showNotification('Command removed successfully!', 'success');
+            const rows = document.querySelectorAll('tr');
+            for (const row of rows) {
+              if (row.textContent.includes(commandName)) {
+                row.classList.add('bg-discord-red', 'bg-opacity-20');
+                setTimeout(() => {
+                  row.style.transition = 'opacity 0.5s ease';
+                  row.style.opacity = '0';
+                  setTimeout(() => row.remove(), 500);
+                }, 300);
+                break;
+              }
+            }
+          } else {
+            const errorData = await response.json();
+            showNotification(errorData.message || 'Failed to remove command', 'error');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          showNotification('An unexpected error occurred', 'error');
+        }
+      }
+    };
+    
+    // Función para mostrar notificaciones
+    function showNotification(message, type) {
+      const notificationContainer = document.getElementById('notificationContainer') || createNotificationContainer();
+      
+      const notification = document.createElement('div');
+      notification.className = `flex items-center p-4 mb-3 rounded-md shadow-lg transform transition-all duration-300 translate-x-full ${
+        type === 'error' ? 'bg-discord-red text-white' : 'bg-discord-green text-white'
+      }`;
+      
+      const icon = type === 'error' 
+        ? '<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'
+        : '<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+      
+      notification.innerHTML = `
+        ${icon}
+        <span>${message}</span>
+        <button class="ml-auto focus:outline-none">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      `;
+      
+      notificationContainer.appendChild(notification);
+      
+      // Animar entrada
+      setTimeout(() => {
+        notification.classList.remove('translate-x-full');
+      }, 10);
+      
+      // Configurar para desaparecer
+      notification.querySelector('button').addEventListener('click', () => {
+        notification.classList.add('translate-x-full');
+        setTimeout(() => notification.remove(), 300);
+      });
+      
+      // Auto-eliminar después de 5 segundos
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.classList.add('translate-x-full');
+          setTimeout(() => notification.remove(), 300);
+        }
+      }, 5000);
+    }
+    
+    function createNotificationContainer() {
+      const container = document.createElement('div');
+      container.id = 'notificationContainer';
+      container.className = 'fixed top-4 right-4 z-50 space-y-2 max-w-sm';
+      document.body.appendChild(container);
+      return container;
+    }
+    
+    openEmojiPickerBtn.addEventListener('click', function(e) {
+      const rect = openEmojiPickerBtn.getBoundingClientRect();
+      emojiPicker.style.display = 'block';
+      emojiPicker.style.top = (window.scrollY + rect.bottom + 8) + 'px';
+      emojiPicker.style.left = (window.scrollX + rect.left) + 'px';
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!emojiPicker.contains(e.target) && e.target !== openEmojiPickerBtn) {
+        emojiPicker.style.display = 'none';
+      }
+    });
+
+    emojiPicker.addEventListener('emoji-click', function(event) {
+      const emoji = event.detail.unicode;
+      emojiPreview.textContent = emoji;
+      commandEmoji.value = emoji;
+      emojiPicker.style.display = 'none';
+    });
+  });
+</script>
