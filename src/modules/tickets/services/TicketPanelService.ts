@@ -41,6 +41,8 @@ export class TicketPanelService {
         if (!panel) throw new Error('Panel not found');
         const channel = await this.client.channels.fetch(channelId);
         if (!channel || channel.type !== 0) throw new Error('Invalid channel');
+        // convert color to int
+        panel.embed.color = parseInt(panel.embed.color.replace('#', ''), 16) || 0x5865F2; // Default to primary color if not set
         const embed = EmbedBuilder.from(panel.embed || {});
         const button = new ButtonBuilder()
             .setCustomId(`ticket.open:${panelId}`)
