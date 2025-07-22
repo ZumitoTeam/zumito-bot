@@ -14,27 +14,6 @@
     <meta name="twitter:description" content="<%= tagline %>" />
     <meta name="twitter:image" content="<%= botAvatar %>" />
     <style>
-        :root {
-            --primary: <%= theme.primary %>;
-            --secondary: <%= theme.secondary %>;
-            --accent: <%= theme.accent %>;
-            --gradient-from: <%= theme.gradientFrom %>;
-            --gradient-via: <%= theme.gradientVia %>;
-            --gradient-to: <%= theme.gradientTo %>;
-            --text-main: <%= theme.textMain || '#222' %>;
-            --text-secondary: <%= theme.textSecondary || '#444' %>;
-        }
-        .btn-primary {
-            background: <%= theme.primary %>;
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background: <%= theme.accent %>;
-        }
-        .card {
-            background: <%= theme.secondary %>CC;
-            color: #fff;
-        }
         .feature-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -49,32 +28,29 @@
         <!-- Efectos de fondo con degradados -->
         <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 pointer-events-none">
             <div
-                class="h-56 rounded-full blur-[106px]"
-                style="background: linear-gradient(135deg, var(--gradient-from), var(--gradient-to));"
+                class="h-56 rounded-full blur-[106px] bg-gradient-to-br from-gradientFrom to-gradientTo"
             ></div>
             <div
-                class="h-32 rounded-full blur-[106px]"
-                style="background: linear-gradient(90deg, var(--gradient-via), var(--gradient-from));"
+                class="h-32 rounded-full blur-[106px] bg-gradient-to-r from-gradientVia to-gradientFrom"
             ></div>
         </div>
 
         <!-- Hero Section -->
         <header class="relative py-16 text-center flex flex-col items-center">
-            <img src="<%= botAvatar %>" alt="Avatar del bot" class="w-32 h-32 rounded-full shadow-lg border-4" style="border-color: <%= theme.primary %>;" />
-            <h1 class="text-5xl font-extrabold drop-shadow-lg flex items-center justify-center gap-2 mt-4" style="color: var(--text-main);">
+            <img src="<%= botAvatar %>" alt="Avatar del bot" class="w-32 h-32 rounded-full shadow-lg border-4 border-primary" />
+            <h1 class="text-5xl font-extrabold drop-shadow-lg flex items-center justify-center gap-2 mt-4 text-textMain">
                 <span><%= botName %></span>
-                <span class="text-2xl font-mono" style="color: var(--text-secondary);">#<%= botTag.split('#')[1] || '' %></span>
+                <span class="text-2xl font-mono text-textSecondary">#<%= botTag.split('#')[1] || '' %></span>
             </h1>
-            <p class="mt-4 text-2xl font-semibold max-w-xl mx-auto" style="color: var(--text-secondary);"><%= tagline %></p>
+            <p class="mt-4 text-2xl font-semibold max-w-xl mx-auto text-textSecondary"><%= tagline %></p>
             
             <div class="mt-10 flex flex-wrap justify-center gap-4">
                 <a href="<%= inviteUrl %>"
-                   class="relative flex h-12 w-full sm:w-auto items-center justify-center px-8 rounded-full transition duration-300 hover:scale-105 active:scale-95"
-                   style="background: <%= theme.primary %>; color: #fff;">
+                   class="relative flex h-12 w-full sm:w-auto items-center justify-center px-8 rounded-full transition duration-300 hover:scale-105 active:scale-95 bg-primary text-white hover:bg-accent">
                     <span class="relative text-base font-semibold">✨ Invitar al bot</span>
                 </a>
-                <a href="<%= supportUrl %>" class="relative flex h-12 w-full sm:w-auto items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:border before:bg-opacity-10 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95">
-                    <span class="relative text-base font-semibold" style="color: <%= theme.primary %>;">Servidor de soporte</span>
+                <a href="<%= supportUrl %>" class="relative flex h-12 w-full sm:w-auto items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:border before:border-primary before:bg-primary/10 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 text-primary">
+                    <span class="relative text-base font-semibold">Servidor de soporte</span>
                 </a>
             </div>
         </header>
@@ -85,32 +61,32 @@
         <section class="relative">
             <div class="flex justify-center gap-8 flex-wrap">
                 <div class="flex flex-col items-center p-6 rounded-xl shadow-lg bg-white bg-opacity-10 backdrop-blur-sm">
-                    <span class="text-4xl font-bold" style="color: <%= theme.primary %>;"><%= servers %></span>
-                    <span class="text-sm" style="color: var(--text-secondary);">Servidores</span>
+                    <span class="text-4xl font-bold text-primary"><%= servers %></span>
+                    <span class="text-sm text-textSecondary">Servidores</span>
                 </div>
                 <div class="flex flex-col items-center p-6 rounded-xl shadow-lg bg-white bg-opacity-10 backdrop-blur-sm">
-                    <span class="text-4xl font-bold" style="color: <%= theme.primary %>;"><%= users %></span>
-                    <span class="text-sm" style="color: var(--text-secondary);">Usuarios</span>
+                    <span class="text-4xl font-bold text-primary"><%= users %></span>
+                    <span class="text-sm text-textSecondary">Usuarios</span>
                 </div>
                 <div class="flex flex-col items-center p-6 rounded-xl shadow-lg bg-white bg-opacity-10 backdrop-blur-sm">
-                    <span class="text-4xl font-bold" style="color: <%= theme.primary %>;"><%= channels %></span>
-                    <span class="text-sm" style="color: var(--text-secondary);">Canales</span>
+                    <span class="text-4xl font-bold text-primary"><%= channels %></span>
+                    <span class="text-sm text-textSecondary">Canales</span>
                 </div>
             </div>
         </section>
 
         <!-- Comandos Destacados Section -->
         <section class="relative">
-            <h2 class="text-center text-3xl font-bold mb-10" style="color: var(--text-main);">Comandos Destacados</h2>
+            <h2 class="text-center text-3xl font-bold mb-10 text-textMain">Comandos Destacados</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <% featuredCommands.forEach(cmd => { %>
                     <div class="feature-card rounded-xl shadow-lg p-6 flex items-center gap-4 bg-white bg-opacity-10 backdrop-blur-sm">
-                        <div class="text-4xl rounded-full h-16 w-16 flex items-center justify-center" style="background: <%= theme.primary %>30;">
+                        <div class="text-4xl rounded-full h-16 w-16 flex items-center justify-center bg-primary/20">
                             <%= cmd.emoji %>
                         </div>
                         <div>
-                            <div class="font-bold text-lg" style="color: <%= theme.primary %>;">/<%= cmd.commandName %></div>
-                            <div class="text-sm" style="color: var(--text-secondary);"><%= t.get(cmd.commandName) %></div>
+                            <div class="font-bold text-lg text-primary">/<%= cmd.commandName %></div>
+                            <div class="text-sm text-textSecondary"><%= t.get(cmd.commandName) %></div>
                         </div>
                     </div>
                 <% }) %>
@@ -119,39 +95,39 @@
 
         <!-- Features Section -->
         <section class="relative">
-            <h2 class="text-center text-3xl font-bold mb-10" style="color: var(--text-main);">Características</h2>
+            <h2 class="text-center text-3xl font-bold mb-10 text-textMain">Características</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div class="overflow-hidden rounded-xl p-6 bg-white bg-opacity-10 backdrop-blur-sm">
-                    <div class="flex items-center" style="color: <%= theme.primary %>;">
+                    <div class="flex items-center text-primary">
                         <p class="text-sm font-bold uppercase">Fácil de usar</p>
                         <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
                     </div>
-                    <h3 class="mt-4 text-2xl font-semibold" style="color: var(--text-main);">Comandos intuitivos</h3>
-                    <p class="mt-4" style="color: var(--text-secondary);">Interactúa con el bot de forma natural y sencilla con comandos fáciles de recordar.</p>
+                    <h3 class="mt-4 text-2xl font-semibold text-textMain">Comandos intuitivos</h3>
+                    <p class="mt-4 text-textSecondary">Interactúa con el bot de forma natural y sencilla con comandos fáciles de recordar.</p>
                 </div>
 
                 <div class="overflow-hidden rounded-xl p-6 bg-white bg-opacity-10 backdrop-blur-sm">
-                    <div class="flex items-center" style="color: <%= theme.primary %>;">
+                    <div class="flex items-center text-primary">
                         <p class="text-sm font-bold uppercase">Personalizable</p>
                         <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
                     </div>
-                    <h3 class="mt-4 text-2xl font-semibold" style="color: var(--text-main);">Ajusta a tus necesidades</h3>
-                    <p class="mt-4" style="color: var(--text-secondary);">Configura el bot para que se adapte perfectamente a tu servidor y comunidad.</p>
+                    <h3 class="mt-4 text-2xl font-semibold text-textMain">Ajusta a tus necesidades</h3>
+                    <p class="mt-4 text-textSecondary">Configura el bot para que se adapte perfectamente a tu servidor y comunidad.</p>
                 </div>
             </div>
         </section>
 
         <!-- FAQs Section -->
         <section class="relative">
-            <h2 class="text-center text-3xl font-bold mb-10" style="color: var(--text-main);">Preguntas Frecuentes</h2>
+            <h2 class="text-center text-3xl font-bold mb-10 text-textMain">Preguntas Frecuentes</h2>
             <div class="space-y-4 max-w-3xl mx-auto">
                 <% faqs.forEach(faq => { %>
                     <details class="group rounded-xl p-4 bg-white bg-opacity-10 backdrop-blur-sm">
-                        <summary class="flex cursor-pointer items-center justify-between font-semibold" style="color: var(--text-main);">
+                        <summary class="flex cursor-pointer items-center justify-between font-semibold text-textMain">
                             <span>❓ <%= faq.q %></span>
                             <span class="transition group-open:rotate-180">
                                 <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
@@ -159,7 +135,7 @@
                                 </svg>
                             </span>
                         </summary>
-                        <div class="mt-4 text-sm" style="color: var(--text-secondary);"><%= faq.a %></div>
+                        <div class="mt-4 text-sm text-textSecondary"><%= faq.a %></div>
                     </details>
                 <% }) %>
             </div>
@@ -168,23 +144,23 @@
         <!-- CTA Section -->
         <section class="relative py-10">
             <div class="text-center max-w-3xl mx-auto">
-                <h2 class="text-3xl font-bold mb-4" style="color: var(--text-main);">¿Listo para mejorar tu servidor?</h2>
-                <p class="mb-8" style="color: var(--text-secondary);">Invita al bot ahora y lleva tu comunidad al siguiente nivel.</p>
+                <h2 class="text-3xl font-bold mb-4 text-textMain">¿Listo para mejorar tu servidor?</h2>
+                <p class="mb-8 text-textSecondary">Invita al bot ahora y lleva tu comunidad al siguiente nivel.</p>
                 <div class="flex flex-wrap justify-center gap-4">
-                    <a href="<%= inviteUrl %>" class="relative flex h-12 items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95" style="before:background: <%= theme.primary %>;">
-                        <span class="relative text-base font-semibold" style="color: <%= theme.textMain %>;">Invitar ahora</span>
+                    <a href="<%= inviteUrl %>" class="relative flex h-12 items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95">
+                        <span class="relative text-base font-semibold text-textMain">Invitar ahora</span>
                     </a>
-                    <a href="<%= githubUrl %>" class="relative flex h-12 items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:border before:bg-opacity-10 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95" style="before:background: <%= theme.primary %>20;">
-                        <span class="relative text-base font-semibold" style="color: <%= theme.primary %>;">GitHub</span>
+                    <a href="<%= githubUrl %>" class="relative flex h-12 items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:border before:border-primary before:bg-primary/20 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95">
+                        <span class="relative text-base font-semibold text-primary">GitHub</span>
                     </a>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="py-8 text-center text-sm" style="color: var(--text-secondary);">
+    <footer class="py-8 text-center text-sm text-textSecondary">
         <div class="flex justify-center space-x-6 mb-4">
-            <a href="<%= supportUrl %>" class="hover:text-[var(--primary)]" style="color: var(--text-secondary);">
+            <a href="<%= supportUrl %>" class="text-textSecondary hover:text-primary">
                 <span class="sr-only">Discord</span>
                 <svg class="h-6 w-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -28.5 256 256">
                     <g>
@@ -192,16 +168,16 @@
                     </g>
                 </svg>
             </a>
-            <a href="<%= githubUrl %>" class="hover:text-[var(--primary)]" style="color: var(--text-secondary);">
+            <a href="<%= githubUrl %>" class="text-textSecondary hover:text-primary">
                 <span class="sr-only">GitHub</span>
                 <svg class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
                     <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
                 </svg>
             </a>
         </div>
-        <div class="mt-6 text-xs" style="color: var(--text-secondary);">Versión del bot: <span class="font-mono"><%= version %></span></div>
-        <p class="mt-2" style="color: var(--text-secondary);">
-            &copy; <%= new Date().getFullYear() %> <%= botName %> &mdash; Hecho con <span style="color: var(--primary);">♥</span> para Discord
+        <div class="mt-6 text-xs text-textSecondary">Versión del bot: <span class="font-mono"><%= version %></span></div>
+        <p class="mt-2 text-textSecondary">
+            &copy; <%= new Date().getFullYear() %> <%= botName %> &mdash; Hecho con <span class="text-primary">♥</span> para Discord
         </p>
     </footer>
 </body>
