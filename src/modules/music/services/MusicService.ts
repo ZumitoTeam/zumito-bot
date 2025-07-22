@@ -5,6 +5,7 @@ import { SoundCloudPlugin } from "@distube/soundcloud";
 import { ServiceContainer } from "zumito-framework";
 import { VKMusicPlugin } from 'distube-vk-music-plugin'
 import { BandlabPlugin } from "@distube/bandlab";
+import { YouTubePlugin } from "@distube/youtube";
 
 export class MusicService {
     public distube: DisTube;
@@ -15,6 +16,7 @@ export class MusicService {
         client.options.intents = client.options.intents.bitfield;
         this.distube = new DisTube(client, {
             plugins: [
+                new YouTubePlugin(),
                 new BandlabPlugin(),
                 new SpotifyPlugin(),
                 new SoundCloudPlugin(),

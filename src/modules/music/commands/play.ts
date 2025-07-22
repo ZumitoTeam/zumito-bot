@@ -11,7 +11,7 @@ export class PlayCommand extends Command {
         { name: "query", type: "string", optional: false }
     ];
     async execute({ message, interaction, args }: CommandParameters): Promise<void> {
-        debugger;
+        if (interaction) await interaction.deferReply();
         const musicService = ServiceContainer.getService(MusicService);
         const query = args.get("query");
         const member = message?.member || interaction?.member;
@@ -19,7 +19,7 @@ export class PlayCommand extends Command {
         const voiceChannel = (member && "voice" in member) ? (member as any).voice.channel : null;
         if (!voiceChannel) {
             const reply = "❌ Debes estar en un canal de voz para usar este comando.";
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction) await interaction.followUp({ content: reply, ephemeral: true });
             if (message) await message.reply(reply);
             return;
         }
@@ -35,12 +35,12 @@ export class PlayCommand extends Command {
                 }
             }
             const reply = `🎶 Reproduciendo: **${songName}**`;
-            if (interaction) await interaction.reply({ content: reply });
+            if (interaction) await interaction.followUp({ content: reply });
             if (message) await message.reply(reply);
             return;
         } catch (e) {
             const reply = `❌ Error al reproducir: ${e}`;
-            if (interaction) await interaction.reply({ content: reply, ephemeral: true });
+            if (interaction && await interaction.isRepliable()) await interaction.followUp({ content: reply, ephemeral: true });
             if (message) await message.reply(reply);
         }
     }
