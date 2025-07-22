@@ -38,15 +38,16 @@ export class UserPanelWelcome extends Route {
             return res.status(403).send('No tienes permisos en este servidor');
         }
 
-        const WelcomeModel = this.framework.database.models.WelcomeConfig;
-        const config = await WelcomeModel.findOne({ where: { guildId } }).catch(() => null);
+        const WelcomeCollection = this.framework.database.collection('welcome_configs');
+        let config = await WelcomeCollection.findOne({ guildId }).catch(() => null);
         if (!config) {
-            await WelcomeModel.create({
+            await WelcomeCollection.insertOne({
                 guildId,
                 channelId: null,
                 message: '¡Bienvenido al servidor!',
                 enabled: false
             });
+            config = await WelcomeCollection.findOne({ guildId });
         }
         const channels = guild.channels.cache
             .filter(c => c.isTextBased())

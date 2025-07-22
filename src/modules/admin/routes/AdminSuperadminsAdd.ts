@@ -32,7 +32,7 @@ export class AdminSuperadminsAdd extends Route {
             } catch (e) {
                 // No se pudo obtener el username, continuar sin él
             }
-            await this.framework.database.models.AdminUser.create({
+            await this.framework.database.collection('admin_users').insertOne({
                 discordUserId,
                 username,
                 isSuperAdmin: true,

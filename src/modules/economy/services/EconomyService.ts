@@ -6,78 +6,115 @@ export class EconomyService {
         this.framework = ServiceContainer.getService(ZumitoFramework);
     }
 
-    async getUser(userId: string) {
-        return await this.framework.database.models.EconomyUser.findOne({ where: { userId } });
+    async getUser(userId: string): Promise<any> {
+        return await this.framework.database.collection('economy_users').findOne({ userId });
     }
 
     async addGlobal(userId: string, which: "free" | "paid", amount: number) {
-        const EconomyUser = this.framework.database.models.EconomyUser;
         let user = await this.getUser(userId);
-        if (!user) user = await EconomyUser.create({ userId, free: 0, paid: 0, guilds: {} });
-        if (which === "free") user.free += amount;
-        if (which === "paid") user.paid += amount;
-        await user.save();
-        return user;
+        if (!user) {
+            const newUser = { userId, free: 0, paid: 0, guilds: {} };
+            await this.framework.database.collection('economy_users').insertOne(newUser);
+            user = await this.getUser(userId);
+        }
+        const update: Partial<{ free: number; paid: number }> = {};
+        if (which === "free") update.free = (user?.free || 0) + amount;
+        if (which === "paid") update.paid = (user?.paid || 0) + amount;
+        await this.framework.database.collection('economy_users').updateOne(
+            { userId },
+            { $set: update }
+        );
+        return await this.getUser(userId);
     }
 
     async substractGlobal(userId: string, which: "free" | "paid", amount: number) {
-        const EconomyUser = this.framework.database.models.EconomyUser;
         let user = await this.getUser(userId);
-        if (!user) user = await EconomyUser.create({ userId, free: 0, paid: 0, guilds: {} });
-        if (which === "free") user.free = Math.max(0, user.free - amount);
-        if (which === "paid") user.paid = Math.max(0, user.paid - amount);
-        await user.save();
-        return user;
+        if (!user) {
+            const newUser = { userId, free: 0, paid: 0, guilds: {} };
+            await this.framework.database.collection('economy_users').insertOne(newUser);
+            user = await this.getUser(userId);
+        }
+        const update: Partial<{ free: number; paid: number }> = {};
+        if (which === "free") update.free = Math.max(0, (user?.free || 0) - amount);
+        if (which === "paid") update.paid = Math.max(0, (user?.paid || 0) - amount);
+        await this.framework.database.collection('economy_users').updateOne(
+            { userId },
+            { $set: update }
+        );
+        return await this.getUser(userId);
     }
 
     async getGuildBalance(userId: string, guildId: string) {
-        let user = await this.getUser(userId);
+        const user = await this.getUser(userId);
         if (!user) return 0;
         return user.guilds?.[guildId]?.balance || 0;
     }
 
     async addGuildBalance(userId: string, guildId: string, amount: number) {
-        const EconomyUser = this.framework.database.models.EconomyUser;
-        let user = await this.getUser(userId).catch(() => null);
-        if (!user) user = await EconomyUser.create({ userId, free: 0, paid: 0, guilds: {} });
-        if (!user.guilds[guildId]) user.guilds[guildId] = { balance: 0 };
-        user.guilds[guildId].balance += amount;
-        await user.save();
-        return user.guilds[guildId].balance;
+        const user = await this.getUser(userId);
+        if (!user) {
+            const newUser = { userId, free: 0, paid: 0, guilds: { [guildId]: { balance: amount } } };
+            await this.framework.database.collection('economy_users').insertOne(newUser);
+            return amount;
+        }
+        const currentBalance = user.guilds?.[guildId]?.balance || 0;
+        const newBalance = currentBalance + amount;
+        await this.framework.database.collection('economy_users').updateOne(
+            { userId },
+            { $set: { [`guilds.${guildId}.balance`]: newBalance } }
+        );
+        return newBalance;
     }
 
     async substractGuildBalance(userId: string, guildId: string, amount: number) {
-        const EconomyUser = this.framework.database.models.EconomyUser;
-        let user = await this.getUser(userId);
-        if (!user) user = await EconomyUser.create({ userId, free: 0, paid: 0, guilds: {} });
-        if (!user.guilds[guildId]) user.guilds[guildId] = { balance: 0 };
-        user.guilds[guildId].balance = Math.max(0, user.guilds[guildId].balance - amount);
-        await user.save();
-        return user.guilds[guildId].balance;
+        const user = await this.getUser(userId);
+        if (!user) {
+            const newUser = { userId, free: 0, paid: 0, guilds: { [guildId]: { balance: 0 } } };
+            await this.framework.database.collection('economy_users').insertOne(newUser);
+            return 0;
+        }
+        const currentBalance = user.guilds?.[guildId]?.balance || 0;
+        const newBalance = Math.max(0, currentBalance - amount);
+        await this.framework.database.collection('economy_users').updateOne(
+            { userId },
+            { $set: { [`guilds.${guildId}.balance`]: newBalance } }
+        );
+        return newBalance;
     }
 
     async setGlobal(userId: string, which: "free" | "paid", amount: number) {
-        const EconomyUser = this.framework.database.models.EconomyUser;
         let user = await this.getUser(userId);
-        if (!user) user = await EconomyUser.create({ userId, free: 0, paid: 0, guilds: {} });
-        if (which === "free") user.free = Math.max(0, amount);
-        if (which === "paid") user.paid = Math.max(0, amount);
-        await user.save();
-        return user;
+        if (!user) {
+            const newUser = { userId, free: 0, paid: 0, guilds: {} };
+            await this.framework.database.collection('economy_users').insertOne(newUser);
+            user = await this.getUser(userId);
+        }
+        const update: Partial<{ free: number; paid: number }> = {};
+        if (which === "free") update.free = Math.max(0, amount);
+        if (which === "paid") update.paid = Math.max(0, amount);
+        await this.framework.database.collection('economy_users').updateOne(
+            { userId },
+            { $set: update }
+        );
+        return await this.getUser(userId);
     }
 
-    async setGuildCurrencyName(guildId: string, name: string) {
-        const EconomyGuild = this.framework.database.models.EconomyGuild;
-        let guild = await EconomyGuild.findOne({ where: { guildId } });
-        if (!guild) guild = await EconomyGuild.create({ guildId, currencyName: name });
-        else guild.currencyName = name;
-        await guild.save();
-        return guild;
+    async setGuildCurrencyName(guildId: string, name: string): Promise<any> {
+        const guild = await this.framework.database.collection('economy_guilds').findOne({ guildId });
+        if (!guild) {
+            const newGuild = { guildId, currencyName: name };
+            await this.framework.database.collection('economy_guilds').insertOne(newGuild);
+        } else {
+            await this.framework.database.collection('economy_guilds').updateOne(
+                { guildId },
+                { $set: { currencyName: name } }
+            );
+        }
+        return await this.framework.database.collection('economy_guilds').findOne({ guildId });
     }
 
     async getGuildCurrencyName(guildId: string) {
-        const EconomyGuild = this.framework.database.models.EconomyGuild;
-        let guild = await EconomyGuild.findOne({ where: { guildId } });
+        const guild = await this.framework.database.collection('economy_guilds').findOne({ guildId });
         return guild?.currencyName || 'Coins';
     }
 }

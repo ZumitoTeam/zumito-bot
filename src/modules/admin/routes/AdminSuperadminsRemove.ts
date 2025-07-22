@@ -19,8 +19,7 @@ export class AdminSuperadminsRemove extends Route {
             if (!discordUserId) {
                 return res.status(400).send('Falta el Discord User ID');
             }
-            const admin = await this.framework.database.models.AdminUser.findOne({ where: { discordUserId, isSuperAdmin: true } });
-            await admin.destroy();
+            await this.framework.database.collection('admin_users').deleteOne({ discordUserId, isSuperAdmin: true });
             res.redirect('/admin/superadmins');
         } catch (err) {
             const errMsg = (typeof err === 'object' && err && 'message' in err) ? (err as any).message : String(err);

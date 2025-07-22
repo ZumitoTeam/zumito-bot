@@ -23,9 +23,9 @@ new ZumitoFramework({
         clientId: process.env.DISCORD_CLIENT_ID!,
     },
     defaultPrefix: process.env.BOT_PREFIX || "z-",
-    database: DatabaseConfigLoader.getFromEnv(),
     logLevel: parseInt(process.env.LOGLEVEL || "3"),
     statusOptions: config.statusOptions,
+    mongoQueryString: process.env.MONGO_QUERY_STRING || "",
 }, (bot: ZumitoFramework) => { // Callback function when bot is ready
     // Log number of commands loaded
     console.log(`Loaded ${bot.commands.size} commands`);
@@ -35,6 +35,4 @@ new ZumitoFramework({
     console.log(`Loaded ${bot.modules.size} modules`);
     // Log number of translations loaded
     console.log(`Loaded ${bot.translations.getAll().size} translations`);
-    // Log number of models loaded
-    console.log(`Loaded ${Object.keys(bot.database.models).length} models`);
 })
