@@ -1,0 +1,43 @@
+{
+  "command": {
+    "play": {
+      "description": "Reproduce una canción o playlist en tu canal de voz."
+    },
+    "skip": {
+      "description": "Salta la canción actual."
+    },
+    "stop": {
+      "description": "Detiene la música y limpia la cola."
+    },
+    "pause": {
+      "description": "Pausa la reproducción de la música."
+    },
+    "resume": {
+      "description": "Reanuda la música pausada."
+    },
+    "queue": {
+      "description": "Muestra la cola de canciones actual."
+    },
+    "nowplaying": {
+      "description": "Muestra la canción que se está reproduciendo actualmente."
+    },
+    "volume": {
+      "description": "Cambia el volumen de la música."
+    },
+    "shuffle": {
+      "description": "Mezcla el orden de la cola de canciones."
+    },
+    "repeat": {
+      "description": "Activa o desactiva el modo repetición."
+    },
+    "seek": {
+      "description": "Salta a una parte específica de la canción actual."
+    },
+    "remove": {
+      "description": "Elimina una canción específica de la cola."
+    },
+    "lyrics": {
+      "description": "Muestra la letra de la canción actual."
+    }
+  }
+}

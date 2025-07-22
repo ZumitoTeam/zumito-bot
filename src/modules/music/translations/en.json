@@ -1,0 +1,43 @@
+{
+  "command": {
+    "play": {
+      "description": "Play a song or playlist in your voice channel."
+    },
+    "skip": {
+      "description": "Skip the current song."
+    },
+    "stop": {
+      "description": "Stop the music and clear the queue."
+    },
+    "pause": {
+      "description": "Pause the music playback."
+    },
+    "resume": {
+      "description": "Resume the paused music."
+    },
+    "queue": {
+      "description": "Show the current song queue."
+    },
+    "nowplaying": {
+      "description": "Show the song currently playing."
+    },
+    "volume": {
+      "description": "Change the music volume."
+    },
+    "shuffle": {
+      "description": "Shuffle the song queue."
+    },
+    "repeat": {
+      "description": "Toggle repeat mode."
+    },
+    "seek": {
+      "description": "Jump to a specific part of the current song."
+    },
+    "remove": {
+      "description": "Remove a specific song from the queue."
+    },
+    "lyrics": {
+      "description": "Show the lyrics of the current song."
+    }
+  }
+}
