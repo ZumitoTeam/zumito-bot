@@ -10,7 +10,7 @@
         </div>
         <div class="mb-4">
             <label class="block mb-1 text-sm">Color</label>
-            <input type="text" name="color" value="<%= panel?.embed?.color || '' %>" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-white" />
+            <input type="color" name="color" value="<%= panel?.embed?.color || '#000000' %>" class="w-full h-10 bg-discord-dark-300 border border-discord-dark-100 rounded cursor-pointer" />
         </div>
         <div class="mb-4">
             <label class="block mb-1 text-sm">Texto del Botón</label>
@@ -18,7 +18,11 @@
         </div>
         <div class="mb-4">
             <label class="block mb-1 text-sm">Canal de destino</label>
-            <input type="text" name="channelId" value="<%= panel?.channelId || '' %>" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-white" />
+            <select name="channelId" class="w-full bg-discord-dark-300 text-white px-3 py-2 rounded">
+                <% channels.forEach(c => { %>
+                    <option value="<%= c.id %>" <%= panel && panel.channelId === c.id ? 'selected' : '' %>>#<%= c.name %></option>
+                <% }) %>
+            </select>
         </div>
         <div class="flex justify-end">
             <button type="submit" class="btn-primary">Guardar</button>
