@@ -1,33 +1,38 @@
 <% if (typeof extra !== 'undefined' && extra.styles) { %>
   <%- extra.styles %>
 <% } %>
-<div class="max-w-5xl mx-auto px-4 py-10">
-  <h1 class="text-4xl md:text-5xl font-extrabold text-center mb-2 text-discord-primary drop-shadow">Comandos del Bot</h1>
-  <p class="text-center text-lg text-gray-300 mb-10">Explora todos los comandos disponibles. Usa <span class="font-mono bg-gray-800 px-2 py-1 rounded">Ctrl+F</span> para buscar.</p>
-  <div class="space-y-12">
+<div class="relative py-10">
+  <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 pointer-events-none">
+    <div class="h-56 rounded-full blur-[106px] bg-gradient-to-br from-gradientFrom to-gradientTo"></div>
+    <div class="h-32 rounded-full blur-[106px] bg-gradient-to-r from-gradientVia to-gradientFrom"></div>
+  </div>
+  <main class="relative max-w-5xl mx-auto px-4">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-center mb-2 text-primary drop-shadow">Comandos del Bot</h1>
+    <p class="text-center text-lg text-textSecondary mb-10">Explora todos los comandos disponibles. Usa <span class="font-mono bg-primary/20 text-primary px-2 py-1 rounded">Ctrl+F</span> para buscar.</p>
+    <div class="space-y-12">
     <% Object.keys(categories).forEach(function(cat) { %>
       <section class="command-category">
-        <h2 class="text-2xl md:text-3xl font-bold text-discord-accent mb-4 border-b border-discord-primary pb-1 flex items-center gap-2">
-          <svg class="w-6 h-6 text-discord-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        <h2 class="text-2xl md:text-3xl font-bold text-accent mb-4 border-b border-primary pb-1 flex items-center gap-2">
+          <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
           <%= cat %>
         </h2>
         <ul class="grid md:grid-cols-2 gap-6">
           <% categories[cat].forEach(function(cmd) { %>
-            <li class="command-item bg-discord-secondary/80 rounded-xl shadow-lg p-6 flex flex-col gap-2 border-l-4 border-discord-primary hover:scale-[1.02] transition-transform">
+            <li class="command-item bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col gap-2 border-l-4 border-primary hover:scale-[1.02] transition-transform">
               <div class="command-header flex items-center gap-3">
-                <span class="command-name text-discord-primary font-bold text-lg">/<%= cmd.name %></span>
+                <span class="command-name text-primary font-bold text-lg">/<%= cmd.name %></span>
                 <% if(cmd.emoji) { %><span class="command-emoji text-2xl"><%= cmd.emoji %></span><% } %>
-                <% if(cmd.usage) { %><span class="command-usage bg-discord-accent/20 text-discord-accent px-2 py-0.5 rounded text-xs ml-2">Uso: <%= cmd.usage %></span><% } %>
+                <% if(cmd.usage) { %><span class="command-usage bg-accent/20 text-accent px-2 py-0.5 rounded text-xs ml-2">Uso: <%= cmd.usage %></span><% } %>
               </div>
-              <div class="command-description text-gray-200 text-base ml-1">
+              <div class="command-description text-textSecondary text-base ml-1">
                 <%= cmd.description || cmd.shortDescription || 'Sin descripción.' %>
               </div>
               <% if(cmd.examples && cmd.examples.length) { %>
                 <div class="command-examples text-sm ml-2 mt-1">
-                  <span class="font-semibold text-discord-accent">Ejemplos:</span>
+                  <span class="font-semibold text-accent">Ejemplos:</span>
                   <ul class="list-disc list-inside ml-3">
                     <% cmd.examples.forEach(function(ex) { %>
-                      <li><code class="bg-gray-900 px-2 py-0.5 rounded text-discord-primary"><%= ex %></code></li>
+                      <li><code class="bg-gray-900 px-2 py-0.5 rounded text-primary"><%= ex %></code></li>
                     <% }) %>
                   </ul>
                 </div>
@@ -42,5 +47,6 @@
         </ul>
       </section>
     <% }) %>
-  </div>
+    </div>
+  </main>
 </div>
