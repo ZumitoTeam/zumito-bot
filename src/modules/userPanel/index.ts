@@ -51,5 +51,13 @@ export class UserPanelModule extends Module {
                 ],
             },
         });
+        navigationService.registerItem({
+            id: 'ticket-panels',
+            icon: `<svg class="w-6 h-6 text-discord-white/60 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16" /></svg>`,
+            label: 'Ticket Panels',
+            url: '/panel/:guildId(\\d+)/ticket-panels',
+            order: 3,
+            category: 'tickets',
+        });
     }
 }
