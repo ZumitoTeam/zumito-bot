@@ -1,6 +1,8 @@
 import { Command, CommandParameters, CommandType, CommandArgDefinition } from 'zumito-framework';
-import { AttachmentBuilder, EmbedBuilder, GuildMember, User, MessageFlags } from 'zumito-framework/discord';
+import { EmbedBuilder, GuildMember, User, MessageFlags } from 'zumito-framework/discord';
 import { config } from '../../../config/index.js';
+import { CanvasUtils } from '../../utils/CanvasUtils';
+import { CanvasRenderingContext2D } from 'canvas';
 
 export class Stickmanfight extends Command {
     type = CommandType.any;
@@ -28,35 +30,24 @@ export class Stickmanfight extends Command {
         const firstMember = first ? (guild.members.cache.get(first.id) as GuildMember) : getRandomMember();
         const secondMember = second ? (guild.members.cache.get(second.id) as GuildMember) : getRandomMember(firstMember.id);
 
-        const { createCanvas, loadImage } = await import('canvas');
-        const GIF = await import('gifencoder');
-        const GIFEncoder = (GIF as any).default || (GIF as any);
+        const winner = Math.random() < 0.5 ? 'first' : 'second';
+
         const width = 500;
         const height = 300;
-        const encoder = new GIFEncoder(width, height);
-        encoder.start();
-        encoder.setRepeat(0);
-        encoder.setDelay(100); // Más rápido para mayor fluidez
-        encoder.setQuality(10);
+        const canvasUtil = new CanvasUtils({ width, height, delay: 100, quality: 10, repeat: 0, isGif: true });
+        const ctx = canvasUtil.getContext();
+        canvasUtil.startEncoder();
 
-        const canvas = createCanvas(width, height);
-        const ctx = canvas.getContext('2d');
-
-        const avatar1 = await loadImage(firstMember.user.displayAvatarURL({ extension: 'png', size: 64 }));
-        const avatar2 = await loadImage(secondMember.user.displayAvatarURL({ extension: 'png', size: 64 }));
+        const avatar1 = await CanvasUtils.loadImage(firstMember.user.displayAvatarURL({ extension: 'png', size: 64 }));
+        const avatar2 = await CanvasUtils.loadImage(secondMember.user.displayAvatarURL({ extension: 'png', size: 64 }));
 
         // Función para dibujar el fondo
         const drawBackground = () => {
             // Gradiente de fondo
-            const gradient = ctx.createLinearGradient(0, 0, 0, height);
-            gradient.addColorStop(0, '#87CEEB');
-            gradient.addColorStop(1, '#90EE90');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, width, height);
+            canvasUtil.drawBackground('#87CEEB', '#90EE90');
 
             // Suelo
-            ctx.fillStyle = '#8B4513';
-            ctx.fillRect(0, height - 40, width, 40);
+            canvasUtil.drawRect(0, height - 40, width, 40, '#8B4513');
             
             // Líneas del suelo
             ctx.strokeStyle = '#654321';
@@ -71,15 +62,7 @@ export class Stickmanfight extends Command {
 
         // Función para dibujar efectos de partículas
         const drawParticles = (x: number, y: number, color: string = '#FFD700') => {
-            ctx.fillStyle = color;
-            for (let i = 0; i < 8; i++) {
-                const angle = (Math.PI * 2 * i) / 8;
-                const px = x + Math.cos(angle) * (10 + Math.random() * 15);
-                const py = y + Math.sin(angle) * (10 + Math.random() * 15);
-                ctx.beginPath();
-                ctx.arc(px, py, 2 + Math.random() * 3, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            canvasUtil.drawParticles(x, y, color);
         };
 
         // Función para dibujar stickman mejorado
@@ -245,7 +228,9 @@ export class Stickmanfight extends Command {
             ctx.restore();
         };
 
-        const winner = Math.random() < 0.5 ? 'first' : 'second';
+
+
+
 
         // Frame 1-3: Personajes aparecen con tensión
         for (let i = 0; i < 3; i++) {
@@ -264,7 +249,7 @@ export class Stickmanfight extends Command {
                 ctx.fillText('FIGHT!', width / 2, 50);
             }
             
-            encoder.addFrame(ctx);
+            canvasUtil.addFrame();
         }
 
         // Frame 4-7: Se acercan gradualmente (más frames para fluidez)
@@ -273,7 +258,7 @@ export class Stickmanfight extends Command {
             const approach = i * 20;
             drawStickman(120 + approach, 150, avatar1);
             drawStickman(380 - approach, 150, avatar2, 'normal', true);
-            encoder.addFrame(ctx);
+            canvasUtil.addFrame();
         }
 
         // Frame 8-9: Pausa de tensión (se miran fijamente)
@@ -286,7 +271,7 @@ export class Stickmanfight extends Command {
             ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
             ctx.fillRect(0, 0, width, height);
             
-            encoder.addFrame(ctx);
+            canvasUtil.addFrame();
         }
 
         // Frame 10-17: Secuencia de combate extendida (más frames)
@@ -319,7 +304,7 @@ export class Stickmanfight extends Command {
                 }
             }
             
-            encoder.addFrame(ctx);
+            canvasUtil.addFrame();
         }
 
         // Frame 18-20: Momento de pausa antes del KO (tensión máxima)
@@ -340,7 +325,7 @@ export class Stickmanfight extends Command {
                 ctx.fillRect(0, 0, width, height);
             }
             
-            encoder.addFrame(ctx);
+            canvasUtil.addFrame();
         }
 
         // Frame 21-25: Resultado final con más drama
@@ -373,12 +358,10 @@ export class Stickmanfight extends Command {
                 }
             }
             
-            encoder.addFrame(ctx);
+            canvasUtil.addFrame();
         }
 
-        encoder.finish();
-        const buffer = Buffer.from(encoder.out.getData());
-        const attachment = new AttachmentBuilder(buffer, { name: 'stickmanfight.gif' });
+        const attachment = await canvasUtil.toAttachment('stickmanfight.gif');
 
         const embed = new EmbedBuilder()
             .setDescription(trans('result', {
