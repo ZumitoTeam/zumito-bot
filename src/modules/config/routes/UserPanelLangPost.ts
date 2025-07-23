@@ -33,7 +33,7 @@ export class UserPanelLangPost extends Route {
         if (!lang || !['en', 'es'].includes(lang)) return res.status(400).send('Idioma inválido');
 
         await this.framework.database.collection('guilds').updateOne(
-            { guildId },
+            { guild_id: guildId },
             { $set: { lang } },
             { upsert: true }
         );

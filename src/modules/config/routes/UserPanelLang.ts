@@ -1,4 +1,4 @@
-import { Route, RouteMethod, ServiceContainer, ZumitoFramework } from "zumito-framework";
+import { GuildDataGetter, Route, RouteMethod, ServiceContainer, ZumitoFramework } from "zumito-framework";
 import { Client, PermissionFlagsBits } from "zumito-framework/discord";
 import { UserPanelAuthService } from "@zumito-team/user-panel-module/services/UserPanelAuthService";
 import { UserPanelViewService } from "@zumito-team/user-panel-module/services/UserPanelViewService";
@@ -16,6 +16,7 @@ export class UserPanelLang extends Route {
         private client: Client = ServiceContainer.getService(Client),
         private framework: ZumitoFramework = ServiceContainer.getService(ZumitoFramework),
         private auth = ServiceContainer.getService(UserPanelAuthService),
+        private guildDataGetter: GuildDataGetter = ServiceContainer.getService(GuildDataGetter),
     ) {
         super();
     }
@@ -40,12 +41,7 @@ export class UserPanelLang extends Route {
             return res.status(403).send('No tienes permisos en este servidor');
         }
 
-        const guildsCollection = this.framework.database.collection('guilds');
-        let guildSettings = await guildsCollection.findOne({ guildId }).catch(() => null);
-        if (!guildSettings) {
-            await guildsCollection.insertOne({ guildId, prefix: this.framework.settings.defaultPrefix, lang: 'en' });
-            guildSettings = await guildsCollection.findOne({ guildId });
-        }
+        const guildSettings = await this.guildDataGetter.getGuildSettings(guildId);
 
         const content = await ejs.renderFile(
             path.resolve(__dirname, '../views/lang-config.ejs'),
