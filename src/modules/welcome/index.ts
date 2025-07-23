@@ -1,6 +1,6 @@
 import { Module, ServiceContainer, ZumitoFramework } from "zumito-framework";
 import { WelcomeService } from "./services/WelcomeService";
-import { UserPanelNavigationService } from "../userPanel/services/UserPanelNavigationService";
+import { UserPanelNavigationService } from "@zumito-team/user-panel-module/services/UserPanelNavigationService";
 
 export class WelcomeModule extends Module {
     requeriments = {

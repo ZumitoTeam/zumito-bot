@@ -1,6 +1,6 @@
 import { Route, RouteMethod, ServiceContainer, ZumitoFramework } from "zumito-framework";
 import { Client, PermissionFlagsBits } from "zumito-framework/discord";
-import { UserPanelAuthService } from "../../userPanel/services/UserPanelAuthService";
+import { UserPanelAuthService } from "@zumito-team/user-panel-module/services/UserPanelAuthService";
 
 export class UserPanelWelcomePost extends Route {
     method = RouteMethod.post;

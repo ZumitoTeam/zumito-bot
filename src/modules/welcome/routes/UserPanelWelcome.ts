@@ -1,7 +1,7 @@
 import { Route, RouteMethod, ServiceContainer, ZumitoFramework } from "zumito-framework";
 import { Client, PermissionFlagsBits } from "zumito-framework/discord";
-import { UserPanelAuthService } from "../../userPanel/services/UserPanelAuthService";
-import { UserPanelViewService } from "../../userPanel/services/UserPanelViewService";
+import { UserPanelAuthService } from "@zumito-team/user-panel-module/services/UserPanelAuthService";
+import { UserPanelViewService } from "@zumito-team/user-panel-module/services/UserPanelViewService";
 import ejs from "ejs";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";

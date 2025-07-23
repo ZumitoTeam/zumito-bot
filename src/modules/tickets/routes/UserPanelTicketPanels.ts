@@ -1,11 +1,17 @@
 import { Route, RouteMethod, ServiceContainer } from 'zumito-framework';
 import { Client, PermissionFlagsBits } from 'discord.js';
-import { UserPanelAuthService } from '../services/UserPanelAuthService';
+import { UserPanelAuthService } from '@zumito-team/user-panel-module/services/UserPanelAuthService';
+import { UserPanelViewService } from '@zumito-team/user-panel-module/services/UserPanelViewService';
 import { TicketPanelService } from '../../tickets/services/TicketPanelService';
+import ejs from 'ejs';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-export class UserPanelTicketPanelSend extends Route {
-    method = RouteMethod.post;
-    path = '/panel/:guildId(\\d+)/ticket/panels/send/:panelId';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export class UserPanelTicketPanels extends Route {
+    method = RouteMethod.get;
+    path = '/panel/:guildId(\\d+)/ticket/panels';
 
     constructor(
         private client: Client = ServiceContainer.getService(Client),
@@ -27,9 +33,13 @@ export class UserPanelTicketPanelSend extends Route {
         if (!member || !(member.permissions.has(PermissionFlagsBits.Administrator) || member.permissions.has(PermissionFlagsBits.ManageGuild) || guild.ownerId === userId)) {
             return res.status(403).send('No tienes permisos en este servidor');
         }
-        const panel = await this.ticketPanelService.getTicketPanel(req.params.panelId).catch(() => null);
-        if (!panel) return res.status(404).send('Panel no encontrado');
-        await this.ticketPanelService.sendTicketPanel(req.params.panelId, panel.channelId);
-        res.redirect(`/panel/${guildId}/ticket/panels`);
+        const panels = await this.ticketPanelService.getTicketPanels(guildId);
+        const content = await ejs.renderFile(
+            path.resolve(__dirname, '../views/ticket-panels.ejs'),
+            { guild, panels }
+        );
+        const view = new UserPanelViewService();
+        const html = await view.render({ content, reqPath: req.path, req, res });
+        res.send(html);
     }
 }

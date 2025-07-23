@@ -4,7 +4,6 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import { config } from './config/index.js';
-import { UserPanelNavigationService } from './modules/userPanel/services/UserPanelNavigationService.js';
 import path from 'path';
  
 if (!process.env.DISCORD_TOKEN) {
@@ -16,7 +15,6 @@ if (!process.env.DISCORD_TOKEN) {
 } 
 
 const __dirname = process.cwd();
-ServiceContainer.addService(UserPanelNavigationService, [], true);
 
 new ZumitoFramework({
     discordClientOptions: {
@@ -30,6 +28,8 @@ new ZumitoFramework({
     mongoQueryString: process.env.MONGO_QUERY_STRING || "",
     bundles: [{
         path: path.join(__dirname, "node_modules", "@zumito-team", "admin-module"),
+    }, {
+        path: path.join(__dirname, "node_modules", "@zumito-team", "user-panel-module"),
     }]
 }, (bot: ZumitoFramework) => { // Callback function when bot is ready
     // Log number of commands loaded

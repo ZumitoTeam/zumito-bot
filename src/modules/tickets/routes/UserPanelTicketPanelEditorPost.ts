@@ -1,11 +1,11 @@
 import { Route, RouteMethod, ServiceContainer } from 'zumito-framework';
 import { Client, PermissionFlagsBits } from 'discord.js';
-import { UserPanelAuthService } from '../services/UserPanelAuthService';
+import { UserPanelAuthService } from '@zumito-team/user-panel-module/services/UserPanelAuthService';
 import { TicketPanelService } from '../../tickets/services/TicketPanelService';
 
-export class UserPanelTicketPanelDelete extends Route {
+export class UserPanelTicketPanelEditorPost extends Route {
     method = RouteMethod.post;
-    path = '/panel/:guildId(\\d+)/ticket/panels/delete/:panelId';
+    path = '/panel/:guildId(\\d+)/ticket/panels/editor/:panelId?';
 
     constructor(
         private client: Client = ServiceContainer.getService(Client),
@@ -27,7 +27,20 @@ export class UserPanelTicketPanelDelete extends Route {
         if (!member || !(member.permissions.has(PermissionFlagsBits.Administrator) || member.permissions.has(PermissionFlagsBits.ManageGuild) || guild.ownerId === userId)) {
             return res.status(403).send('No tienes permisos en este servidor');
         }
-        await this.ticketPanelService.deleteTicketPanel(req.params.panelId);
+        const panelData = {
+            embed: {
+                title: req.body.title,
+                description: req.body.description,
+                color: req.body.color,
+            },
+            button: { label: req.body.buttonLabel },
+            channelId: req.body.channelId,
+        };
+        if (req.params.panelId) {
+            await this.ticketPanelService.updateTicketPanel(req.params.panelId, panelData);
+        } else {
+            await this.ticketPanelService.createTicketPanel(guildId, panelData);
+        }
         res.redirect(`/panel/${guildId}/ticket/panels`);
     }
 }

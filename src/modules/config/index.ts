@@ -1,5 +1,5 @@
-import { Module, ServiceContainer, ZumitoFramework } from "zumito-framework";
-import { UserPanelNavigationService } from "../userPanel/services/UserPanelNavigationService";
+import { Module, ServiceContainer, } from "zumito-framework";
+import { UserPanelNavigationService } from "@zumito-team/user-panel-module/services/UserPanelNavigationService";
 
 export class ConfigModule extends Module {
 
