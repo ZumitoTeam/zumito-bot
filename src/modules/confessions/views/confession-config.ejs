@@ -1,0 +1,42 @@
+<div class="card animate__animated animate__fadeIn">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-discord-primary">Configurar Confesiones</h2>
+        <div class="p-2 bg-discord-primary/10 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2h2m10-5v5m0 0L12 3m5 5l5-5" />
+            </svg>
+        </div>
+    </div>
+
+    <form method="POST" action="/panel/<%= guild.id %>/confessions" class="space-y-6">
+        <div class="transition-all duration-200 hover:shadow-md p-4 rounded-lg bg-discord-dark-400/30">
+            <label class="flex items-center gap-2 mb-2 text-lg font-medium text-discord-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                </svg>
+                Canal de Confesiones
+            </label>
+            <div class="relative">
+                <select name="channelId" class="w-full bg-discord-dark-300 text-white pl-10 pr-4 py-3 rounded-lg border border-discord-dark-100 focus:border-discord-primary focus:ring focus:ring-discord-primary/20 focus:outline-none transition-all duration-200">
+                    <% channels.forEach(c => { %>
+                        <option value="<%= c.id %>" <%= config && config.channelId === c.id ? 'selected' : '' %>>#<%= c.name %></option>
+                    <% }) %>
+                </select>
+                <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-discord-white/60">
+                    #
+                </div>
+            </div>
+            <p class="text-xs text-discord-white/60 mt-2">Selecciona el canal donde se publicarán las confesiones</p>
+        </div>
+        <div class="flex justify-end pt-2">
+            <button type="submit" class="btn-primary flex items-center gap-2 px-6 py-3 shadow-lg hover:translate-y-[-2px] transition-all duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Guardar Configuración
+            </button>
+        </div>
+    </form>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
