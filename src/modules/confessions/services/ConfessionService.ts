@@ -1,23 +1,23 @@
-import { Client, TextBasedChannel } from 'zumito-framework/discord';
-import { ServiceContainer, ZumitoFramework } from 'zumito-framework';
+import { Client, EmbedBuilder, TextBasedChannel } from 'zumito-framework/discord';
+import { GuildDataGetter, ServiceContainer, ZumitoFramework } from 'zumito-framework';
 
 export class ConfessionService {
-    private client: Client;
-    private framework: ZumitoFramework;
 
-    constructor() {
-        this.client = ServiceContainer.getService(Client);
-        this.framework = ServiceContainer.getService(ZumitoFramework);
-    }
+    constructor(
+        private client: Client = ServiceContainer.getService(Client),
+        private guildDataGetter: GuildDataGetter = ServiceContainer.getService(GuildDataGetter), 
+    ) {}
 
     async sendConfession(guildId: string, text: string): Promise<boolean> {
-        const model = this.framework.database.models.ConfessionConfig;
-        if (!model) return false;
-        const config = await model.findOne({ where: { guildId } }).catch(() => null);
-        if (!config) return false;
-        const channel = this.client.channels.cache.get(config.channelId) as TextBasedChannel | undefined;
+        const guildSettings = await this.guildDataGetter.getGuildSettings(guildId);
+        const channel = this.client.channels.cache.get(guildSettings.confessionsChannelId) as TextBasedChannel | undefined;
         if (!channel || !(channel as any).send) return false;
-        await (channel as any).send({ content: text });
+        const embed = new EmbedBuilder()
+            .setTitle('Un usuario ha enviado una confesión')
+            .setDescription("```"+text+"```");
+        await (channel as any).send({ 
+            embeds: [embed],
+        });
         return true;
     }
 }
