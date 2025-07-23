@@ -18,7 +18,7 @@
             <div class="relative">
                 <select name="channelId" class="w-full bg-discord-dark-300 text-white pl-10 pr-4 py-3 rounded-lg border border-discord-dark-100 focus:border-discord-primary focus:ring focus:ring-discord-primary/20 focus:outline-none transition-all duration-200">
                     <% channels.forEach(c => { %>
-                        <option value="<%= c.id %>" <%= config && config.channelId === c.id ? 'selected' : '' %>>#<%= c.name %></option>
+                        <option value="<%= c.id %>" <%= guildSettings && guildSettings.confessionsChannelId === c.id ? 'selected' : '' %>><%= c.name %></option>
                     <% }) %>
                 </select>
                 <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-discord-white/60">

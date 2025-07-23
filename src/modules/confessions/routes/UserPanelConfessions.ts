@@ -1,4 +1,4 @@
-import { Route, RouteMethod, ServiceContainer, ZumitoFramework } from 'zumito-framework';
+import { GuildDataGetter, Route, RouteMethod, ServiceContainer, ZumitoFramework } from 'zumito-framework';
 import { Client, PermissionFlagsBits } from 'zumito-framework/discord';
 import { UserPanelAuthService } from '@zumito-team/user-panel-module/services/UserPanelAuthService';
 import { UserPanelViewService } from '@zumito-team/user-panel-module/services/UserPanelViewService';
@@ -15,7 +15,8 @@ export class UserPanelConfessions extends Route {
     constructor(
         private client: Client = ServiceContainer.getService(Client),
         private framework: ZumitoFramework = ServiceContainer.getService(ZumitoFramework),
-        private auth = ServiceContainer.getService(UserPanelAuthService)
+        private auth = ServiceContainer.getService(UserPanelAuthService),
+        private guildDataGetter = ServiceContainer.getService(GuildDataGetter),
     ) { super(); }
 
     async execute(req: any, res: any) {
@@ -31,15 +32,11 @@ export class UserPanelConfessions extends Route {
         if (!member || !(member.permissions.has(PermissionFlagsBits.Administrator) || member.permissions.has(PermissionFlagsBits.ManageGuild) || guild.ownerId === userId)) {
             return res.status(403).send('No tienes permisos en este servidor');
         }
-        const model = this.framework.database.models.ConfessionConfig;
-        let config = await model.findOne({ where: { guildId } }).catch(() => null);
-        if (!config) {
-            config = await model.create({ guildId, channelId: '' });
-        }
+        const guildSettings = await this.guildDataGetter.getGuildSettings(guildId);
         const channels = guild.channels.cache.filter(c => c.isTextBased()).map(c => ({ id: c.id, name: (c as any).name }));
         const content = await ejs.renderFile(
             path.resolve(__dirname, '../views/confessions-config.ejs'),
-            { guild, config, channels, botName: this.client.user?.username || 'Zumito Bot' }
+            { guild, guildSettings, channels, botName: this.client.user?.username || 'Zumito Bot' }
         );
         const view = new UserPanelViewService();
         const html = await view.render({ content, reqPath: req.path, req, res });
