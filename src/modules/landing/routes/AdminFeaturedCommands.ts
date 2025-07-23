@@ -1,7 +1,6 @@
 import { Route, RouteMethod, ServiceContainer, TranslationManager, ZumitoFramework } from "zumito-framework";
-import { AdminAuthService } from "../../admin/services/AdminAuthService";
-import { FeaturedCommand } from "../models/FeaturedCommand";
-import { AdminViewService } from "../../admin/services/AdminViewService";
+import { AdminViewService } from "@zumito-team/admin-module/services/AdminViewService";
+import { AdminAuthService } from "@zumito-team/admin-module/services/AdminAuthService";
 import path from "path";
 import { fileURLToPath } from "url";
 import ejs from "ejs";

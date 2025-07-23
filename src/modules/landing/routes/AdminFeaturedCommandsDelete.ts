@@ -1,6 +1,5 @@
 import { Route, RouteMethod, ServiceContainer, ZumitoFramework } from "zumito-framework";
-import { AdminAuthService } from "../../admin/services/AdminAuthService";
-
+import { AdminAuthService } from "@zumito-team/admin-module/services/AdminAuthService";
 
 export class AdminFeaturedCommandsDelete extends Route {
     method = RouteMethod.delete;

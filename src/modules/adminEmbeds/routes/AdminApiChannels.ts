@@ -1,4 +1,4 @@
-import { AdminAuthService } from "src/modules/admin/services/AdminAuthService";
+import { AdminAuthService } from "@zumito-team/admin-module/services/AdminAuthService";
 import { Route, RouteMethod, ServiceContainer } from "zumito-framework";
 import { Client, ChannelType } from "zumito-framework/discord";
 

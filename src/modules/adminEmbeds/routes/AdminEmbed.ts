@@ -3,9 +3,8 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import ejs from 'ejs';
 import { Client } from "zumito-framework/discord";
-import { NavigationService } from "../../admin/services/NavigationService";
-import { AdminViewService } from "../../admin/services/AdminViewService";
-import { AdminAuthService } from "src/modules/admin/services/AdminAuthService";
+import { AdminViewService } from "@zumito-team/admin-module/services/AdminViewService";
+import { AdminAuthService } from "@zumito-team/admin-module/services/AdminAuthService";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

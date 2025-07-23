@@ -1,5 +1,5 @@
 import { Module, ServiceContainer, ZumitoFramework } from "zumito-framework";
-import { NavigationService } from "../admin/services/NavigationService";
+import { NavigationService } from "@zumito-team/admin-module/services/NavigationService.js";
 import { EconomyService } from "./services/EconomyService";
 
 export class EconomyModule extends Module {

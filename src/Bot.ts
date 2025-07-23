@@ -1,19 +1,21 @@
-import { DatabaseConfigLoader, ServiceContainer, ZumitoFramework } from 'zumito-framework';
+import { ServiceContainer, ZumitoFramework } from 'zumito-framework';
 
 import dotenv from 'dotenv'
 dotenv.config()
 
 import { config } from './config/index.js';
 import { UserPanelNavigationService } from './modules/userPanel/services/UserPanelNavigationService.js';
+import path from 'path';
  
 if (!process.env.DISCORD_TOKEN) {
     throw new Error("Discord Token not found");
 } else if (!process.env.DISCORD_CLIENT_ID) {
     throw new Error("Discord Client ID not found");
 } else if (!process.env.DATABASE_TYPE) {
-    throw new Error("No database type specified in .env file");
+    throw new Error("No database type specified in .env file"); 
 } 
 
+const __dirname = process.cwd();
 ServiceContainer.addService(UserPanelNavigationService, [], true);
 
 new ZumitoFramework({
@@ -26,6 +28,9 @@ new ZumitoFramework({
     logLevel: parseInt(process.env.LOGLEVEL || "3"),
     statusOptions: config.statusOptions,
     mongoQueryString: process.env.MONGO_QUERY_STRING || "",
+    bundles: [{
+        path: path.join(__dirname, "node_modules", "@zumito-team", "admin-module"),
+    }]
 }, (bot: ZumitoFramework) => { // Callback function when bot is ready
     // Log number of commands loaded
     console.log(`Loaded ${bot.commands.size} commands`);

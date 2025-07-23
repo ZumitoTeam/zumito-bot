@@ -1,5 +1,5 @@
 import { Module, ServiceContainer, ZumitoFramework } from "zumito-framework";
-import { NavigationService } from "../admin/services/NavigationService";
+import { NavigationService } from "@zumito-team/admin-module/services/NavigationService.js";
 
 export class AdminEmbedsModule extends Module {
     constructor(modulePath: string, framework: ZumitoFramework) {

@@ -1,6 +1,6 @@
 import { Route, RouteMethod, ServiceContainer } from 'zumito-framework';
-import { AdminAuthService } from '../../admin/services/AdminAuthService';
-import { AdminViewService } from '../../admin/services/AdminViewService';
+import { AdminViewService } from "@zumito-team/admin-module/services/AdminViewService";
+import { AdminAuthService } from "@zumito-team/admin-module/services/AdminAuthService";
 import { EconomyService } from '../services/EconomyService';
 import { Client } from 'zumito-framework/discord';
 import path, { dirname } from 'path';
