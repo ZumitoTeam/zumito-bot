@@ -44,6 +44,9 @@ export class Landing extends Route {
             ...command,
             description: this.translationService.get('command.' + command.commandName + '.description', 'es')
         }));
+
+        // Orden y activación de módulos de la landing
+        const modules = await this.framework.database.collection('landingmodules').find({ enabled: true }).sort({ order: 1 }).toArray();
         
         // FAQs (pueden venir de config, aquí ejemplo hardcode)
         const faqs = [
@@ -86,6 +89,7 @@ export class Landing extends Route {
                 faqs,
                 theme,
                 host,
+                modules,
                 t: this.translationService,
             }
         );

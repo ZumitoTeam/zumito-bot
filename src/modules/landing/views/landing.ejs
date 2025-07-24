@@ -24,138 +24,23 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
-    <div class="relative">
-        <!-- Efectos de fondo con degradados -->
-        <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 pointer-events-none">
-            <div
-                class="h-56 rounded-full blur-[106px] bg-gradient-to-br from-gradientFrom to-gradientTo"
-            ></div>
-            <div
-                class="h-32 rounded-full blur-[106px] bg-gradient-to-r from-gradientVia to-gradientFrom"
-            ></div>
-        </div>
-
-        <!-- Hero Section -->
-        <header class="relative py-16 text-center flex flex-col items-center">
-            <img src="<%= botAvatar %>" alt="Avatar del bot" class="w-32 h-32 rounded-full shadow-lg border-4 border-primary" />
-            <h1 class="text-5xl font-extrabold drop-shadow-lg flex items-center justify-center gap-2 mt-4 text-textMain">
-                <span><%= botName %></span>
-                <span class="text-2xl font-mono text-textSecondary">#<%= botTag.split('#')[1] || '' %></span>
-            </h1>
-            <p class="mt-4 text-2xl font-semibold max-w-xl mx-auto text-textSecondary"><%= tagline %></p>
-            
-            <div class="mt-10 flex flex-wrap justify-center gap-4">
-                <a href="<%= inviteUrl %>"
-                   class="relative flex h-12 w-full sm:w-auto items-center justify-center px-8 rounded-full transition duration-300 hover:scale-105 active:scale-95 bg-primary text-white hover:bg-accent">
-                    <span class="relative text-base font-semibold">✨ Invitar al bot</span>
-                </a>
-                <a href="<%= supportUrl %>" class="relative flex h-12 w-full sm:w-auto items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:border before:border-primary before:bg-primary/10 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 text-primary">
-                    <span class="relative text-base font-semibold">Servidor de soporte</span>
-                </a>
-            </div>
-        </header>
-    </div>
-
+    <% if (modules.find(m => m.name === 'hero')) { %>
+        <%- include('partials/hero', { botAvatar, botName, botTag, tagline, inviteUrl, supportUrl }) %>
+    <% } %>
     <main class="flex-1 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-20">
-        <!-- Stats Section -->
-        <section class="relative">
-            <div class="flex justify-center gap-8 flex-wrap">
-                <div class="flex flex-col items-center p-6 rounded-xl shadow-lg bg-white bg-opacity-10 backdrop-blur-sm">
-                    <span class="text-4xl font-bold text-primary"><%= servers %></span>
-                    <span class="text-sm text-textSecondary">Servidores</span>
-                </div>
-                <div class="flex flex-col items-center p-6 rounded-xl shadow-lg bg-white bg-opacity-10 backdrop-blur-sm">
-                    <span class="text-4xl font-bold text-primary"><%= users %></span>
-                    <span class="text-sm text-textSecondary">Usuarios</span>
-                </div>
-                <div class="flex flex-col items-center p-6 rounded-xl shadow-lg bg-white bg-opacity-10 backdrop-blur-sm">
-                    <span class="text-4xl font-bold text-primary"><%= channels %></span>
-                    <span class="text-sm text-textSecondary">Canales</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Comandos Destacados Section -->
-        <section class="relative">
-            <h2 class="text-center text-3xl font-bold mb-10 text-textMain">Comandos Destacados</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <% featuredCommands.forEach(cmd => { %>
-                    <div class="feature-card rounded-xl shadow-lg p-6 flex items-center gap-4 bg-white bg-opacity-10 backdrop-blur-sm">
-                        <div class="text-4xl rounded-full h-16 w-16 flex items-center justify-center bg-primary/20">
-                            <%= cmd.emoji %>
-                        </div>
-                        <div>
-                            <div class="font-bold text-lg text-primary">/<%= cmd.commandName %></div>
-                            <div class="text-sm text-textSecondary"><%= t.get(cmd.commandName) %></div>
-                        </div>
-                    </div>
-                <% }) %>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="relative">
-            <h2 class="text-center text-3xl font-bold mb-10 text-textMain">Características</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div class="overflow-hidden rounded-xl p-6 bg-white bg-opacity-10 backdrop-blur-sm">
-                    <div class="flex items-center text-primary">
-                        <p class="text-sm font-bold uppercase">Fácil de usar</p>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </div>
-                    <h3 class="mt-4 text-2xl font-semibold text-textMain">Comandos intuitivos</h3>
-                    <p class="mt-4 text-textSecondary">Interactúa con el bot de forma natural y sencilla con comandos fáciles de recordar.</p>
-                </div>
-
-                <div class="overflow-hidden rounded-xl p-6 bg-white bg-opacity-10 backdrop-blur-sm">
-                    <div class="flex items-center text-primary">
-                        <p class="text-sm font-bold uppercase">Personalizable</p>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </div>
-                    <h3 class="mt-4 text-2xl font-semibold text-textMain">Ajusta a tus necesidades</h3>
-                    <p class="mt-4 text-textSecondary">Configura el bot para que se adapte perfectamente a tu servidor y comunidad.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQs Section -->
-        <section class="relative">
-            <h2 class="text-center text-3xl font-bold mb-10 text-textMain">Preguntas Frecuentes</h2>
-            <div class="space-y-4 max-w-3xl mx-auto">
-                <% faqs.forEach(faq => { %>
-                    <details class="group rounded-xl p-4 bg-white bg-opacity-10 backdrop-blur-sm">
-                        <summary class="flex cursor-pointer items-center justify-between font-semibold text-textMain">
-                            <span>❓ <%= faq.q %></span>
-                            <span class="transition group-open:rotate-180">
-                                <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
-                                    <path d="M6 9l6 6 6-6"></path>
-                                </svg>
-                            </span>
-                        </summary>
-                        <div class="mt-4 text-sm text-textSecondary"><%= faq.a %></div>
-                    </details>
-                <% }) %>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="relative py-10">
-            <div class="text-center max-w-3xl mx-auto">
-                <h2 class="text-3xl font-bold mb-4 text-textMain">¿Listo para mejorar tu servidor?</h2>
-                <p class="mb-8 text-textSecondary">Invita al bot ahora y lleva tu comunidad al siguiente nivel.</p>
-                <div class="flex flex-wrap justify-center gap-4">
-                    <a href="<%= inviteUrl %>" class="relative flex h-12 items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95">
-                        <span class="relative text-base font-semibold text-textMain">Invitar ahora</span>
-                    </a>
-                    <a href="<%= githubUrl %>" class="relative flex h-12 items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:border before:border-primary before:bg-primary/20 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95">
-                        <span class="relative text-base font-semibold text-primary">GitHub</span>
-                    </a>
-                </div>
-            </div>
-        </section>
+        <% modules.filter(m => m.name !== 'hero').forEach(mod => { %>
+            <% if (mod.name === 'stats') { %>
+                <%- include('partials/stats', { servers, users, channels }) %>
+            <% } else if (mod.name === 'featuredCommands') { %>
+                <%- include('partials/featured_commands', { featuredCommands, t }) %>
+            <% } else if (mod.name === 'features') { %>
+                <%- include('partials/features') %>
+            <% } else if (mod.name === 'faqs') { %>
+                <%- include('partials/faqs', { faqs }) %>
+            <% } else if (mod.name === 'cta') { %>
+                <%- include('partials/cta', { inviteUrl, githubUrl }) %>
+            <% } %>
+        <% }) %>
     </main>
 
     <footer class="py-8 text-center text-sm text-textSecondary">
@@ -164,7 +49,7 @@
                 <span class="sr-only">Discord</span>
                 <svg class="h-6 w-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 -28.5 256 256">
                     <g>
-                        <path d="M216.856339,16.5966031 C200.285002,8.84328665 182.566144,3.2084988 164.041564,0 C161.766523,4.11318106 159.108624,9.64549908 157.276099,14.0464379 C137.583995,11.0849896 118.072967,11.0849896 98.7430163,14.0464379 C96.9108417,9.64549908 94.1925838,4.11318106 91.8971895,0 C73.3526068,3.2084988 55.6133949,8.86399117 39.0420583,16.6376612 C5.61752293,67.146514 -3.4433191,116.400813 1.08711069,164.955721 C23.2560196,181.510915 44.7403634,191.567697 65.8621325,198.148576 C71.0772151,190.971126 75.7283628,183.341335 79.7352139,175.300261 C72.104019,172.400575 64.7949724,168.822202 57.8887866,164.667963 C59.7209612,163.310589 61.5131304,161.891452 63.2445898,160.431257 C105.36741,180.133187 151.134928,180.133187 192.754523,160.431257 C194.506336,161.891452 196.298154,163.310589 198.110326,164.667963 C191.183787,168.842556 183.854737,172.420929 176.223542,175.320965 C180.230393,183.341335 184.861538,190.991831 190.096624,198.16893 C211.238746,191.588051 232.743023,181.531619 254.911949,164.955721 C260.227747,108.668201 245.831087,59.8662432 216.856339,16.5966031 Z M85.4738752,135.09489 C72.8290281,135.09489 62.4592217,123.290155 62.4592217,108.914901 C62.4592217,94.5396472 72.607595,82.7145587 85.4738752,82.7145587 C98.3405064,82.7145587 108.709962,94.5189427 108.488529,108.914901 C108.508531,123.290155 98.3405064,135.09489 85.4738752,135.09489 Z M170.525237,135.09489 C157.88039,135.09489 147.510584,123.290155 147.510584,108.914901 C147.510584,94.5396472 157.658606,82.7145587 170.525237,82.7145587 C183.391518,82.7145587 193.761324,94.5189427 193.539891,108.914901 C193.539891,123.290155 183.391518,135.09489 170.525237,135.09489 Z" fill="currentColor" fill-rule="nonzero"></path>
+                        <path d="M216.856 16.597A222.34 222.34 0 00172.581 8c-.515.914-.989 1.846-1.417 2.808a217.184 217.184 0 00-54.332 0c-.428-.962-.902-1.894-1.417-2.808a222.274 222.274 0 00-44.275 8C30.262 57.732 18.7 100.21 18.7 142.65c0 37.245 17.219 69.525 47.092 92.6a206.953 206.953 0 0040.14 21.439c.662-.925 1.237-1.9 1.716-2.916a157.139 157.139 0 0048.375 0c.48 1.016 1.054 1.991 1.716 2.916a207.03 207.03 0 0040.141-21.44c29.872-23.073 47.091-55.353 47.091-92.598 0-42.44-11.562-84.919-33.115-126.053zM88.675 179.536c-17.93 0-32.548-16.443-32.548-36.72 0-20.278 14.523-36.72 32.548-36.72 18.04 0 32.548 16.523 32.548 36.72 0 20.277-14.508 36.72-32.548 36.72zm78.65 0c-17.93 0-32.548-16.443-32.548-36.72 0-20.278 14.523-36.72 32.548-36.72 18.04 0 32.548 16.523 32.548 36.72 0 20.277-14.508 36.72-32.548 36.72z"/>
                     </g>
                 </svg>
             </a>

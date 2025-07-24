@@ -1,0 +1,18 @@
+        <!-- Comandos Destacados Section -->
+        <section class="relative">
+            <h2 class="text-center text-3xl font-bold mb-10 text-textMain">Comandos Destacados</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <% featuredCommands.forEach(cmd => { %>
+                    <div class="feature-card rounded-xl shadow-lg p-6 flex items-center gap-4 bg-white bg-opacity-10 backdrop-blur-sm">
+                        <div class="text-4xl rounded-full h-16 w-16 flex items-center justify-center bg-primary/20">
+                            <%= cmd.emoji %>
+                        </div>
+                        <div>
+                            <div class="font-bold text-lg text-primary">/<%= cmd.commandName %></div>
+                            <div class="text-sm text-textSecondary"><%= t.get(cmd.commandName) %></div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </section>
+
