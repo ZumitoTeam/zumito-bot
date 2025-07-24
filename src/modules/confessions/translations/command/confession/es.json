@@ -1,6 +1,7 @@
 {
-    "description": "Envía una confesión anónima.",
-    "modalTitle": "Enviar Confesión",
-    "success": "Tu confesión ha sido enviada.",
-    "notConfigured": "El canal de confesiones no está configurado."
+  "description": "Envía una confesión anónima.",
+  "modalTitle": "Enviar Confesión",
+  "success": "Tu confesión ha sido enviada.",
+  "notConfigured": "El canal de confesiones no está configurado.",
+  "inputLabel": "Tu Confesión"
 }
