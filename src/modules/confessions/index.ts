@@ -16,7 +16,7 @@ export class ConfessionModule extends Module {
         await super.initialize();
         const navigationService = ServiceContainer.getService(UserPanelNavigationService);
         navigationService.registerSubItems('dashboard', 'general', [
-            { id: 'confessions', label: 'Confesiones', url: '/panel/:guildId/confessions' }
+            { id: 'confessions', label: 'confession.sidebarTitle', url: '/panel/:guildId/confessions' }
         ]);
     }
 }

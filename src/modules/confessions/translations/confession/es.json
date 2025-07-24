@@ -1,3 +1,17 @@
 {
-    "title": "Un usuario ha enviado una confesión."
+    "sidebarTitle": "Confesiones",
+    "title": "Un usuario ha enviado una confesión.",
+    "config": "Configurar Confesiones",
+    "explainerTitle": "¿Qué son las Confesiones?",
+    "explainerDesc": "Las confesiones permiten a los miembros de tu servidor enviar mensajes anónimos a un canal designado. Esto fomenta la participación y crea un espacio donde los usuarios pueden expresarse libremente sin revelar su identidad.",
+    "feature1Title": "Participación Anónima",
+    "feature1Desc": "Los usuarios pueden compartir pensamientos sin revelar su identidad",
+    "feature2Title": "Privacidad Garantizada",
+    "feature2Desc": "La identidad del confesor permanece completamente anónima",
+    "feature3Title": "Interacción Especial",
+    "feature3Desc": "Crea conversaciones únicas y fomenta la comunidad",
+    "instructions": "Para usar las confesiones, los usuarios deben enviar un mensaje privado al bot con el comando <code class='bg-discord-dark-400 px-1 py-0.5 rounded text-discord-primary'>/confess</code> seguido de su mensaje. El bot publicará el mensaje en el canal configurado.",
+    "channelLabel": "Canal de Confesiones",
+    "channelHelp": "Selecciona el canal donde se publicarán las confesiones",
+    "saveButton": "Guardar Configuración"
 }
