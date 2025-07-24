@@ -7,7 +7,7 @@ export class WelcomeModule extends Module {
         services: ['UserPanelNavigationService'],
     };
 
-    constructor(modulePath: string, framework: ZumitoFramework) {
+    constructor(modulePath: string) {
         super(modulePath);
         ServiceContainer.addService(WelcomeService, [], true);
     }
