@@ -39,5 +39,10 @@
     "lyrics": {
       "description": "Muestra la letra de la canción actual."
     }
+  },
+  "music": {
+    "sidebarTitle": "Música",
+    "queueTitle": "Cola de Reproducción",
+    "queueEmpty": "La cola está vacía."
   }
 }

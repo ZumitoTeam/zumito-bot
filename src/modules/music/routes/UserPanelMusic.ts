@@ -2,6 +2,7 @@ import { Route, RouteMethod, ServiceContainer } from "zumito-framework";
 import { Client, PermissionFlagsBits } from "zumito-framework/discord";
 import { UserPanelAuthService } from "@zumito-team/user-panel-module/services/UserPanelAuthService";
 import { UserPanelViewService } from "@zumito-team/user-panel-module/services/UserPanelViewService";
+import { UserPanelLanguageManager } from "@zumito-team/user-panel-module/services/UserPanelLanguageManager";
 import { MusicService } from "../services/MusicService";
 import ejs from "ejs";
 import path, { dirname } from "path";
@@ -16,6 +17,7 @@ export class UserPanelMusic extends Route {
     constructor(
         private client: Client = ServiceContainer.getService(Client),
         private auth = ServiceContainer.getService(UserPanelAuthService),
+        private userPanelLanguageManager = ServiceContainer.getService(UserPanelLanguageManager),
     ) {
         super();
     }
@@ -41,7 +43,7 @@ export class UserPanelMusic extends Route {
 
         const content = await ejs.renderFile(
             path.resolve(__dirname, '../views/music-queue.ejs'),
-            { guild, songs },
+            { guild, songs, ...this.userPanelLanguageManager.getLanguageVariables(req, res) },
         );
         const view = new UserPanelViewService();
         const html = await view.render({ content, reqPath: req.path, req, res });

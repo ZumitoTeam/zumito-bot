@@ -1,7 +1,7 @@
 <div class="card">
-    <h2 class="text-xl font-bold mb-4">Cola de Reproducción</h2>
+    <h2 class="text-xl font-bold mb-4"><%= t('music.queueTitle') %></h2>
     <% if (songs.length === 0) { %>
-        <p>La cola está vacía.</p>
+        <p><%= t('music.queueEmpty') %></p>
     <% } else { %>
         <ol class="list-decimal ml-4 space-y-1">
             <% songs.forEach(song => { %>

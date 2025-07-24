@@ -39,5 +39,10 @@
     "lyrics": {
       "description": "Show the lyrics of the current song."
     }
+  },
+  "music": {
+    "sidebarTitle": "Music",
+    "queueTitle": "Music Queue",
+    "queueEmpty": "The queue is empty."
   }
 }
