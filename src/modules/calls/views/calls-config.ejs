@@ -7,13 +7,91 @@
             </svg>
         </div>
     </div>
+    
+    <!-- Módulo explicativo con diseño atractivo -->
+    <div class="bg-discord-dark-400/30 rounded-lg mb-8 overflow-hidden">
+        <div class="bg-gradient-to-r from-discord-primary/20 to-discord-primary/5 p-4 border-l-4 border-discord-primary">
+            <h3 class="text-lg font-semibold text-discord-white mb-2 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                ¿Qué son las Llamadas entre Servidores?
+            </h3>
+            <p class="text-discord-white/80 mb-4">
+                Las llamadas permiten a los miembros de tu servidor comunicarse con usuarios de otros servidores a través de canales de texto temporales. Esta función crea una conexión aleatoria entre comunidades, donde el primer servidor queda en espera hasta que otro servidor ejecuta el comando, facilitando el intercambio y la comunicación entre diferentes servidores de Discord.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <div class="bg-discord-dark-300/50 p-3 rounded-lg flex items-start">
+                    <div class="bg-discord-primary/20 p-2 rounded-full mr-3 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-discord-white text-sm">Conexión Aleatoria</h4>
+                        <p class="text-discord-white/60 text-xs mt-1">Conecta con un servidor aleatorio que esté en espera</p>
+                    </div>
+                </div>
+                
+                <div class="bg-discord-dark-300/50 p-3 rounded-lg flex items-start">
+                    <div class="bg-discord-primary/20 p-2 rounded-full mr-3 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-discord-white text-sm">Sistema de Espera</h4>
+                        <p class="text-discord-white/60 text-xs mt-1">El primer servidor queda en espera hasta que otro se conecte</p>
+                    </div>
+                </div>
+                
+                <div class="bg-discord-dark-300/50 p-3 rounded-lg flex items-start">
+                    <div class="bg-discord-primary/20 p-2 rounded-full mr-3 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-discord-white text-sm">Canales de Texto</h4>
+                        <p class="text-discord-white/60 text-xs mt-1">Canales de texto temporales creados automáticamente</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-4 mt-4">
+                <div class="bg-discord-dark-200/50 p-3 rounded-lg border-l-2 border-discord-yellow flex-1">
+                    <div class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-discord-yellow mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <p class="text-discord-white/80 text-sm">
+                            Para iniciar una llamada, los usuarios deben usar el comando <code class="bg-discord-dark-400 px-1 py-0.5 rounded text-discord-primary">/call</code>. El primer servidor quedará en espera hasta que otro servidor ejecute el mismo comando. La conexión entre servidores es aleatoria.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="bg-discord-dark-200/50 p-3 rounded-lg border-l-2 border-discord-green flex-1">
+                    <div class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-discord-green mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <p class="text-discord-white/80 text-sm">
+                            Configura la categoría donde se crearán los canales de texto para las llamadas. Asegúrate de que el bot tenga permisos para crear canales en esta categoría.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <form method="POST" action="/panel/<%= guild.id %>/calls" class="space-y-6">
         <div class="transition-all duration-200 hover:shadow-md p-4 rounded-lg bg-discord-dark-400/30">
             <label class="flex items-center gap-2 mb-2 text-lg font-medium text-discord-white">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h2l3 5v11h8V10l3-5h2" />
                 </svg>
-                Categoría de Llamadas
+                Categoría de Llamadas de Texto
             </label>
             <div class="relative">
                 <select name="categoryId" class="w-full bg-discord-dark-300 text-white pl-10 pr-4 py-3 rounded-lg border border-discord-dark-100 focus:border-discord-primary focus:ring focus:ring-discord-primary/20 focus:outline-none transition-all duration-200">
@@ -25,7 +103,7 @@
                     #
                 </div>
             </div>
-            <p class="text-xs text-discord-white/60 mt-2">Selecciona la categoría donde se crearán los canales de llamadas</p>
+            <p class="text-xs text-discord-white/60 mt-2">Selecciona la categoría donde se crearán los canales de texto para llamadas</p>
         </div>
         <div class="flex justify-end pt-2">
             <button type="submit" class="btn-primary flex items-center gap-2 px-6 py-3 shadow-lg hover:translate-y-[-2px] transition-all duration-200">
