@@ -16,6 +16,7 @@ export class AdminTheme extends Route {
         private framework: ZumitoFramework = ServiceContainer.getService(ZumitoFramework),
         private adminAuthService: AdminAuthService = ServiceContainer.getService(AdminAuthService),
         private adminViewService: AdminViewService = ServiceContainer.getService(AdminViewService),
+        private landingViewService: LandingViewService = ServiceContainer.getService(LandingViewService),
     ) {
         super();
     }
@@ -25,7 +26,7 @@ export class AdminTheme extends Route {
             return;
         }
 
-        const theme = await LandingViewService.getTheme();
+        const theme = await this.landingViewService.getTheme();
         const content = await this.adminViewService.render({
             title: 'Landing Theme',
             content: await ejs.renderFile(path.resolve(__dirname, '../views/admin_theme.ejs'), { theme }),

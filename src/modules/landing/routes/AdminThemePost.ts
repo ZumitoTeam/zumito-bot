@@ -1,5 +1,6 @@
 import { Route, RouteMethod, ServiceContainer, ZumitoFramework } from "zumito-framework";
 import { AdminAuthService } from "@zumito-team/admin-module/services/AdminAuthService";
+import { LandingViewService } from "../services/LandingViewService";
 
 export class AdminThemePost extends Route {
     method = RouteMethod.post;
@@ -8,6 +9,7 @@ export class AdminThemePost extends Route {
     constructor(
         private framework: ZumitoFramework = ServiceContainer.getService(ZumitoFramework),
         private adminAuthService: AdminAuthService = ServiceContainer.getService(AdminAuthService),
+        private landingViewService: LandingViewService = ServiceContainer.getService(LandingViewService),
     ) {
         super();
     }
@@ -26,6 +28,7 @@ export class AdminThemePost extends Route {
             { $set: data },
             { upsert: true }
         );
+        await this.landingViewService.getTheme(true); // Force reload theme cache
 
         res.status(200).json({ message: 'Theme saved successfully.' });
     }
