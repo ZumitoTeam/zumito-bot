@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, MessageFlags } from 'zumito-framework/discord';
-import { Command, CommandParameters, CommandType, ModalSubmitParameters, ServiceContainer } from 'zumito-framework';
+import { Command, CommandBinds, CommandParameters, CommandType, ModalSubmitParameters, ServiceContainer } from 'zumito-framework';
 import { ConfessionService } from '../services/ConfessionService.js';
 
 export class ConfessionCommand extends Command {
@@ -8,6 +8,9 @@ export class ConfessionCommand extends Command {
     categories = ['utils'];
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES'];
     type = CommandType.any;
+    binds: CommandBinds = {
+        modalSubmit: this.modalSubmit, 
+    };
 
     async execute({ interaction, trans }: CommandParameters): Promise<void> {
         if (!interaction) return;
