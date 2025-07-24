@@ -1,0 +1,19 @@
+        <!-- FAQs Section -->
+        <section class="relative">
+            <h2 class="text-center text-3xl font-bold mb-10 text-textMain">Preguntas Frecuentes</h2>
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <% faqs.forEach(faq => { %>
+                    <details class="group rounded-xl p-4 bg-white bg-opacity-10 backdrop-blur-sm">
+                        <summary class="flex cursor-pointer items-center justify-between font-semibold text-textMain">
+                            <span>❓ <%= faq.q %></span>
+                            <span class="transition group-open:rotate-180">
+                                <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                                    <path d="M6 9l6 6 6-6"></path>
+                                </svg>
+                            </span>
+                        </summary>
+                        <div class="mt-4 text-sm text-textSecondary"><%= faq.a %></div>
+                    </details>
+                <% }) %>
+            </div>
+        </section>

@@ -1,0 +1,31 @@
+    <div class="relative">
+        <!-- Efectos de fondo con degradados -->
+        <div aria-hidden="true" class="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 pointer-events-none">
+            <div
+                class="h-56 rounded-full blur-[106px] bg-gradient-to-br from-gradientFrom to-gradientTo"
+            ></div>
+            <div
+                class="h-32 rounded-full blur-[106px] bg-gradient-to-r from-gradientVia to-gradientFrom"
+            ></div>
+        </div>
+
+        <!-- Hero Section -->
+        <header class="relative py-16 text-center flex flex-col items-center">
+            <img src="<%= botAvatar %>" alt="Avatar del bot" class="w-32 h-32 rounded-full shadow-lg border-4 border-primary" />
+            <h1 class="text-5xl font-extrabold drop-shadow-lg flex items-center justify-center gap-2 mt-4 text-textMain">
+                <span><%= botName %></span>
+                <span class="text-2xl font-mono text-textSecondary">#<%= botTag.split('#')[1] || '' %></span>
+            </h1>
+            <p class="mt-4 text-2xl font-semibold max-w-xl mx-auto text-textSecondary"><%= tagline %></p>
+            
+            <div class="mt-10 flex flex-wrap justify-center gap-4">
+                <a href="<%= inviteUrl %>"
+                   class="relative flex h-12 w-full sm:w-auto items-center justify-center px-8 rounded-full transition duration-300 hover:scale-105 active:scale-95 bg-primary text-white hover:bg-accent">
+                    <span class="relative text-base font-semibold">✨ Invitar al bot</span>
+                </a>
+                <a href="<%= supportUrl %>" class="relative flex h-12 w-full sm:w-auto items-center justify-center px-8 before:absolute before:inset-0 before:rounded-full before:border before:border-primary before:bg-primary/10 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 text-primary">
+                    <span class="relative text-base font-semibold">Servidor de soporte</span>
+                </a>
+            </div>
+        </header>
+    </div>
