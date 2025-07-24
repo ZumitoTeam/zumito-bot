@@ -5,6 +5,7 @@ import { UserPanelViewService } from "@zumito-team/user-panel-module/services/Us
 import ejs from "ejs";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import { UserPanelLanguageManager } from "@zumito-team/user-panel-module/services/UserPanelLanguageManager";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -17,6 +18,7 @@ export class UserPanelLang extends Route {
         private framework: ZumitoFramework = ServiceContainer.getService(ZumitoFramework),
         private auth = ServiceContainer.getService(UserPanelAuthService),
         private guildDataGetter: GuildDataGetter = ServiceContainer.getService(GuildDataGetter),
+        private userPanelLanguageManager: UserPanelLanguageManager = ServiceContainer.getService(UserPanelLanguageManager),
     ) {
         super();
     }
@@ -47,7 +49,8 @@ export class UserPanelLang extends Route {
             path.resolve(__dirname, '../views/lang-config.ejs'),
             {
                 guild,
-                lang: guildSettings.lang,
+                guildLang: guildSettings.lang,
+                ...this.userPanelLanguageManager.getLanguageVariables(req, res),
             }
         );
         const view = new UserPanelViewService();
