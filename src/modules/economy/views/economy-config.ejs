@@ -1,0 +1,25 @@
+<div class="card animate__animated animate__fadeIn">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-discord-primary">Configurar Economía</h2>
+    </div>
+    <form method="POST" action="/panel/<%= guild.id %>/economy" class="space-y-6">
+        <div class="transition-all duration-200 hover:shadow-md p-4 rounded-lg bg-discord-dark-400/30">
+            <label class="flex items-center gap-2 mb-2 text-lg font-medium text-discord-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0V4m0 10v4" />
+                </svg>
+                Nombre de la Moneda
+            </label>
+            <input type="text" name="currencyName" value="<%= currencyName %>" class="w-full bg-discord-dark-300 text-white px-4 py-3 rounded-lg border border-discord-dark-100 focus:border-discord-primary focus:ring focus:ring-discord-primary/20 focus:outline-none transition-all duration-200" />
+        </div>
+        <div class="flex justify-end pt-2">
+            <button type="submit" class="btn-primary flex items-center gap-2 px-6 py-3 shadow-lg hover:translate-y-[-2px] transition-all duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Guardar Configuración
+            </button>
+        </div>
+    </form>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
