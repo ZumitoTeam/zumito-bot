@@ -1,0 +1,15 @@
+<div class="card">
+    <h2 class="text-xl font-bold mb-4">Cola de Reproducción</h2>
+    <% if (songs.length === 0) { %>
+        <p>La cola está vacía.</p>
+    <% } else { %>
+        <ol class="list-decimal ml-4 space-y-1">
+            <% songs.forEach(song => { %>
+                <li>
+                    <% if (song.index === 0) { %>▶️ <% } else { %><%= song.index %>. <% } %>
+                    <%= song.name %>
+                </li>
+            <% }) %>
+        </ol>
+    <% } %>
+</div>
