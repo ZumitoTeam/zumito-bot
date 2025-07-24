@@ -1,6 +1,7 @@
 {
-    "description": "Send an anonymous confession.",
-    "modalTitle": "Send Confession",
-    "success": "Your confession has been sent.",
-    "notConfigured": "Confession channel is not configured."
+  "description": "Send an anonymous confession.",
+  "modalTitle": "Send Confession",
+  "success": "Your confession has been sent.",
+  "notConfigured": "Confession channel is not configured.",
+  "inputLabel": "Your Confession"
 }
