@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import ejs from 'ejs';
 import { Client, version as discordjsVersion } from "zumito-framework/discord";
 import { LandingViewService } from "../services/LandingViewService";
-import { DEFAULT_LANDING_MODULES } from "../index.js";
+import { DEFAULT_LANDING_MODULES } from "../definitions/defaultLandingModules";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
