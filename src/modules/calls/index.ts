@@ -15,7 +15,7 @@ export class CallModule extends Module {
     async initialize(): Promise<void> {
         await super.initialize();
         const navigationService = ServiceContainer.getService(UserPanelNavigationService);
-        navigationService.registerSubItems('dashboard', 'General', [
+        navigationService.registerSubItems('dashboard', 'general', [
             { id: 'calls', label: 'Calls', url: '/panel/:guildId/calls' }
         ]);
     }

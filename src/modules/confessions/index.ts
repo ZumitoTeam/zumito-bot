@@ -15,7 +15,7 @@ export class ConfessionModule extends Module {
     async initialize(): Promise<void> {
         await super.initialize();
         const navigationService = ServiceContainer.getService(UserPanelNavigationService);
-        navigationService.registerSubItems('dashboard', 'General', [
+        navigationService.registerSubItems('dashboard', 'general', [
             { id: 'confessions', label: 'Confesiones', url: '/panel/:guildId/confessions' }
         ]);
     }
