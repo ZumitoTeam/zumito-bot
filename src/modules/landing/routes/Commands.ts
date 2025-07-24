@@ -30,7 +30,7 @@ export class Commands extends Route {
             }
         }
         // Obtener el theme para el layout
-        const theme = LandingViewService.getTheme();
+        const theme = await LandingViewService.getTheme();
         // Renderizar la vista
         const content = await ejs.renderFile(
             path.join(__dirname, "../views/commands.ejs"),

@@ -1,0 +1,63 @@
+<div class="card mt-6">
+    <div class="flex items-center justify-between mb-4">
+        <div class="text-lg font-semibold">Landing Theme</div>
+    </div>
+    <form id="themeForm" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block mb-1">Primary</label>
+                <input type="color" name="primary" value="<%= theme.primary %>" class="w-full h-10 bg-discord-dark-300 rounded" />
+            </div>
+            <div>
+                <label class="block mb-1">Secondary</label>
+                <input type="color" name="secondary" value="<%= theme.secondary %>" class="w-full h-10 bg-discord-dark-300 rounded" />
+            </div>
+            <div>
+                <label class="block mb-1">Accent</label>
+                <input type="color" name="accent" value="<%= theme.accent %>" class="w-full h-10 bg-discord-dark-300 rounded" />
+            </div>
+            <div>
+                <label class="block mb-1">Gradient From</label>
+                <input type="color" name="gradientFrom" value="<%= theme.gradientFrom %>" class="w-full h-10 bg-discord-dark-300 rounded" />
+            </div>
+            <div>
+                <label class="block mb-1">Gradient Via</label>
+                <input type="color" name="gradientVia" value="<%= theme.gradientVia %>" class="w-full h-10 bg-discord-dark-300 rounded" />
+            </div>
+            <div>
+                <label class="block mb-1">Gradient To</label>
+                <input type="color" name="gradientTo" value="<%= theme.gradientTo %>" class="w-full h-10 bg-discord-dark-300 rounded" />
+            </div>
+            <div>
+                <label class="block mb-1">Text Main</label>
+                <input type="color" name="textMain" value="<%= theme.textMain %>" class="w-full h-10 bg-discord-dark-300 rounded" />
+            </div>
+            <div>
+                <label class="block mb-1">Text Secondary</label>
+                <input type="color" name="textSecondary" value="<%= theme.textSecondary %>" class="w-full h-10 bg-discord-dark-300 rounded" />
+            </div>
+            <div>
+                <label class="block mb-1">Background</label>
+                <input type="color" name="background" value="<%= theme.background %>" class="w-full h-10 bg-discord-dark-300 rounded" />
+            </div>
+        </div>
+        <div class="flex justify-end">
+            <button type="submit" class="btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+<script>
+    document.getElementById('themeForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        const res = await fetch('/admin/landing/theme', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        if (res.ok) {
+            window.location.reload();
+        }
+    });
+</script>

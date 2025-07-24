@@ -75,7 +75,7 @@ export class Landing extends Route {
         ];
 
         // Configuración de colores y estilos (puede venir de config o env)
-        const theme = LandingViewService.getTheme();
+        const theme = await LandingViewService.getTheme();
 
         const content = await ejs.renderFile(
             path.join(__dirname, "../views/landing.ejs"),
