@@ -1,7 +1,7 @@
 import { Route, RouteMethod, ServiceContainer, ZumitoFramework } from "zumito-framework";
 import { AdminViewService } from "@zumito-team/admin-module/services/AdminViewService";
 import { AdminAuthService } from "@zumito-team/admin-module/services/AdminAuthService";
-import { DEFAULT_LANDING_MODULES } from "../index.js";
+import { DEFAULT_LANDING_MODULES } from "../definitions/defaultLandingModules";
 import path from "path";
 import { fileURLToPath } from "url";
 import ejs from "ejs";
