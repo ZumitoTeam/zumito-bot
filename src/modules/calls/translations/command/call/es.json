@@ -1,0 +1,6 @@
+{
+    "description": "Conecta con otro servidor en un chat.",
+    "waiting": "Esperando a otro servidor...",
+    "connected": "¡Llamada conectada!",
+    "notConfigured": "La categoría de llamadas no está configurada."
+}

@@ -1,0 +1,6 @@
+{
+    "description": "Connect with another server chat.",
+    "waiting": "Waiting for another server...",
+    "connected": "Call connected!",
+    "notConfigured": "Call category is not configured."
+}
