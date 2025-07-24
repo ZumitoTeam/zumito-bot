@@ -13,7 +13,9 @@ export class Commands extends Route {
 
     framework: ZumitoFramework;
 
-    constructor() {
+    constructor(
+        private landingViewService: LandingViewService = ServiceContainer.getService(LandingViewService),
+    ) {
         super();
         this.framework = ServiceContainer.getService(ZumitoFramework);
     }
@@ -30,7 +32,7 @@ export class Commands extends Route {
             }
         }
         // Obtener el theme para el layout
-        const theme = await LandingViewService.getTheme();
+        const theme = await this.landingViewService.getTheme();
         // Renderizar la vista
         const content = await ejs.renderFile(
             path.join(__dirname, "../views/commands.ejs"),
@@ -39,8 +41,7 @@ export class Commands extends Route {
                 theme
             }
         );
-        const landingView = new LandingViewService();
-        const html = await landingView.render({
+        const html = await this.landingViewService.render({
             title: "Comandos",
             content,
             extra: { theme }

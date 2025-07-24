@@ -18,6 +18,7 @@ export class Landing extends Route {
     constructor(
         private framework: ZumitoFramework = ServiceContainer.getService(ZumitoFramework),
         private translationService: TranslationManager = ServiceContainer.getService(TranslationManager),
+        private landingViewService: LandingViewService = ServiceContainer.getService(LandingViewService),
     ) {
         super();
         this.client = ServiceContainer.getService(Client);
@@ -75,7 +76,7 @@ export class Landing extends Route {
         ];
 
         // Configuración de colores y estilos (puede venir de config o env)
-        const theme = await LandingViewService.getTheme();
+        const theme = await this.landingViewService.getTheme();
 
         const content = await ejs.renderFile(
             path.join(__dirname, "../views/landing.ejs"),
@@ -100,8 +101,7 @@ export class Landing extends Route {
             }
         );
 
-        const landingView = new LandingViewService();
-        const html = await landingView.render({
+        const html = await this.landingViewService.render({
             title: "Inicio",
             content,
             extra: { theme }

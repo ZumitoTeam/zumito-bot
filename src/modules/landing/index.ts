@@ -1,5 +1,6 @@
 import { Module, ServiceContainer } from "zumito-framework";
 import { NavigationService } from "@zumito-team/admin-module/services/NavigationService.js";
+import { LandingViewService } from "./services/LandingViewService";
 
 export class LandingModule extends Module {
     requeriments = {
@@ -8,6 +9,7 @@ export class LandingModule extends Module {
 
     constructor(modulePath: string) {
         super(modulePath);
+        ServiceContainer.addService(LandingViewService, [], true);
     }
 
     async initialize(): Promise<void> {
