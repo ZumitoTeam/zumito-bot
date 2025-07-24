@@ -1,10 +1,11 @@
-import { Module, ServiceContainer, ZumitoFramework } from "zumito-framework";
+import { Module, ServiceContainer } from "zumito-framework";
 import { NavigationService } from "@zumito-team/admin-module/services/NavigationService.js";
+import { UserPanelNavigationService } from "@zumito-team/user-panel-module/services/UserPanelNavigationService";
 import { EconomyService } from "./services/EconomyService";
 
 export class EconomyModule extends Module {
     requeriments = {
-        services: ["NavigationService"],
+        services: ["NavigationService", "UserPanelNavigationService"],
     };
 
     constructor(modulePath: string) {
@@ -27,6 +28,15 @@ export class EconomyModule extends Module {
             });
         } catch {
             // Admin module not present
+        }
+
+        try {
+            const userNavigationService = ServiceContainer.getService(UserPanelNavigationService);
+            userNavigationService.registerSubItems('dashboard', 'general', [
+                { id: 'economy', label: 'Economy', url: '/panel/:guildId/economy' }
+            ]);
+        } catch {
+            // User panel module not present
         }
     }
 }
