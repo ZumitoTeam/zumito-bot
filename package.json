@@ -31,7 +31,7 @@
     "@distube/yt-dlp": "^2.0.1",
     "@distube/ytdl-core": "^4.16.12",
     "@zumito-team/admin-module": "^1.2.0",
-    "@zumito-team/user-panel-module": "^0.4.0",
+    "@zumito-team/user-panel-module": "^0.5.0",
     "canvas": "^2.11.2",
     "discord.js": "^14.21.0",
     "distube": "^5.0.7",
