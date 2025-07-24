@@ -2,6 +2,7 @@ import { Route, RouteMethod, ServiceContainer, ZumitoFramework } from 'zumito-fr
 import { Client, PermissionFlagsBits } from 'zumito-framework/discord';
 import { UserPanelAuthService } from '@zumito-team/user-panel-module/services/UserPanelAuthService';
 import { UserPanelViewService } from '@zumito-team/user-panel-module/services/UserPanelViewService';
+import { UserPanelLanguageManager } from '@zumito-team/user-panel-module/services/UserPanelLanguageManager';
 import ejs from 'ejs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -18,6 +19,7 @@ export class UserPanelEconomy extends Route {
         private framework: ZumitoFramework = ServiceContainer.getService(ZumitoFramework),
         private auth = ServiceContainer.getService(UserPanelAuthService),
         private economyService = ServiceContainer.getService(EconomyService),
+        private userPanelLanguageManager: UserPanelLanguageManager = ServiceContainer.getService(UserPanelLanguageManager),
     ) { super(); }
 
     async execute(req: any, res: any) {
@@ -36,7 +38,7 @@ export class UserPanelEconomy extends Route {
         const currencyName = await this.economyService.getGuildCurrencyName(guildId).catch(() => 'Coins');
         const content = await ejs.renderFile(
             path.resolve(__dirname, '../views/economy-config.ejs'),
-            { guild, currencyName }
+            { guild, currencyName, ...this.userPanelLanguageManager.getLanguageVariables(req, res) }
         );
         const view = new UserPanelViewService();
         const html = await view.render({ content, reqPath: req.path, req, res });
