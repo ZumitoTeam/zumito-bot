@@ -7,7 +7,7 @@ export class EconomyModule extends Module {
         services: ["NavigationService"],
     };
 
-    constructor(modulePath: string, framework: ZumitoFramework) {
+    constructor(modulePath: string) {
         super(modulePath);
         ServiceContainer.addService(EconomyService, [], true);
     }

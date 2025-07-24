@@ -4,7 +4,7 @@ import { CoinflipCommand } from "./commands/coinflip";
 import { SlotsCommand } from "./commands/slots";
 
 export class GamblingModule extends Module {
-    constructor(modulePath: string, framework: ZumitoFramework) {
+    constructor(modulePath: string) {
         super(modulePath);
         ServiceContainer.addService(GamblingService, [], true);
     }

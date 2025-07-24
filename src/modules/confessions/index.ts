@@ -7,7 +7,7 @@ export class ConfessionModule extends Module {
         services: ['UserPanelNavigationService']
     };
 
-    constructor(modulePath: string, framework: ZumitoFramework) {
+    constructor(modulePath: string) {
         super(modulePath);
         ServiceContainer.addService(ConfessionService, [], true);
     }
