@@ -1,6 +1,7 @@
 <div class="card mt-6" x-data="{ modules: <%- JSON.stringify(modules) %> }">
   <div class="flex items-center justify-between mb-4">
     <div class="text-lg font-semibold">Landing Modules</div>
+    <button type="button" id="addModule" class="btn-secondary">Add</button>
   </div>
   <form id="modulesForm" class="space-y-4">
     <table class="w-full text-sm">
@@ -9,20 +10,24 @@
           <th class="text-left p-3">Module</th>
           <th class="text-left p-3 w-32">Order</th>
           <th class="text-left p-3 w-24">Enabled</th>
+          <th class="p-3 w-12"></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="modulesBody">
         <% modules.forEach(function(mod, index) { %>
           <tr class="border-t border-discord-dark-400">
-            <td class="p-3">
-              <input type="hidden" name="modules[<%= index %>][name]" value="<%= mod.name %>" />
-              <%= mod.name %>
+            <td class="p-3 flex items-center gap-2">
+              <span class="cursor-move handle">⇅</span>
+              <input type="text" name="modules[<%= index %>][name]" value="<%= mod.name %>" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-white" />
             </td>
             <td class="p-3">
               <input type="number" name="modules[<%= index %>][order]" value="<%= mod.order %>" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-white" />
             </td>
             <td class="p-3 text-center">
               <input type="checkbox" name="modules[<%= index %>][enabled]" <%= mod.enabled ? 'checked' : '' %> />
+            </td>
+            <td class="p-3 text-right">
+              <button type="button" class="deleteModule text-red-400">Delete</button>
             </td>
           </tr>
         <% }) %>
@@ -34,7 +39,59 @@
   </form>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script>
+  const tbody = document.getElementById('modulesBody');
+  const addButton = document.getElementById('addModule');
+  new Sortable(tbody, {
+    handle: '.handle',
+    animation: 150,
+    onEnd: updateOrders
+  });
+
+  addButton.addEventListener('click', () => {
+    const index = tbody.querySelectorAll('tr').length;
+    const row = document.createElement('tr');
+    row.className = 'border-t border-discord-dark-400';
+    row.innerHTML = `
+      <td class="p-3 flex items-center gap-2">
+        <span class="cursor-move handle">⇅</span>
+        <input type="text" name="modules[${index}][name]" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-white" required />
+      </td>
+      <td class="p-3">
+        <input type="number" name="modules[${index}][order]" value="${index + 1}" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-white" />
+      </td>
+      <td class="p-3 text-center">
+        <input type="checkbox" name="modules[${index}][enabled]" checked />
+      </td>
+      <td class="p-3 text-right">
+        <button type="button" class="deleteModule text-red-400">Delete</button>
+      </td>`;
+    tbody.appendChild(row);
+    updateOrders();
+  });
+
+  tbody.addEventListener('click', e => {
+    if (e.target.classList.contains('deleteModule')) {
+      e.target.closest('tr').remove();
+      updateOrders();
+    }
+  });
+
+  function updateOrders() {
+    [...tbody.querySelectorAll('tr')].forEach((row, idx) => {
+      row.querySelectorAll('input').forEach(input => {
+        const name = input.getAttribute('name');
+        if (name) {
+          const newName = name.replace(/modules\[\d+\]/, `modules[${idx}]`);
+          input.setAttribute('name', newName);
+        }
+      });
+      const orderInput = row.querySelector('input[name$="[order]"]');
+      if (orderInput) orderInput.value = idx + 1;
+    });
+  }
+
   document.getElementById('modulesForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const formData = new FormData(this);

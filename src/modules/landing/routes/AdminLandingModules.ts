@@ -1,6 +1,7 @@
 import { Route, RouteMethod, ServiceContainer, ZumitoFramework } from "zumito-framework";
 import { AdminViewService } from "@zumito-team/admin-module/services/AdminViewService";
 import { AdminAuthService } from "@zumito-team/admin-module/services/AdminAuthService";
+import { DEFAULT_LANDING_MODULES } from "../index.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import ejs from "ejs";
@@ -28,14 +29,7 @@ export class AdminLandingModules extends Route {
         const collection = this.framework.database.collection('landingmodules');
         let modules = await collection.find().toArray();
         if (modules.length === 0) {
-            modules = [
-                { name: 'hero', order: 1, enabled: true },
-                { name: 'stats', order: 2, enabled: true },
-                { name: 'featuredCommands', order: 3, enabled: true },
-                { name: 'features', order: 4, enabled: true },
-                { name: 'faqs', order: 5, enabled: true },
-                { name: 'cta', order: 6, enabled: true },
-            ];
+            modules = DEFAULT_LANDING_MODULES;
             await collection.insertMany(modules);
         }
         modules.sort((a, b) => a.order - b.order);
