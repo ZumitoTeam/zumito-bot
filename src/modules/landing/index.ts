@@ -30,6 +30,7 @@ export class LandingModule extends Module {
                             items: [ 
                                 { label: 'Modules', url: '/admin/landing/modules' },
                                 { label: 'Featured Commands', url: '/admin/landing/featured-commands' },
+                                { label: 'Theme', url: '/admin/landing/theme' },
                             ],
                         },
                     ],

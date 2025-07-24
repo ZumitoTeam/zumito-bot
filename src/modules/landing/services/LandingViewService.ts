@@ -1,8 +1,21 @@
 import ejs from "ejs";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import { ServiceContainer, ZumitoFramework } from "zumito-framework";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export const DEFAULT_THEME = {
+    primary: '#5865F2',
+    secondary: '#36393f',
+    accent: '#57F287',
+    gradientFrom: '#23272A',
+    gradientVia: '#36393f',
+    gradientTo: '#5865F2',
+    textMain: '#fff',
+    textSecondary: '#fgf',
+    background: '#1e2124'
+};
 
 export class LandingViewService {
     private static layoutPath = path.resolve(__dirname, '../views/layouts/landing.ejs');
@@ -22,7 +35,7 @@ export class LandingViewService {
                 title,
                 content,
                 ...extra,
-                theme: (extra && extra.theme) || LandingViewService.getTheme()
+                theme: (extra && extra.theme) || await LandingViewService.getTheme()
             }
         );
     }
@@ -41,17 +54,23 @@ export class LandingViewService {
         };
     } */
 
-    static getTheme() {
+    static async getTheme() {
+        const framework = ServiceContainer.hasService(ZumitoFramework) ? ServiceContainer.getService(ZumitoFramework) : null;
+        let data: any = null;
+        if (framework) {
+            data = await framework.database.collection('landingtheme').findOne({ id: 'default' }).catch(() => null);
+        }
+
         return {
-            primary: process.env.LANDING_PRIMARY_COLOR || '#e11d48',         // rose-600
-            secondary: process.env.LANDING_SECONDARY_COLOR || '#a78bfa',     // purple-400
-            accent: process.env.LANDING_ACCENT_COLOR || '#f472b6',           // pink-400
-            gradientFrom: process.env.LANDING_GRADIENT_FROM || '#e11d48',    // rose-600
-            gradientVia: process.env.LANDING_GRADIENT_VIA || '#f472b6',      // pink-400
-            gradientTo: process.env.LANDING_GRADIENT_TO || '#7dd3fc',        // sky-300
-            textMain: process.env.LANDING_TEXT_MAIN || '#222',
-            textSecondary: process.env.LANDING_TEXT_SECONDARY || '#444',
-            background: process.env.LANDING_BACKGROUND || '#fff', // white
+            primary: data?.primary || process.env.LANDING_PRIMARY_COLOR || '#e11d48',
+            secondary: data?.secondary || process.env.LANDING_SECONDARY_COLOR || '#a78bfa',
+            accent: data?.accent || process.env.LANDING_ACCENT_COLOR || '#f472b6',
+            gradientFrom: data?.gradientFrom || process.env.LANDING_GRADIENT_FROM || '#e11d48',
+            gradientVia: data?.gradientVia || process.env.LANDING_GRADIENT_VIA || '#f472b6',
+            gradientTo: data?.gradientTo || process.env.LANDING_GRADIENT_TO || '#7dd3fc',
+            textMain: data?.textMain || process.env.LANDING_TEXT_MAIN || '#222',
+            textSecondary: data?.textSecondary || process.env.LANDING_TEXT_SECONDARY || '#444',
+            background: data?.background || process.env.LANDING_BACKGROUND || '#fff',
         };
     }
 }
