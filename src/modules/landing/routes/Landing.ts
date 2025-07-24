@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import ejs from 'ejs';
 import { Client, version as discordjsVersion } from "zumito-framework/discord";
 import { LandingViewService } from "../services/LandingViewService";
+import { DEFAULT_LANDING_MODULES } from "../index.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -46,7 +47,12 @@ export class Landing extends Route {
         }));
 
         // Orden y activación de módulos de la landing
-        const modules = await this.framework.database.collection('landingmodules').find({ enabled: true }).sort({ order: 1 }).toArray();
+        const collection = this.framework.database.collection('landingmodules');
+        let modules = await collection.find({ enabled: true }).sort({ order: 1 }).toArray();
+        if (modules.length === 0) {
+            await collection.insertMany(DEFAULT_LANDING_MODULES);
+            modules = DEFAULT_LANDING_MODULES.filter(m => m.enabled);
+        }
         
         // FAQs (pueden venir de config, aquí ejemplo hardcode)
         const faqs = [
