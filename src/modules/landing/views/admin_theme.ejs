@@ -41,7 +41,12 @@
                 <input type="color" name="background" value="<%= theme.background %>" class="w-full h-10 bg-discord-dark-300 rounded" />
             </div>
         </div>
-        <div class="flex justify-end">
+        <div class="flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+                <input type="file" id="importFile" accept=".json" class="hidden" />
+                <button type="button" id="importButton" class="btn-secondary">Import</button>
+                <button type="button" id="exportButton" class="btn-secondary">Export</button>
+            </div>
             <button type="submit" class="btn-primary">Save</button>
         </div>
     </form>
@@ -59,5 +64,38 @@
         if (res.ok) {
             window.location.reload();
         }
+    });
+    document.getElementById('importButton').addEventListener('click', () => {
+        document.getElementById('importFile').click();
+    });
+    document.getElementById('importFile').addEventListener('change', async e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const text = await file.text();
+        try {
+            const data = JSON.parse(text);
+            const res = await fetch('/admin/landing/theme/import', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (res.ok) window.location.reload();
+        } catch {
+            console.error('Invalid theme file');
+        }
+    });
+    document.getElementById('exportButton').addEventListener('click', async () => {
+        const res = await fetch('/admin/landing/theme/export');
+        if (!res.ok) return;
+        const data = await res.json();
+        const blob = new Blob([JSON.stringify(data, null, 4)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'theme.json';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
     });
 </script>
