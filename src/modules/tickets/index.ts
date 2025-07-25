@@ -9,6 +9,7 @@ export class TicketsModule extends Module {
 
     constructor(modulePath: string) {
         super(modulePath);
+        ServiceContainer.addService(TicketService, [], true);
         this.ticketService = ServiceContainer.getService(TicketService);
     }
 
