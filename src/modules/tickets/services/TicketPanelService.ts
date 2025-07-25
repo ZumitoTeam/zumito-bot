@@ -45,7 +45,7 @@ export class TicketPanelService {
         panel.embed.color = parseInt(panel.embed.color.replace('#', ''), 16) || 0x5865F2; // Default to primary color if not set
         const embed = EmbedBuilder.from(panel.embed || {});
         const button = new ButtonBuilder()
-            .setCustomId(`ticket.open:${panelId}`)
+            .setCustomId(`ticket.open.${panelId}`)
             .setLabel(panel.button?.label || 'Open Ticket')
             .setStyle(ButtonStyle.Primary);
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(button);

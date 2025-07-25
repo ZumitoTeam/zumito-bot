@@ -1,14 +1,42 @@
 import { Module, ServiceContainer } from "zumito-framework";
 import { UserPanelNavigationService } from "@zumito-team/user-panel-module/services/UserPanelNavigationService";
+import { TicketPanelService } from "./services/TicketPanelService";
+import { TicketService } from "./services/TicketService";
 
 export class TicketsModule extends Module {
 
+    private ticketService: TicketService;
+
     constructor(modulePath: string) {
         super(modulePath);
+        this.ticketService = ServiceContainer.getService(TicketService);
     }
 
     async initialize(): Promise<void> {
         await super.initialize();
+
+        this.registerCustomEvents();
+        this.registerNavigationItems();
+    }
+
+    private registerCustomEvents() {
+        this.framework.client.on('interactionCreate', async (interaction) => {
+            if (!interaction.isButton()) return;
+            if (!interaction.customId.startsWith('ticket.open.')) return;
+            if (interaction.guild === null) return;
+            if (interaction.member === null) return;
+
+            const panelId = interaction.customId.replace('ticket.open.', '');
+
+            try {
+                await this.ticketService.createTicket(interaction.guild, interaction.member, panelId);
+            } catch (err) {
+                await interaction.reply({ content: 'Error al abrir el ticket.', ephemeral: true });
+            }
+        });
+    }
+
+    private registerNavigationItems() {
         const navigationService = ServiceContainer.getService(UserPanelNavigationService);
         navigationService.registerItem({
             id: 'tickets',
@@ -21,6 +49,7 @@ export class TicketsModule extends Module {
                 showDropdown: true,
                 sections: [
                     {
+                        id: 'tickets',
                         label: 'Tickets',
                         items: [
                             {
