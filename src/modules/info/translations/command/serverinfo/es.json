@@ -1,24 +1,31 @@
 {
-    "description": "Displays detailed server information",
-    "no": {
-        "description": "Sin descripción"
-    },
-    "owner": "Dueño: **{owner}**",
-    "created": "Creado el: **{created}**",
-    "language": "Idioma: **{language}**",
-    "stats": "Estadísticas",
+    "description": "Muestra información detallada del servidor",
+    "id": "ID: **{id}**",
+    "owner": "Dueño/a: {owner}",
+    "dateCreated": "Fecha de creación: **{dateCreated}**",
     "members": "Miembros: **{members}**",
-    "upgrades": "Mejoras: **{upgrades}**",
+    "channels": "Canales: **{channels}**",
     "roles": "Roles: **{roles}**",
-    "details": "Detalles",
+    "emojis": "Emojis: **{emojis}**",
+    "upgrades": "Mejoras: **{upgrades}**",
     "verification": "Verificación: **{verification}**",
-    "channels": "Canales",
-    "total": "Total: **{total}**",
-    "announcements": "Anuncios: **{announcements}**",
-    "station": "Estación: **{station}**",
-    "threads": "Hilos: **{threads}**",
-    "forum": "Foro: **{forum}**",
-    "text": "Texto: **{text}**",
-    "voice": "Voz: **{voice}**",
-    "category": "Categoría: **{category}**"
+    "none": "Ninguno",
+    "low": "Bajo",
+    "medium": "Medio",
+    "high": "Alto",
+    "very_high": "Muy Alto",
+    "select": {
+        "server": {
+            "title": "Servidor",
+            "description": "Muestra informcion general del servidor."
+        },
+        "roles": {
+            "title": "Roles",
+            "description": "Muestra los roles del servidor."
+        },
+        "emojis": {
+            "title": "Emojis",
+            "description": "Muestra los emojis del servidor."
+        }
+    }
 }

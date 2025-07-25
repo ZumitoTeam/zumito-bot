@@ -1,25 +1,31 @@
 {
     "description": "Displays detailed server information",
-    "no": {
-        "description": "No description"
-    },
     "id": "ID: **{id}**",
-    "owner": "Owner: **{owner}**",
-    "created": "Created on: **{created}**",
-    "language": "Language: **{language}**",
-    "stats": "Stats",
+    "owner": "Owner: {owner}",
+    "dateCreated": "Date created: **{dateCreated}**",
     "members": "Members: **{members}**",
-    "upgrades": "Upgrades: **{upgrades}**",
+    "channels": "Channels: **{channels}**",
     "roles": "Roles: **{roles}**",
-    "details": "Details",
+    "emojis": "Emojis: **{emojis}**",
+    "upgrades": "Upgrades: **{upgrades}**",
     "verification": "Verification: **{verification}**",
-    "channels": "Channels",
-    "total": "Total: **{total}**",
-    "announcements": "Announcements: **{announcements}**",
-    "station": "Station: **{station}**",
-    "threads": "Threads: **{threads}**",
-    "forum": "Forum: **{forum}**",
-    "text": "Text: **{text}**",
-    "voice": "Voice: **{voice}**",
-    "category": "Category: **{category}**"
+    "none": "None",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "very_high": "Very High",
+    "select": {
+        "server": {
+            "title": "Server",
+            "description": "Show general info abount the server."
+        },
+        "roles": {
+            "title": "Roles",
+            "description": "Show the server roles."
+        },
+        "emojis": {
+            "title": "Emojis",
+            "description": "Show the server roles."
+        }
+    }
 }
