@@ -76,7 +76,7 @@ export class Lang extends Command {
             } else if (lang === 'es' || lang === 'en') {
                 
                 await this.framework.database.collection('guilds').updateOne(
-                    { guild_id: guildSettings.guildId },
+                    { guild_id: guildSettings.guild_id },
                     { $set: { lang } }
                 );
 
@@ -220,7 +220,7 @@ export class Lang extends Command {
                     });
                 }
             } else {
-                this.framework.database.collection('guilds').updateOne({ guild_id: guildSettings.guildId }, { $set: { lang } });
+                this.framework.database.collection('guilds').updateOne({ guild_id: guildSettings.guild_id }, { $set: { lang } });
 
                 if (interaction.replied || interaction.deferred) {
                     await interaction.editReply({
