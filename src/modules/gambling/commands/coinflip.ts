@@ -1,4 +1,6 @@
-import { Command, CommandParameters } from "zumito-framework";
+import { ButtonPressedParams, Command, CommandArgDefinition, CommandParameters } from "zumito-framework";
+import { CoinFlipEmbedBuilder } from "../services/embeds/CoinFlipEmbedBuilder";
+import { CoinFlipActionRowBuilder } from "../services/actionRow/CoinFlipActionRowBuilder";
 
 export class CoinflipCommand extends Command {
     name = "coinflip";
@@ -6,22 +8,73 @@ export class CoinflipCommand extends Command {
     categories = ["gambling"];
     examples = ["cara", "cruz"];
     usage = "coinflip <cara|cruz>";
-    args = [
-        { name: "eleccion", type: "string", optional: true }
-    ];
-    async execute({ message, interaction, args }: CommandParameters): Promise<void> {
-        const user = message?.author || interaction?.user;
-        if (!user) return;
-        const eleccion = (args.get("eleccion") || "").toLowerCase();
-        const resultado = Math.random() < 0.5 ? "cara" : "cruz";
-        let reply = `🪙 La moneda cayó en **${resultado}**.`;
-        if (eleccion === "cara" || eleccion === "cruz") {
-            const gano = eleccion === resultado;
-            reply += ` ${gano ? "¡Ganaste! 🎉" : "Perdiste. 😢"}`;
-        } else if (eleccion) {
-            reply += " Debes elegir 'cara' o 'cruz'. Ejemplo: /coinflip cara";
+    args: CommandArgDefinition[] = [
+        { 
+            name: "election", 
+            type: "string", 
+            optional: true,
+            choices: [
+                { name: "cara", value: "head" },
+                { name: "cruz", value: "tail" },
+            ]
         }
-        if (message) { await message.reply(reply); return; }
-        if (interaction) { await interaction.reply(reply); return; }
+    ];
+
+    coinFlipmbedBuilder: CoinFlipEmbedBuilder;
+    coinflipActionRowBuilder: CoinFlipActionRowBuilder;
+
+    constructor() {
+        super();
+        this.coinFlipmbedBuilder = new CoinFlipEmbedBuilder();
+        this.coinflipActionRowBuilder = new CoinFlipActionRowBuilder();
     }
+
+    async execute({ message, interaction, args, guildSettings }: CommandParameters): Promise<void> {
+
+        const election = (args.get("election") || "").toLowerCase();
+        if(!args.has('election') || (election !== "head" && election !== "tail")) {
+
+            const embed = this.coinFlipmbedBuilder.getNoEmbed({
+                locale: guildSettings.lang,
+            });
+
+            (message||interaction)?.reply({
+                embeds: [embed],
+                components: [
+                    this.coinflipActionRowBuilder.getRow({
+                        locale: guildSettings.lang,
+                    }) as any
+                ],
+            })
+        } else {
+
+            const result = Math.random() < 0.5 ? "head" : "tail";
+            const win = election === result;
+
+            const embed = this.coinFlipmbedBuilder.getEmbed({
+                result: result,
+                election: election,
+                win: win,
+                locale: guildSettings.lang,
+            });
+            (message||interaction)?.reply({
+                embeds: [embed],
+            })
+        }
+       
+    }
+
+    async buttonPressed({ path, interaction, guildSettings }: ButtonPressedParams): Promise<void> {
+        const eleccion = (path[1] || "").toLowerCase();
+        const resultado = Math.random() < 0.5 ? "tail" : "head"; 
+        const win = eleccion === resultado;
+        const embed = this.coinFlipmbedBuilder.getEmbed({
+            result: resultado,
+            election: eleccion as ("tail"|"head"),
+            win: win,
+            locale: guildSettings.lang,
+        });
+        await interaction.update({ embeds: [embed] });
+    }
+
 }
