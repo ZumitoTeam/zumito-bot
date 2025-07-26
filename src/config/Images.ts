@@ -9,4 +9,5 @@ export const images: any = {
         bad: 'https://media.giphy.com/media/3o6wrvdHFbwBrUFenu/giphy.gif',
         cursed: 'https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif',
     },
+    catflip: 'https://images-ext-1.discordapp.net/external/1Ie_7qXkQDCtlsosGi2FojOvbgqHsrLogq5lk4ar78I/https/cdn.nekotina.com/res/embeds/NyanCoinCat.gif'
 }

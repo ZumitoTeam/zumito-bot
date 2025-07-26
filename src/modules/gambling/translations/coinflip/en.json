@@ -1,0 +1,11 @@
+{
+      "title": "Let's flip a coin!",
+      "left": "It landed on",
+      "choice": "Your choice",
+      "result": "The result is",
+      "ask": " Which side will you pick?",
+      "win": "You won!",
+      "lose": "You lost this time",
+      "heads": "Heads",
+      "tails": "Tails"
+}

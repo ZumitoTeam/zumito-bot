@@ -1,0 +1,11 @@
+{
+      "title": "¡Vamos a lanzar una moneda!",
+      "left": "Salió",
+      "choice": "Tu elección",
+      "result": "¡El resultado es",
+      "ask": "¿Qué lado eliges?",
+      "win": "¡Ganaste!",
+      "lose": "Perdiste esta vez",
+      "heads": "Cara",
+      "tails": "Sello"
+}

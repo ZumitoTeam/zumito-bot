@@ -74,9 +74,9 @@ export class Lang extends Command {
                     });
                 }
             } else if (lang === 'es' || lang === 'en') {
-                guildSettings.lang = lang;
+                
                 await this.framework.database.collection('guilds').updateOne(
-                    { guildId: guildSettings.guildId },
+                    { guild_id: guildSettings.guildId },
                     { $set: { lang } }
                 );
 
@@ -220,7 +220,7 @@ export class Lang extends Command {
                     });
                 }
             } else {
-                this.framework.database.collection('guilds').updateOne({ guildId: guildSettings.guildId }, { $set: { lang } });
+                this.framework.database.collection('guilds').updateOne({ guild_id: guildSettings.guildId }, { $set: { lang } });
 
                 if (interaction.replied || interaction.deferred) {
                     await interaction.editReply({
