@@ -1,0 +1,9 @@
+{
+      "description": "Verifica tu balance. Los administradores pueden verificar el balance de otro usuario de la guild.",
+      "title": "Balance de {user}",
+      "free": "Gratis: {free}",
+      "paid": "Pago: {paid}",
+      "coins": "Monedas: {coins}",
+      "deposit": "Depsitar",
+      "withdraw": "Retirar"
+}

@@ -1,0 +1,9 @@
+{
+      "description": "Check your balance. Admins can check another user's guild balance.",
+      "title": "Balance of {user}",
+      "free": "Free: {free}",
+      "paid": "Paid: {paid}",
+      "coins": "Coins: {coins}",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw"
+}
