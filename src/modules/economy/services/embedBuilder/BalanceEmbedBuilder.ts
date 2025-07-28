@@ -12,29 +12,33 @@ export class BalanceEmbedBuilder {
         this.emojiFallback = ServiceContainer.getService(EmojiFallback) as EmojiFallback;
     }
 
-    getEmbed({ locale }: {
+    getEmbed({ free, paid, coins, user, locale }: {
+        free: number;
+        paid: number;
+        coins: number;
+        user: string;
         locale: string;
     }) {
 
         const description = [
 
             `- ${ this.translator.get('balance.free', locale, {
-                free: '**20**'
+                free: free
             })}`,
 
             `- ${  this.translator.get('balance.paid', locale, {
-                paid: '**30**'
+                paid: paid
             })}`,
 
             `- ${  this.translator.get('balance.coins', locale,{
-                coins: '**20**'
+                coins: coins
             })}`
         ];
 
         const balanceEmbed = new EmbedBuilder()
             
             .setTitle(this.translator.get('balance.title', locale, {
-                user: 'WilliamAcosta'
+                user: user
             }))
             .setDescription(description.join('\n'))
             .setColor(config.colors.default);
