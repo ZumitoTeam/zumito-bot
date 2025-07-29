@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import ejs from 'ejs';
 import { ZumitoFramework, Command } from "zumito-framework";
 import { LandingViewService } from "../services/LandingViewService";
+import { DEFAULT_NAVBAR_LINKS } from "../definitions/defaultNavbarLinks";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -21,6 +22,7 @@ export class Commands extends Route {
     }
 
     async execute(req, res) {
+        const botName = this.framework.client?.user?.username || 'ZumitoBot';
         // Obtener todos los comandos registrados
         const commands: Command[] = Array.from(this.framework.commands.getAll().values());
         // Agrupar por categoría
@@ -33,6 +35,12 @@ export class Commands extends Route {
         }
         // Obtener el theme para el layout
         const theme = await this.landingViewService.getTheme();
+        const navCollection = this.framework.database.collection('landingnavbar');
+        let navLinks = await navCollection.find().sort({ order: 1 }).toArray();
+        if (navLinks.length === 0) {
+            await navCollection.insertMany(DEFAULT_NAVBAR_LINKS);
+            navLinks = DEFAULT_NAVBAR_LINKS;
+        }
         // Renderizar la vista
         const content = await ejs.renderFile(
             path.join(__dirname, "../views/commands.ejs"),
@@ -44,7 +52,7 @@ export class Commands extends Route {
         const html = await this.landingViewService.render({
             title: "Comandos",
             content,
-            extra: { theme }
+            extra: { theme, navLinks, botName }
         });
         res.send(html);
     }

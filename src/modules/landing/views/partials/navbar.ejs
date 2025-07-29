@@ -1,0 +1,22 @@
+<nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <a href="/" class="text-xl font-bold text-textMain"><%= botName %></a>
+        <div class="space-x-4">
+            <% navLinks.forEach(link => { %>
+                <a href="<%= link.url %>" class="text-textMain hover:text-accent"><%= link.label %></a>
+            <% }) %>
+        </div>
+    </div>
+</nav>
+<script>
+    const nav = document.getElementById('navbar');
+    function updateNav(){
+        if(window.scrollY <= 0){
+            nav.style.background = 'transparent';
+        }else{
+            nav.style.background = '<%= theme.background %>';
+        }
+    }
+    document.addEventListener('scroll', updateNav);
+    updateNav();
+</script>
