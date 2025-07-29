@@ -1,0 +1,120 @@
+<div class="card mt-6" x-data="{ links: <%- JSON.stringify(links) %> }">
+  <div class="flex items-center justify-between mb-4">
+    <div class="text-lg font-semibold">Navbar Links</div>
+    <button type="button" id="addLink" class="btn-secondary">Add</button>
+  </div>
+  <form id="linksForm" class="space-y-4">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="bg-discord-dark-300">
+          <th class="text-left p-3">Label</th>
+          <th class="text-left p-3">Route</th>
+          <th class="text-left p-3 w-32">Order</th>
+          <th class="p-3 w-12"></th>
+        </tr>
+      </thead>
+      <tbody id="linksBody">
+        <% links.forEach(function(link, index) { %>
+          <tr class="border-t border-discord-dark-400">
+            <td class="p-3 flex items-center gap-2">
+              <span class="cursor-move handle">⇅</span>
+              <input type="text" name="links[<%= index %>][label]" value="<%= link.label %>" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-white" />
+            </td>
+            <td class="p-3">
+              <select name="links[<%= index %>][url]" class="px-2 py-1 rounded bg-discord-dark-300 text-white">
+                <% routes.forEach(function(r){ %>
+                  <option value="<%= r %>" <%= r === link.url ? 'selected' : '' %>><%= r %></option>
+                <% }) %>
+              </select>
+            </td>
+            <td class="p-3">
+              <input type="number" name="links[<%= index %>][order]" value="<%= link.order %>" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-white" />
+            </td>
+            <td class="p-3 text-right">
+              <button type="button" class="deleteLink text-red-400">Delete</button>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <div class="flex justify-end">
+      <button type="submit" class="btn-primary">Save</button>
+    </div>
+  </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script>
+  const tbody = document.getElementById('linksBody');
+  const addButton = document.getElementById('addLink');
+  new Sortable(tbody, {
+    handle: '.handle',
+    animation: 150,
+    onEnd: updateOrders
+  });
+
+  addButton.addEventListener('click', () => {
+    const index = tbody.querySelectorAll('tr').length;
+    const row = document.createElement('tr');
+    row.className = 'border-t border-discord-dark-400';
+    row.innerHTML = `
+      <td class="p-3 flex items-center gap-2">
+        <span class="cursor-move handle">⇅</span>
+        <input type="text" name="links[${index}][label]" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-white" required />
+      </td>
+      <td class="p-3">
+        <select name="links[${index}][url]" class="px-2 py-1 rounded bg-discord-dark-300 text-white">
+          ${routes.map(r => `<option value="${r}">${r}</option>`).join('')}
+        </select>
+      </td>
+      <td class="p-3">
+        <input type="number" name="links[${index}][order]" value="${index + 1}" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-white" />
+      </td>
+      <td class="p-3 text-right">
+        <button type="button" class="deleteLink text-red-400">Delete</button>
+      </td>`;
+    tbody.appendChild(row);
+    updateOrders();
+  });
+
+  tbody.addEventListener('click', e => {
+    if (e.target.classList.contains('deleteLink')) {
+      e.target.closest('tr').remove();
+      updateOrders();
+    }
+  });
+
+  function updateOrders() {
+    [...tbody.querySelectorAll('tr')].forEach((row, idx) => {
+      row.querySelectorAll('input, select').forEach(input => {
+        const name = input.getAttribute('name');
+        if (name) {
+          const newName = name.replace(/links\[\d+\]/, `links[${idx}]`);
+          input.setAttribute('name', newName);
+        }
+      });
+      const orderInput = row.querySelector('input[name$="[order]"]');
+      if (orderInput) orderInput.value = idx + 1;
+    });
+  }
+
+  document.getElementById('linksForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const links = [];
+    for (const [key, value] of formData.entries()) {
+      const match = key.match(/^links\[(\d+)\]\[(label|url|order)\]$/);
+      if (!match) continue;
+      const idx = parseInt(match[1]);
+      if (!links[idx]) links[idx] = {};
+      links[idx][match[2]] = value;
+    }
+    const response = await fetch('/admin/landing/navbar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ links })
+    });
+    if (response.ok) {
+      window.location.reload();
+    }
+  });
+</script>

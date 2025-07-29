@@ -26,7 +26,8 @@
         }
     </script>
 </head>
-<body class="min-h-screen flex flex-col bg-background"></body>
+<body class="min-h-screen flex flex-col bg-background">
+    <%- include('../partials/navbar', { botName, navLinks, theme }) %>
     <%- content %>
 </body>
 </html>

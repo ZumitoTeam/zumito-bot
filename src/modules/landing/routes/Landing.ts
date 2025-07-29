@@ -5,6 +5,7 @@ import ejs from 'ejs';
 import { Client, version as discordjsVersion } from "zumito-framework/discord";
 import { LandingViewService } from "../services/LandingViewService";
 import { DEFAULT_LANDING_MODULES } from "../definitions/defaultLandingModules";
+import { DEFAULT_NAVBAR_LINKS } from "../definitions/defaultNavbarLinks";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -53,6 +54,13 @@ export class Landing extends Route {
         if (modules.length === 0) {
             await collection.insertMany(DEFAULT_LANDING_MODULES);
             modules = DEFAULT_LANDING_MODULES.filter(m => m.enabled);
+        }
+
+        const navCollection = this.framework.database.collection('landingnavbar');
+        let navLinks = await navCollection.find().sort({ order: 1 }).toArray();
+        if (navLinks.length === 0) {
+            await navCollection.insertMany(DEFAULT_NAVBAR_LINKS);
+            navLinks = DEFAULT_NAVBAR_LINKS;
         }
         
         // FAQs (pueden venir de config, aquí ejemplo hardcode)
@@ -104,7 +112,7 @@ export class Landing extends Route {
         const html = await this.landingViewService.render({
             title: "Inicio",
             content,
-            extra: { theme }
+            extra: { theme, navLinks, botName }
         });
         res.send(html);
     }
