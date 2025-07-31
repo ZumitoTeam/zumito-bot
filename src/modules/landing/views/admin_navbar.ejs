@@ -18,17 +18,17 @@
           <tr class="border-t border-discord-dark-400">
             <td class="p-3 flex items-center gap-2">
               <span class="cursor-move handle">⇅</span>
-              <input type="text" name="links[<%= index %>][label]" value="<%= link.label %>" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-white" />
+              <input type="text" name="links[<%= index %>][label]" value="<%= link.label %>" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-discord-foreground" />
             </td>
             <td class="p-3">
-              <select name="links[<%= index %>][url]" class="px-2 py-1 rounded bg-discord-dark-300 text-white">
+              <select name="links[<%= index %>][url]" class="px-2 py-1 rounded bg-discord-dark-300 text-discord-foreground">
                 <% routes.forEach(function(r){ %>
                   <option value="<%= r %>" <%= r === link.url ? 'selected' : '' %>><%= r %></option>
                 <% }) %>
               </select>
             </td>
             <td class="p-3">
-              <input type="number" name="links[<%= index %>][order]" value="<%= link.order %>" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-white" />
+              <input type="number" name="links[<%= index %>][order]" value="<%= link.order %>" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-discord-foreground" />
             </td>
             <td class="p-3 text-right">
               <button type="button" class="deleteLink text-red-400">Delete</button>
@@ -59,15 +59,15 @@
     row.innerHTML = `
       <td class="p-3 flex items-center gap-2">
         <span class="cursor-move handle">⇅</span>
-        <input type="text" name="links[${index}][label]" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-white" required />
+        <input type="text" name="links[${index}][label]" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-discord-foreground" required />
       </td>
       <td class="p-3">
-        <select name="links[${index}][url]" class="px-2 py-1 rounded bg-discord-dark-300 text-white">
+        <select name="links[${index}][url]" class="px-2 py-1 rounded bg-discord-dark-300 text-discord-foreground">
           ${routes.map(r => `<option value="${r}">${r}</option>`).join('')}
         </select>
       </td>
       <td class="p-3">
-        <input type="number" name="links[${index}][order]" value="${index + 1}" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-white" />
+        <input type="number" name="links[${index}][order]" value="${index + 1}" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-discord-foreground" />
       </td>
       <td class="p-3 text-right">
         <button type="button" class="deleteLink text-red-400">Delete</button>

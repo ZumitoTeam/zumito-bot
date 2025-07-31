@@ -18,10 +18,10 @@
           <tr class="border-t border-discord-dark-400">
             <td class="p-3 flex items-center gap-2">
               <span class="cursor-move handle">⇅</span>
-              <input type="text" name="modules[<%= index %>][name]" value="<%= mod.name %>" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-white" />
+              <input type="text" name="modules[<%= index %>][name]" value="<%= mod.name %>" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-discord-foreground" />
             </td>
             <td class="p-3">
-              <input type="number" name="modules[<%= index %>][order]" value="<%= mod.order %>" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-white" />
+              <input type="number" name="modules[<%= index %>][order]" value="<%= mod.order %>" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-discord-foreground" />
             </td>
             <td class="p-3 text-center">
               <input type="checkbox" name="modules[<%= index %>][enabled]" <%= mod.enabled ? 'checked' : '' %> />
@@ -56,10 +56,10 @@
     row.innerHTML = `
       <td class="p-3 flex items-center gap-2">
         <span class="cursor-move handle">⇅</span>
-        <input type="text" name="modules[${index}][name]" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-white" required />
+        <input type="text" name="modules[${index}][name]" class="w-32 px-2 py-1 rounded bg-discord-dark-300 text-discord-foreground" required />
       </td>
       <td class="p-3">
-        <input type="number" name="modules[${index}][order]" value="${index + 1}" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-white" />
+        <input type="number" name="modules[${index}][order]" value="${index + 1}" min="1" class="w-20 px-2 py-1 rounded bg-discord-dark-300 text-discord-foreground" />
       </td>
       <td class="p-3 text-center">
         <input type="checkbox" name="modules[${index}][enabled]" checked />
