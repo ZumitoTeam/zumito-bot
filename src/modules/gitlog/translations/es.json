@@ -1,0 +1,40 @@
+{
+    "changelog": {
+        "sidebarTitle": "Notas de versión",
+        "title": "Historial de Cambios",
+        "subtitle": "Últimos 20 commits",
+        "legend": {
+            "title": "Tipos de cambios:",
+            "types": {
+                "feature": "Nuevas funciones",
+                "fix": "Correcciones",
+                "style": "Mejoras visuales",
+                "docs": "Documentación",
+                "refactor": "Refactorización",
+                "test": "Tests",
+                "chore": "Mantenimiento"
+            }
+        },
+        "copyHashTooltip": "Click para copiar hash del commit",
+        "commitType": {
+            "other": "cambio"
+        },
+        "footer": {
+            "description": "Este historial muestra los últimos cambios realizados en el bot desde GitHub.",
+            "tip": "💡 <strong>Consejos:</strong> Haz clic en el título de un commit para verlo en GitHub, o en el hash para copiarlo."
+        },
+        "copyNotification": {
+            "success": "✅ Hash copiado al portapapeles",
+            "error": "❌ No se pudo copiar"
+        },
+        "error": "Error al obtener el historial de cambios desde GitHub"
+    },
+    "time": {
+        "justNow": "hace unos segundos",
+        "minutesAgo": "hace {0} minuto(s)",
+        "hoursAgo": "hace {0} hora(s)",
+        "daysAgo": "hace {0} día(s)",
+        "monthsAgo": "hace {0} mes(es)",
+        "yearsAgo": "hace {0} año(s)"
+    }
+}

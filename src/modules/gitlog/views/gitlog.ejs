@@ -2,44 +2,44 @@
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-discord-foreground flex items-center gap-2">
             <span class="text-2xl">📝</span>
-            Historial de Cambios
+            <%= t('changelog.title') %>
         </h2>
         <div class="text-sm text-gray-400">
-            Últimos 20 commits
+            <%= t('changelog.subtitle') %>
         </div>
     </div>
     
     <!-- Leyenda de tipos de commit -->
     <div class="mb-6 p-4 bg-discord-dark-300 rounded-lg">
-        <h3 class="text-sm font-semibold text-gray-300 mb-3">Tipos de cambios:</h3>
+        <h3 class="text-sm font-semibold text-gray-300 mb-3"><%= t('changelog.legend.title') %></h3>
         <div class="flex flex-wrap gap-3 text-xs">
             <div class="flex items-center gap-1">
                 <span>✨</span>
-                <span class="text-green-400">Nuevas funciones</span>
+                <span class="text-green-400"><%= t('changelog.legend.types.feature') %></span>
             </div>
             <div class="flex items-center gap-1">
                 <span>🐛</span>
-                <span class="text-red-400">Correcciones</span>
+                <span class="text-red-400"><%= t('changelog.legend.types.fix') %></span>
             </div>
             <div class="flex items-center gap-1">
                 <span>💄</span>
-                <span class="text-purple-400">Mejoras visuales</span>
+                <span class="text-purple-400"><%= t('changelog.legend.types.style') %></span>
             </div>
             <div class="flex items-center gap-1">
                 <span>📚</span>
-                <span class="text-blue-400">Documentación</span>
+                <span class="text-blue-400"><%= t('changelog.legend.types.docs') %></span>
             </div>
             <div class="flex items-center gap-1">
                 <span>♻️</span>
-                <span class="text-yellow-400">Refactorización</span>
+                <span class="text-yellow-400"><%= t('changelog.legend.types.refactor') %></span>
             </div>
             <div class="flex items-center gap-1">
                 <span>🧪</span>
-                <span class="text-orange-400">Tests</span>
+                <span class="text-orange-400"><%= t('changelog.legend.types.test') %></span>
             </div>
             <div class="flex items-center gap-1">
                 <span>🔧</span>
-                <span class="text-gray-400">Mantenimiento</span>
+                <span class="text-gray-400"><%= t('changelog.legend.types.chore') %></span>
             </div>
         </div>
     </div>
@@ -47,18 +47,12 @@
     <div class="space-y-4">
         <% logs.forEach((log, index) => { %>
             <div class="relative bg-discord-dark-300 rounded-lg p-4 border-l-4 border-<%= log.color %>-500 hover:bg-discord-dark-200 transition-colors duration-200 hover:shadow-lg card">
-                <!-- Timeline connector -->
-               
-                
                 <div class="flex items-start gap-4">
-                    <!-- Icono del tipo de commit -->
                     <div class="flex-shrink-0 w-10 h-10 bg-<%= log.color %>-500 bg-opacity-20 rounded-full flex items-center justify-center">
                         <span class="text-lg"><%= log.icon %></span>
                     </div>
                     
-                    <!-- Contenido principal -->
                     <div class="flex-1 min-w-0">
-                        <!-- Título del commit -->
                         <div class="flex items-center justify-between mb-2">
                             <h3 class="text-discord-foreground font-medium text-sm truncate pr-4">
                                 <% if (log.url) { %>
@@ -71,13 +65,12 @@
                                 <% } %>
                             </h3>
                             <span class="text-xs text-gray-400 font-mono bg-gray-700 px-2 py-1 rounded hover:bg-gray-600 transition-colors cursor-pointer" 
-                                  title="Click para copiar hash del commit"
+                                  title="<%= t('changelog.copyHashTooltip') %>"
                                   onclick="copyHash('<%= log.fullHash %>', this)">
                                 <%= log.shortHash %>
                             </span>
                         </div>
                         
-                        <!-- Información del autor y fecha -->
                         <div class="flex flex-wrap items-center gap-4 text-xs text-gray-400 mb-2">
                             <div class="flex items-center gap-1">
                                 <span>👤</span>
@@ -93,18 +86,16 @@
                             </div>
                         </div>
                         
-                        <!-- Descripción adicional si existe -->
                         <% if (log.body && log.body.trim()) { %>
                         <div class="mt-2 p-2 bg-discord-dark-400 rounded text-xs text-gray-300">
                             <%= log.body.substring(0, 200) %><% if (log.body.length > 200) { %>...<% } %>
                         </div>
                         <% } %>
                         
-                        <!-- Badge del tipo de commit -->
                         <div class="mt-2">
                             <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-<%= log.color %>-500 bg-opacity-20 text-<%= log.color %>-400 border border-<%= log.color %>-500 border-opacity-30">
                                 <%= log.icon %>
-                                <span class="capitalize"><%= log.type === 'other' ? 'cambio' : log.type %></span>
+                                <span class="capitalize"><%= log.type === 'other' ? t('changelog.commitType.other') : log.type %></span>
                             </span>
                         </div>
                     </div>
@@ -113,12 +104,11 @@
         <% }) %>
     </div>
     
-    <!-- Footer con información adicional -->
     <div class="mt-6 p-4 bg-discord-dark-400 rounded-lg text-center">
         <p class="text-xs text-gray-400">
-            Este historial muestra los últimos cambios realizados en el bot desde GitHub.
+            <%- t('changelog.footer.description') %>
             <br>
-            💡 <strong>Consejos:</strong> Haz clic en el título de un commit para verlo en GitHub, o en el hash para copiarlo.
+            <%- t('changelog.footer.tip') %>
         </p>
     </div>
 </div>
@@ -163,20 +153,17 @@
 <script>
 function copyHash(hash, element) {
     navigator.clipboard.writeText(hash).then(() => {
-        // Mostrar notificación
         const notification = document.createElement('div');
         notification.className = 'copy-notification';
-        notification.textContent = '✅ Hash copiado al portapapeles';
+        notification.textContent = '<%= t('changelog.copyNotification.success') %>';
         document.body.appendChild(notification);
         
-        // Remover notificación después de 3 segundos
         setTimeout(() => {
             if (notification.parentNode) {
                 notification.parentNode.removeChild(notification);
             }
         }, 3000);
         
-        // Efecto visual en el elemento clickeado
         element.style.background = '#22c55e';
         element.style.color = 'white';
         setTimeout(() => {
@@ -184,11 +171,10 @@ function copyHash(hash, element) {
             element.style.color = '#9ca3af';
         }, 200);
     }).catch(() => {
-        // Fallback si no se puede copiar
         const notification = document.createElement('div');
         notification.className = 'copy-notification';
         notification.style.background = '#ef4444';
-        notification.textContent = '❌ No se pudo copiar';
+        notification.textContent = '<%= t('changelog.copyNotification.error') %>';
         document.body.appendChild(notification);
         
         setTimeout(() => {
