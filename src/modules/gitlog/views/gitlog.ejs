@@ -1,0 +1,201 @@
+<div class="card">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-discord-foreground flex items-center gap-2">
+            <span class="text-2xl">📝</span>
+            Historial de Cambios
+        </h2>
+        <div class="text-sm text-gray-400">
+            Últimos 20 commits
+        </div>
+    </div>
+    
+    <!-- Leyenda de tipos de commit -->
+    <div class="mb-6 p-4 bg-discord-dark-300 rounded-lg">
+        <h3 class="text-sm font-semibold text-gray-300 mb-3">Tipos de cambios:</h3>
+        <div class="flex flex-wrap gap-3 text-xs">
+            <div class="flex items-center gap-1">
+                <span>✨</span>
+                <span class="text-green-400">Nuevas funciones</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <span>🐛</span>
+                <span class="text-red-400">Correcciones</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <span>💄</span>
+                <span class="text-purple-400">Mejoras visuales</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <span>📚</span>
+                <span class="text-blue-400">Documentación</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <span>♻️</span>
+                <span class="text-yellow-400">Refactorización</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <span>🧪</span>
+                <span class="text-orange-400">Tests</span>
+            </div>
+            <div class="flex items-center gap-1">
+                <span>🔧</span>
+                <span class="text-gray-400">Mantenimiento</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <% logs.forEach((log, index) => { %>
+            <div class="relative bg-discord-dark-300 rounded-lg p-4 border-l-4 border-<%= log.color %>-500 hover:bg-discord-dark-200 transition-colors duration-200 hover:shadow-lg card">
+                <!-- Timeline connector -->
+               
+                
+                <div class="flex items-start gap-4">
+                    <!-- Icono del tipo de commit -->
+                    <div class="flex-shrink-0 w-10 h-10 bg-<%= log.color %>-500 bg-opacity-20 rounded-full flex items-center justify-center">
+                        <span class="text-lg"><%= log.icon %></span>
+                    </div>
+                    
+                    <!-- Contenido principal -->
+                    <div class="flex-1 min-w-0">
+                        <!-- Título del commit -->
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-discord-foreground font-medium text-sm truncate pr-4">
+                                <% if (log.url) { %>
+                                <a href="<%= log.url %>" target="_blank" class="hover:text-blue-400 transition-colors">
+                                    <%= log.subject %>
+                                    <span class="text-xs opacity-60">🔗</span>
+                                </a>
+                                <% } else { %>
+                                <%= log.subject %>
+                                <% } %>
+                            </h3>
+                            <span class="text-xs text-gray-400 font-mono bg-gray-700 px-2 py-1 rounded hover:bg-gray-600 transition-colors cursor-pointer" 
+                                  title="Click para copiar hash del commit"
+                                  onclick="copyHash('<%= log.fullHash %>', this)">
+                                <%= log.shortHash %>
+                            </span>
+                        </div>
+                        
+                        <!-- Información del autor y fecha -->
+                        <div class="flex flex-wrap items-center gap-4 text-xs text-gray-400 mb-2">
+                            <div class="flex items-center gap-1">
+                                <span>👤</span>
+                                <span><%= log.author %></span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span>⏰</span>
+                                <span><%= log.relativeDate %></span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span>📅</span>
+                                <span><%= log.absoluteDate %></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Descripción adicional si existe -->
+                        <% if (log.body && log.body.trim()) { %>
+                        <div class="mt-2 p-2 bg-discord-dark-400 rounded text-xs text-gray-300">
+                            <%= log.body.substring(0, 200) %><% if (log.body.length > 200) { %>...<% } %>
+                        </div>
+                        <% } %>
+                        
+                        <!-- Badge del tipo de commit -->
+                        <div class="mt-2">
+                            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-<%= log.color %>-500 bg-opacity-20 text-<%= log.color %>-400 border border-<%= log.color %>-500 border-opacity-30">
+                                <%= log.icon %>
+                                <span class="capitalize"><%= log.type === 'other' ? 'cambio' : log.type %></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+    
+    <!-- Footer con información adicional -->
+    <div class="mt-6 p-4 bg-discord-dark-400 rounded-lg text-center">
+        <p class="text-xs text-gray-400">
+            Este historial muestra los últimos cambios realizados en el bot desde GitHub.
+            <br>
+            💡 <strong>Consejos:</strong> Haz clic en el título de un commit para verlo en GitHub, o en el hash para copiarlo.
+        </p>
+    </div>
+</div>
+
+<style>
+/* Animaciones adicionales para mejorar la experiencia */
+.card {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Notificación de copiado */
+.copy-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #22c55e;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out, slideOut 0.3s ease-in 2.7s;
+    animation-fill-mode: both;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+</style>
+
+<script>
+function copyHash(hash, element) {
+    navigator.clipboard.writeText(hash).then(() => {
+        // Mostrar notificación
+        const notification = document.createElement('div');
+        notification.className = 'copy-notification';
+        notification.textContent = '✅ Hash copiado al portapapeles';
+        document.body.appendChild(notification);
+        
+        // Remover notificación después de 3 segundos
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 3000);
+        
+        // Efecto visual en el elemento clickeado
+        element.style.background = '#22c55e';
+        element.style.color = 'white';
+        setTimeout(() => {
+            element.style.background = '#374151';
+            element.style.color = '#9ca3af';
+        }, 200);
+    }).catch(() => {
+        // Fallback si no se puede copiar
+        const notification = document.createElement('div');
+        notification.className = 'copy-notification';
+        notification.style.background = '#ef4444';
+        notification.textContent = '❌ No se pudo copiar';
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 3000);
+    });
+}
+</script>
