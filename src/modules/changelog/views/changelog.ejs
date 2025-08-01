@@ -1,187 +1,200 @@
-<div class="card">
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold text-discord-foreground flex items-center gap-2">
-            <span class="text-2xl">📝</span>
-            <%= t('changelog.title') %>
-        </h2>
-        <div class="text-sm text-gray-400">
-            <%= t('changelog.subtitle') %>
-        </div>
-    </div>
-    
-    <!-- Leyenda de tipos de commit -->
-    <div class="mb-6 p-4 bg-discord-dark-300 rounded-lg">
-        <h3 class="text-sm font-semibold text-gray-300 mb-3"><%= t('changelog.legend.title') %></h3>
-        <div class="flex flex-wrap gap-3 text-xs">
-            <div class="flex items-center gap-1">
-                <span>✨</span>
-                <span class="text-green-400"><%= t('changelog.legend.types.feature') %></span>
-            </div>
-            <div class="flex items-center gap-1">
-                <span>🐛</span>
-                <span class="text-red-400"><%= t('changelog.legend.types.fix') %></span>
-            </div>
-            <div class="flex items-center gap-1">
-                <span>💄</span>
-                <span class="text-purple-400"><%= t('changelog.legend.types.style') %></span>
-            </div>
-            <div class="flex items-center gap-1">
-                <span>📚</span>
-                <span class="text-blue-400"><%= t('changelog.legend.types.docs') %></span>
-            </div>
-            <div class="flex items-center gap-1">
-                <span>♻️</span>
-                <span class="text-yellow-400"><%= t('changelog.legend.types.refactor') %></span>
-            </div>
-            <div class="flex items-center gap-1">
-                <span>🧪</span>
-                <span class="text-orange-400"><%= t('changelog.legend.types.test') %></span>
-            </div>
-            <div class="flex items-center gap-1">
-                <span>🔧</span>
-                <span class="text-gray-400"><%= t('changelog.legend.types.chore') %></span>
-            </div>
-        </div>
-    </div>
 
-    <div class="space-y-4">
-        <% logs.forEach((log, index) => { %>
-            <div class="relative bg-discord-dark-300 rounded-lg p-4 border-l-4 border-<%= log.color %>-500 hover:bg-discord-dark-200 transition-colors duration-200 hover:shadow-lg card">
-                <div class="flex items-start gap-4">
-                    <div class="flex-shrink-0 w-10 h-10 bg-<%= log.color %>-500 bg-opacity-20 rounded-full flex items-center justify-center">
-                        <span class="text-lg"><%= log.icon %></span>
-                    </div>
-                    
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="text-discord-foreground font-medium text-sm truncate pr-4">
-                                <% if (log.url) { %>
-                                <a href="<%= log.url %>" target="_blank" class="hover:text-blue-400 transition-colors">
-                                    <%= log.subject %>
-                                    <span class="text-xs opacity-60">🔗</span>
-                                </a>
-                                <% } else { %>
-                                <%= log.subject %>
-                                <% } %>
-                            </h3>
-                            <span class="text-xs text-gray-400 font-mono bg-gray-700 px-2 py-1 rounded hover:bg-gray-600 transition-colors cursor-pointer" 
-                                  title="<%= t('changelog.copyHashTooltip') %>"
-                                  onclick="copyHash('<%= log.fullHash %>', this)">
-                                <%= log.shortHash %>
-                            </span>
-                        </div>
-                        
-                        <div class="flex flex-wrap items-center gap-4 text-xs text-gray-400 mb-2">
-                            <div class="flex items-center gap-1">
-                                <span>👤</span>
-                                <span><%= log.author %></span>
+<div class="card relative overflow-hidden">
+    <!-- Background gradient effect -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5 pointer-events-none"></div>
+    
+    <div class="relative z-10">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <span class="text-2xl">🚀</span>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-discord-foreground">
+                        <%= t('changelog.title') %>
+                    </h2>
+                    <p class="text-sm text-gray-400 mt-1">
+                        <%= t('changelog.subtitle') %>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Stats badge -->
+            <div class="hidden md:flex items-center gap-4">
+                <div class="bg-discord-dark-300 rounded-lg px-4 py-2 border border-gray-600">
+                    <div class="text-xs text-gray-400"><%= t('changelog.stats.updates') %></div>
+                    <div class="text-lg font-bold text-discord-foreground"><%= updateGroups.length %></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Updates Timeline -->
+        <div class="space-y-8">
+            <% updateGroups.forEach((update, index) => { %>
+                <div class="relative group">
+                    <!-- Update Card -->
+                    <div class="bg-gradient-to-br from-discord-dark-300 to-discord-dark-200 rounded-xl p-6 border border-gray-600/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                        <!-- Update Header -->
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                                    <span class="text-[0.50rem] font-bold text-white leading-tight text-center">v<%= update.version %></span>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-discord-foreground mb-1">
+                                        <%= update.displayTitle %>
+                                    </h3>
+                                    <p class="text-sm text-gray-400">
+                                        <%= update.formattedDate %> • <%= update.relativeDate %>
+                                    </p>
+                                    <p class="text-sm text-blue-400 font-medium mt-1">
+                                        <%= update.summary %>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="flex items-center gap-1">
-                                <span>⏰</span>
-                                <span><%= log.relativeDate %></span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span>📅</span>
-                                <span><%= log.absoluteDate %></span>
+                            
+                            <!-- Changes Counter -->
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-green-400"><%= update.totalChanges %></div>
+                                <div class="text-xs text-gray-400"><%= t('changelog.changes') %></div>
                             </div>
                         </div>
-                        
-                        <% if (log.body && log.body.trim()) { %>
-                        <div class="mt-2 p-2 bg-discord-dark-400 rounded text-xs text-gray-300">
-                            <%= log.body.substring(0, 200) %><% if (log.body.length > 200) { %>...<% } %>
+
+                        <!-- Change Type Stats -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                            <% if (update.changeTypes.features > 0) { %>
+                            <div class="bg-green-500/10 border border-green-500/20 rounded-lg p-3 text-center">
+                                <div class="text-lg">✨</div>
+                                <div class="text-sm font-bold text-green-400"><%= update.changeTypes.features %></div>
+                                <div class="text-xs text-gray-400"><%= t('changelog.legend.types.feature') %></div>
+                            </div>
+                            <% } %>
+                            
+                            <% if (update.changeTypes.fixes > 0) { %>
+                            <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-center">
+                                <div class="text-lg">🐛</div>
+                                <div class="text-sm font-bold text-red-400"><%= update.changeTypes.fixes %></div>
+                                <div class="text-xs text-gray-400"><%= t('changelog.legend.types.fix') %></div>
+                            </div>
+                            <% } %>
+                            
+                            <% if (update.changeTypes.improvements > 0) { %>
+                            <div class="bg-purple-500/10 border border-purple-500/20 rounded-lg p-3 text-center">
+                                <div class="text-lg">💄</div>
+                                <div class="text-sm font-bold text-purple-400"><%= update.changeTypes.improvements %></div>
+                                <div class="text-xs text-gray-400"><%= t('changelog.legend.types.improvements') %></div>
+                            </div>
+                            <% } %>
+                            
+                            <% if (update.changeTypes.other > 0) { %>
+                            <div class="bg-gray-500/10 border border-gray-500/20 rounded-lg p-3 text-center">
+                                <div class="text-lg">🔧</div>
+                                <div class="text-sm font-bold text-gray-400"><%= update.changeTypes.other %></div>
+                                <div class="text-xs text-gray-400"><%= t('changelog.legend.types.other') %></div>
+                            </div>
+                            <% } %>
                         </div>
-                        <% } %>
-                        
-                        <div class="mt-2">
-                            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-<%= log.color %>-500 bg-opacity-20 text-<%= log.color %>-400 border border-<%= log.color %>-500 border-opacity-30">
-                                <%= log.icon %>
-                                <span class="capitalize"><%= log.type === 'other' ? t('changelog.commitType.other') : log.type %></span>
-                            </span>
+
+                        <!-- Detailed Changes -->
+                        <div class="space-y-3">
+                            <h4 class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
+                                <span class="w-4 h-4 bg-blue-500 rounded-full"></span>
+                                <%= t('changelog.detailedChanges') %>
+                            </h4>
+                            
+                            <% update.commits.forEach((commit, commitIndex) => { %>
+                                <div class="flex items-start gap-3 p-3 bg-discord-dark-400/30 rounded-lg border border-gray-600/30 hover:bg-discord-dark-400/50 transition-colors">
+                                    <!-- Change icon -->
+                                    <div class="flex-shrink-0 w-8 h-8 bg-<%= commit.color %>-500/20 rounded-lg flex items-center justify-center border border-<%= commit.color %>-500/30">
+                                        <span class="text-sm"><%= commit.icon %></span>
+                                    </div>
+                                    
+                                    <!-- Change description -->
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <p class="text-sm font-medium text-discord-foreground">
+                                                <%= commit.description %>
+                                            </p>
+                                            <% if (commit.category) { %>
+                                            <span class="text-xs bg-<%= commit.color %>-500/20 text-<%= commit.color %>-400 px-2 py-0.5 rounded-full border border-<%= commit.color %>-500/30">
+                                                <%= commit.category %>
+                                            </span>
+                                            <% } %>
+                                        </div>
+                                        
+                                        <div class="flex items-center gap-3 text-xs text-gray-400">
+                                            <span class="flex items-center gap-1">
+                                                <span>👤</span>
+                                                <%= commit.author %>
+                                            </span>
+                                            <% if (commit.url) { %>
+                                            <a href="<%= commit.url %>" target="_blank" class="flex items-center gap-1 hover:text-blue-400 transition-colors">
+                                                <span>🔗</span>
+                                                <%= commit.shortHash %>
+                                            </a>
+                                            <% } else { %>
+                                            <span class="flex items-center gap-1">
+                                                <span>📝</span>
+                                                <%= commit.shortHash %>
+                                            </span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
                         </div>
                     </div>
                 </div>
+            <% }) %>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-12">
+            <div class="bg-gradient-to-r from-discord-dark-400 to-discord-dark-300 rounded-xl p-6 border border-gray-600/50 shadow-lg text-center">
+                <div class="flex items-center justify-center gap-2 mb-3">
+                    <span class="text-2xl">💡</span>
+                    <h4 class="text-lg font-semibold text-discord-foreground"><%= t('changelog.footer.tipsTitle') %></h4>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                    <%- t('changelog.footer.description') %>
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-xs">
+                    <div class="flex items-center gap-1 bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full border border-blue-500/20">
+                        <span>🔗</span>
+                        <span><%= t('changelog.footer.tipLink') %></span>
+                    </div>
+                    <div class="flex items-center gap-1 bg-green-500/10 text-green-400 px-3 py-1 rounded-full border border-green-500/20">
+                        <span>📋</span>
+                        <span><%= t('changelog.footer.tipCopy') %></span>
+                    </div>
+                </div>
             </div>
-        <% }) %>
-    </div>
-    
-    <div class="mt-6 p-4 bg-discord-dark-400 rounded-lg text-center">
-        <p class="text-xs text-gray-400">
-            <%- t('changelog.footer.description') %>
-            <br>
-            <%- t('changelog.footer.tip') %>
-        </p>
+        </div>
     </div>
 </div>
 
 <style>
-/* Animaciones adicionales para mejorar la experiencia */
+/* Animaciones */
 .card {
     animation: fadeIn 0.5s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Notificación de copiado */
-.copy-notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #22c55e;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 12px;
-    z-index: 1000;
-    animation: slideIn 0.3s ease-out, slideOut 0.3s ease-in 2.7s;
-    animation-fill-mode: both;
+/* Efectos hover mejorados */
+.group:hover .w-16 {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
-@keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes slideOut {
-    from { transform: translateX(0); opacity: 1; }
-    to { transform: translateX(100%); opacity: 0; }
-}
+/* Animación de aparición escalonada */
+.group:nth-child(1) { animation-delay: 0.1s; }
+.group:nth-child(2) { animation-delay: 0.2s; }
+.group:nth-child(3) { animation-delay: 0.3s; }
+.group:nth-child(4) { animation-delay: 0.4s; }
+.group:nth-child(5) { animation-delay: 0.5s; }
 </style>
-
-<script>
-function copyHash(hash, element) {
-    navigator.clipboard.writeText(hash).then(() => {
-        const notification = document.createElement('div');
-        notification.className = 'copy-notification';
-        notification.textContent = '<%= t('changelog.copyNotification.success') %>';
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 3000);
-        
-        element.style.background = '#22c55e';
-        element.style.color = 'white';
-        setTimeout(() => {
-            element.style.background = '#374151';
-            element.style.color = '#9ca3af';
-        }, 200);
-    }).catch(() => {
-        const notification = document.createElement('div');
-        notification.className = 'copy-notification';
-        notification.style.background = '#ef4444';
-        notification.textContent = '<%= t('changelog.copyNotification.error') %>';
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 3000);
-    });
-}
-</script>

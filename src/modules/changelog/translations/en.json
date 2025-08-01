@@ -2,7 +2,13 @@
     "changelog": {
         "sidebarTitle": "Changelog",
         "title": "Changelog",
-        "subtitle": "Last 20 commits",
+        "subtitle": "Latest bot updates",
+        "updateTitle": "Update",
+        "changes": "changes",
+        "detailedChanges": "Detailed changes in this update:",
+        "stats": {
+            "updates": "Updates"
+        },
         "legend": {
             "title": "Change types:",
             "types": {
@@ -12,7 +18,9 @@
                 "docs": "Documentation",
                 "refactor": "Refactoring",
                 "test": "Tests",
-                "chore": "Maintenance"
+                "chore": "Maintenance",
+                "improvements": "Improvements",
+                "other": "Other"
             }
         },
         "copyHashTooltip": "Click to copy commit hash",
@@ -20,8 +28,10 @@
             "other": "change"
         },
         "footer": {
-            "description": "This history shows the latest changes made to the bot from GitHub.",
-            "tip": "💡 <strong>Tips:</strong> Click on a commit title to see it on GitHub, or on the hash to copy it."
+            "description": "This history shows the latest updates made to the bot, grouped by date for easier understanding.",
+            "tipsTitle": "Useful tips",
+            "tipLink": "Click on links to view on GitHub",
+            "tipCopy": "Click on hash to copy"
         },
         "copyNotification": {
             "success": "✅ Hash copied to clipboard",
