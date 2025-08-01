@@ -1,9 +1,8 @@
 
 import { Module, ServiceContainer } from "zumito-framework";
 import { UserPanelNavigationService } from "@zumito-team/user-panel-module/services/UserPanelNavigationService";
-import { UserPanelGitLog } from "./routes/UserPanelGitLog";
 
-export class GitLogModule extends Module {
+export class UserGitLogModule extends Module {
 
     constructor(modulePath: string) {
         super(modulePath);
@@ -22,11 +21,5 @@ export class GitLogModule extends Module {
             label: 'changelog.sidebarTitle',
             url: '/panel/:guildId/gitlog',
         }]);
-    }
-
-    get routes() {
-        return [
-            UserPanelGitLog
-        ]
     }
 }

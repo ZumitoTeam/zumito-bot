@@ -9,7 +9,7 @@ import { UserPanelLanguageManager } from "@zumito-team/user-panel-module/service
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export class UserPanelGitLog extends Route {
+export class UserPanelChangelog extends Route {
     method = RouteMethod.get;
     path = '/panel/:guildId(\\d+)/gitlog';
 
@@ -104,7 +104,7 @@ export class UserPanelGitLog extends Route {
             });
 
             const content = await ejs.renderFile(
-                path.resolve(__dirname, '../views/gitlog.ejs'),
+                path.resolve(__dirname, '../views/changelog.ejs'),
                 {
                     logs,
                     t, lang, availableLanguages, defaultLanguage
