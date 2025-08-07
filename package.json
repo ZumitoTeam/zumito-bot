@@ -4,7 +4,7 @@
   "description": "Multipurpose discord bot",
   "main": "index.js",
   "scripts": {
-    "start": "tsx node_modules/.bin/zumito-framework",
+    "start": "tsx ./node_modules/zumito-framework/dist/launcher.js",
     "dev": "DEBUG=true npm run start"
   },
   "repository": {
@@ -48,7 +48,7 @@
     "sharp": "^0.33.4",
     "sodium-native": "^4.3.1",
     "zumito-db": "^1.0.1",
-    "zumito-framework": "^1.14.0"
+    "zumito-framework": "^1.14.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

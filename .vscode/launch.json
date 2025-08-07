@@ -8,7 +8,7 @@
         "runtimeExecutable": "node",
         "runtimeArgs": ["--import", "tsx", "--preserve-symlinks"],
   
-        "args": ["src/Bot.ts"],
+        "args": ["node_modules/.bin/zumito-framework"],
         
         "cwd": "${workspaceRoot}",
         "internalConsoleOptions": "openOnSessionStart",
