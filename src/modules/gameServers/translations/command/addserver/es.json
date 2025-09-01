@@ -1,0 +1,15 @@
+{
+    "description": "Agrega un servidor de Minecraft a la lista global.",
+    "success": "Servidor agregado correctamente.",
+    "invalidGame": "Actualmente solo se admite el juego 'minecraft'.",
+    "arguments": {
+        "game": { "name": "juego" },
+        "ip": { "name": "ip" },
+        "name": { "name": "nombre" }
+    },
+    "args": {
+        "game": { "description": "Nombre del juego" },
+        "ip": { "description": "Dirección del servidor" },
+        "name": { "description": "Nombre del servidor" }
+    }
+}
