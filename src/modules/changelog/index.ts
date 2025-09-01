@@ -1,6 +1,7 @@
 
 import { Module, ServiceContainer } from "zumito-framework";
 import { UserPanelNavigationService } from "@zumito-team/user-panel-module/services/UserPanelNavigationService";
+import { Changelog } from "./commands/changelog";
 
 export class UserGitLogModule extends Module {
 
