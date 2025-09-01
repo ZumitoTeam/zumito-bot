@@ -18,6 +18,8 @@ Estas directrices aplican a cualquier cambio en este repositorio.
 
 ## Servicios
 - Crea servicios siempre que sea posible para modularizar la lógica.
+- Genera embeds, botones u otros componentes dentro de los servicios de cada módulo.
+- Organiza estos servicios en la carpeta `services` del módulo, con subcarpetas específicas como `embedBuilder`, `buttonBuilder`, etc.
 
 ## Internacionalización
 - Evita texto codificado; utiliza siempre el sistema de traducciones.
