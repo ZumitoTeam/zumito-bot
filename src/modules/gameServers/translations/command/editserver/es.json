@@ -1,0 +1,17 @@
+{
+    "description": "Edita un servidor que agregaste.",
+    "success": "Servidor actualizado correctamente.",
+    "notFound": "Servidor no encontrado o no eres el dueño.",
+    "arguments": {
+        "game": { "name": "game" },
+        "ip": { "name": "ip" },
+        "newip": { "name": "newip" },
+        "name": { "name": "name" }
+    },
+    "args": {
+        "game": { "description": "Nombre del juego" },
+        "ip": { "description": "Dirección actual del servidor" },
+        "newip": { "description": "Nueva dirección del servidor" },
+        "name": { "description": "Nuevo nombre del servidor" }
+    }
+}

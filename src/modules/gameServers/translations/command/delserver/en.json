@@ -1,0 +1,13 @@
+{
+    "description": "Deletes a game server you added.",
+    "success": "Server removed successfully.",
+    "notFound": "Server not found or you are not the owner.",
+    "arguments": {
+        "game": { "name": "game" },
+        "ip": { "name": "ip" }
+    },
+    "args": {
+        "game": { "description": "Game name" },
+        "ip": { "description": "Server address" }
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "description": "Edits a game server you added.",
+    "success": "Server updated successfully.",
+    "notFound": "Server not found or you are not the owner.",
+    "arguments": {
+        "game": { "name": "game" },
+        "ip": { "name": "ip" },
+        "newip": { "name": "newip" },
+        "name": { "name": "name" }
+    },
+    "args": {
+        "game": { "description": "Game name" },
+        "ip": { "description": "Current server address" },
+        "newip": { "description": "New server address" },
+        "name": { "description": "New server name" }
+    }
+}

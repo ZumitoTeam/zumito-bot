@@ -1,0 +1,9 @@
+<main class="p-8">
+    <h1 class="text-3xl font-bold mb-4">Game Servers</h1>
+    <p class="mb-4">Select a game to discover community servers.</p>
+    <ul class="list-disc list-inside">
+        <% games.forEach(g => { %>
+            <li><a class="text-blue-400 underline" href="/game-servers/<%= g %>"><%= g %></a></li>
+        <% }) %>
+    </ul>
+</main>

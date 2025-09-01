@@ -1,0 +1,13 @@
+{
+    "description": "Elimina un servidor que agregaste.",
+    "success": "Servidor eliminado correctamente.",
+    "notFound": "Servidor no encontrado o no eres el dueño.",
+    "arguments": {
+        "game": { "name": "game" },
+        "ip": { "name": "ip" }
+    },
+    "args": {
+        "game": { "description": "Nombre del juego" },
+        "ip": { "description": "Dirección del servidor" }
+    }
+}
