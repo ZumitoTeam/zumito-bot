@@ -21,6 +21,9 @@ Estas directrices aplican a cualquier cambio en este repositorio.
 - Genera embeds, botones u otros componentes dentro de los servicios de cada módulo.
 - Organiza estos servicios en la carpeta `services` del módulo, con subcarpetas específicas como `embedBuilder`, `buttonBuilder`, etc.
 
+## Base de datos
+- No crees modelos de base de datos; realiza las consultas directamente en MongoDB.
+
 ## Internacionalización
 - Evita texto codificado; utiliza siempre el sistema de traducciones.
 - Proporciona traducciones en inglés y español para cada cadena visible por el usuario.
