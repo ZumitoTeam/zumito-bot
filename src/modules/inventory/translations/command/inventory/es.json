@@ -1,0 +1,7 @@
+{
+    "description": "Visualiza tu inventario.",
+    "title": "Inventario de {user}",
+    "globalTitle": "Global",
+    "guildTitle": "Servidor",
+    "empty": "Sin objetos."
+}
