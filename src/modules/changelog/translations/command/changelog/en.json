@@ -1,0 +1,6 @@
+{
+    "description": "Show the latest bot updates.",
+    "title": "Recent Changes",
+    "empty": "No recent changes found.",
+    "error": "Could not fetch changelog entries."
+}

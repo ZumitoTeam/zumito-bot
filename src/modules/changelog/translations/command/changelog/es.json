@@ -1,0 +1,6 @@
+{
+    "description": "Muestra las últimas actualizaciones del bot.",
+    "title": "Cambios Recientes",
+    "empty": "No se encontraron cambios recientes.",
+    "error": "No se pudo obtener el historial de cambios."
+}
