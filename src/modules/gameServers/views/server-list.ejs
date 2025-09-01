@@ -1,0 +1,15 @@
+<main class="p-8">
+    <h1 class="text-3xl font-bold mb-4"><%= game %> Servers</h1>
+    <div class="grid gap-4">
+        <% servers.forEach(s => { %>
+            <div class="p-4 rounded bg-gray-800">
+                <h2 class="text-xl font-semibold mb-2"><%= s.name %></h2>
+                <% if (s.status.online) { %>
+                    <p class="text-green-400">Online - <%= s.status.players.online %>/<%= s.status.players.max %> - <%= s.status.version %></p>
+                <% } else { %>
+                    <p class="text-red-400">Offline</p>
+                <% } %>
+            </div>
+        <% }) %>
+    </div>
+</main>

@@ -1,0 +1,13 @@
+{
+    "description": "Muestra servidores de Minecraft agregados por usuarios.",
+    "title": "Servidores de {game}",
+    "online": "En línea {players}/{max} - {version}",
+    "offline": "Fuera de línea",
+    "empty": "Aún no se han agregado servidores.",
+    "arguments": {
+        "game": { "name": "juego" }
+    },
+    "args": {
+        "game": { "description": "Nombre del juego" }
+    }
+}

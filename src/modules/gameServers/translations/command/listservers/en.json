@@ -1,0 +1,13 @@
+{
+    "description": "Shows Minecraft servers added by users.",
+    "title": "{game} servers",
+    "online": "Online {players}/{max} - {version}",
+    "offline": "Offline",
+    "empty": "No servers have been added yet.",
+    "arguments": {
+        "game": { "name": "game" }
+    },
+    "args": {
+        "game": { "description": "Game name" }
+    }
+}
