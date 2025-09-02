@@ -2,15 +2,22 @@
     <a href="/game-servers/<%= game %>" class="text-sm text-gray-300 hover:text-white">← <%= tBack %></a>
 
     <header>
-        <h1 class="text-3xl font-bold"><%= pageTitle %></h1>
-        <p class="text-gray-400 mt-2"><span class="capitalize"><%= tGame %></span>: <span class="font-medium capitalize"><%= server.game %></span></p>
+        <div class="flex items-center gap-4">
+            <% if (status && status.favicon) { %>
+                <img src="<%= status.favicon %>" alt="favicon" class="w-12 h-12 rounded" />
+            <% } %>
+            <div>
+                <h1 class="text-3xl font-bold"><%= pageTitle %></h1>
+                <p class="text-gray-400 mt-2"><span class="capitalize"><%= tGame %></span>: <span class="font-medium capitalize"><%= server.game %></span></p>
+            </div>
+        </div>
     </header>
 
     <section class="p-4 rounded bg-gray-800 space-y-3">
         <div class="flex items-center gap-3">
             <div>
                 <div class="text-gray-400 text-sm"><%= tIp %></div>
-                <div class="font-mono"><%= server.ip %></div>
+                <div class="font-mono"><%= status && status.ip ? status.ip : server.ip %><% if (status && status.port) { %>:<%= status.port %><% } %></div>
             </div>
             <button id="copyBtn" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm"><%= tCopy %></button>
             <span id="copyNote" class="text-green-400 text-sm hidden"><%= tCopied %></span>
@@ -38,10 +45,62 @@
                 <div class="text-white"><%= (status && status.version) ? status.version : '—' %></div>
             </div>
             <div>
+                <div class="text-gray-400 text-sm"><%= tProtocol %></div>
+                <div class="text-white"><%= (status && status.protocol) ? status.protocol : '—' %></div>
+            </div>
+            <div>
+                <div class="text-gray-400 text-sm"><%= tLatency %></div>
+                <div class="text-white"><%= (status && status.latency) ? (status.latency + ' ms') : '—' %></div>
+            </div>
+            <div>
                 <div class="text-gray-400 text-sm"><%= tMotd %></div>
                 <div class="text-white whitespace-pre-wrap"><%= (status && status.motd && (status.motd.clean || status.motd.text)) ? (status.motd.clean || status.motd.text) : '—' %></div>
             </div>
+            <div>
+                <div class="text-gray-400 text-sm"><%= tHostname %></div>
+                <div class="text-white"><%= (status && status.hostname) ? status.hostname : '—' %></div>
+            </div>
+            <div>
+                <div class="text-gray-400 text-sm"><%= tSrvTarget %></div>
+                <div class="text-white"><%= (status && status.srv && status.srv.target) ? (status.srv.target + (status.srv.port ? (':' + status.srv.port) : '')) : '—' %></div>
+            </div>
         </div>
+    </section>
+
+    <section class="p-4 rounded bg-gray-800 space-y-2">
+        <h2 class="text-xl font-semibold"><%= tPlugins %></h2>
+        <% const pluginList = (status && status.plugins) ? status.plugins : []; %>
+        <% if (pluginList && pluginList.length) { %>
+            <p class="text-gray-300 text-sm"><%= pluginList.length %> <%= tPlugins %></p>
+            <ul class="list-disc ml-6 text-sm text-gray-200">
+                <% pluginList.slice(0, 20).forEach(p => { %>
+                    <li><%= (p.name || p) %><% if (p.version) { %> <span class="text-gray-400">(<%= p.version %>)</span><% } %></li>
+                <% }) %>
+            </ul>
+            <% if (pluginList.length > 20) { %>
+                <p class="text-gray-400 text-xs">+ <%= (pluginList.length - 20) %> more…</p>
+            <% } %>
+        <% } else { %>
+            <p class="text-gray-400">—</p>
+        <% } %>
+    </section>
+
+    <section class="p-4 rounded bg-gray-800 space-y-2">
+        <h2 class="text-xl font-semibold"><%= tMods %></h2>
+        <% const modsList = (status && status.mods) ? status.mods : []; %>
+        <% if (modsList && modsList.length) { %>
+            <p class="text-gray-300 text-sm"><%= modsList.length %> <%= tMods %></p>
+            <ul class="list-disc ml-6 text-sm text-gray-200">
+                <% modsList.slice(0, 20).forEach(m => { %>
+                    <li><%= (m.name || m) %><% if (m.version) { %> <span class="text-gray-400">(<%= m.version %>)</span><% } %></li>
+                <% }) %>
+            </ul>
+            <% if (modsList.length > 20) { %>
+                <p class="text-gray-400 text-xs">+ <%= (modsList.length - 20) %> more…</p>
+            <% } %>
+        <% } else { %>
+            <p class="text-gray-400">—</p>
+        <% } %>
     </section>
 
     <% if (status && status.debug) { %>
@@ -57,7 +116,8 @@
         if (btn) {
             btn.addEventListener('click', async () => {
                 try {
-                    await navigator.clipboard.writeText('<%= server.ip %>');
+                    const text = '<%= (status && status.ip) ? status.ip : server.ip %><% if (status && status.port) { %>:<%= status.port %><% } %>';
+                    await navigator.clipboard.writeText(text);
                     note?.classList.remove('hidden');
                     setTimeout(() => note?.classList.add('hidden'), 1500);
                 } catch {}
@@ -65,4 +125,3 @@
         }
     </script>
 </main>
-

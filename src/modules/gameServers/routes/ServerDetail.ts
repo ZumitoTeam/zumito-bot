@@ -38,7 +38,13 @@ export class ServerDetail extends Route {
         const tStatus = this.translationService.get('server.status', lang) || 'Status';
         const tPlayers = this.translationService.get('server.players', lang) || 'Players';
         const tVersion = this.translationService.get('server.version', lang) || 'Version';
+        const tProtocol = this.translationService.get('server.protocol', lang) || 'Protocol';
+        const tLatency = this.translationService.get('server.latency', lang) || 'Latency';
         const tMotd = this.translationService.get('server.motd', lang) || 'MOTD';
+        const tHostname = this.translationService.get('server.hostname', lang) || 'Hostname';
+        const tSrvTarget = this.translationService.get('server.srvTarget', lang) || 'SRV target';
+        const tPlugins = this.translationService.get('server.plugins', lang) || 'Plugins';
+        const tMods = this.translationService.get('server.mods', lang) || 'Mods';
         const tCopy = this.translationService.get('server.copyIp', lang) || 'Copy IP';
         const tCopied = this.translationService.get('server.copied', lang) || 'Copied!';
         const tBack = this.translationService.get('server.back', lang, { game }) || `Back to ${game} servers`;
@@ -58,6 +64,12 @@ export class ServerDetail extends Route {
                 tPlayers,
                 tVersion,
                 tMotd,
+                tProtocol,
+                tLatency,
+                tHostname,
+                tSrvTarget,
+                tPlugins,
+                tMods,
                 tCopy,
                 tCopied,
                 tBack,
@@ -69,4 +81,3 @@ export class ServerDetail extends Route {
         res.send(html);
     }
 }
-

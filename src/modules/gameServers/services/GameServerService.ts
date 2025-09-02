@@ -76,11 +76,54 @@ export class GameServerService {
     }
 
     async getDetailedStatus(server: GameServer): Promise<any> {
-        if (server.game === "minecraft") {
-            const res = await fetch(`https://api.mcsrvstat.us/2/${encodeURIComponent(server.ip)}`);
-            const data = await res.json().catch(() => null);
-            return data || { online: false };
-        }
-        return { online: false };
+        if (server.game !== "minecraft") return { online: false };
+
+        const mcsrvUrl = `https://api.mcsrvstat.us/2/${encodeURIComponent(server.ip)}`;
+        const mcstatusUrl = `https://api.mcstatus.io/v2/status/java/${encodeURIComponent(server.ip)}`;
+
+        const fetchJson = async (url: string) => {
+            try {
+                const r = await fetch(url);
+                return await r.json();
+            } catch {
+                return null;
+            }
+        };
+
+        const [a, b] = await Promise.all([fetchJson(mcsrvUrl), fetchJson(mcstatusUrl)]);
+
+        // Normalize pieces
+        const online = Boolean(a?.online || b?.online);
+        const players = a?.players || b?.players || undefined;
+        const version = a?.version || b?.version?.name_clean || b?.version?.name || undefined;
+        const hostname = a?.hostname || b?.host || undefined;
+        const ip = a?.ip || b?.ip_address || server.ip;
+        const port = a?.port || b?.port || undefined;
+        const protocol = b?.version?.protocol || a?.protocol || undefined;
+        const favicon = a?.icon || b?.favicon || undefined; // data:image/png;base64,...
+        const motd = a?.motd || b?.motd || undefined;
+        const plugins = a?.plugins || b?.mod_info?.modList || undefined;
+        const mods = a?.mods || b?.mods || undefined;
+        const srv = a?.srv || undefined;
+        const latency = b?.latency || undefined;
+        const playersList = b?.players?.list || a?.players?.list || undefined;
+
+        return {
+            online,
+            ip,
+            port,
+            hostname,
+            version,
+            protocol,
+            players,
+            playersList,
+            favicon,
+            motd,
+            plugins,
+            mods,
+            srv,
+            latency,
+            sources: { mcsrvstat: a, mcstatus: b }
+        };
     }
 }
