@@ -1,0 +1,6 @@
+{
+    "title": "{game} servers",
+    "empty": "No servers added yet.",
+    "online": "Online — {players}/{max} — {version}",
+    "offline": "Offline"
+}

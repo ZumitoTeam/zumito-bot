@@ -1,0 +1,19 @@
+<main class="p-8">
+    <h1 class="text-3xl font-bold mb-2"><%= title %></h1>
+    <p class="text-gray-300 mb-6"><%= intro %></p>
+    <% if (!games || games.length === 0) { %>
+        <p class="text-gray-400"><%= noData %></p>
+    <% } else { %>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <% games.forEach(g => { %>
+                <a href="/game-servers/<%= g.game %>" class="block p-4 rounded bg-gray-800 hover:bg-gray-700 transition">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-semibold capitalize"><%= g.game %></h2>
+                        <span class="text-sm text-gray-400"><%= g.count %></span>
+                    </div>
+                </a>
+            <% }) %>
+        </div>
+    <% } %>
+</main>
+

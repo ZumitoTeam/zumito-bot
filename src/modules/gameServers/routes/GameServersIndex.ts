@@ -7,9 +7,9 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export class ServerLanding extends Route {
+export class GameServersIndex extends Route {
     method = RouteMethod.get;
-    path = '/game-servers/:game';
+    path = "/game-servers";
 
     constructor(
         private serverService: GameServerService = ServiceContainer.getService(GameServerService),
@@ -20,22 +20,17 @@ export class ServerLanding extends Route {
     }
 
     async execute(req: any, res: any) {
-        const game = String(req.params.game).toLowerCase();
+        const games = await this.serverService.getGames();
         const lang = req?.lang || "en";
-        const servers = await this.serverService.getServers(game);
-        const list = [];
-        for (const server of servers) {
-            const status = await this.serverService.getStatus(server);
-            list.push({ ...server, status });
-        }
-        const pageTitle = this.translationService.get('gameservers.title', lang, { game }) || `${game} servers`;
-        const labelOnline = this.translationService.get('gameservers.online', lang) || 'Online';
-        const labelOffline = this.translationService.get('gameservers.offline', lang) || 'Offline';
+        const title = this.translationService.get("index.title", lang) || "Game servers";
+        const intro = this.translationService.get("index.intro", lang) || "Browse community game servers by game.";
+        const noData = this.translationService.get("index.noData", lang) || "No games found yet.";
+
         const content = await ejs.renderFile(
-            path.join(__dirname, '../views/server-list.ejs'),
-            { servers: list, game, pageTitle, labelOnline, labelOffline }
+            path.join(__dirname, "../views/server-landing.ejs"),
+            { games, title, intro, noData }
         );
-        const html = await this.viewService.render({ title: pageTitle, content });
+        const html = await this.viewService.render({ title, content });
         res.send(html);
     }
 }

@@ -1,0 +1,6 @@
+{
+    "invalidGame": "Por ahora solo se soporta 'minecraft'.",
+    "nothingToUpdate": "Proporciona al menos un campo para actualizar (name o newip).",
+    "updated": "¡Servidor actualizado correctamente!",
+    "notOwner": "Solo puedes editar servidores que agregaste."
+}
