@@ -9,7 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export class ServerLanding extends Route {
     method = RouteMethod.get;
-    path = '/servers/:game';
+    path = '/game-servers/:game';
 
     constructor(
         private serverService: GameServerService = ServiceContainer.getService(GameServerService),

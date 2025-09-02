@@ -1,0 +1,5 @@
+{
+    "invalidGame": "Por ahora solo se soporta 'minecraft'.",
+    "deleted": "¡Servidor eliminado correctamente!",
+    "notOwner": "Solo puedes eliminar servidores que agregaste."
+}

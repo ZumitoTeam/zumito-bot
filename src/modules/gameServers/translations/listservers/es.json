@@ -1,0 +1,6 @@
+{
+    "title": "Servidores de {game}",
+    "empty": "Aún no hay servidores agregados.",
+    "online": "En línea — {players}/{max} — {version}",
+    "offline": "Fuera de línea"
+}

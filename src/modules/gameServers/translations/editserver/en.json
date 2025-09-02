@@ -1,0 +1,6 @@
+{
+    "invalidGame": "Only 'minecraft' is supported for now.",
+    "nothingToUpdate": "Provide at least one field to update (name or newip).",
+    "updated": "Server updated successfully!",
+    "notOwner": "You can only edit servers you added."
+}
