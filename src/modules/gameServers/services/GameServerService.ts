@@ -24,6 +24,16 @@ export class GameServerService {
         return await this.db.collection("gameServers").find({ game }).toArray();
     }
 
+    async getServerById(id: string): Promise<(GameServer & { _id: any }) | null> {
+        try {
+            const { ObjectId } = await import('mongodb');
+            const _id = new ObjectId(id);
+            return await this.db.collection("gameServers").findOne({ _id });
+        } catch {
+            return null;
+        }
+    }
+
     async editServer(game: string, ip: string, ownerId: string, updates: Partial<Pick<GameServer, 'name' | 'ip'>>): Promise<boolean> {
         const $set: any = {};
         if (typeof updates.name === 'string' && updates.name.trim() !== '') {
@@ -61,6 +71,15 @@ export class GameServerService {
                 return { online: true, players: data.players, version: data.version };
             }
             return { online: false };
+        }
+        return { online: false };
+    }
+
+    async getDetailedStatus(server: GameServer): Promise<any> {
+        if (server.game === "minecraft") {
+            const res = await fetch(`https://api.mcsrvstat.us/2/${encodeURIComponent(server.ip)}`);
+            const data = await res.json().catch(() => null);
+            return data || { online: false };
         }
         return { online: false };
     }

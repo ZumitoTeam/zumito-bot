@@ -1,0 +1,14 @@
+{
+    "title": "{name} — server details",
+    "game": "Game",
+    "ip": "IP",
+    "status": "Status",
+    "players": "Players",
+    "version": "Version",
+    "motd": "MOTD",
+    "copyIp": "Copy IP",
+    "copied": "Copied!",
+    "back": "Back to {game} servers",
+    "online": "Online",
+    "offline": "Offline"
+}
