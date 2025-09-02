@@ -1,0 +1,68 @@
+<h1>Community Translations</h1>
+
+<div class="card mt-6">
+    <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold">Missing Translations</h2>
+        <div class="flex items-center gap-2">
+            <label for="language-selector">Language:</label>
+            <select id="language-selector" class="bg-discord-dark-300 rounded px-2 py-1">
+                <% availableLanguages.forEach(language => { %>
+                    <option value="<%= language %>" <%= language === lang ? 'selected' : '' %>><%= language %></option>
+                <% }); %>
+            </select>
+        </div>
+    </div>
+    <div id="missing-translations-list"></div>
+</div>
+
+<div class="card mt-6">
+    <h2 class="text-lg font-semibold mb-4">Community Proposals</h2>
+    <div id="community-proposals-list"></div>
+</div>
+
+<script>
+    const languageSelector = document.getElementById('language-selector');
+
+    async function loadTranslations() {
+        const lang = languageSelector.value;
+        const missingResponse = await fetch(`/panel/${lang}/translations`);
+        const missing = await missingResponse.json();
+        const missingList = document.getElementById('missing-translations-list');
+        if (missing.length === 0) {
+            missingList.innerHTML = '<p>No missing translations for this language.</p>';
+        } else {
+            missingList.innerHTML = missing.map(item => `
+                <div class="p-2 border-b border-discord-dark-300">
+                    <strong>${item.key}</strong>: ${item.defaultValue}
+                    <form action="/panel/${lang}/translations" method="post" class="mt-2 flex items-center gap-2">
+                        <input type="hidden" name="filePath" value="${item.filePath}" />
+                        <input type="hidden" name="key" value="${item.key}" />
+                        <input type="text" name="translation" placeholder="Enter translation" class="flex-1 bg-discord-dark-200 rounded px-2 py-1" />
+                        <button type="submit" class="btn-primary">Submit</button>
+                    </form>
+                </div>
+            `).join('');
+        }
+
+        const proposalsResponse = await fetch(`/panel/${lang}/community-translations`);
+        const proposals = await proposalsResponse.json();
+        const proposalsList = document.getElementById('community-proposals-list');
+        if (proposals.length === 0) {
+            proposalsList.innerHTML = '<p>No community proposals for this language.</p>';
+        } else {
+            proposalsList.innerHTML = proposals.map(item => `
+                <div class="p-2 border-b border-discord-dark-300">
+                    <strong>${item.key}</strong>: ${item.value} (Votes: ${item.votes})
+                    <form action="/panel/translations/vote/${item.id}" method="post" class="mt-2 flex items-center gap-2">
+                        <input type="hidden" name="lang" value="${lang}" />
+                        <button type="submit" name="vote" value="1" class="btn-secondary">Upvote</button>
+                        <button type="submit" name="vote" value="-1" class="btn-secondary">Downvote</button>
+                    </form>
+                </div>
+            `).join('');
+        }
+    }
+
+    languageSelector.addEventListener('change', loadTranslations);
+    loadTranslations();
+</script>
