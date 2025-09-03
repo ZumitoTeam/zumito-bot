@@ -23,6 +23,10 @@ export class AdminTasksApiApproval extends Route {
         const comment = String(body.comment || '').trim();
         if (!id || !testerId) return res.status(400).json({ ok: false, error: 'Missing fields' });
 
+        // Load old task for status change detection
+        let before: any = null;
+        try { before = await (this.taskService as any)["col"]().findOne({ id }); } catch {}
+
         let avatar: string | null = null;
         try {
             const user = await this.client.users.fetch(String(testerId)).catch(() => null as any);
@@ -32,20 +36,49 @@ export class AdminTasksApiApproval extends Route {
             }
         } catch {}
 
+        // Capture previous approval state
+        const prevTester = before && Array.isArray(before.testers) ? (before.testers as any[]).find(t => String(t.id) === String(testerId)) : null;
+        const prevApproved = prevTester ? Boolean(prevTester.approved) : undefined;
+        const lastReq = before?.lastReviewRequestAt || 0;
+        const prevLastApproval = prevTester ? (prevTester.lastApprovalAt || 0) : 0;
+        const approvalReconfirmed = approved === true && prevApproved === true && prevLastApproval < lastReq;
+        const denialReconfirmed = approved === false && prevApproved === false && prevLastApproval < lastReq;
+
         let updated = await this.taskService.setTesterApproval(id, testerId, approved, testerName);
         if (comment) {
             updated = await this.taskService.addComment(id, { user: { id: testerId, name: testerName || testerId, avatar }, text: comment });
         }
         // Move task to appropriate column based on approval/denial
         try {
-            const task = updated || await this.taskService.update(id, {});
-            const testers = (task && task.testers) || [];
-            if (approved === false) {
-                await this.taskService.update(id, { status: 'pendingFix' } as any);
-            } else {
-                if (testers.length > 0 && testers.every((t: any) => t.approved === true)) {
-                    await this.taskService.update(id, { status: 'pendingPublish' } as any);
+            // React if approval changed or if confirming after a newer review request
+            if (prevApproved === undefined || prevApproved !== approved || approvalReconfirmed || denialReconfirmed) {
+                const task = updated || await this.taskService.update(id, {});
+                const testers = (task && task.testers) || [];
+                if (approved === false) {
+                    await this.taskService.update(id, { status: 'pendingFix' } as any);
+                } else {
+                    if (testers.length > 0 && testers.every((t: any) => t.approved === true)) {
+                        await this.taskService.update(id, { status: 'pendingPublish' } as any);
+                    }
                 }
+                // Log approval/denial when it changes
+                await this.taskService.addActivity(id, {
+                    type: approved ? 'reviewApproved' : 'reviewDenied',
+                    user: { id: testerId, name: testerName || testerId, avatar },
+                    details: comment ? { comment } : undefined,
+                });
+            }
+        } catch {}
+        // Detect and log status change
+        try {
+            const after = await (this.taskService as any)["col"]().findOne({ id });
+            const from = before?.status;
+            const to = after?.status;
+            if (from && to && from !== to) {
+                await this.taskService.addActivity(id, {
+                    type: 'statusChanged',
+                    details: { from, to },
+                });
             }
         } catch {}
         res.json({ ok: true, task: updated });
