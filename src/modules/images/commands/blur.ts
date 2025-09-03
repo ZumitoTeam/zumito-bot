@@ -10,7 +10,7 @@ export class BlurImageCommand extends Command {
     usage = "blur [user] [intensity]";
     args: CommandArgDefinition[] = [
         { name: "user", type: "member", optional: true },
-        { name: "intensity", type: "integer", optional: true }
+        { name: "intensity", type: "number", optional: true }
     ];
     botPermissions = ['VIEW_CHANNEL', 'SEND_MESSAGES', 'ATTACH_FILES'];
     type = CommandType.any;
@@ -70,4 +70,3 @@ export class BlurImageCommand extends Command {
         }
     }
 }
-
