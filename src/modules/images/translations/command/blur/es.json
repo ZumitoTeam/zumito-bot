@@ -1,0 +1,13 @@
+{
+    "description": "Difumina una imagen adjunta o el avatar de un usuario mencionado.",
+    "noimage": "Adjunta una imagen o menciona un usuario con avatar.",
+    "failed": "No se pudo procesar la imagen.",
+    "arguments": {
+        "user": { "name": "usuario" },
+        "intensity": { "name": "intensidad" }
+    },
+    "args": {
+        "user": { "description": "Usuario cuyo avatar se difuminará" },
+        "intensity": { "description": "Intensidad del blur (1-50)" }
+    }
+}
