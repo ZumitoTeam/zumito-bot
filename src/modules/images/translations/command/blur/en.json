@@ -1,0 +1,13 @@
+{
+    "description": "Blur an attached image or a mentioned user's avatar.",
+    "noimage": "Please attach an image or mention a user with an avatar.",
+    "failed": "Could not process the image.",
+    "arguments": {
+        "user": { "name": "user" },
+        "intensity": { "name": "intensity" }
+    },
+    "args": {
+        "user": { "description": "User whose avatar will be blurred" },
+        "intensity": { "description": "Blur intensity (1-50)" }
+    }
+}
