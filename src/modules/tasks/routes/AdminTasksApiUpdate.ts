@@ -36,7 +36,21 @@ export class AdminTasksApiUpdate extends Route {
         if (body.owner === null) patch.owner = null;
         else if (body.owner) patch.owner = body.owner;
 
+        // Detect status change
+        let before: any = null;
+        try { before = await (this.taskService as any)["col"]().findOne({ id }); } catch {}
+
         const updated = await this.taskService.update(id, patch);
+
+        // Log status change if any
+        try {
+            if (typeof patch.status === 'string' && before && before.status && before.status !== patch.status) {
+                await this.taskService.addActivity(id, {
+                    type: 'statusChanged',
+                    details: { from: before.status, to: patch.status }
+                });
+            }
+        } catch {}
         res.json({ ok: true, task: updated });
     }
 }

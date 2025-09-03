@@ -28,6 +28,7 @@
             "testers": "Testers",
             "owner": "Responsable",
             "comments": "Comentarios",
+            "activity": "Actividad",
             "public": "Pública",
             "publicUrl": "URL pública"
         },
@@ -62,10 +63,27 @@
             "none": "Sin revisiones pendientes"
         },
         "dm": {
-            "requestReview": "El usuario {requester} te ha solicitado que revises la tarea: {task}"
+            "requestReview": "El usuario {requester} te ha solicitado que revises la tarea: {task}",
+            "assignedOwner": "Has sido asignado/a como responsable de una tarea.",
+            "assignedTester": "Has sido añadido/a como tester por {actor} en la tarea: {task}"
         },
         "confirm": {
             "moveToTesting": "La tarea no está en Pruebas. ¿Quieres moverla a Pruebas antes de solicitar revisión?"
+        },
+        "activity": {
+            "title": "Actividad",
+            "none": "Sin actividad",
+            "statusChanged": "{actor} cambió el estado: {from} → {to}",
+            "reviewRequested": "{actor} solicitó revisión ({sent}/{total})",
+            "reviewApproved": "{actor} aprobó la tarea",
+            "reviewDenied": "{actor} rechazó la tarea",
+            "ownerAssigned": "{actor} asignó responsable: {owner}",
+            "testerAdded": "{actor} añadió tester: {tester}"
+        },
+        "toast": {
+            "reviewRequested": "Revisión solicitada: {sent}/{total} MD enviados",
+            "success": "Acción completada con éxito",
+            "error": "Ha ocurrido un error"
         }
     }
 }
