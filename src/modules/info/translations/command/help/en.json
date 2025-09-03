@@ -1,36 +1,38 @@
 {
-    "description": "Available commands and info on a specific command.",
     "title": "Help Menu",
+    "description": "Displays the list of available commands or information about a specific one.",
     "greeting": {
-        "0": "Hello, I’m  {name}",
-        "1": "I’m the multipurpose bot managing this server.",
-        "2": "What are you waiting for?",
-        "3": "Pick a category, and let’s have some fun together!"
+        "welcome": "Hello, I’m  {name}",
+        "intro": "I’m the multipurpose bot managing this server.",
+        "callToAction": "What are you waiting for?",
+        "categories": "Pick a category, and let’s have some fun together!"
     },
-    "category": "Select a category",
-    "noExamples": "No examples",
-    "author": {
-        "command": "Command"
+    "labels": {
+        "command": "Command",
+        "commands": "Commands",
+        "commandsOf": "Commands of {name}",
+        "commandName": "Command {commandName}",
+        "usage": "Usage",
+        "aliases": "Aliases",
+        "category": "Category",
+        "examples": "Examples",
+        "noExamples": "No examples",
+        "premium": "Premium"
     },
-    "commands_of": "Commands of {name}",
-    "commands": "Commands",
-    "usage": "Usage",
-    "examples": "Examples",
-    "aliases": "Aliases",
     "permissions": {
         "bot": "Bot permissions",
         "user": "User permissions"
     },
-    "field": {
-        "detailed": "Detailed help on a command",
+    "fields": {
+        "detailed": "Detailed help on a command: {example}",
         "support": "For additional help, visit our",
-        "support_server": "support server"
+        "supportServer": "support server"
     },
-    "select": {
-        "command": "Select a command"
+    "selectMenu": {
+        "category": "Select a category"
     },
     "button": {
-        "close": "❌"
+        "website": "Check the website"
     },
     "arguments": {
         "command": {

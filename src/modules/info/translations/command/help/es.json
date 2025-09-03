@@ -1,35 +1,39 @@
 {
-    "description": "Comandos disponibles e información sobre uno específico.",
-    "category": "Seleccione una categoría",
-    "title": "Menú de ayuda",
+    "title": "Menú de Ayuda",
+    "description": "Muestra la lista de comandos disponibles o información sobre un comando específico.",
     "greeting": {
-        "0": "Hola, soy {name}",
-        "1": "Soy el bot multipropósito a cargo de este servidor.",
-        "2": "¿Qué estás esperando?",
-        "3": "¡Elige una categoría y divirtámonos juntos!"
+        "welcome": "Hola, soy {name}",
+        "intro": "Soy el bot multipropósito que administra este servidor.",
+        "callToAction": "¿Qué esperas?",
+        "categories": "¡Elige una categoría y divirtámonos!"
     },
-    "author": {
-        "command": "Comando"
+    "labels": {
+        "command": "Comando",
+        "commands": "Comandos",
+        "commandsOf": "Comandos de {name}",
+        "commandName": "Comando {commandName}",
+        "usage": "Uso",
+        "aliases": "Alias",
+        "category": "Categoría",
+        "examples": "Ejemplos",
+        "noExamples": "Sin ejemplos",
+        "premium": "Premium"
     },
-    "commands_of": "Comandos de {name}",
-    "commands": "Comandos",
-    "usage": "Uso",
-    "examples": "Ejemplos",
     "permissions": {
         "bot": "Permisos del bot",
         "user": "Permisos del usuario"
     },
-    "field": {
-        "detailed": "Ayuda detallada sobre un comando",
-        "support": "Para ayuda adicional, visita nuestro",
-        "support_server": "servidor de soporte"
+    "fields": {
+        "detailed": "Ayuda detallada sobre un comando: {example}",
+        "support": "Para más ayuda, visita nuestro",
+        "supportServer": "servidor de soporte"
     },
-    "select": {
-        "command": "Selecciona un comando"
+    "selectMenu": {
+        "category": "Selecciona una categoría"
     },
-    "button": {
-        "close": "❌"
-    },
+      "button": {
+            "website": "Mirar en la página web"
+      },
     "arguments": {
         "command": {
             "name": "comando",
@@ -37,7 +41,7 @@
         }
     },
     "args": {
-        "command":{
+        "command": {
             "description": "Muestra la información de un comando específico"
         }
     }
