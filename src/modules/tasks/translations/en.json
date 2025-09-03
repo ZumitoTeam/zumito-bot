@@ -1,0 +1,39 @@
+{
+    "tasks": {
+        "admin": {
+            "title": "Tasks Kanban",
+            "create": "New Task",
+            "createTitle": "Create Task"
+        },
+        "column": {
+            "backlog": "Backlog",
+            "working": "In Progress",
+            "testing": "Testing",
+            "beta": "Beta Bot",
+            "done": "Done"
+        },
+        "field": {
+            "title": "Title",
+            "description": "Description",
+            "status": "Status",
+            "github": "GitHub Link (issue/PR)",
+            "assignees": "Assignees",
+            "testers": "Testers",
+            "comments": "Comments"
+        },
+        "action": {
+            "cancel": "Cancel",
+            "create": "Create",
+            "save": "Save",
+            "add": "Add",
+            "comment": "Comment"
+        },
+        "placeholder": {
+            "comment": "Write a comment..."
+        },
+        "help": {
+            "assignees": "Comma separated names or IDs"
+        }
+    }
+}
+

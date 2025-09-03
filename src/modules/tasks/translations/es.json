@@ -1,0 +1,39 @@
+{
+    "tasks": {
+        "admin": {
+            "title": "Kanban de Tareas",
+            "create": "Nueva Tarea",
+            "createTitle": "Crear Tarea"
+        },
+        "column": {
+            "backlog": "Backlog",
+            "working": "En progreso",
+            "testing": "Pruebas",
+            "beta": "Beta Bot",
+            "done": "Completadas"
+        },
+        "field": {
+            "title": "Título",
+            "description": "Descripción",
+            "status": "Estado",
+            "github": "Enlace GitHub (issue/PR)",
+            "assignees": "Asignados",
+            "testers": "Testers",
+            "comments": "Comentarios"
+        },
+        "action": {
+            "cancel": "Cancelar",
+            "create": "Crear",
+            "save": "Guardar",
+            "add": "Añadir",
+            "comment": "Comentar"
+        },
+        "placeholder": {
+            "comment": "Escribe un comentario..."
+        },
+        "help": {
+            "assignees": "Nombres o IDs separados por comas"
+        }
+    }
+}
+
