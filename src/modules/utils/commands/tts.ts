@@ -1,6 +1,15 @@
 import { Command, CommandParameters } from "zumito-framework";
 import { AttachmentBuilder, MessageFlags } from "discord.js";
-import googleTTS from "google-tts-api";
+function buildTTSUrl(text: string): string {
+    const params = new URLSearchParams({
+        ie: "UTF-8",
+        client: "tw-ob",
+        q: text,
+        tl: "es",
+        ttsspeed: "1"
+    });
+    return `https://translate.googleapis.com/translate_tts?${params.toString()}`;
+}
 
 export class TTSCommand extends Command {
     name = "tts";
@@ -20,10 +29,7 @@ export class TTSCommand extends Command {
             return;
         }
         try {
-            const url = googleTTS.getAudioUrl(text, {
-                lang: "es",
-                slow: false,
-            });
+            const url = buildTTSUrl(text);
             const res = await fetch(url);
             const buffer = Buffer.from(await res.arrayBuffer());
             const attachment = new AttachmentBuilder(buffer, { name: "tts.mp3" });
