@@ -1,4 +1,12 @@
 <div class="card mt-6" x-data="kanban()">
+  <!-- Toasts -->
+  <div class="fixed top-4 right-4 space-y-2" aria-live="polite" style="z-index: 9999;">
+    <template x-for="t in toasts" :key="t.id">
+      <div class="px-4 py-2 rounded shadow text-sm"
+           :class="t.type==='error' ? 'bg-red-600 text-white' : 'bg-discord-dark-300 text-white'"
+           x-text="t.message"></div>
+    </template>
+  </div>
   <div class="flex items-center justify-between mb-4">
     <div class="text-lg font-semibold"><%= t.get('tasks.admin.title') %></div>
     <button class="btn-primary" @click="openCreateModal = true">
@@ -233,11 +241,26 @@
                   <img x-show="detail.selectedTesterAvatar" :src="detail.selectedTesterAvatar" class="w-5 h-5 rounded-full object-cover"/>
                   <span class="text-sm text-white" x-text="detail.testerQuery"></span>
                 </div>
-                <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click="addTester()"><%= t.get('tasks.action.add') %></button>
-                <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click="requestReview()"><%= t.get('tasks.action.requestReview') %></button>
+                <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click.stop="addTester()"><%= t.get('tasks.action.add') %></button>
+                <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click.stop="requestReview()"><%= t.get('tasks.action.requestReview') %></button>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.activity') %></label>
+        <div class="space-y-2 max-h-40 overflow-y-auto bg-discord-dark-300 rounded p-2">
+          <template x-for="a in (current.actions||[]).slice().sort((x,y)=> (y.at||0)-(x.at||0))" :key="a.id">
+            <div class="text-sm flex items-start gap-2">
+              <img x-show="a.user && a.user.avatar" :src="a.user.avatar" alt="avatar" class="w-5 h-5 rounded-full object-cover mt-0.5"/>
+              <div>
+                <div class="text-discord-light-300" x-text="formatAction(a)"></div>
+                <div class="text-[10px] text-discord-light-300" x-text="formatDate(a.at)"></div>
+              </div>
+            </div>
+          </template>
+          <div class="text-xs text-discord-light-300" x-show="!(current.actions||[]).length"><%= t.get('tasks.activity.none') %></div>
         </div>
       </div>
       <div class="mt-4">
@@ -271,6 +294,7 @@
       openCreateModal: false,
       openDetailModal: false,
       drag: null,
+      toasts: [],
       columns: [
         { id: 'backlog', name: '<%= t.get('tasks.column.backlog') %>' },
         { id: 'working', name: '<%= t.get('tasks.column.working') %>' },
@@ -424,7 +448,28 @@
               if (updated) this.current = updated;
             }
           }
-          await fetch('/admin/tasks/api/request-review', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id }) });
+          const res = await fetch('/admin/tasks/api/request-review', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id }) });
+          const data = await res.json().catch(() => ({ ok: false }));
+          if (data && data.ok) {
+            const msg = (data.sent != null && data.count != null)
+              ? `<%= t.get('tasks.toast.reviewRequested') %>`.replace('{sent}', String(data.sent)).replace('{total}', String(data.count))
+              : '<%= t.get('tasks.toast.success') %>';
+            this.showToast(msg, 'success');
+            // Optimistic activity log update for instant feedback
+            try {
+              const viewer = (window.__viewer || {});
+              if (!this.current.actions) this.current.actions = [];
+              this.current.actions.unshift({
+                id: Math.random().toString(36).slice(2),
+                type: 'reviewRequested',
+                user: { id: viewer.id || 'admin', name: viewer.name || 'Admin', avatar: viewer.avatar || null },
+                details: { total: Number(data.count||0), sent: Number(data.sent||0), failed: Number(data.failed||0) },
+                at: Date.now()
+              });
+            } catch {}
+          } else {
+            this.showToast('<%= t.get('tasks.toast.error') %>', 'error');
+          }
         } catch {}
       },
 
@@ -481,6 +526,44 @@
       },
 
       async init() { await this.load(); await this.loadProjects(); const sp = new URLSearchParams(window.location.search); const tid = sp.get('t'); if (tid) this.openById(tid); },
+      showToast(message, type) {
+        const id = Math.random().toString(36).slice(2);
+        this.toasts.push({ id, message, type: type||'success' });
+        setTimeout(() => { this.toasts = this.toasts.filter(x => x.id !== id); }, 3000);
+      },
+      formatDate(ts) {
+        try { return new Date(ts).toLocaleString(); } catch { return ''; }
+      },
+      formatAction(a) {
+        const map = {
+          statusChanged: '<%= t.get('tasks.activity.statusChanged') %>',
+          reviewRequested: '<%= t.get('tasks.activity.reviewRequested') %>',
+          reviewApproved: '<%= t.get('tasks.activity.reviewApproved') %>',
+          reviewDenied: '<%= t.get('tasks.activity.reviewDenied') %>',
+          ownerAssigned: '<%= t.get('tasks.activity.ownerAssigned') %>',
+          testerAdded: '<%= t.get('tasks.activity.testerAdded') %>'
+        };
+        const statusLabels = {
+          backlog: '<%= t.get('tasks.column.backlog') %>',
+          working: '<%= t.get('tasks.column.working') %>',
+          testing: '<%= t.get('tasks.column.testing') %>',
+          pendingFix: '<%= t.get('tasks.column.pendingFix') %>',
+          pendingPublish: '<%= t.get('tasks.column.pendingPublish') %>',
+          beta: '<%= t.get('tasks.column.beta') %>',
+          done: '<%= t.get('tasks.column.done') %>'
+        };
+        const tpl = map[a.type] || a.type;
+        const actor = (a.user && (a.user.name || a.user.id)) || '';
+        const details = a.details || {};
+        return String(tpl)
+          .replace('{actor}', actor)
+          .replace('{owner}', details.owner?.name || details.owner?.id || '')
+          .replace('{from}', statusLabels[details.from] || details.from || '')
+          .replace('{to}', statusLabels[details.to] || details.to || '')
+          .replace('{tester}', details.tester?.name || details.tester?.id || '')
+          .replace('{sent}', String(details.sent || '0'))
+          .replace('{total}', String(details.total || '0'));
+      },
       async loadProjects() {
         const res = await fetch('/admin/tasks/api/github/projects?org=ZumitoTeam');
         const data = await res.json();

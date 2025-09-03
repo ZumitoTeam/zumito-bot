@@ -23,11 +23,22 @@ export class AdminTasksApiRequestReview extends Route {
         const task = await this.taskService.update(String(id), { } as Partial<TaskItem>);
         await (ServiceContainer.getService(TaskService) as TaskService)["col"]().updateOne({ id: String(id) }, { $set: { lastReviewRequestAt: now } });
         const testers = task?.testers || [];
-        const pending = testers.filter(t => !t.approved);
+        let recipients = testers.filter(t => !t.approved);
+        // Fallback: if no pending testers, notify all testers
+        if (recipients.length === 0 && testers.length > 0) {
+            recipients = testers;
+        }
         // Resolve requester name from session/auth if available
         let requesterName = 'Admin';
+        let requesterId = 'admin';
         try {
             const auth: any = await (this.adminAuthService as any).isLoginValid(req).catch(() => null);
+            requesterId = auth?.user?.id
+                || auth?.data?.discordUserData?.id
+                || auth?.data?.user?.id
+                || auth?.data?.discordUserId
+                || req.user?.id
+                || 'admin';
             requesterName = auth?.user?.name
                 || auth?.data?.discordUserData?.globalName
                 || auth?.data?.discordUserData?.username
@@ -35,8 +46,19 @@ export class AdminTasksApiRequestReview extends Route {
                 || auth?.data?.discordUserId
                 || req.user?.name
                 || 'Admin';
+            // Try to resolve better name and avatar from Discord API
+            if (requesterId) {
+                const actor = await this.client.users.fetch(String(requesterId)).catch(() => null as any);
+                if (actor) {
+                    requesterName = actor.globalName || actor.username || requesterName;
+                    const av = typeof actor.displayAvatarURL === 'function' ? actor.displayAvatarURL({ forceStatic: true, size: 64 }) : null;
+                    (req as any)._requesterAvatar = av;
+                }
+            }
         } catch {}
-        for (const t of pending) {
+        let sent = 0;
+        let failed = 0;
+        for (const t of recipients) {
             try {
                 const user = await this.client.users.fetch(String(t.id)).catch(() => null);
                 if (user) {
@@ -51,9 +73,19 @@ export class AdminTasksApiRequestReview extends Route {
                         .replace('{requester}', String(requesterName))
                         .replace('{task}', String(task?.title || id)));
                     await user.send({ content, components: [row] });
+                    sent++;
+                } else {
+                    failed++;
                 }
-            } catch {}
+            } catch { failed++; }
         }
-        res.json({ ok: true, count: pending.length });
+        try {
+            await this.taskService.addActivity(String(id), {
+                type: 'reviewRequested',
+                user: { id: requesterId, name: requesterName, avatar: (req as any)._requesterAvatar || null },
+                details: { total: recipients.length, sent, failed, testers: recipients.map(p => ({ id: p.id, name: p.name })) }
+            });
+        } catch {}
+        res.json({ ok: true, count: recipients.length, sent, failed });
     }
 }

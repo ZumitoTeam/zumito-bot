@@ -28,6 +28,7 @@
             "testers": "Testers",
             "owner": "Owner",
             "comments": "Comments",
+            "activity": "Activity",
             "public": "Public",
             "publicUrl": "Public URL"
         },
@@ -62,10 +63,27 @@
             "none": "No pending reviews"
         },
         "dm": {
-            "requestReview": "{requester} asked you to review the task: {task}"
+            "requestReview": "{requester} asked you to review the task: {task}",
+            "assignedOwner": "You have been assigned as owner/manager of a task.",
+            "assignedTester": "You have been added as a tester by {actor} for task: {task}"
         },
         "confirm": {
             "moveToTesting": "The task is not in Testing. Move it to Testing before requesting review?"
+        },
+        "activity": {
+            "title": "Activity",
+            "none": "No activity yet",
+            "statusChanged": "{actor} changed status: {from} → {to}",
+            "reviewRequested": "{actor} requested review ({sent}/{total})",
+            "reviewApproved": "{actor} approved the task",
+            "reviewDenied": "{actor} denied the task",
+            "ownerAssigned": "{actor} assigned owner: {owner}",
+            "testerAdded": "{actor} added tester: {tester}"
+        },
+        "toast": {
+            "reviewRequested": "Review requested: {sent}/{total} DMs sent",
+            "success": "Action completed successfully",
+            "error": "Something went wrong"
         }
     }
 }

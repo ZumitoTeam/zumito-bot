@@ -54,6 +54,7 @@ export interface TaskItem {
     owner?: { id: string; name: string; avatar?: string | null } | null;
     testers: TaskTester[];
     comments: TaskComment[];
+    actions?: TaskActivityEntry[];
     approvals: number;
     github?: GithubLink; // legacy single link
     githubProject?: GithubProjectRef | null;
@@ -93,6 +94,7 @@ export class TaskService {
             owner: data.owner || null,
             testers: data.testers || [],
             comments: [],
+            actions: [],
             approvals: 0,
             github: data.github,
             githubProject: data.githubProject || null,
@@ -162,4 +164,21 @@ export class TaskService {
         const updated = await this.col().findOne({ id });
         return updated as TaskItem | null;
     }
+
+    async addActivity(id: string, entry: Omit<TaskActivityEntry, 'id' | 'at'>): Promise<TaskItem | null> {
+        const activity: TaskActivityEntry = { id: randomUUID(), at: Date.now(), ...entry };
+        await this.col().updateOne({ id }, { $push: { actions: activity }, $set: { updatedAt: Date.now() } });
+        const updated = await this.col().findOne({ id });
+        return updated as TaskItem | null;
+    }
+}
+
+export type TaskActivityType = 'statusChanged' | 'reviewRequested' | 'reviewApproved' | 'reviewDenied' | 'ownerAssigned' | 'testerAdded';
+
+export interface TaskActivityEntry {
+    id: string;
+    type: TaskActivityType;
+    user?: { id: string; name: string; avatar?: string | null };
+    details?: any;
+    at: number;
 }
