@@ -9,6 +9,8 @@
             "backlog": "Backlog",
             "working": "En progreso",
             "testing": "Pruebas",
+            "pendingFix": "Pendiente de arreglar",
+            "pendingPublish": "Pendiente de publicar",
             "beta": "Beta Bot",
             "done": "Completadas"
         },
@@ -17,23 +19,53 @@
             "description": "Descripción",
             "status": "Estado",
             "github": "Enlace GitHub (issue/PR)",
+            "project": "Proyecto de GitHub",
+            "repo": "Repositorio",
+            "branch": "Rama",
+            "issue": "Issue",
+            "pulls": "Pull Requests",
             "assignees": "Asignados",
             "testers": "Testers",
-            "comments": "Comentarios"
+            "owner": "Responsable",
+            "comments": "Comentarios",
+            "public": "Pública",
+            "publicUrl": "URL pública"
         },
         "action": {
             "cancel": "Cancelar",
             "create": "Crear",
             "save": "Guardar",
             "add": "Añadir",
-            "comment": "Comentar"
+            "comment": "Comentar",
+            "assign": "Asignar",
+            "requestReview": "Solicitar revisión",
+            "copy": "Copiar",
+            "share": "Compartir",
+            "open": "Abrir",
+            "approve": "Aprobar",
+            "deny": "Rechazar",
+            "openTask": "Abrir tarea"
         },
         "placeholder": {
-            "comment": "Escribe un comentario..."
+            "comment": "Escribe un comentario...",
+            "userSearch": "Buscar usuario..."
         },
         "help": {
             "assignees": "Nombres o IDs separados por comas"
+        },
+        "review": {
+            "pendingTitle": "Revisiones pendientes",
+            "openKanban": "Abrir Kanban",
+            "requested": "Solicitado",
+            "approvals": "Aprobaciones",
+            "actions": "Acciones",
+            "none": "Sin revisiones pendientes"
+        },
+        "dm": {
+            "requestReview": "El usuario {requester} te ha solicitado que revises la tarea: {task}"
+        },
+        "confirm": {
+            "moveToTesting": "La tarea no está en Pruebas. ¿Quieres moverla a Pruebas antes de solicitar revisión?"
         }
     }
 }
-

@@ -31,6 +31,7 @@ export class TasksModule extends Module {
                             label: 'Tasks',
                             items: [ 
                                 { label: 'Kanban', url: '/admin/tasks/kanban' },
+                                { label: 'Pending Reviews', url: '/admin/tasks/pending' },
                             ],
                         },
                     ],
@@ -41,4 +42,3 @@ export class TasksModule extends Module {
         }
     }
 }
-

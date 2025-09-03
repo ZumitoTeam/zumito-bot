@@ -9,6 +9,8 @@
             "backlog": "Backlog",
             "working": "In Progress",
             "testing": "Testing",
+            "pendingFix": "Pending Fix",
+            "pendingPublish": "Pending Publish",
             "beta": "Beta Bot",
             "done": "Done"
         },
@@ -17,23 +19,53 @@
             "description": "Description",
             "status": "Status",
             "github": "GitHub Link (issue/PR)",
+            "project": "GitHub Project",
+            "repo": "Repository",
+            "branch": "Branch",
+            "issue": "Issue",
+            "pulls": "Pull Requests",
             "assignees": "Assignees",
             "testers": "Testers",
-            "comments": "Comments"
+            "owner": "Owner",
+            "comments": "Comments",
+            "public": "Public",
+            "publicUrl": "Public URL"
         },
         "action": {
             "cancel": "Cancel",
             "create": "Create",
             "save": "Save",
             "add": "Add",
-            "comment": "Comment"
+            "comment": "Comment",
+            "assign": "Assign",
+            "requestReview": "Request Review",
+            "copy": "Copy",
+            "share": "Share",
+            "open": "Open",
+            "approve": "Approve",
+            "deny": "Deny",
+            "openTask": "Open Task"
         },
         "placeholder": {
-            "comment": "Write a comment..."
+            "comment": "Write a comment...",
+            "userSearch": "Search user..."
         },
         "help": {
             "assignees": "Comma separated names or IDs"
+        },
+        "review": {
+            "pendingTitle": "Pending Reviews",
+            "openKanban": "Open Kanban",
+            "requested": "Requested",
+            "approvals": "Approvals",
+            "actions": "Actions",
+            "none": "No pending reviews"
+        },
+        "dm": {
+            "requestReview": "{requester} asked you to review the task: {task}"
+        },
+        "confirm": {
+            "moveToTesting": "The task is not in Testing. Move it to Testing before requesting review?"
         }
     }
 }
-

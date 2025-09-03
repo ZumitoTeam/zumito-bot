@@ -20,14 +20,23 @@ export class AdminTasksApiUpdate extends Route {
         const patch: Partial<TaskItem> = {};
         if (typeof body.title === 'string') patch.title = body.title.slice(0, 200);
         if (typeof body.description === 'string') patch.description = body.description;
-        if (typeof body.status === 'string' && ['backlog','working','testing','beta','done'].includes(body.status)) patch.status = body.status as TaskStatus;
+        if (typeof body.status === 'string' && ['backlog','working','testing','pendingFix','pendingPublish','beta','done'].includes(body.status)) patch.status = body.status as TaskStatus;
+        if (typeof body.public === 'boolean') patch.public = body.public;
         if (Array.isArray(body.assignees)) patch.assignees = body.assignees;
         if (Array.isArray(body.testers)) patch.testers = body.testers;
         if (body.github === null) patch.github = undefined;
         else if (body.github && body.github.url) patch.github = body.github;
+        if (body.githubProject === null) patch.githubProject = null;
+        else if (body.githubProject) patch.githubProject = body.githubProject;
+        if (typeof body.repo === 'string') patch.repo = body.repo;
+        if (typeof body.branch === 'string') patch.branch = body.branch;
+        if (body.issue === null) patch.issue = null;
+        else if (body.issue && body.issue.url) patch.issue = body.issue;
+        if (Array.isArray(body.pulls)) patch.pulls = body.pulls;
+        if (body.owner === null) patch.owner = null;
+        else if (body.owner) patch.owner = body.owner;
 
         const updated = await this.taskService.update(id, patch);
         res.json({ ok: true, task: updated });
     }
 }
-
