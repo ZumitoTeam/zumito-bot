@@ -1,0 +1,110 @@
+<div class="card mt-6">
+  <div class="flex items-center justify-between mb-4">
+    <div class="text-lg font-semibold"><%= t.get('tasks.review.pendingTitle') %></div>
+    <a href="/admin/tasks/kanban" class="btn-primary"><%= t.get('tasks.review.openKanban') %></a>
+  </div>
+
+  <style>
+    @media (max-width: 768px) {
+      .pending-table { display: none; }
+      .pending-cards { display: grid; gap: 12px; }
+    }
+    @media (min-width: 769px) {
+      .pending-table { display: block; }
+      .pending-cards { display: none; }
+    }
+  </style>
+
+  <div class="bg-discord-dark-200 rounded-lg overflow-hidden shadow pending-table">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="bg-discord-dark-300">
+          <th class="text-left p-3"><%= t.get('tasks.field.title') %></th>
+          <th class="text-left p-3"><%= t.get('tasks.field.status') %></th>
+          <th class="text-left p-3"><%= t.get('tasks.review.requested') %></th>
+          <th class="text-left p-3"><%= t.get('tasks.review.approvals') %></th>
+          <th class="text-right p-3 w-64"><%= t.get('tasks.review.actions') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (tasks.length === 0) { %>
+          <tr>
+            <td colspan="5" class="p-4 text-center text-discord-light-300"><%= t.get('tasks.review.none') %></td>
+          </tr>
+        <% } %>
+        <% tasks.forEach(function(task) { %>
+          <tr id="row-table-<%= task.id %>" class="border-t border-discord-dark-400 hover:bg-discord-dark-350 transition-colors">
+            <td class="p-3">
+              <div class="font-medium"><%= task.title %></div>
+              <div class="text-xs text-discord-light-300 truncate"><%= task.description || '' %></div>
+            </td>
+            <td class="p-3 uppercase"><%= task.status %></td>
+            <td class="p-3 text-discord-light-300"><%= new Date(task.lastReviewRequestAt).toLocaleString() %></td>
+            <td class="p-3"><span class="bg-discord-green text-white px-2 py-0.5 rounded text-xs"><%= task.approvals || 0 %></span></td>
+            <td class="p-3 text-right">
+              <div class="flex items-center justify-end gap-2">
+                <input type="text" placeholder="<%= t.get('tasks.placeholder.comment') %>" class="w-48 px-2 py-1 rounded bg-discord-dark-300 text-discord-foreground focus:outline-none" id="cmt-table-<%= task.id %>"/>
+                <button class="px-3 py-1 rounded bg-discord-green hover:bg-green-600" onclick="submitReview('<%= task.id %>', true)"><%= t.get('tasks.action.approve') %></button>
+                <button class="px-3 py-1 rounded bg-discord-dark-400 hover:bg-red-600" onclick="submitReview('<%= task.id %>', false)"><%= t.get('tasks.action.deny') %></button>
+                <a class="btn-primary" href="/admin/tasks/kanban?t=<%= task.id %>"><%= t.get('tasks.action.open') %></a>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pending-cards">
+    <% if (tasks.length === 0) { %>
+      <div class="text-center text-discord-light-300 py-4"><%= t.get('tasks.review.none') %></div>
+    <% } %>
+    <% tasks.forEach(function(task) { %>
+      <div id="row-card-<%= task.id %>" class="bg-discord-dark-200 rounded-lg p-3 shadow border border-discord-dark-400">
+        <div class="flex items-start justify-between gap-2">
+          <div class="min-w-0">
+            <div class="font-semibold truncate"><%= task.title %></div>
+            <div class="text-xs text-discord-light-300 truncate"><%= task.description || '' %></div>
+          </div>
+          <a class="btn-primary" href="/admin/tasks/kanban?t=<%= task.id %>"><%= t.get('tasks.action.open') %></a>
+        </div>
+        <div class="mt-2 grid grid-cols-2 gap-2 text-xs text-discord-light-300">
+          <div><span class="text-discord-light-100"><%= t.get('tasks.field.status') %>:</span> <span class="uppercase"><%= task.status %></span></div>
+          <div><span class="text-discord-light-100"><%= t.get('tasks.review.approvals') %>:</span> <span class="bg-discord-green text-white px-2 py-0.5 rounded text-xs"><%= task.approvals || 0 %></span></div>
+          <div class="col-span-2"><span class="text-discord-light-100"><%= t.get('tasks.review.requested') %>:</span> <%= new Date(task.lastReviewRequestAt).toLocaleString() %></div>
+        </div>
+        <div class="mt-3 flex flex-col gap-2">
+          <input type="text" placeholder="<%= t.get('tasks.placeholder.comment') %>" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground focus:outline-none" id="cmt-card-<%= task.id %>"/>
+          <div class="flex items-center gap-2">
+            <button class="flex-1 px-3 py-2 rounded bg-discord-green hover:bg-green-600"><span onclick="submitReview('<%= task.id %>', true)"><%= t.get('tasks.action.approve') %></span></button>
+            <button class="flex-1 px-3 py-2 rounded bg-discord-dark-400 hover:bg-red-600"><span onclick="submitReview('<%= task.id %>', false)"><%= t.get('tasks.action.deny') %></span></button>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<script>
+  async function submitReview(taskId, approved) {
+    // Prefer visible card input on mobile, fallback to table input
+    const input = document.getElementById('cmt-card-' + taskId) || document.getElementById('cmt-table-' + taskId);
+    const comment = input ? input.value : '';
+    try {
+      const res = await fetch('/admin/tasks/api/approval', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: taskId, testerId: '<%= userId %>', testerName: '<%= userName %>', approved, comment })
+      });
+      const data = await res.json();
+      if (data && data.ok) {
+        const rowCard = document.getElementById('row-card-' + taskId);
+        const rowTable = document.getElementById('row-table-' + taskId);
+        if (rowCard) rowCard.remove();
+        if (rowTable) rowTable.remove();
+      }
+    } catch (err) {
+      console.error('Failed to submit review', err);
+    }
+  }
+</script>

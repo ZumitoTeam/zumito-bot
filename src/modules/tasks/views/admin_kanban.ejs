@@ -7,7 +7,7 @@
     </button>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-7 gap-4">
     <template x-for="column in columns" :key="column.id">
       <div class="bg-discord-dark-200 rounded-lg p-3 min-h-[300px]"
            @dragover.prevent
@@ -28,6 +28,10 @@
                 <template x-if="task.github && task.github.url">
                   <a :href="task.github.url" target="_blank" class="text-discord-blue hover:underline">GH</a>
                 </template>
+                <div class="ml-auto flex items-center" x-show="task.owner && (task.owner.avatar || task.owner.name)">
+                  <img x-show="task.owner && task.owner.avatar" :src="task.owner.avatar" alt="owner" class="w-6 h-6 rounded-full object-cover"/>
+                  <span class="ml-2 hidden md:inline text-discord-light-300" x-text="task.owner?.name"></span>
+                </div>
               </div>
             </div>
           </template>
@@ -37,8 +41,8 @@
   </div>
 
   <!-- Create Task Modal -->
-  <div x-show="openCreateModal" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div @click.away="openCreateModal = false" class="bg-discord-dark-200 p-6 rounded-lg shadow-lg w-full max-w-lg">
+  <div x-show="openCreateModal" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 overflow-y-auto">
+    <div @click.away="openCreateModal = false" class="bg-discord-dark-200 p-6 rounded-lg shadow-lg w-full max-w-lg max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold"><%= t.get('tasks.admin.createTitle') %></h3>
         <button @click="openCreateModal = false" class="text-discord-light-300 hover:text-white">
@@ -67,9 +71,28 @@
             </select>
           </div>
           <div>
-            <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.github') %></label>
-            <input x-model="form.githubUrl" type="url" placeholder="https://github.com/owner/repo/issues/123" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none focus:ring-2 focus:ring-discord-primary" />
+            <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.project') %></label>
+            <select x-model="form.githubProject" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground focus:outline-none focus:ring-2 focus:ring-discord-primary">
+              <option value="">-</option>
+              <template x-for="p in projects" :key="p.name">
+                <option :value="p.name" x-text="p.name"></option>
+              </template>
+            </select>
           </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.repo') %></label>
+            <input x-model="form.repo" placeholder="ZumitoTeam/zumito-bot" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.branch') %></label>
+            <input x-model="form.branch" placeholder="feature/xyz" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none" />
+          </div>
+        </div>
+        <div>
+          <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.issue') %></label>
+          <input x-model="form.issueUrl" type="url" placeholder="https://github.com/owner/repo/issues/123" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none" />
         </div>
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" @click="openCreateModal = false" class="px-4 py-2 rounded bg-discord-dark-400 text-white hover:bg-discord-dark-500">
@@ -84,8 +107,8 @@
   </div>
 
   <!-- Task Detail Modal -->
-  <div x-show="openDetailModal" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div @click.away="openDetailModal = false" class="bg-discord-dark-200 p-6 rounded-lg shadow-lg w-full max-w-2xl">
+  <div x-show="openDetailModal" style="display:none;" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 overflow-y-auto">
+    <div @click.away="openDetailModal = false" class="bg-discord-dark-200 p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold" x-text="current?.title"></h3>
         <button @click="openDetailModal = false" class="text-discord-light-300 hover:text-white">
@@ -99,8 +122,64 @@
           <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.description') %></label>
           <textarea x-model="current.description" rows="6" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none focus:ring-2 focus:ring-discord-primary"></textarea>
           <div class="mt-2">
-            <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.github') %></label>
-            <input x-model="detail.githubUrl" type="url" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none focus:ring-2 focus:ring-discord-primary" placeholder="https://github.com/owner/repo/pull/123"/>
+            <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.status') %></label>
+            <select x-model="current.status" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground focus:outline-none">
+              <template x-for="opt in columns" :key="opt.id"><option :value="opt.id" x-text="opt.name"></option></template>
+            </select>
+          </div>
+          <div class="mt-2 flex items-center justify-between">
+            <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.public') %></label>
+            <input type="checkbox" x-model="current.public" class="w-5 h-5"/>
+          </div>
+          <div class="mt-2" x-show="current.public">
+            <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.publicUrl') %></label>
+            <div class="flex flex-col gap-2">
+              <input :value="(window.location.origin + '/tasks/' + current.id)" readonly class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground focus:outline-none"/>
+              <div class="flex gap-2">
+                <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click="copyPublic()"><%= t.get('tasks.action.copy') %></button>
+                <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click="sharePublic()"><%= t.get('tasks.action.share') %></button>
+                <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click="openPublic()"><%= t.get('tasks.action.open') %></button>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2">
+            <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.project') %></label>
+            <select x-model="detail.githubProject" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground focus:outline-none">
+              <option value="">-</option>
+              <template x-for="p in projects" :key="p.name"><option :value="p.name" x-text="p.name"></option></template>
+            </select>
+            <div class="grid grid-cols-2 gap-3 mt-2">
+              <div>
+                <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.repo') %></label>
+                <input x-model="current.repo" placeholder="ZumitoTeam/zumito-bot" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none" />
+              </div>
+              <div>
+                <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.branch') %></label>
+                <input x-model="current.branch" placeholder="feature/xyz" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none" />
+              </div>
+            </div>
+            <div class="mt-2">
+              <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.issue') %></label>
+              <input x-model="detail.issueUrl" type="url" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none" placeholder="https://github.com/owner/repo/issues/123"/>
+            </div>
+            <div class="mt-2">
+              <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.pulls') %></label>
+              <div class="space-y-2">
+                <template x-for="p in (current.pulls||[])" :key="p.repo + '#' + p.number">
+                  <div class="flex items-center justify-between bg-discord-dark-300 rounded px-2 py-1 text-sm">
+                    <a class="text-discord-blue hover:underline" :href="p.url" target="_blank" x-text="p.repo + ' #' + p.number"></a>
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 rounded bg-discord-dark-400" x-text="p.state||'unknown'"></span>
+                      <button type="button" class="px-2 py-0.5 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click="removePull(p)">×</button>
+                    </div>
+                  </div>
+                </template>
+              </div>
+              <div class="flex gap-2 mt-2">
+                <input x-model="detail.pullUrl" placeholder="https://github.com/owner/repo/pull/123" class="flex-1 px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none"/>
+                <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click="addPull()"><%= t.get('tasks.action.add') %></button>
+              </div>
+            </div>
           </div>
         </div>
         <div>
@@ -109,19 +188,54 @@
             <input x-model="detail.assigneesInput" placeholder="user1,user2" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none"/>
             <div class="text-xs text-discord-light-300 mt-1"><%= t.get('tasks.help.assignees') %></div>
           </div>
+          <div class="mt-3 relative">
+            <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.owner') %></label>
+            <input x-model="detail.ownerQuery" @input="debouncedSearch('owner')" :placeholder="t.get('tasks.placeholder.userSearch')" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none"/>
+            <div x-show="ownerResults.length > 0" class="absolute z-10 mt-1 w-full bg-discord-dark-300 rounded shadow max-h-60 overflow-y-auto">
+              <template x-for="u in ownerResults" :key="u.id">
+                <div class="px-3 py-2 hover:bg-discord-dark-400 cursor-pointer flex items-center gap-2" @click="selectOwner(u)">
+                  <img x-show="u.avatar" :src="u.avatar" alt="avatar" class="w-6 h-6 rounded-full object-cover"/>
+                  <span class="truncate" x-text="u.name"></span>
+                </div>
+              </template>
+            </div>
+            <div class="flex gap-2 mt-2 items-center">
+              <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click="assignOwner()"><%= t.get('tasks.action.assign') %></button>
+              <div class="text-sm text-discord-light-300 flex items-center gap-2" x-show="detail.ownerName">
+                <img x-show="detail.ownerAvatar" :src="detail.ownerAvatar" alt="avatar" class="w-5 h-5 rounded-full object-cover"/>
+                <span>Selected:</span> <span class="text-white" x-text="detail.ownerName"></span>
+              </div>
+            </div>
+          </div>
           <div class="mt-3">
             <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.testers') %></label>
             <div class="space-y-2 max-h-40 overflow-y-auto bg-discord-dark-300 rounded p-2">
               <template x-for="tester in (current.testers||[])" :key="tester.id">
-                <label class="flex items-center gap-2">
+                <div class="flex items-center gap-2">
                   <input type="checkbox" x-model="tester.approved" @change="toggleApproval(current.id, tester)"/>
-                  <span x-text="tester.name"></span>
-                </label>
+                  <img x-show="tester.avatar" :src="tester.avatar" alt="avatar" class="w-6 h-6 rounded-full object-cover"/>
+                  <span x-text="tester.name || tester.id"></span>
+                </div>
               </template>
             </div>
-            <div class="flex gap-2 mt-2">
-              <input x-model="detail.newTester" placeholder="tester#1234" class="flex-1 px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none"/>
-              <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click="addTester()"><%= t.get('tasks.action.add') %></button>
+            <div class="mt-2 relative">
+              <input x-model="detail.testerQuery" @input="debouncedSearch('tester')" :placeholder="t.get('tasks.placeholder.userSearch')" class="w-full px-3 py-2 rounded bg-discord-dark-300 text-discord-foreground placeholder:text-discord-light-300 focus:outline-none"/>
+              <div x-show="testerResults.length > 0" class="absolute z-10 mt-1 w-full bg-discord-dark-300 rounded shadow max-h-60 overflow-y-auto">
+                <template x-for="u in testerResults" :key="u.id">
+                  <div class="px-3 py-2 hover:bg-discord-dark-400 cursor-pointer flex items-center gap-2" @click="selectTester(u)">
+                    <img x-show="u.avatar" :src="u.avatar" alt="avatar" class="w-6 h-6 rounded-full object-cover"/>
+                    <span class="truncate" x-text="u.name"></span>
+                  </div>
+                </template>
+              </div>
+              <div class="flex gap-2 mt-2 items-center">
+                <div class="flex items-center gap-2" x-show="detail.selectedTesterId && detail.testerQuery">
+                  <img x-show="detail.selectedTesterAvatar" :src="detail.selectedTesterAvatar" class="w-5 h-5 rounded-full object-cover"/>
+                  <span class="text-sm text-white" x-text="detail.testerQuery"></span>
+                </div>
+                <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click="addTester()"><%= t.get('tasks.action.add') %></button>
+                <button type="button" class="px-3 py-2 rounded bg-discord-dark-400 hover:bg-discord-dark-500" @click="requestReview()"><%= t.get('tasks.action.requestReview') %></button>
+              </div>
             </div>
           </div>
         </div>
@@ -130,7 +244,13 @@
         <label class="block mb-1 text-sm font-medium"><%= t.get('tasks.field.comments') %></label>
         <div class="space-y-2 max-h-40 overflow-y-auto bg-discord-dark-300 rounded p-2">
           <template x-for="c in (current.comments||[])" :key="c.id">
-            <div class="text-sm"><span class="text-discord-light-300" x-text="c.user.name"></span>: <span x-text="c.text"></span></div>
+            <div class="text-sm flex items-start gap-2">
+              <img x-show="c.user && c.user.avatar" :src="c.user.avatar" alt="avatar" class="w-5 h-5 rounded-full object-cover mt-0.5"/>
+              <div>
+                <div class="text-discord-light-300" x-text="c.user && c.user.name ? c.user.name : c.user.id"></div>
+                <div x-text="c.text"></div>
+              </div>
+            </div>
           </template>
         </div>
         <div class="flex gap-2 mt-2">
@@ -155,18 +275,24 @@
         { id: 'backlog', name: '<%= t.get('tasks.column.backlog') %>' },
         { id: 'working', name: '<%= t.get('tasks.column.working') %>' },
         { id: 'testing', name: '<%= t.get('tasks.column.testing') %>' },
+        { id: 'pendingFix', name: '<%= t.get('tasks.column.pendingFix') %>' },
+        { id: 'pendingPublish', name: '<%= t.get('tasks.column.pendingPublish') %>' },
         { id: 'beta', name: '<%= t.get('tasks.column.beta') %>' },
         { id: 'done', name: '<%= t.get('tasks.column.done') %>' },
       ],
-      tasks: { backlog: [], working: [], testing: [], beta: [], done: [] },
-      form: { title: '', description: '', status: 'backlog', githubUrl: '' },
+      tasks: { backlog: [], working: [], testing: [], pendingFix: [], pendingPublish: [], beta: [], done: [] },
+      form: { title: '', description: '', status: 'backlog', githubProject: '', repo: '', branch: '', issueUrl: '' },
       current: null,
-      detail: { assigneesInput: '', newTester: '', commentText: '', githubUrl: '' },
+      detail: { assigneesInput: '', newTester: '', commentText: '', githubProject: '', issueUrl: '', pullUrl: '', ownerId: '', ownerName: '', ownerAvatar: '', githubUrl: '', ownerQuery: '', testerQuery: '', selectedTesterId: '', selectedTesterAvatar: '' },
+      projects: [],
+      ownerResults: [],
+      testerResults: [],
+      searchTimer: null,
 
       async load() {
         const res = await fetch('/admin/tasks/api/list');
         const data = await res.json();
-        const grouped = { backlog: [], working: [], testing: [], beta: [], done: [] };
+        const grouped = { backlog: [], working: [], testing: [], pendingFix: [], pendingPublish: [], beta: [], done: [] };
         (data.tasks || []).forEach(t => { if (!grouped[t.status]) grouped[t.status] = []; grouped[t.status].push(t); });
         this.tasks = grouped;
       },
@@ -176,13 +302,16 @@
           title: this.form.title,
           description: this.form.description,
           status: this.form.status,
-          github: this.parseGithub(this.form.githubUrl)
+          githubProject: this.form.githubProject ? { org: 'ZumitoTeam', name: this.form.githubProject } : null,
+          repo: this.form.repo || null,
+          branch: this.form.branch || null,
+          issue: this.parseIssue(this.form.issueUrl),
         };
         const res = await fetch('/admin/tasks/api/create', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
         const data = await res.json();
         if (data.ok) {
           this.openCreateModal = false;
-          this.form = { title: '', description: '', status: 'backlog', githubUrl: '' };
+          this.form = { title: '', description: '', status: 'backlog', githubProject: '', repo: '', branch: '', issueUrl: '' };
           await this.load();
         }
       },
@@ -198,14 +327,16 @@
       openTask(task) {
         this.current = JSON.parse(JSON.stringify(task));
         this.detail.assigneesInput = (task.assignees||[]).map(a => a.name).join(',');
-        this.detail.githubUrl = task.github?.url || '';
+        this.detail.githubProject = task.githubProject?.name || '';
+        this.detail.issueUrl = task.issue?.url || '';
         this.openDetailModal = true;
       },
 
       async saveDetail() {
         const assignees = (this.detail.assigneesInput||'').split(',').map(x => x.trim()).filter(Boolean).map(n => ({ id: n, name: n }));
-        const github = this.parseGithub(this.detail.githubUrl);
-        await fetch('/admin/tasks/api/update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id, description: this.current.description, assignees, testers: this.current.testers, github }) });
+        const githubProject = this.detail.githubProject ? { org: 'ZumitoTeam', name: this.detail.githubProject } : null;
+        const issue = this.parseIssue(this.detail.issueUrl);
+        await fetch('/admin/tasks/api/update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id, status: this.current.status, public: !!this.current.public, description: this.current.description, assignees, testers: this.current.testers, githubProject, repo: this.current.repo, branch: this.current.branch, issue, pulls: this.current.pulls }) });
         this.openDetailModal = false;
         await this.load();
       },
@@ -216,39 +347,145 @@
       },
 
       addTester() {
-        const name = (this.detail.newTester||'').trim();
-        if (!name) return;
-        const id = name; // placeholder id
-        const testers = this.current.testers || [];
-        testers.push({ id, name, approved: false });
-        this.current.testers = testers;
+        const testerId = (this.detail.newTester||this.detail.selectedTesterId||'').trim();
+        if (!testerId) return;
+        fetch('/admin/tasks/api/tester/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id, testerId }) })
+          .then(() => this.load());
         this.detail.newTester = '';
+        this.detail.testerQuery = '';
+        this.testerResults = [];
       },
 
       async addComment() {
         const text = (this.detail.commentText||'').trim();
         if (!text) return;
-        await fetch('/admin/tasks/api/comment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id, userId: 'admin', userName: 'Admin', text }) });
+        const viewer = (window.__viewer || {});
+        await fetch('/admin/tasks/api/comment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id, userId: viewer.id || 'admin', userName: viewer.name || 'Admin', userAvatar: viewer.avatar || '', text }) });
         this.detail.commentText = '';
         await this.load();
         const updated = Object.values(this.tasks).flat().find(t => t.id === this.current.id);
         if (updated) this.current = updated;
       },
 
-      parseGithub(url) {
+      parseIssue(url) {
         if (!url) return null;
         try {
           const u = new URL(url);
           if (u.hostname !== 'github.com') return null;
           const parts = u.pathname.split('/').filter(Boolean);
-          if (parts.length >= 4 && (parts[2] === 'issues' || parts[2] === 'pull')) {
-            return { type: parts[2] === 'issues' ? 'issue' : 'pr', repo: parts[0] + '/' + parts[1], number: Number(parts[3]), url };
+          if (parts.length >= 4 && parts[2] === 'issues') {
+            return { repo: parts[0] + '/' + parts[1], number: Number(parts[3]), url };
           }
-          return { type: 'issue', repo: parts.slice(0,2).join('/'), number: 0, url };
+          return null;
         } catch { return null; }
       },
 
-      async init() { await this.load(); },
+      async addPull() {
+        const url = (this.detail.pullUrl||'').trim();
+        if (!url) return;
+        try {
+          const u = new URL(url);
+          if (u.hostname !== 'github.com') return;
+          const parts = u.pathname.split('/').filter(Boolean);
+          if (parts.length >= 4 && parts[2] === 'pull') {
+            await fetch('/admin/tasks/api/pull/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id, repo: parts[0] + '/' + parts[1], number: Number(parts[3]), url }) });
+            this.detail.pullUrl = '';
+            await this.load();
+            const updated = Object.values(this.tasks).flat().find(t => t.id === this.current.id);
+            if (updated) this.current = updated;
+          }
+        } catch {}
+      },
+
+      async removePull(p) {
+        await fetch('/admin/tasks/api/pull/remove', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id, repo: p.repo, number: p.number }) });
+        await this.load();
+        const updated = Object.values(this.tasks).flat().find(t => t.id === this.current.id);
+        if (updated) this.current = updated;
+      },
+
+      async assignOwner() {
+        await fetch('/admin/tasks/api/assign', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id, ownerId: this.detail.ownerId, ownerName: this.detail.ownerName }) });
+        this.detail.ownerId = '';
+        this.detail.ownerName = '';
+        await this.load();
+      },
+
+      async requestReview() {
+        try {
+          if (this.current.status !== 'testing') {
+            const msg = '<%= t.get('tasks.confirm.moveToTesting') %>';
+            const move = window.confirm(msg);
+            if (move) {
+              this.current.status = 'testing';
+              await fetch('/admin/tasks/api/update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id, status: 'testing' }) });
+              await this.load();
+              const updated = Object.values(this.tasks).flat().find(t => t.id === this.current.id);
+              if (updated) this.current = updated;
+            }
+          }
+          await fetch('/admin/tasks/api/request-review', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: this.current.id }) });
+        } catch {}
+      },
+
+      copyPublic() {
+        const url = window.location.origin + '/tasks/' + this.current.id;
+        navigator.clipboard.writeText(url);
+      },
+      async sharePublic() {
+        const url = window.location.origin + '/tasks/' + this.current.id;
+        const title = this.current.title || 'Task';
+        try {
+          if (navigator.share) {
+            await navigator.share({ title, url });
+          } else {
+            await navigator.clipboard.writeText(url);
+          }
+        } catch {}
+      },
+      openPublic() {
+        const url = window.location.origin + '/tasks/' + this.current.id;
+        window.open(url, '_blank');
+      },
+
+      debouncedSearch(kind) {
+        if (this.searchTimer) clearTimeout(this.searchTimer);
+        this.searchTimer = setTimeout(async () => {
+          const q = kind === 'owner' ? this.detail.ownerQuery : this.detail.testerQuery;
+          if (!q || q.length < 2) { if (kind==='owner') this.ownerResults = []; else this.testerResults = []; return; }
+          const res = await fetch(`/admin/tasks/api/users?q=${encodeURIComponent(q)}`);
+          const data = await res.json();
+          if (kind === 'owner') this.ownerResults = data.users || []; else this.testerResults = data.users || [];
+        }, 250);
+      },
+
+      selectOwner(u) {
+        this.detail.ownerId = u.id;
+        this.detail.ownerName = u.name;
+        this.detail.ownerAvatar = u.avatar || '';
+        this.detail.ownerQuery = u.name;
+        this.ownerResults = [];
+      },
+
+      selectTester(u) {
+        this.detail.selectedTesterId = u.id;
+        this.detail.selectedTesterAvatar = u.avatar || '';
+        this.detail.testerQuery = u.name;
+        this.testerResults = [];
+      },
+
+      openById(id) {
+        const all = Object.values(this.tasks).flat();
+        const found = all.find(t => t.id === id);
+        if (found) this.openTask(found);
+      },
+
+      async init() { await this.load(); await this.loadProjects(); const sp = new URLSearchParams(window.location.search); const tid = sp.get('t'); if (tid) this.openById(tid); },
+      async loadProjects() {
+        const res = await fetch('/admin/tasks/api/github/projects?org=ZumitoTeam');
+        const data = await res.json();
+        this.projects = data.projects || [];
+      }
     };
   }
 
@@ -256,4 +493,8 @@
   document.addEventListener('DOMContentLoaded', () => {
     if (window.Alpine) return; // Admin layout likely provides Alpine; if not, we still bind manually.
   });
+</script>
+<script>
+  // Viewer injected by server for comment attribution
+  window.__viewer = window.__viewer || <%- JSON.stringify(viewer || { id: '', name: 'Admin', avatar: null }) %>;
 </script>
