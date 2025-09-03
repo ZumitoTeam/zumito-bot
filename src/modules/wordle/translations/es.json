@@ -1,0 +1,13 @@
+{
+    "wordle": {
+        "title": "Wordle",
+        "prompt": "Adivina la palabra de 5 letras usando el teclado de abajo.",
+        "mustBeFive": "Tu intento debe tener exactamente 5 letras.",
+        "invalidWord": "Ese intento no es válido.",
+        "attempts": "Intentos: {used}/{max}",
+        "win": "🎉 ¡Lo adivinaste!",
+        "lose": "❌ Sin intentos. La palabra era: {answer}",
+        "modalTitle": "Ingresar intento",
+        "inputLabel": "Tu palabra de 5 letras"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "wordle": {
+        "title": "Wordle",
+        "prompt": "Guess the 5-letter word using the keyboard below.",
+        "mustBeFive": "Your guess must be exactly 5 letters.",
+        "invalidWord": "That guess is not valid.",
+        "attempts": "Attempts: {used}/{max}",
+        "win": "🎉 You guessed it!",
+        "lose": "❌ Out of attempts. The word was: {answer}",
+        "modalTitle": "Enter Guess",
+        "inputLabel": "Your 5-letter guess"
+    }
+}
