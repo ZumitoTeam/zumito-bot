@@ -1,0 +1,6 @@
+{
+    "description": "Set the channel where birthday messages will be posted.",
+    "invalid": "Missing or invalid channel.",
+    "saved": "Birthday channel set to {channel}."
+}
+
