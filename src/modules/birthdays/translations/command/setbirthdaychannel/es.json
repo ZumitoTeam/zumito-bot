@@ -1,0 +1,6 @@
+{
+    "description": "Configura el canal donde se publicarán los cumpleaños.",
+    "invalid": "Canal faltante o inválido.",
+    "saved": "El canal de cumpleaños se estableció en {channel}."
+}
+

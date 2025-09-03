@@ -1,0 +1,15 @@
+{
+    "args": {
+        "date": {
+            "description": "Tu fecha de cumpleaños (ej.: 12/05, 2001-05-12)."
+        }
+    },
+    "description": "Define tu cumpleaños para recibir un saludo en los servidores que compartes con el bot.",
+    "invalid": "Fecha inválida. Usa formatos como DD/MM, MM-DD o YYYY-MM-DD.",
+    "saved": "Tu cumpleaños ha sido guardado: {date}",
+    "embed": {
+        "title": "¡Feliz cumpleaños, {user}!",
+        "description": "¡Hoy celebramos tu cumpleaños ({date})! 🎉"
+    }
+}
+

@@ -1,0 +1,15 @@
+{
+    "args": {
+        "date": {
+            "description": "Your birthday date (e.g., 12/05, 2001-05-12)."
+        }
+    },
+    "description": "Set your birthday to receive a greeting on servers you share with the bot.",
+    "invalid": "Invalid date. Use formats like DD/MM, MM-DD or YYYY-MM-DD.",
+    "saved": "Your birthday has been saved: {date}",
+    "embed": {
+        "title": "Happy Birthday, {user}!",
+        "description": "We celebrate your birthday today ({date})! 🎉"
+    }
+}
+
