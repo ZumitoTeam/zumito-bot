@@ -1,0 +1,111 @@
+<div class="card animate__animated animate__fadeIn">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-discord-primary"><%= t('backup.title') %></h2>
+    </div>
+
+    <% if (feedback) { %>
+        <div class="mb-6 p-4 rounded-lg border <%= feedback.status === 'success' ? 'bg-green-500/10 border-green-500/40 text-green-200' : 'bg-red-500/10 border-red-500/40 text-red-200' %>">
+            <div class="font-semibold">
+                <%= t(feedback.status === 'success' ? 'backup.feedback.successTitle' : 'backup.feedback.errorTitle') %>
+            </div>
+            <p class="mt-2 text-sm"><%= t(feedback.status === 'success' ? 'backup.feedback.successMessage' : 'backup.feedback.errorMessage', feedback.reason ? { reason: t(`backup.errors.${feedback.reason}`) } : undefined) %></p>
+            <% if (feedback.status === 'success') { %>
+                <ul class="mt-3 text-xs space-y-1">
+                    <li><%= t('backup.feedback.rolesCreated', { count: feedback.createdRoles || 0 }) %></li>
+                    <li><%= t('backup.feedback.rolesUpdated', { count: feedback.updatedRoles || 0 }) %></li>
+                    <li><%= t('backup.feedback.categoriesCreated', { count: feedback.createdCategories || 0 }) %></li>
+                    <li><%= t('backup.feedback.channelsCreated', { count: feedback.createdChannels || 0 }) %></li>
+                </ul>
+            <% } %>
+        </div>
+    <% } %>
+
+    <form method="POST" action="/panel/<%= guild.id %>/backup" class="space-y-6">
+        <div class="transition-all duration-200 hover:shadow-md p-4 rounded-lg bg-discord-dark-400/30">
+            <label class="flex items-center gap-2 mb-2 text-lg font-medium text-discord-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 0 0 -2 -2h-6" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13v-10a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v18a2 2 0 0 1 -2 2h-8" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 19h12" />
+                </svg>
+                <%= t('backup.form.importTypeLabel') %>
+            </label>
+            <select name="importType" class="w-full bg-discord-dark-300 text-discord-white px-4 py-3 rounded-lg border border-discord-dark-100 focus:border-discord-primary focus:ring focus:ring-discord-primary/20 focus:outline-none transition-all duration-200" required>
+                <option value="roles"><%= t('backup.form.rolesOption') %></option>
+                <option value="channels"><%= t('backup.form.channelsOption') %></option>
+                <option value="full"><%= t('backup.form.fullOption') %></option>
+            </select>
+        </div>
+
+        <div class="transition-all duration-200 hover:shadow-md p-4 rounded-lg bg-discord-dark-400/30">
+            <label class="flex items-center gap-2 mb-2 text-lg font-medium text-discord-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-discord-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20h9" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4h9" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 9h16v6h-16z" />
+                </svg>
+                <%= t('backup.form.jsonLabel') %>
+            </label>
+            <textarea name="rawData" class="w-full min-h-[240px] bg-discord-dark-300 text-discord-white px-4 py-3 rounded-lg border border-discord-dark-100 focus:border-discord-primary focus:ring focus:ring-discord-primary/20 focus:outline-none transition-all duration-200 font-mono text-sm" required></textarea>
+            <p class="mt-2 text-xs text-discord-white/60"><%= t('backup.form.jsonHint') %></p>
+        </div>
+
+        <details class="transition-all duration-200 hover:shadow-md p-4 rounded-lg bg-discord-dark-400/30">
+            <summary class="cursor-pointer text-sm font-semibold text-discord-primary"><%= t('backup.form.examplesTitle') %></summary>
+            <div class="mt-4 space-y-4 text-xs text-discord-white/70">
+                <div>
+                    <div class="font-semibold text-discord-white mb-2"><%= t('backup.examples.rolesTitle') %></div>
+<pre class="bg-black/40 p-3 rounded-lg overflow-x-auto"><code>{
+    "roles": [
+        {
+            "name": "Moderators",
+            "color": "#5865F2",
+            "permissions": [
+                "ManageMessages",
+                "KickMembers"
+            ],
+            "hoist": true,
+            "mentionable": true
+        }
+    ]
+}</code></pre>
+                </div>
+                <div>
+                    <div class="font-semibold text-discord-white mb-2"><%= t('backup.examples.channelsTitle') %></div>
+<pre class="bg-black/40 p-3 rounded-lg overflow-x-auto"><code>{
+    "categories": [
+        {
+            "name": "Community",
+            "position": 1,
+            "channels": [
+                {
+                    "name": "general",
+                    "type": "GuildText",
+                    "topic": "Main chat",
+                    "rateLimitPerUser": 5
+                }
+            ]
+        }
+    ],
+    "channels": [
+        {
+            "name": "announcements",
+            "type": "GuildAnnouncement"
+        }
+    ]
+}</code></pre>
+                </div>
+            </div>
+        </details>
+
+        <div class="flex justify-end pt-2">
+            <button type="submit" class="btn-primary flex items-center gap-2 px-6 py-3 shadow-lg hover:translate-y-[-2px] transition-all duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l6 6L21 6" />
+                </svg>
+                <%= t('backup.form.submitLabel') %>
+            </button>
+        </div>
+    </form>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />

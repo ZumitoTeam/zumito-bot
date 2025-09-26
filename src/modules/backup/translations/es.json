@@ -1,0 +1,59 @@
+{
+    "backup": {
+        "sidebarTitle": "Respaldos",
+        "title": "Importar respaldo del servidor",
+        "feedback": {
+            "successTitle": "Importación completada",
+            "errorTitle": "Importación fallida",
+            "successMessage": "Los datos se importaron correctamente.",
+            "errorMessage": "No pudimos importar los datos: {reason}",
+            "rolesCreated": "Roles creados: {count}",
+            "rolesUpdated": "Roles actualizados: {count}",
+            "categoriesCreated": "Categorías creadas: {count}",
+            "channelsCreated": "Canales creados: {count}"
+        },
+        "form": {
+            "importTypeLabel": "Selecciona el tipo de respaldo",
+            "rolesOption": "Solo roles",
+            "channelsOption": "Solo canales",
+            "fullOption": "Todo (roles y canales)",
+            "jsonLabel": "Pega tu respaldo en JSON",
+            "jsonHint": "Asegúrate de que el JSON coincida con el tipo de importación seleccionado.",
+            "examplesTitle": "Ejemplos",
+            "submitLabel": "Importar respaldo"
+        },
+        "examples": {
+            "rolesTitle": "JSON de roles",
+            "channelsTitle": "JSON de canales"
+        },
+        "errors": {
+            "guildNotFound": "Servidor no encontrado o sin acceso.",
+            "missingPermissions": "No tienes permisos suficientes en este servidor.",
+            "missingData": "El JSON es obligatorio.",
+            "invalidJson": "El JSON proporcionado no es válido.",
+            "invalidType": "Selecciona una opción de importación válida.",
+            "unknownError": "Error inesperado.",
+            "unknownType": "Tipo de importación no soportado.",
+            "roleEditFailed": "No se pudo actualizar uno de los roles.",
+            "roleCreateFailed": "No se pudo crear uno de los roles.",
+            "rolePositionFailed": "No se pudieron aplicar las posiciones de los roles.",
+            "roleImportFailed": "Ocurrió un error al importar los roles.",
+            "invalidRolesPayload": "La sección de roles tiene un formato inválido.",
+            "invalidCategoriesPayload": "La sección de categorías tiene un formato inválido.",
+            "invalidChannelsPayload": "La sección de canales tiene un formato inválido.",
+            "roleNameRequired": "Falta el nombre de un rol.",
+            "invalidRoleColor": "Al menos un rol tiene un color inválido.",
+            "invalidRolePermissions": "Al menos un rol tiene permisos inválidos.",
+            "categoryNameRequired": "Falta el nombre de una categoría.",
+            "categoryCreateFailed": "No se pudo crear una de las categorías.",
+            "categoryPositionFailed": "No se pudieron aplicar las posiciones de las categorías.",
+            "channelCategoryAsChannel": "Los canales con tipo GuildCategory deben listarse dentro de categorías.",
+            "channelUnsupportedType": "Tipo de canal no soportado.",
+            "channelUpdateFailed": "No se pudo actualizar uno de los canales.",
+            "channelPositionFailed": "No se pudieron aplicar las posiciones de los canales.",
+            "channelCreateFailed": "No se pudo crear uno de los canales.",
+            "channelImportFailed": "Ocurrió un error al importar los canales.",
+            "channelNameRequired": "Falta el nombre de un canal."
+        }
+    }
+}

@@ -1,0 +1,59 @@
+{
+    "backup": {
+        "sidebarTitle": "Backups",
+        "title": "Server Backup Import",
+        "feedback": {
+            "successTitle": "Import completed",
+            "errorTitle": "Import failed",
+            "successMessage": "The data was imported successfully.",
+            "errorMessage": "We could not import the data: {reason}",
+            "rolesCreated": "Roles created: {count}",
+            "rolesUpdated": "Roles updated: {count}",
+            "categoriesCreated": "Categories created: {count}",
+            "channelsCreated": "Channels created: {count}"
+        },
+        "form": {
+            "importTypeLabel": "Select the backup type",
+            "rolesOption": "Roles only",
+            "channelsOption": "Channels only",
+            "fullOption": "Everything (roles and channels)",
+            "jsonLabel": "Paste your JSON backup",
+            "jsonHint": "Make sure the JSON matches the selected import type.",
+            "examplesTitle": "Examples",
+            "submitLabel": "Import backup"
+        },
+        "examples": {
+            "rolesTitle": "Roles JSON",
+            "channelsTitle": "Channels JSON"
+        },
+        "errors": {
+            "guildNotFound": "Guild not found or not accessible.",
+            "missingPermissions": "You do not have enough permissions in this guild.",
+            "missingData": "JSON data is required.",
+            "invalidJson": "The provided JSON is invalid.",
+            "invalidType": "Select a valid import option.",
+            "unknownError": "Unexpected error.",
+            "unknownType": "Unsupported import type.",
+            "roleEditFailed": "Could not update one of the roles.",
+            "roleCreateFailed": "Could not create one of the roles.",
+            "rolePositionFailed": "Could not apply role positions.",
+            "roleImportFailed": "A role import error occurred.",
+            "invalidRolesPayload": "The roles section has an invalid format.",
+            "invalidCategoriesPayload": "The categories section has an invalid format.",
+            "invalidChannelsPayload": "The channels section has an invalid format.",
+            "roleNameRequired": "A role name is missing.",
+            "invalidRoleColor": "At least one role has an invalid color.",
+            "invalidRolePermissions": "At least one role has invalid permissions.",
+            "categoryNameRequired": "A category name is missing.",
+            "categoryCreateFailed": "Could not create one of the categories.",
+            "categoryPositionFailed": "Could not apply category positions.",
+            "channelCategoryAsChannel": "Channels with type GuildCategory must be listed under categories.",
+            "channelUnsupportedType": "Unsupported channel type.",
+            "channelUpdateFailed": "Could not update one of the channels.",
+            "channelPositionFailed": "Could not apply channel positions.",
+            "channelCreateFailed": "Could not create one of the channels.",
+            "channelImportFailed": "A channel import error occurred.",
+            "channelNameRequired": "A channel name is missing."
+        }
+    }
+}
