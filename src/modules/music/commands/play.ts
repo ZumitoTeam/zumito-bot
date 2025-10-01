@@ -2,8 +2,7 @@ import { Command, CommandParameters } from "zumito-framework";
 import { ServiceContainer } from "zumito-framework";
 import { MusicService } from "../services/MusicService";
 import { MessageFlags, EmbedBuilder } from "zumito-framework/discord";
-import { CanvasUtils } from "../../utils/CanvasUtils";
-import { CanvasRenderingContext2D } from "canvas";
+import { CanvasUtils } from "@zumito-team/canvas-module";
 
 export class PlayCommand extends Command {
     name = "play";
