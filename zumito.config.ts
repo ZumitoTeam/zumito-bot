@@ -1,7 +1,7 @@
 import path from 'path';
 import { ServiceContainer, type LauncherConfig } from 'zumito-framework';
-import { UserPanelColorsService } from '@zumito-team/user-panel-module/services/UserPanelColorsService.js';
 import { statusOptions } from 'src/config/StatusOptions';
+import { UserPanelColorsService } from '@zumito-team/user-panel-module/services/UserPanelColorsService.js';
 import { AdminColorsService } from '@zumito-team/admin-module/services/AdminColorsService';
 
 const __dirname = process.cwd();
