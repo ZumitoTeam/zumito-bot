@@ -33,6 +33,7 @@
     "@octokit/rest": "^22.0.0",
     "@zumito-team/admin-module": "^1.8.0",
     "@zumito-team/canvas-module": "^0.5.0",
+    "@zumito-team/reactions-module": "^0.1.0",
     "@zumito-team/stickmanfight-module": "^0.3.0",
     "@zumito-team/user-panel-module": "^0.10.0",
     "canvas": "^2.11.2",
@@ -49,7 +50,7 @@
     "sharp": "^0.33.4",
     "sodium-native": "^4.3.1",
     "zumito-db": "^1.0.1",
-    "zumito-framework": "^1.14.1"
+    "zumito-framework": "^1.15.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

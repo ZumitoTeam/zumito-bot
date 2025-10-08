@@ -16,6 +16,8 @@ export const config: LauncherConfig = {
         path: path.join(__dirname, "node_modules", "@zumito-team", "canvas-module"),
     }, {
         path: path.join(__dirname, "node_modules", "@zumito-team", "stickmanfight-module"),
+    }, {
+        path: path.join(__dirname, "node_modules", "@zumito-team", "reactions-module"),
     }],
     callbacks: {
         load: (zumito) => {
