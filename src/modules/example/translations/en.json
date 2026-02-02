@@ -1,0 +1,33 @@
+{
+    "command": {
+        "name": "example",
+        "description": "An example command with embeds, buttons and modals"
+    },
+    "embed": {
+        "title": "Hello! This is an Example Embed",
+        "description": "This embed demonstrates how to structure a message with rich information. It includes title, description, fields and more.",
+        "field1": "Field 1",
+        "field2": "Field 2",
+        "field3": "Field 3",
+        "value1": "Value of field 1",
+        "value2": "Value of field 2",
+        "value3": "Value of field 3",
+        "footer": "Embed footer"
+    },
+    "button": {
+        "label": "Open Modal"
+    },
+    "modal": {
+        "title": "Example Modal",
+        "nameLabel": "What is your name?",
+        "namePlaceholder": "Enter your name here",
+        "descLabel": "Describe something",
+        "descPlaceholder": "Write a brief description..."
+    },
+    "response": {
+        "title": "Modal Response",
+        "thanks": "Thanks for participating, {name}!",
+        "name": "Name",
+        "description": "Description"
+    }
+}

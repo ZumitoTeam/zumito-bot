@@ -1,38 +1,168 @@
-# Instrucciones para agentes
+# Service import notes
+To import a service, you can use the following syntax:
+```ts
+import { ServiceContainer } from 'zumito-framework';
+import { EmbedBuilderService } from './services/EmbedBuilderService.js';
 
-Estas directrices aplican a cualquier cambio en este repositorio.
+ServiceContainer.getService(EmbedBuilderService)
+```
 
-## Estilo de código
-- El proyecto utiliza TypeScript sobre Node.js 20.
-- Usa una indentación de 4 espacios y termina las sentencias con punto y coma.
-- Antes de enviar cambios intenta ejecutar `npx eslint .` para verificar el estilo. Si faltan dependencias o no puedes instalar paquetes, indica el motivo en la sección de pruebas del PR.
-- Escribe todo el código y los comentarios en inglés.
+## Incorrect import examples
+- Avoid importing services with "as", as it alredy returns the correct type.
+```ts
+import { EmbedBuilderService } from './services/EmbedBuilderService.js';
 
-## Creación de comandos
-- Cada comando debe soportar su ejecución tanto en canales de servidor como en mensajes directos (MD).
-- Considera que el bot puede estar instalado en un servidor o como aplicación de usuario. Maneja ambos contextos para evitar errores de ejecución.
+// Incorrect
+const embedBuilderService = ServiceContainer.getService(EmbedBuilderService) as EmbedBuilderService;
 
-## Módulos
-- No listes manualmente comandos, rutas ni activos.
-- La clase base del módulo detecta y registra automáticamente estos elementos.
+// Correct
+const embedBuilderService = ServiceContainer.getService(EmbedBuilderService);
+```
 
-## Servicios
-- Crea servicios siempre que sea posible para modularizar la lógica.
-- Genera embeds, botones u otros componentes dentro de los servicios de cada módulo.
-- Organiza estos servicios en la carpeta `services` del módulo, con subcarpetas específicas como `embedBuilder`, `buttonBuilder`, etc.
+- Avoid importing services directly without using the ServiceContainer.
+```ts   
+// Incorrect
+import { EmbedBuilderService } from './services/EmbedBuilderService.js';
+const embedBuilderService = new EmbedBuilderService();
 
-## Base de datos
-- No crees modelos de base de datos; realiza las consultas directamente en MongoDB.
+// Correct
+import { EmbedBuilderService } from './services/EmbedBuilderService.js';
+const embedBuilderService = ServiceContainer.getService(EmbedBuilderService);
+``` 
 
-## Internacionalización
-- Evita texto codificado; utiliza siempre el sistema de traducciones.
-- Proporciona traducciones en inglés y español para cada cadena visible por el usuario.
+- If you're on a class, prefer alwais importing from the constructor where possible.
+```ts
+import { ServiceContainer } from 'zumito-framework';
+import { EmbedBuilderService } from './services/EmbedBuilderService.js';
 
-## Commits
-- Los mensajes de commit deben seguir el estándar [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
-- Escribe los mensajes de commit en inglés.
+export class ExampleClass {
 
-## Pull Requests
-- Incluye una sección **Summary** explicando los cambios realizados.
-- Incluye una sección **Testing** con el resultado de `node_modules/.bin/eslint .` u otras pruebas. Si algún comando no puede ejecutarse (por ejemplo, por restricciones de red), menciónalo de forma breve.
-- No modifiques archivos de licencia.
+    constructor(
+        // Correct
+        private embedBuilderService = ServiceContainer.getService(EmbedBuilderService),
+    ) {
+        super();
+    }
+
+    exampleMethod() {
+        // Incorrect
+        const embedBuilderService = ServiceContainer.getService(EmbedBuilderService);
+    }
+}
+```
+
+# Correct usage of discord components
+## Embeds
+Always you want to create an embed. You must create an embedBuilder service, with a method to build the embed.
+```ts
+const embedBuilderService = ServiceContainer.getService(EmbedBuilderService);
+const embed = embedBuilderService.buildExampleEmbed({
+    title: "Example Embed",
+    description: "This is an example embed",
+    footer: "Footer text"
+});
+```
+
+## Buttons
+Like embeds, for complex buttons, you must create a buttonBuilder service, with a method to build the button.
+```ts
+const buttonBuilderService = ServiceContainer.getService(ButtonBuilderService);
+const button = buttonBuilderService.buildExampleButton();
+```
+
+For handling button interactions, you must:
+1. Register button handler on the command class.
+```ts
+export class ExampleCommand extends Command {
+    // ...
+    binds: CommandBinds = {
+        buttonPress: this.buttonPress, 
+    };
+    // ...
+}
+```
+2. Implement the button handler method.
+```ts
+async buttonPress({ interaction, path }: ButtonPressedParams): Promise<void> {
+    if (path[1] === 'buttonId') {
+        // Handle button press
+    }
+}
+```
+3. Create the button with the correct customId.
+```ts
+const button = new ButtonBuilder()
+    .setCustomId(`commandName.buttonId`)
+    .setLabel('Press me')
+    .setStyle(ButtonStyle.Primary);
+```
+
+### Notes
+- As you can see, button id MUST be, {commandName}.{buttonId}
+
+## Modals
+Modals are a bit more complex, as you must create a modalBuilder service, with a method to build the modal.
+```ts
+const modalBuilderService = ServiceContainer.getService(ModalBuilderService);
+const modal = modalBuilderService.buildExampleModal();
+```
+
+For handling modal submits, you must:
+1. Register modal submit handler on the command class.
+```ts
+export class ExampleCommand extends Command {
+    // ...
+    binds: CommandBinds = {
+        modalSubmit: this.modalSubmit, 
+    };
+    // ...
+}
+```
+2. Implement the modal submit handler method.
+```ts
+async modalSubmit({ interaction, path }: ModalSubmitParameters): Promise<void> {
+    if (path[1] === 'modalId') {
+        // Handle modal submit
+    }
+}
+```
+3. Create the modal with the correct customId.
+```ts
+const modal = new ModalBuilder()
+    .setCustomId(`commandName.modalId`)
+    .setTitle('Modal title');
+```
+
+### Notes
+- As you can see, modal id MUST be, {commandName}.{modalId} 
+
+## Notes
+- EmbedBuilder, ButtonBuilder, ModalBuilder, etc. Should't be added as .addService() to the module, as it will be loaded at runtime.
+
+# Aditional notes
+- Always prefer import services inline from constructors, as it makes the code more readable.
+```ts
+export class ExampleClass {
+
+    // Correct
+    constructor(
+        private auth = ServiceContainer.getService(UserPanelAuthService),
+        private translationService: TranslationManager = ServiceContainer.getService(TranslationManager),
+        private userPanelLanguageManager = ServiceContainer.getService(UserPanelLanguageManager),
+    ) {
+        super();
+    }
+
+    // Incorrect
+    auth: UserPanelAuthService;
+    translationService: TranslationManager;
+    userPanelLanguageManager: UserPanelLanguageManager;
+    constructor(arg: string) {
+        super(arg);
+        this.auth = ServiceContainer.getService(UserPanelAuthService);
+        this.translationService = ServiceContainer.getService(TranslationManager);
+        this.userPanelLanguageManager = ServiceContainer.getService(UserPanelLanguageManager);
+    }
+}
+```
+

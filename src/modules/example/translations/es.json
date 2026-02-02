@@ -1,0 +1,33 @@
+{
+    "command": {
+        "name": "ejemplo",
+        "description": "Un comando de ejemplo con embeds, botones y modales"
+    },
+    "embed": {
+        "title": "¡Hola! Esto es un Embed de Ejemplo",
+        "description": "Este embed demuestra cómo se puede estructurar un mensaje con información rica. Incluye título, descripción, campos y más.",
+        "field1": "Campo 1",
+        "field2": "Campo 2",
+        "field3": "Campo 3",
+        "value1": "Valor del campo 1",
+        "value2": "Valor del campo 2",
+        "value3": "Valor del campo 3",
+        "footer": "Pie de página del embed"
+    },
+    "button": {
+        "label": "Abrir Modal"
+    },
+    "modal": {
+        "title": "Modal de Ejemplo",
+        "nameLabel": "¿Cuál es tu nombre?",
+        "namePlaceholder": "Ingresa tu nombre aquí",
+        "descLabel": "Describe algo",
+        "descPlaceholder": "Escribe una breve descripción..."
+    },
+    "response": {
+        "title": "Respuesta del Modal",
+        "thanks": "¡Gracias por participar, {name}!",
+        "name": "Nombre",
+        "description": "Descripción"
+    }
+}
