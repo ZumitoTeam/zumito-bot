@@ -1,9 +1,9 @@
 import { ActionRowBuilder, CommandInteraction, EmbedBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, Client } from "zumito-framework/discord";
 import { Command, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters, EmojiFallback, ButtonPressedParams, ServiceContainer } from "zumito-framework";
 import { config } from "../../../config/index.js";
-import { EmbedBuilderService } from "../services/EmbedBuilderService.js";
-import { ButtonBuilderService } from "../services/ButtonBuilderService.js";
-import { SelectMenuBuilderService } from "../services/SelectMenuBuilderService.js";
+import { HelpEmbedBuilderService } from "../services/HelpEmbedBuilderService.js";
+import { HelpButtonBuilderService } from "../services/HelpButtonBuilderService.js";
+import { HelpSelectMenuBuilderService } from "../services/HelpSelectMenuBuilderService.js";
 
 export class Help2 extends Command {
     categories = ["information"];
@@ -22,9 +22,9 @@ export class Help2 extends Command {
         private client = ServiceContainer.getService(Client),
         private framework = ServiceContainer.getService(ZumitoFramework),
         private emojiFallback = ServiceContainer.getService(EmojiFallback),
-        private embedBuilderService = ServiceContainer.getService(EmbedBuilderService),
-        private buttonBuilderService = ServiceContainer.getService(ButtonBuilderService),
-        private selectMenuBuilderService = ServiceContainer.getService(SelectMenuBuilderService)
+        private embedBuilderService = ServiceContainer.getService(HelpEmbedBuilderService),
+        private buttonBuilderService = ServiceContainer.getService(HelpButtonBuilderService),
+        private selectMenuBuilderService = ServiceContainer.getService(HelpSelectMenuBuilderService)
     ) {
         super();
     }

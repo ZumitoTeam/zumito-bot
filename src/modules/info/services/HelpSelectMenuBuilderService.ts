@@ -22,6 +22,20 @@ export class HelpSelectMenuBuilderService {
             };
 
             if (emojiFallback.getEmoji(framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang), framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang))) {
+                selectMenuOption.emoji = emojiFallback.getEmoji(
+                    framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang),
+                    framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang)
+                );
+            }
+
+            selectMenuOptions.push(selectMenuOption);
+        }
+
+        return new StringSelectMenuBuilder()
+            .setCustomId("help.category")
+            .setPlaceholder(framework.translations.get("command.help.select.category", guildSettings.lang))
+            .addOptions(selectMenuOptions);
+    }
 
     buildCommandsSelectMenu(framework: any, category: string, guildSettings: any, emojiFallback: any): StringSelectMenuBuilder {
         let commands = Array.from(framework.commands.getAll().values()).filter((c: any) => c.categories.includes(category));
