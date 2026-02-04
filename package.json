@@ -47,10 +47,10 @@
     "fs-readdir-recursive": "^1.1.0",
     "gifencoder": "^2.0.1",
     "opusscript": "^0.0.8",
-    "sharp": "^0.33.4",
+    "sharp": "^0.33.5",
     "sodium-native": "^4.3.1",
     "zumito-db": "^1.0.1",
-    "zumito-framework": "^1.15.1"
+    "zumito-framework": "^1.15.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
