@@ -3,6 +3,7 @@ import { Command, CommandParameters, CommandBinds, ButtonPressedParams, ModalSub
 import { EmbedBuilderService } from '../services/EmbedBuilderService.js';
 import { ButtonBuilderService } from '../services/ButtonBuilderService.js';
 import { ModalBuilderService } from '../services/ModalBuilderService.js';
+import { CommandType } from 'zumito-framework';
 
 export class ExampleCommand extends Command {
     name = "ejemplo";
@@ -14,6 +15,8 @@ export class ExampleCommand extends Command {
         modalSubmit: this.modalSubmit.bind(this),
     };
 
+    type = CommandType.any;
+
     constructor(
         private embedBuilderService = ServiceContainer.getService(EmbedBuilderService),
         private buttonBuilderService = ServiceContainer.getService(ButtonBuilderService),
@@ -22,8 +25,7 @@ export class ExampleCommand extends Command {
         super();
     }
 
-    async execute({ interaction }: CommandParameters) {
-        if (!interaction) return;
+    async execute({ interaction, message }: CommandParameters) {
 
         // Crear el embed usando el servicio
         const embed = this.embedBuilderService.buildExampleEmbed();
@@ -36,7 +38,7 @@ export class ExampleCommand extends Command {
             .addComponents(button);
 
         // Responder con el embed y el botón
-        await interaction.reply({ 
+        await (interaction||message).reply({ 
             embeds: [embed], 
             components: [row.toJSON()] 
         });
