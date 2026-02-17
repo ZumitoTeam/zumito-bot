@@ -1,5 +1,5 @@
 {
-    "title": "Avatar of {user}",
+    "title": "Avatar of {name}",
     "description": "Displays a server member's avatar.",
     "error": "Error while getting the user.",
     "button":{

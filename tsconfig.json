@@ -40,11 +40,8 @@
             "moduleResolution": "node",
         }
     },
-    "files": [
-        "src/Bot.ts"
-    ],
     "include": [
-        "./**/*.ts",
+        "src/**/*.ts"
     ],
     "exclude": [
         "node_modules",
