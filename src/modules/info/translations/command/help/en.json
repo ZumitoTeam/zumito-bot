@@ -17,6 +17,9 @@
     "usage": "Usage",
     "examples": "Examples",
     "aliases": "Aliases",
+    "category": "Category",
+    "parent": "Parent command",
+    "subcommands": "Subcommands",
     "permissions": {
         "bot": "Bot permissions",
         "user": "User permissions"
@@ -27,10 +30,12 @@
         "support_server": "support server"
     },
     "select": {
+        "category": "Select a category",
         "command": "Select a command"
     },
     "button": {
-        "close": "❌"
+        "close": "❌",
+        "viewWeb": "View on website"
     },
     "arguments": {
         "command": {

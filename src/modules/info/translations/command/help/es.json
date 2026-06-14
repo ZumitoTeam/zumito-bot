@@ -13,8 +13,13 @@
     },
     "commands_of": "Comandos de {name}",
     "commands": "Comandos",
+    "noExamples": "Sin ejemplos",
     "usage": "Uso",
     "examples": "Ejemplos",
+    "aliases": "Alias",
+    "category": "Categoría",
+    "parent": "Comando padre",
+    "subcommands": "Subcomandos",
     "permissions": {
         "bot": "Permisos del bot",
         "user": "Permisos del usuario"
@@ -25,10 +30,12 @@
         "support_server": "servidor de soporte"
     },
     "select": {
+        "category": "Selecciona una categoría",
         "command": "Selecciona un comando"
     },
     "button": {
-        "close": "❌"
+        "close": "❌",
+        "viewWeb": "Mirar en la pagina web"
     },
     "arguments": {
         "command": {

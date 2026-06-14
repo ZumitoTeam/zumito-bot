@@ -1,68 +1,84 @@
-import { StringSelectMenuBuilder } from 'discord.js';
+import { StringSelectMenuBuilder, Client } from 'discord.js';
+import { Command, EmojiFallback, ZumitoFramework } from 'zumito-framework';
 
 export class HelpSelectMenuBuilderService {
-    buildCategoriesSelectMenu(client: any, framework: any, guildSettings: any, emojiFallback: any, selectedCategory?: string): StringSelectMenuBuilder {
+
+    private getCategoryEmoji(category: string, framework: ZumitoFramework, guildSettings: { lang: string }, emojiFallback: EmojiFallback): string | null {
+        const emojiId = framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang);
+        const emoji = emojiFallback.getEmoji(emojiId, emojiId);
+        return emoji || null;
+    }
+
+    buildCategoriesSelectMenu(client: Client, framework: ZumitoFramework, guildSettings: { lang: string }, emojiFallback: EmojiFallback, selectedCategory?: string): StringSelectMenuBuilder {
+        const t = (key: string) => framework.translations.get(key, guildSettings.lang);
+
+        // Collect all unique categories from registered commands
         const categories: string[] = [];
-        framework.commands.getAll().forEach((command: any) => {
-            for (const category of command.categories) {
-                if (!categories.includes(category)) {
-                    categories.push(category);
+        framework.commands.getAll().forEach((command: Command) => {
+            for (const cat of command.categories) {
+                if (!categories.includes(cat)) {
+                    categories.push(cat);
                 }
             }
         });
         categories.sort();
 
-        const selectMenuOptions: any = [];
-
+        const options: { label: string; value: string; description: string; emoji?: string }[] = [];
         for (const category of categories) {
-            const selectMenuOption: any = {
-                label: framework.translations.get(`global.category.${category}.name`, guildSettings.lang),
+            if (category === 'premium') continue;
+
+            const option: { label: string; value: string; description: string; emoji?: string } = {
+                label: t(`global.category.${category}.name`),
                 value: category,
-                description: framework.translations.get(`global.category.${category}.description`, guildSettings.lang)
+                description: t(`global.category.${category}.description`),
             };
 
-            if (emojiFallback.getEmoji(framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang), framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang))) {
-                selectMenuOption.emoji = emojiFallback.getEmoji(
-                    framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang),
-                    framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang)
-                );
+            const emoji = this.getCategoryEmoji(category, framework, guildSettings, emojiFallback);
+            if (emoji) {
+                option.emoji = emoji;
             }
 
-            selectMenuOptions.push(selectMenuOption);
+            options.push(option);
         }
+
+        const placeholder = selectedCategory
+            ? `${this.getCategoryEmoji(selectedCategory, framework, guildSettings, emojiFallback) || ''} ${t(`global.category.${selectedCategory}.name`)}`.trim()
+            : t("command.help.select.category");
 
         return new StringSelectMenuBuilder()
             .setCustomId("help.category")
-            .setPlaceholder(framework.translations.get("command.help.select.category", guildSettings.lang))
-            .addOptions(selectMenuOptions);
+            .setPlaceholder(placeholder)
+            .addOptions(options);
     }
 
-    buildCommandsSelectMenu(framework: any, category: string, guildSettings: any, emojiFallback: any): StringSelectMenuBuilder {
-        let commands = Array.from(framework.commands.getAll().values()).filter((c: any) => c.categories.includes(category));
-        // filter commands with same name
-        commands = commands.filter((c: any, index: number, self: any[]) =>
-            index === self.findIndex((t: any) => t.name === c.name)
-        );
-        const selectMenuOptions: any = [];
+    buildCommandsSelectMenu(framework: ZumitoFramework, category: string, guildSettings: { lang: string }, emojiFallback: EmojiFallback): StringSelectMenuBuilder {
+        const t = (key: string) => framework.translations.get(key, guildSettings.lang);
+
+        const commands = Array.from(framework.commands.getAll().values())
+            .filter((c: Command) => c.categories.includes(category))
+            .filter((c: Command, index: number, self: Command[]) =>
+                index === self.findIndex((t: Command) => t.name === c.name)
+            );
+
+        const options: { label: string; value: string; description: string; emoji?: string }[] = [];
         for (const command of commands) {
-            const selectMenuOption: any = {
+            const option: { label: string; value: string; description: string; emoji?: string } = {
                 label: command.name,
                 value: command.name,
-                description: framework.translations.get(`command.${command.name}.description`, guildSettings.lang)
+                description: t(`command.${command.name}.description`),
             };
 
-            if (emojiFallback.getEmoji(framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang), framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang))) {
-                selectMenuOption.emoji = emojiFallback.getEmoji(
-                    framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang),
-                    framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang)
-                );
+            const emoji = this.getCategoryEmoji(category, framework, guildSettings, emojiFallback);
+            if (emoji) {
+                option.emoji = emoji;
             }
 
-            selectMenuOptions.push(selectMenuOption);
+            options.push(option);
         }
+
         return new StringSelectMenuBuilder()
             .setCustomId("help.command")
-            .setPlaceholder(framework.translations.get("command.help.select.command", guildSettings.lang))
-            .addOptions(selectMenuOptions);
+            .setPlaceholder(t("command.help.select.command"))
+            .addOptions(options);
     }
 }

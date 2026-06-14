@@ -1,120 +1,178 @@
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder, Client } from 'discord.js';
+import { Command, EmojiFallback, ZumitoFramework } from 'zumito-framework';
 import { config } from '../../../config/index.js';
 
+type GuildSettings = { lang: string; prefix?: string };
+
 export class HelpEmbedBuilderService {
-    buildHelpEmbed(client: any, framework: any, guildSettings: any, emojiFallback: any): EmbedBuilder {
+
+    buildHelpEmbed(client: Client, framework: ZumitoFramework, guildSettings: GuildSettings, emojiFallback: EmojiFallback): EmbedBuilder {
+        const t = (key: string) => framework.translations.get(key, guildSettings.lang);
+
         const description = [
-            `${framework.translations.get("command.help.greeting.0", guildSettings.lang).replace("{name}", client!.user!.displayName)} ${emojiFallback.getEmoji('', '😊')}`,
-            `\n${framework.translations.get("command.help.greeting.1", guildSettings.lang)}`,
-            `${framework.translations.get("command.help.greeting.2", guildSettings.lang)} ${emojiFallback.getEmoji('', '🎉')}`,
-            `${framework.translations.get("command.help.greeting.3", guildSettings.lang)} ${emojiFallback.getEmoji('', '🎮')} ${emojiFallback.getEmoji('', '🤖')}`
+            `${t("command.help.greeting.0").replace("{name}", client!.user!.displayName)} ${emojiFallback.getEmoji('', '😊')}`,
+            `\n${t("command.help.greeting.1")}`,
+            `${t("command.help.greeting.2")} ${emojiFallback.getEmoji('', '🎉')}`,
+            `${t("command.help.greeting.3")} ${emojiFallback.getEmoji('', '🎮')} ${emojiFallback.getEmoji('', '🤖')}`
         ];
 
         const embed = new EmbedBuilder()
-            .setTitle(framework.translations.get("command.help.title", guildSettings.lang))
+            .setTitle(t("command.help.title"))
             .setDescription(description.join('\n'))
             .setColor(config.colors.default);
 
-        if (client && client.user) {
+        if (client?.user) {
             embed.setThumbnail(client.user.displayAvatarURL({ forceStatic: false, size: 4096 }));
         }
 
         return embed;
     }
 
-    buildCategoryEmbed(client: any, category: string, commands: any[], framework: any, guildSettings: any, emojiFallback: any, prefix: string): EmbedBuilder {
+    buildCategoryEmbed(client: Client, category: string, commands: Command[], framework: ZumitoFramework, guildSettings: GuildSettings, emojiFallback: EmojiFallback, prefix: string): EmbedBuilder {
+        const t = (key: string) => framework.translations.get(key, guildSettings.lang);
+
         const categoryEmbed = new EmbedBuilder()
             .setAuthor({
-                name: framework.translations.get("command.help.commands_of", guildSettings.lang).replace("{name}", client!.user!.displayName),
+                name: t("command.help.commands_of").replace("{name}", client!.user!.displayName),
                 iconURL: client!.user!.displayAvatarURL(),
             })
             .addFields({
-                name: `${emojiFallback.getEmoji(framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang), framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang))} ${framework.translations.get(`global.category.${category}.name`, guildSettings.lang)}`,
-                value: `${framework.translations.get("command.help.field.detailed", guildSettings.lang)}: \`${prefix}help [<command>]\`\n${framework.translations.get("command.help.field.support", guildSettings.lang)} [${framework.translations.get("command.help.field.support_server", guildSettings.lang)}](${config.links.support})`,
+                name: `${emojiFallback.getEmoji(t(`global.category.${category}.emoji`), t(`global.category.${category}.emoji`))} ${t(`global.category.${category}.name`)}`,
+                value: `${t("command.help.field.detailed")}: \`${prefix}help [<command>]\`\n${t("command.help.field.support")} [${t("command.help.field.support_server")}](${config.links.support})`,
             })
             .setColor(config.colors.default);
 
-        // Add commands fields as in the original code
-        const valuesToPush: string[] = [];
-        for (let i = 0; i < commands.length; i++) {
-            if (category === "information" && i % 4 === 0) {
-                if (i === 4) {
-                    categoryEmbed.addFields({
-                        name: `${emojiFallback.getEmoji('', "📖")} ${framework.translations.get("command.help.commands", guildSettings.lang)}`,
-                        value: `\`\`\`${commands[i]?.name || ""}${Array(15 - (commands[i]?.name?.length || 0)).fill(" ").join('')}${commands[i + 1]?.name || ""}${Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('')}${commands[i + 2]?.name || ""}${Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('')}${commands[i + 3]?.name || ""}${valuesToPush.join("")}\`\`\``,
-                    });
-                }
-                if (i === 0) {
-                    valuesToPush.push(
-                        (commands[i]?.name || "") + Array(15 - (commands[i]?.name?.length || 0)).fill(" ").join('') +
-                        (commands[i + 1]?.name || "") + Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('') +
-                        (commands[i + 2]?.name || "") + Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('') +
-                        (commands[i + 3]?.name || "")
-                    );
-                }
-            } else {
-                if (i % 4 === 0) {
-                    categoryEmbed.addFields({
-                        name: `${emojiFallback.getEmoji('', "📖")} ${framework.translations.get("command.help.commands", guildSettings.lang)}`,
-                        value: `\`\`\`${commands[i]?.name || ""}${Array(15 - (commands[i]?.name?.length || 0)).fill(" ").join('')}${commands[i + 1]?.name || ""}${Array(15 - (commands[i + 1]?.name?.length || 0)).fill(" ").join('')}${commands[i + 2]?.name || ""}${Array(15 - (commands[i + 2]?.name?.length || 0)).fill(" ").join('')}${commands[i + 3]?.name || ""}\`\`\``,
-                    });
-                }
-            }
+        this.addCommandsGrid(categoryEmbed, commands, t("command.help.commands"), false);
+
+        const premiumCommands = Array.from(framework.commands.getAll().values())
+            .filter((c: Command & { premium?: boolean }) => c.premium === true && c.categories.includes(category))
+            .filter((c: Command & { premium?: boolean }, index: number, self: (Command & { premium?: boolean })[]) =>
+                index === self.findIndex((t: Command & { premium?: boolean }) => t.name === c.name)
+            );
+
+        if (premiumCommands.length > 0) {
+            this.addCommandsGrid(
+                categoryEmbed,
+                premiumCommands,
+                `${emojiFallback.getEmoji(t('global.category.premium.emoji'), '⭐')} ${t('global.category.premium.name')}`,
+                true
+            );
         }
 
         return categoryEmbed;
     }
 
-    buildCommandEmbed(framework: any, command: any, trans: any): EmbedBuilder {
-        const prefix = framework?.settings.defaultPrefix || "!";
-        let usage: string = `${prefix + command.name} `;
-        if (command.args && command.args.length > 0) {
+    private addCommandsGrid(embed: EmbedBuilder, commands: Command[], fieldName: string, isPremium: boolean): void {
+        commands.sort((a: Command, b: Command) => (a?.name || "").localeCompare(b?.name || ""));
+
+        const colWidth = commands.reduce((max, c) => Math.max(max, (c?.name || "").length), 0) + 2;
+        const rows: string[] = [];
+
+        for (let i = 0; i < commands.length; i += 4) {
+            const chunk = commands.slice(i, i + 4);
+            const row = chunk.map((c: Command) => {
+                const padded = (c?.name || "").padEnd(colWidth);
+                return isPremium ? `\x1b[32m${padded}\x1b[0m` : padded;
+            }).join("");
+            rows.push(row);
+        }
+
+        const codeLang = isPremium ? 'ansi' : '';
+        embed.addFields({
+            name: fieldName,
+            value: `\`\`\`${codeLang}\n${rows.join("\n")}\`\`\``,
+        });
+    }
+
+    buildCommandEmbed(framework: ZumitoFramework, command: Command, guildSettings: GuildSettings, prefix: string): EmbedBuilder {
+        const t = (key: string) => framework.translations.get(key, guildSettings.lang);
+
+        let usage = `${prefix + command.name}`;
+        if (command.args?.length > 0) {
             for (const arg of command.args) {
-                if (arg.optional) {
-                    usage += `<${framework.translations.get(`command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang)}>`;
-                } else {
-                    usage += `[${framework.translations.get(`command.${command.name}.arguments.${arg.name}.name`, guildSettings.lang)}]`;
-                }
+                const argName = t(`command.${command.name}.arguments.${arg.name}.name`);
+                usage += arg.optional ? ` <${argName}>` : ` [${argName}]`;
             }
         }
 
         const examples: string[] = [];
-        if (command.examples && command.examples.length > 0) {
+        if (command.examples?.length > 0) {
             for (const example of command.examples) {
-                examples.push(`${prefix + command.name} ${example}`);
+                const full = example ? `${prefix + command.name} ${example}` : prefix + command.name;
+                examples.push(full);
             }
         }
 
-        return new EmbedBuilder()
-            .setAuthor({
-                name: `${framework.translations.get("command.help.author.command", guildSettings.lang)} ${command.name}`,
-                iconURL: framework.client.user!.displayAvatarURL(),
-                url: "https://zumito.ga/commands/" + command.name
-            })
-            .setDescription(framework.translations.get(`command.${command.name}.description`, guildSettings.lang))
+        let categoryName = t("global.none");
+        if (command.categories?.length > 0) {
+            categoryName = t(`global.category.${command.categories[0]}.name`);
+        }
+
+        let parentName = "";
+        if (command.parent) {
+            const parentCmd = framework.commands.get(command.parent);
+            parentName = parentCmd ? `${prefix}${command.parent}` : command.parent;
+        }
+
+        const subcommands = Array.from(framework.commands.getAll().values())
+            .filter((c: Command) => c.parent === command.name)
+            .map((c: Command) => c.name)
+            .sort();
+
+        const embed = new EmbedBuilder()
+            .setTitle(`${t("command.help.author.command")} ${command.name}`)
+            .setDescription(t(`command.${command.name}.description`))
             .addFields(
                 {
-                    name: framework.translations.get("command.help.usage", guildSettings.lang),
-                    value: `\`${usage || framework.translations.get("global.none", guildSettings.lang)}\``,
+                    name: t("command.help.usage"),
+                    value: `\`${usage}\``,
                 },
                 {
-                    name: framework.translations.get("command.help.examples", guildSettings.lang),
-                    value: examples.join("\n") || framework.translations.get("command.help.noExamples", guildSettings.lang)
+                    name: t("command.help.examples"),
+                    value: examples.join("\n") || t("command.help.noExamples"),
                 },
                 {
-                    name: framework.translations.get("command.help.aliases", guildSettings.lang),
-                    value: command.aliases.join(", ") || framework.translations.get("global.none", guildSettings.lang)
+                    name: t("command.help.aliases"),
+                    value: command.aliases.join(", ") || t("global.none"),
                 },
                 {
-                    name: framework.translations.get("command.help.permissions.bot", guildSettings.lang),
-                    value: (command?.botPermissions || []).map((p) => framework.translations.get(`global.permissions.${p}`, guildSettings.lang)).join("\n") || framework.translations.get("global.none", guildSettings.lang),
-                    inline: true,
-                },
-                {
-                    name: framework.translations.get("command.help.permissions.user", guildSettings.lang),
-                    value: (command?.userPermissions || []).map((p) => framework.translations.get(`global.permissions.${p}`, guildSettings.lang)).join("\n") || framework.translations.get("global.none", guildSettings.lang),
-                    inline: true,
-                })
+                    name: t("command.help.category"),
+                    value: categoryName,
+                });
+
+        if (parentName) {
+            embed.addFields({
+                name: t("command.help.parent"),
+                value: `\`${parentName}\``,
+            });
+        }
+
+        if (subcommands.length > 0) {
+            const colWidth = subcommands.reduce((max, n) => Math.max(max, n.length), 0) + 2;
+            const rows: string[] = [];
+            for (let i = 0; i < subcommands.length; i += 4) {
+                const chunk = subcommands.slice(i, i + 4);
+                rows.push(chunk.map((n) => n.padEnd(colWidth)).join(""));
+            }
+            embed.addFields({
+                name: `📂 ${t("command.help.subcommands")}`,
+                value: `\`\`\`${rows.join("\n")}\`\`\``,
+            });
+        }
+
+        embed.addFields(
+            {
+                name: t("command.help.permissions.bot"),
+                value: (command?.botPermissions || []).map((p: string) => t(`global.permissions.${p}`)).join("\n") || t("global.none"),
+                inline: true,
+            },
+            {
+                name: t("command.help.permissions.user"),
+                value: (command?.userPermissions || []).map((p: bigint) => t(`global.permissions.${p}`)).join("\n") || t("global.none"),
+                inline: true,
+            })
             .setColor(config.colors.default);
+
+        return embed;
     }
 }

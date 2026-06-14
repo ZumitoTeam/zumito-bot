@@ -1,6 +1,6 @@
 import path from 'path';
 import { ServiceContainer, type LauncherConfig } from 'zumito-framework';
-import { statusOptions } from 'src/config/StatusOptions';
+import { statusOptions } from './src/config/StatusOptions.js';
 import { UserPanelColorsService } from '@zumito-team/user-panel-module/services/UserPanelColorsService.js';
 import { AdminColorsService } from '@zumito-team/admin-module/services/AdminColorsService';
 
