@@ -1,6 +1,6 @@
 import { EmbedBuilder, Client } from 'discord.js';
 import { Command, EmojiFallback, ZumitoFramework } from 'zumito-framework';
-import { config } from '../../../config/index.js';
+import { config } from '../../../../config/index.js';
 
 type GuildSettings = { lang: string; prefix?: string };
 

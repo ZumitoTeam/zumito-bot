@@ -1,8 +1,8 @@
 import { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, CommandInteraction, Client } from "zumito-framework/discord";
 import { Command, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters, EmojiFallback, ButtonPressedParams, ServiceContainer } from "zumito-framework";
-import { HelpEmbedBuilderService } from "../services/HelpEmbedBuilderService.js";
-import { HelpButtonBuilderService } from "../services/HelpButtonBuilderService.js";
-import { HelpSelectMenuBuilderService } from "../services/HelpSelectMenuBuilderService.js";
+import { HelpEmbedBuilderService } from "../services/embedBuilder/HelpEmbedBuilderService.js";
+import { HelpButtonBuilderService } from "../services/actionRow/HelpButtonBuilderService.js";
+import { HelpSelectMenuBuilderService } from "../services/actionRow/HelpSelectMenuBuilderService.js";
 
 export class Help extends Command {
     categories = ["information"];
