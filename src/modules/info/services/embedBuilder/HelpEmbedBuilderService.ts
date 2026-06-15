@@ -38,17 +38,14 @@ export class HelpEmbedBuilderService {
         const t = (key: string) => framework.translations.get(key, guildSettings.lang);
 
         const categoryEmbed = new EmbedBuilder()
-            .setAuthor({
-                name: t("command.help.commands_of").replace("{name}", client!.user!.displayName),
-                iconURL: client!.user!.displayAvatarURL(),
-            })
+            .setTitle(t(`command.help.my_commands`))
             .addFields({
                 name: `${await this.emojiFallback.getEmoji('', t(`global.category.${category}.emoji`))} ${t(`global.category.${category}.name`)}`,
                 value: `${t("command.help.field.detailed")}: \`${prefix}help [<command>]\`\n${t("command.help.field.support")} [${t("command.help.field.support_server")}](${config.links.support})`,
             })
             .setColor(config.colors.default);
 
-        this.addCommandsGrid(categoryEmbed, commands, `${await this.emojiFallback.getEmoji('', '⭐')} ${t("command.help.commands")}`, false);
+        this.addCommandsGrid(categoryEmbed, commands, `${await this.emojiFallback.getEmoji('', '📖')} ${t("command.help.commands")}`, false);
 
         const premiumCommands = Array.from(framework.commands.getAll().values())
             .filter((c: CommandWithPremium) => c.premium === true && c.categories.includes(category))

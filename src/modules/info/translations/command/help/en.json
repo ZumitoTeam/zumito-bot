@@ -2,17 +2,16 @@
     "description": "Available commands and info on a specific command.",
     "title": "Help Menu",
     "greeting": {
-        "0": "Hello, I’m  {name}",
-        "1": "I’m the multipurpose bot managing this server.",
+        "0": "Hello, I'm {name}",
+        "1": "I'm the multipurpose bot managing this server.",
         "2": "What are you waiting for?",
-        "3": "Pick a category, and let’s have some fun together!"
+        "3": "Pick a category, and let's have some fun together!"
     },
-    "category": "Select a category",
     "noExamples": "No examples",
     "author": {
         "command": "Command"
     },
-    "commands_of": "Commands of {name}",
+    "my_commands": "My Commands",
     "commands": "Commands",
     "usage": "Usage",
     "examples": "Examples",
@@ -25,7 +24,7 @@
         "user": "User permissions"
     },
     "field": {
-        "detailed": "Detailed help on a command",
+        "detailed": "Want more info about a command? Use",
         "support": "For additional help, visit our",
         "support_server": "support server"
     },
@@ -34,18 +33,11 @@
         "command": "Select a command"
     },
     "button": {
-        "close": "❌",
         "viewWeb": "View on website"
     },
-    "arguments": {
-        "command": {
-            "name": "command",
-            "description": "The command to get help for"
-        }
-    }, 
     "args": {
-        "command":{
-            "description": "Displays the information of a specific command"
+        "command": {
+            "description": "The command to get help for"
         }
     }
 }

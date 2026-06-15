@@ -1,6 +1,5 @@
 {
     "description": "Comandos disponibles e información sobre uno específico.",
-    "category": "Seleccione una categoría",
     "title": "Menú de ayuda",
     "greeting": {
         "0": "Hola, soy {name}",
@@ -11,7 +10,7 @@
     "author": {
         "command": "Comando"
     },
-    "commands_of": "Comandos de {name}",
+    "my_commands": "Mis Comandos",
     "commands": "Comandos",
     "noExamples": "Sin ejemplos",
     "usage": "Uso",
@@ -34,18 +33,11 @@
         "command": "Selecciona un comando"
     },
     "button": {
-        "close": "❌",
         "viewWeb": "Mirar en la pagina web"
     },
-    "arguments": {
-        "command": {
-            "name": "comando",
-            "description": "El comando para obtener ayuda"
-        }
-    },
     "args": {
-        "command":{
-            "description": "Muestra la información de un comando específico"
+        "command": {
+            "description": "El comando para obtener ayuda"
         }
     }
 }

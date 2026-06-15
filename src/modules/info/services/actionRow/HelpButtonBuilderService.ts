@@ -7,10 +7,10 @@ export class HelpButtonBuilderService {
         private emojiFallback = ServiceContainer.getService(EmojiFallback)
     ) {}
 
-    async buildCloseButton(trans: (key: string) => string): Promise<ButtonBuilder> {
+    async buildCloseButton(): Promise<ButtonBuilder> {
         return new ButtonBuilder()
             .setCustomId('help.close')
-            .setLabel(await this.emojiFallback.getEmoji('', trans('button.close')))
+            .setLabel(await this.emojiFallback.getEmoji('', '❌'))
             .setStyle(ButtonStyle.Danger);
     }
 
