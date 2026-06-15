@@ -2,10 +2,10 @@ import { ButtonBuilder, ButtonStyle } from 'discord.js';
 import { EmojiFallback } from 'zumito-framework';
 
 export class HelpButtonBuilderService {
-    buildCloseButton(trans: (key: string) => string, emojiFallback: EmojiFallback): ButtonBuilder {
+    async buildCloseButton(trans: (key: string) => string, emojiFallback: EmojiFallback): Promise<ButtonBuilder> {
         return new ButtonBuilder()
             .setCustomId('help.close')
-            .setLabel(emojiFallback.getEmoji('', trans('button.close')))
+            .setLabel(await emojiFallback.getEmoji('', trans('button.close')))
             .setStyle(ButtonStyle.Danger);
     }
 

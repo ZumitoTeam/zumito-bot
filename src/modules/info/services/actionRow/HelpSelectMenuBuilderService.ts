@@ -3,16 +3,15 @@ import { Command, EmojiFallback, ZumitoFramework } from 'zumito-framework';
 
 export class HelpSelectMenuBuilderService {
 
-    private getCategoryEmoji(category: string, framework: ZumitoFramework, guildSettings: { lang: string }, emojiFallback: EmojiFallback): string | null {
+    private async getCategoryEmoji(category: string, framework: ZumitoFramework, guildSettings: { lang: string }, emojiFallback: EmojiFallback): Promise<string | null> {
         const emojiId = framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang);
-        const emoji = emojiFallback.getEmoji(emojiId, emojiId);
+        const emoji = await emojiFallback.getEmoji(emojiId, emojiId);
         return emoji || null;
     }
 
-    buildCategoriesSelectMenu(client: Client, framework: ZumitoFramework, guildSettings: { lang: string }, emojiFallback: EmojiFallback, selectedCategory?: string): StringSelectMenuBuilder {
+    async buildCategoriesSelectMenu(client: Client, framework: ZumitoFramework, guildSettings: { lang: string }, emojiFallback: EmojiFallback, selectedCategory?: string): Promise<StringSelectMenuBuilder> {
         const t = (key: string) => framework.translations.get(key, guildSettings.lang);
 
-        // Collect all unique categories from registered commands
         const categories: string[] = [];
         framework.commands.getAll().forEach((command: Command) => {
             for (const cat of command.categories) {
@@ -33,7 +32,7 @@ export class HelpSelectMenuBuilderService {
                 description: t(`global.category.${category}.description`),
             };
 
-            const emoji = this.getCategoryEmoji(category, framework, guildSettings, emojiFallback);
+            const emoji = await this.getCategoryEmoji(category, framework, guildSettings, emojiFallback);
             if (emoji) {
                 option.emoji = emoji;
             }
@@ -42,7 +41,7 @@ export class HelpSelectMenuBuilderService {
         }
 
         const placeholder = selectedCategory
-            ? `${this.getCategoryEmoji(selectedCategory, framework, guildSettings, emojiFallback) || ''} ${t(`global.category.${selectedCategory}.name`)}`.trim()
+            ? `${await this.getCategoryEmoji(selectedCategory, framework, guildSettings, emojiFallback) || ''} ${t(`global.category.${selectedCategory}.name`)}`.trim()
             : t("command.help.select.category");
 
         return new StringSelectMenuBuilder()
@@ -51,7 +50,7 @@ export class HelpSelectMenuBuilderService {
             .addOptions(options);
     }
 
-    buildCommandsSelectMenu(framework: ZumitoFramework, category: string, guildSettings: { lang: string }, emojiFallback: EmojiFallback): StringSelectMenuBuilder {
+    async buildCommandsSelectMenu(framework: ZumitoFramework, category: string, guildSettings: { lang: string }, emojiFallback: EmojiFallback): Promise<StringSelectMenuBuilder> {
         const t = (key: string) => framework.translations.get(key, guildSettings.lang);
 
         const commands = Array.from(framework.commands.getAll().values())
@@ -68,7 +67,7 @@ export class HelpSelectMenuBuilderService {
                 description: t(`command.${command.name}.description`),
             };
 
-            const emoji = this.getCategoryEmoji(category, framework, guildSettings, emojiFallback);
+            const emoji = await this.getCategoryEmoji(category, framework, guildSettings, emojiFallback);
             if (emoji) {
                 option.emoji = emoji;
             }

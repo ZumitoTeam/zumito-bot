@@ -28,8 +28,8 @@ export class Help extends Command {
         super();
     }
 
-    private buildButtonRow(trans: (key: string) => string): ActionRowBuilder<ButtonBuilder> {
-        const closeButton = this.buttonBuilderService.buildCloseButton(trans, this.emojiFallback);
+    private async buildButtonRow(trans: (key: string) => string): Promise<ActionRowBuilder<ButtonBuilder>> {
+        const closeButton = await this.buttonBuilderService.buildCloseButton(trans, this.emojiFallback);
         const viewWebButton = this.buttonBuilderService.buildViewWebButton(trans);
         return new ActionRowBuilder<ButtonBuilder>().addComponents(closeButton, viewWebButton);
     }
@@ -41,12 +41,12 @@ export class Help extends Command {
             if (this.framework.commands.getAll().has(args.get("command"))) {
 
                 const command = this.framework.commands.get(args.get("command"))!;
-                const commandEmbed = this.embedBuilderService.buildCommandEmbed(this.framework, command, guildSettings, this.getPrefix(guildSettings), this.emojiFallback);
+                const commandEmbed = await this.embedBuilderService.buildCommandEmbed(this.framework, command, guildSettings, this.getPrefix(guildSettings), this.emojiFallback);
 
                 const commandRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-                    this.selectMenuBuilderService.buildCategoriesSelectMenu(this.client, this.framework, guildSettings, this.emojiFallback)
+                    await this.selectMenuBuilderService.buildCategoriesSelectMenu(this.client, this.framework, guildSettings, this.emojiFallback)
                 );
-                const closeRow = this.buildButtonRow(trans);
+                const closeRow = await this.buildButtonRow(trans);
 
                 (message || (interaction as unknown as CommandInteraction)).reply({
                     embeds: [commandEmbed],
@@ -58,10 +58,10 @@ export class Help extends Command {
         } else {
 
             const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-                this.selectMenuBuilderService.buildCategoriesSelectMenu(this.client, this.framework, guildSettings, this.emojiFallback)
+                await this.selectMenuBuilderService.buildCategoriesSelectMenu(this.client, this.framework, guildSettings, this.emojiFallback)
             );
-            const closeRow = this.buildButtonRow(trans);
-            const embed = this.embedBuilderService.buildHelpEmbed(this.client, this.framework, guildSettings, this.emojiFallback);
+            const closeRow = await this.buildButtonRow(trans);
+            const embed = await this.embedBuilderService.buildHelpEmbed(this.client, this.framework, guildSettings, this.emojiFallback);
 
             (message || (interaction as unknown as CommandInteraction)).reply({
                 embeds: [embed],
@@ -89,14 +89,14 @@ export class Help extends Command {
                     index === self.findIndex((t: Command & { premium?: boolean }) => t.name === c.name)
                 );
 
-            const categoryEmbed = this.embedBuilderService.buildCategoryEmbed(
+            const categoryEmbed = await this.embedBuilderService.buildCategoryEmbed(
                 client, category, commands, framework, guildSettings, this.emojiFallback, this.getPrefix(guildSettings)
             );
 
             const row1 = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-                this.selectMenuBuilderService.buildCategoriesSelectMenu(client, framework, guildSettings, this.emojiFallback, category)
+                await this.selectMenuBuilderService.buildCategoriesSelectMenu(client, framework, guildSettings, this.emojiFallback, category)
             );
-            const closeRow = this.buildButtonRow(trans);
+            const closeRow = await this.buildButtonRow(trans);
 
             await interaction.deferUpdate();
             await interaction.editReply({
@@ -108,10 +108,10 @@ export class Help extends Command {
         } else if (path[1] == "command") {
 
             const command = framework.commands.get(interaction.values[0]);
-            const commandEmbed = this.embedBuilderService.buildCommandEmbed(framework, command!, guildSettings, this.getPrefix(guildSettings), this.emojiFallback);
+            const commandEmbed = await this.embedBuilderService.buildCommandEmbed(framework, command!, guildSettings, this.getPrefix(guildSettings), this.emojiFallback);
 
             const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-                this.selectMenuBuilderService.buildCategoriesSelectMenu(client, framework, guildSettings, this.emojiFallback)
+                await this.selectMenuBuilderService.buildCategoriesSelectMenu(client, framework, guildSettings, this.emojiFallback)
             );
 
             await interaction.deferUpdate();

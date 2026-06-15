@@ -6,14 +6,14 @@ type GuildSettings = { lang: string; prefix?: string };
 
 export class HelpEmbedBuilderService {
 
-    buildHelpEmbed(client: Client, framework: ZumitoFramework, guildSettings: GuildSettings, emojiFallback: EmojiFallback): EmbedBuilder {
+    async buildHelpEmbed(client: Client, framework: ZumitoFramework, guildSettings: GuildSettings, emojiFallback: EmojiFallback): Promise<EmbedBuilder> {
         const t = (key: string) => framework.translations.get(key, guildSettings.lang);
 
         const description = [
-            `${t("command.help.greeting.0").replace("{name}", client!.user!.displayName)} ${emojiFallback.getEmoji('', '😊')}`,
+            `${t("command.help.greeting.0").replace("{name}", client!.user!.displayName)} ${await emojiFallback.getEmoji('', '😊')}`,
             `\n${t("command.help.greeting.1")}`,
-            `${t("command.help.greeting.2")} ${emojiFallback.getEmoji('', '🎉')}`,
-            `${t("command.help.greeting.3")} ${emojiFallback.getEmoji('', '🎮')} ${emojiFallback.getEmoji('', '🤖')}`
+            `${t("command.help.greeting.2")} ${await emojiFallback.getEmoji('', '🎉')}`,
+            `${t("command.help.greeting.3")} ${await emojiFallback.getEmoji('', '🎮')} ${await emojiFallback.getEmoji('', '🤖')}`
         ];
 
         const embed = new EmbedBuilder()
@@ -28,7 +28,7 @@ export class HelpEmbedBuilderService {
         return embed;
     }
 
-    buildCategoryEmbed(client: Client, category: string, commands: Command[], framework: ZumitoFramework, guildSettings: GuildSettings, emojiFallback: EmojiFallback, prefix: string): EmbedBuilder {
+    async buildCategoryEmbed(client: Client, category: string, commands: Command[], framework: ZumitoFramework, guildSettings: GuildSettings, emojiFallback: EmojiFallback, prefix: string): Promise<EmbedBuilder> {
         const t = (key: string) => framework.translations.get(key, guildSettings.lang);
 
         const categoryEmbed = new EmbedBuilder()
@@ -37,7 +37,7 @@ export class HelpEmbedBuilderService {
                 iconURL: client!.user!.displayAvatarURL(),
             })
             .addFields({
-                name: `${emojiFallback.getEmoji(t(`global.category.${category}.emoji`), t(`global.category.${category}.emoji`))} ${t(`global.category.${category}.name`)}`,
+                name: `${await emojiFallback.getEmoji(t(`global.category.${category}.emoji`), t(`global.category.${category}.emoji`))} ${t(`global.category.${category}.name`)}`,
                 value: `${t("command.help.field.detailed")}: \`${prefix}help [<command>]\`\n${t("command.help.field.support")} [${t("command.help.field.support_server")}](${config.links.support})`,
             })
             .setColor(config.colors.default);
@@ -54,7 +54,7 @@ export class HelpEmbedBuilderService {
             this.addCommandsGrid(
                 categoryEmbed,
                 premiumCommands,
-                `${emojiFallback.getEmoji(t('global.category.premium.emoji'), '⭐')} ${t('global.category.premium.name')}`,
+                `${await emojiFallback.getEmoji(t('global.category.premium.emoji'), '⭐')} ${t('global.category.premium.name')}`,
                 true
             );
         }
@@ -84,7 +84,7 @@ export class HelpEmbedBuilderService {
         });
     }
 
-    buildCommandEmbed(framework: ZumitoFramework, command: Command, guildSettings: GuildSettings, prefix: string, emojiFallback: EmojiFallback): EmbedBuilder {
+    async buildCommandEmbed(framework: ZumitoFramework, command: Command, guildSettings: GuildSettings, prefix: string, emojiFallback: EmojiFallback): Promise<EmbedBuilder> {
         const t = (key: string) => framework.translations.get(key, guildSettings.lang);
 
         let usage = `${prefix + command.name}`;
@@ -155,7 +155,7 @@ export class HelpEmbedBuilderService {
                 rows.push(chunk.map((n) => n.padEnd(colWidth)).join(""));
             }
             embed.addFields({
-                name: `${emojiFallback.getEmoji('', '📂')} ${t("command.help.subcommands")}`,
+                name: `${await emojiFallback.getEmoji('', '📂')} ${t("command.help.subcommands")}`,
                 value: `\`\`\`${rows.join("\n")}\`\`\``,
             });
         }
