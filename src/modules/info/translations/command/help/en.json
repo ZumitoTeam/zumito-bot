@@ -25,8 +25,8 @@
     },
     "field": {
         "detailed": "Want more info about a command? Use",
-        "support": "For additional help, visit our",
-        "support_server": "support server"
+        "support": "Need help? Join my",
+        "support_server": "Support"
     },
     "select": {
         "category": "Select a category",

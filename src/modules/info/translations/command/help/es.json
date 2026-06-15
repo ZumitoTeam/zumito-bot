@@ -24,9 +24,9 @@
         "user": "Permisos del usuario"
     },
     "field": {
-        "detailed": "Ayuda detallada sobre un comando",
-        "support": "Para ayuda adicional, visita nuestro",
-        "support_server": "servidor de soporte"
+        "detailed": "¿Quieres más información sobre un comando? Usa",
+        "support": "¿Necesitas ayuda? Únete a mi",
+        "support_server": "Soporte"
     },
     "select": {
         "category": "Selecciona una categoría",

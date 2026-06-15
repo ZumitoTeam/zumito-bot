@@ -41,7 +41,7 @@ export class HelpEmbedBuilderService {
             .setTitle(t(`command.help.my_commands`))
             .addFields({
                 name: `${await this.emojiFallback.getEmoji('', t(`global.category.${category}.emoji`))} ${t(`global.category.${category}.name`)}`,
-                value: `${t("command.help.field.detailed")}: \`${prefix}help [<command>]\`\n${t("command.help.field.support")} [${t("command.help.field.support_server")}](${config.links.support})`,
+                value: `${t("command.help.field.detailed")}: \`${prefix}help [<command>]\`\n${t("command.help.field.support")} [${t("command.help.field.support_server")}](${config.links.support})!`,
             })
             .setColor(config.colors.default);
 
