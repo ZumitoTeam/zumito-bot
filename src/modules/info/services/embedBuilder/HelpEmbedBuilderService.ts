@@ -37,8 +37,6 @@ export class HelpEmbedBuilderService {
     async buildCategoryEmbed(client: Client, category: string, commands: Command[], framework: ZumitoFramework, guildSettings: GuildSettings, prefix: string): Promise<EmbedBuilder> {
         const t = (key: string) => framework.translations.get(key, guildSettings.lang);
 
-        const globalMaxLen = this.getGlobalMaxCommandLength(framework);
-
         const categoryEmbed = new EmbedBuilder()
             .setTitle(t(`command.help.my_commands`))
             .addFields({
@@ -47,7 +45,7 @@ export class HelpEmbedBuilderService {
             })
             .setColor(config.colors.default);
 
-        this.addCommandsGrid(categoryEmbed, commands, `${await this.emojiFallback.getEmoji('', '📖')} ${t("command.help.commands")}`, false, globalMaxLen);
+        this.addCommandsGrid(categoryEmbed, commands, `${await this.emojiFallback.getEmoji('', '📖')} ${t("command.help.commands")}`, false);
 
         const premiumCommands = Array.from(framework.commands.getAll().values())
             .filter((c: CommandWithPremium) => c.premium === true && c.categories.includes(category))
@@ -60,28 +58,17 @@ export class HelpEmbedBuilderService {
                 categoryEmbed,
                 premiumCommands,
                 `${await this.emojiFallback.getEmoji('', '⭐')} ${t('global.category.premium.name')}`,
-                true,
-                globalMaxLen
+                true
             );
         }
 
         return categoryEmbed;
     }
 
-    private getGlobalMaxCommandLength(framework: ZumitoFramework): number {
-        let max = 0;
-        framework.commands.getAll().forEach((cmd: Command) => {
-            if ((cmd.name?.length || 0) > max) {
-                max = cmd.name.length;
-            }
-        });
-        return max;
-    }
-
-    private addCommandsGrid(embed: EmbedBuilder, commands: Command[], fieldName: string, isPremium: boolean, globalMaxLen: number): void {
+    private addCommandsGrid(embed: EmbedBuilder, commands: Command[], fieldName: string, isPremium: boolean): void {
         commands.sort((a: Command, b: Command) => (a?.name || "").localeCompare(b?.name || ""));
 
-        const colWidth = globalMaxLen + 6;
+        const colWidth = commands.reduce((max, c) => Math.max(max, (c?.name || "").length), 0) + 2;
         const rows: string[] = [];
 
         for (let i = 0; i < commands.length; i += 4) {
@@ -94,10 +81,12 @@ export class HelpEmbedBuilderService {
         }
 
         const codeLang = isPremium ? 'ansi' : '';
-        embed.addFields({
-            name: fieldName,
-            value: `\`\`\`${codeLang}\n${rows.join("\n")}\`\`\``,
-        });
+        embed.addFields(
+            {
+                name: fieldName,
+                value: `\`\`\`${codeLang}\n${rows.join("\n")}\`\`\``,
+            }
+        );
     }
 
     async buildCommandEmbed(framework: ZumitoFramework, command: Command, guildSettings: GuildSettings, prefix: string): Promise<EmbedBuilder> {
@@ -137,30 +126,31 @@ export class HelpEmbedBuilderService {
             .map((c: Command) => c.name)
             .sort();
 
+        const premium = (command as CommandWithPremium).premium;
         const embed = new EmbedBuilder()
-            .setTitle(`${t("command.help.author.command")} ${command.name}`)
-            .setDescription(t(`command.${command.name}.description`))
+            .setTitle(`${premium ? `${await this.emojiFallback.getEmoji('', '👑')} ` : ''}${t("command.help.author.command")} ${command.name}`)
+            .setDescription(`>>> ${  t(`command.${command.name}.description`)}`)
             .addFields(
                 {
-                    name: t("command.help.usage"),
+                    name: `${await this.emojiFallback.getEmoji('', '📖')} ${t("command.help.usage")}`,
                     value: `\`${usage}\``,
                 },
                 {
-                    name: t("command.help.examples"),
+                    name: `${await this.emojiFallback.getEmoji('', '💡')} ${t("command.help.examples")}`,
                     value: examples.join("\n") || t("command.help.noExamples"),
                 },
                 {
-                    name: t("command.help.aliases"),
+                    name: `${await this.emojiFallback.getEmoji('', '🔗')} ${t("command.help.aliases")}`,
                     value: command.aliases.join(", ") || t("global.none"),
                 },
                 {
-                    name: t("command.help.category"),
+                    name: `${await this.emojiFallback.getEmoji('', '🏷️')} ${t("command.help.category")}`,
                     value: categoryName,
                 });
 
         if (parentName) {
             embed.addFields({
-                name: t("command.help.parent"),
+                name: `${await this.emojiFallback.getEmoji('', '👆')} ${t("command.help.parent")}`,
                 value: `\`${parentName}\``,
             });
         }
@@ -180,12 +170,12 @@ export class HelpEmbedBuilderService {
 
         embed.addFields(
             {
-                name: t("command.help.permissions.bot"),
+                name: `${await this.emojiFallback.getEmoji('', '🤖')} ${t("command.help.permissions.bot")}`,
                 value: (command?.botPermissions || []).map((p: string) => t(`global.permissions.${p}`)).join("\n") || t("global.none"),
                 inline: true,
             },
             {
-                name: t("command.help.permissions.user"),
+                name: `${await this.emojiFallback.getEmoji('', '👤')} ${t("command.help.permissions.user")}`,
                 value: (command?.userPermissions || []).map((p: bigint) => t(`global.permissions.${p}`)).join("\n") || t("global.none"),
                 inline: true,
             })
