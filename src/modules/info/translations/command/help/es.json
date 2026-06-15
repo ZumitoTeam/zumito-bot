@@ -1,6 +1,5 @@
 {
     "description": "Comandos disponibles e información sobre uno específico.",
-    "category": "Seleccione una categoría",
     "title": "Menú de ayuda",
     "greeting": {
         "0": "Hola, soy {name}",
@@ -11,34 +10,34 @@
     "author": {
         "command": "Comando"
     },
-    "commands_of": "Comandos de {name}",
+    "my_commands": "Mis Comandos",
     "commands": "Comandos",
-    "usage": "Uso",
-    "examples": "Ejemplos",
+    "noExamples": "Sin ejemplos",
+    "usage": "Cómo usar",
+    "examples": "Pruébalo así",
+    "aliases": "Alias",
+    "category": "Categoría",
+    "parent": "Comando padre",
+    "subcommands": "Subcomandos",
     "permissions": {
         "bot": "Permisos del bot",
         "user": "Permisos del usuario"
     },
     "field": {
-        "detailed": "Ayuda detallada sobre un comando",
-        "support": "Para ayuda adicional, visita nuestro",
-        "support_server": "servidor de soporte"
+        "detailed": "¿Quieres más información sobre un comando? Usa",
+        "support": "¿Necesitas ayuda? Únete a mi",
+        "support_server": "Soporte"
     },
     "select": {
+        "category": "Selecciona una categoría",
         "command": "Selecciona un comando"
     },
     "button": {
-        "close": "❌"
-    },
-    "arguments": {
-        "command": {
-            "name": "comando",
-            "description": "El comando para obtener ayuda"
-        }
+        "viewWeb": "Mirar en la pagina web"
     },
     "args": {
-        "command":{
-            "description": "Muestra la información de un comando específico"
+        "command": {
+            "description": "El comando para obtener ayuda"
         }
     }
 }

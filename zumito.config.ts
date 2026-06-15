@@ -1,6 +1,6 @@
 import path from 'path';
 import { ServiceContainer, type LauncherConfig } from 'zumito-framework';
-import { statusOptions } from 'src/config/StatusOptions';
+import { statusOptions } from './src/config/StatusOptions.js';
 import { UserPanelColorsService } from '@zumito-team/user-panel-module/services/UserPanelColorsService.js';
 import { AdminColorsService } from '@zumito-team/admin-module/services/AdminColorsService';
 
@@ -20,7 +20,7 @@ export const config: LauncherConfig = {
         path: path.join(__dirname, "node_modules", "@zumito-team", "reactions-module"),
     }],
     callbacks: {
-        load: (zumito) => {
+        load: () => {
             const userPanelColorsService = ServiceContainer.getService(UserPanelColorsService);
             userPanelColorsService.setColors({
                 primary: "#e11d48",
