@@ -37,6 +37,8 @@ export class HelpEmbedBuilderService {
     async buildCategoryEmbed(client: Client, category: string, commands: Command[], framework: ZumitoFramework, guildSettings: GuildSettings, prefix: string): Promise<EmbedBuilder> {
         const t = (key: string) => framework.translations.get(key, guildSettings.lang);
 
+        const globalMaxLen = this.getGlobalMaxCommandLength(framework);
+
         const categoryEmbed = new EmbedBuilder()
             .setTitle(t(`command.help.my_commands`))
             .addFields({
@@ -45,7 +47,7 @@ export class HelpEmbedBuilderService {
             })
             .setColor(config.colors.default);
 
-        this.addCommandsGrid(categoryEmbed, commands, `${await this.emojiFallback.getEmoji('', '📖')} ${t("command.help.commands")}`, false);
+        this.addCommandsGrid(categoryEmbed, commands, `${await this.emojiFallback.getEmoji('', '📖')} ${t("command.help.commands")}`, false, globalMaxLen);
 
         const premiumCommands = Array.from(framework.commands.getAll().values())
             .filter((c: CommandWithPremium) => c.premium === true && c.categories.includes(category))
@@ -58,17 +60,28 @@ export class HelpEmbedBuilderService {
                 categoryEmbed,
                 premiumCommands,
                 `${await this.emojiFallback.getEmoji('', '⭐')} ${t('global.category.premium.name')}`,
-                true
+                true,
+                globalMaxLen
             );
         }
 
         return categoryEmbed;
     }
 
-    private addCommandsGrid(embed: EmbedBuilder, commands: Command[], fieldName: string, isPremium: boolean): void {
+    private getGlobalMaxCommandLength(framework: ZumitoFramework): number {
+        let max = 0;
+        framework.commands.getAll().forEach((cmd: Command) => {
+            if ((cmd.name?.length || 0) > max) {
+                max = cmd.name.length;
+            }
+        });
+        return max;
+    }
+
+    private addCommandsGrid(embed: EmbedBuilder, commands: Command[], fieldName: string, isPremium: boolean, globalMaxLen: number): void {
         commands.sort((a: Command, b: Command) => (a?.name || "").localeCompare(b?.name || ""));
 
-        const colWidth = commands.reduce((max, c) => Math.max(max, (c?.name || "").length), 0) + 2;
+        const colWidth = globalMaxLen + 6;
         const rows: string[] = [];
 
         for (let i = 0; i < commands.length; i += 4) {
@@ -93,7 +106,9 @@ export class HelpEmbedBuilderService {
         let usage = `${prefix + command.name}`;
         if (command.args?.length > 0) {
             for (const arg of command.args) {
-                const argName = t(`command.${command.name}.arguments.${arg.name}.name`);
+                const key = `command.${command.name}.arguments.${arg.name}.name`;
+                const translated = t(key);
+                const argName = translated !== key ? translated : arg.name;
                 usage += arg.optional ? ` <${argName}>` : ` [${argName}]`;
             }
         }
