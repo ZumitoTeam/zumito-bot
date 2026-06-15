@@ -41,7 +41,7 @@ export class Help extends Command {
             if (this.framework.commands.getAll().has(args.get("command"))) {
 
                 const command = this.framework.commands.get(args.get("command"))!;
-                const commandEmbed = this.embedBuilderService.buildCommandEmbed(this.framework, command, guildSettings, this.getPrefix(guildSettings));
+                const commandEmbed = this.embedBuilderService.buildCommandEmbed(this.framework, command, guildSettings, this.getPrefix(guildSettings), this.emojiFallback);
 
                 const commandRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
                     this.selectMenuBuilderService.buildCategoriesSelectMenu(this.client, this.framework, guildSettings, this.emojiFallback)
@@ -108,7 +108,7 @@ export class Help extends Command {
         } else if (path[1] == "command") {
 
             const command = framework.commands.get(interaction.values[0]);
-            const commandEmbed = this.embedBuilderService.buildCommandEmbed(framework, command!, guildSettings, this.getPrefix(guildSettings));
+            const commandEmbed = this.embedBuilderService.buildCommandEmbed(framework, command!, guildSettings, this.getPrefix(guildSettings), this.emojiFallback);
 
             const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
                 this.selectMenuBuilderService.buildCategoriesSelectMenu(client, framework, guildSettings, this.emojiFallback)

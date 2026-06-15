@@ -84,7 +84,7 @@ export class HelpEmbedBuilderService {
         });
     }
 
-    buildCommandEmbed(framework: ZumitoFramework, command: Command, guildSettings: GuildSettings, prefix: string): EmbedBuilder {
+    buildCommandEmbed(framework: ZumitoFramework, command: Command, guildSettings: GuildSettings, prefix: string, emojiFallback: EmojiFallback): EmbedBuilder {
         const t = (key: string) => framework.translations.get(key, guildSettings.lang);
 
         let usage = `${prefix + command.name}`;
@@ -155,7 +155,7 @@ export class HelpEmbedBuilderService {
                 rows.push(chunk.map((n) => n.padEnd(colWidth)).join(""));
             }
             embed.addFields({
-                name: `📂 ${t("command.help.subcommands")}`,
+                name: `${emojiFallback.getEmoji('', '📂')} ${t("command.help.subcommands")}`,
                 value: `\`\`\`${rows.join("\n")}\`\`\``,
             });
         }
