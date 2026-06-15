@@ -20,7 +20,7 @@ export const config: LauncherConfig = {
         path: path.join(__dirname, "node_modules", "@zumito-team", "reactions-module"),
     }],
     callbacks: {
-        load: (_zumito) => {
+        load: (zumito) => {
             const userPanelColorsService = ServiceContainer.getService(UserPanelColorsService);
             userPanelColorsService.setColors({
                 primary: "#e11d48",
