@@ -42,7 +42,7 @@ export class HelpEmbedBuilderService {
             })
             .setColor(config.colors.default);
 
-        this.addCommandsGrid(categoryEmbed, commands, t("command.help.commands"), false);
+        this.addCommandsGrid(categoryEmbed, commands, `${await emojiFallback.getEmoji('', '⭐')} ${t("command.help.commands")}`, false);
 
         const premiumCommands = Array.from(framework.commands.getAll().values())
             .filter((c: Command & { premium?: boolean }) => c.premium === true && c.categories.includes(category))
