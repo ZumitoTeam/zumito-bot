@@ -37,7 +37,7 @@ export class HelpEmbedBuilderService {
                 iconURL: client!.user!.displayAvatarURL(),
             })
             .addFields({
-                name: `${await emojiFallback.getEmoji(t(`global.category.${category}.emoji`), t(`global.category.${category}.emoji`))} ${t(`global.category.${category}.name`)}`,
+                name: `${await emojiFallback.getEmoji('', t(`global.category.${category}.emoji`))} ${t(`global.category.${category}.name`)}`,
                 value: `${t("command.help.field.detailed")}: \`${prefix}help [<command>]\`\n${t("command.help.field.support")} [${t("command.help.field.support_server")}](${config.links.support})`,
             })
             .setColor(config.colors.default);
@@ -54,7 +54,7 @@ export class HelpEmbedBuilderService {
             this.addCommandsGrid(
                 categoryEmbed,
                 premiumCommands,
-                `${await emojiFallback.getEmoji(t('global.category.premium.emoji'), '⭐')} ${t('global.category.premium.name')}`,
+                `${await emojiFallback.getEmoji('', '⭐')} ${t('global.category.premium.name')}`,
                 true
             );
         }

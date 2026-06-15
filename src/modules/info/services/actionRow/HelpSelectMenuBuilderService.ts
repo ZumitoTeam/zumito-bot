@@ -5,7 +5,7 @@ export class HelpSelectMenuBuilderService {
 
     private async getCategoryEmoji(category: string, framework: ZumitoFramework, guildSettings: { lang: string }, emojiFallback: EmojiFallback): Promise<string | null> {
         const emojiId = framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang);
-        const emoji = await emojiFallback.getEmoji(emojiId, emojiId);
+        const emoji = await emojiFallback.getEmoji('', emojiId);
         return emoji || null;
     }
 
