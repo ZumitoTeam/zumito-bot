@@ -8,9 +8,11 @@ type CommandWithPremium = Command & { premium?: boolean };
 
 export class HelpEmbedBuilderService {
 
-    constructor(
-        private emojiFallback = ServiceContainer.getService(EmojiFallback)
-    ) {}
+    emojiFallback: EmojiFallback;
+
+    constructor() {
+        this.emojiFallback = ServiceContainer.getService(EmojiFallback);
+    }
 
     async buildHelpEmbed(client: Client, framework: ZumitoFramework, guildSettings: GuildSettings): Promise<EmbedBuilder> {
         const t = (key: string) => framework.translations.get(key, guildSettings.lang);

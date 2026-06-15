@@ -3,9 +3,11 @@ import { Command, EmojiFallback, ZumitoFramework, ServiceContainer } from 'zumit
 
 export class HelpSelectMenuBuilderService {
 
-    constructor(
-        private emojiFallback = ServiceContainer.getService(EmojiFallback)
-    ) {}
+    emojiFallback: EmojiFallback;
+
+    constructor() {
+        this.emojiFallback = ServiceContainer.getService(EmojiFallback);
+    }
 
     private async getCategoryEmoji(category: string, framework: ZumitoFramework, guildSettings: { lang: string }): Promise<string | null> {
         const emojiId = framework.translations.get(`global.category.${category}.emoji`, guildSettings.lang);

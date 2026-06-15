@@ -3,9 +3,11 @@ import { EmojiFallback, ServiceContainer } from 'zumito-framework';
 
 export class HelpButtonBuilderService {
 
-    constructor(
-        private emojiFallback = ServiceContainer.getService(EmojiFallback)
-    ) {}
+    emojiFallback: EmojiFallback;
+
+    constructor() {
+        this.emojiFallback = ServiceContainer.getService(EmojiFallback);
+    }
 
     async buildCloseButton(): Promise<ButtonBuilder> {
         return new ButtonBuilder()
@@ -14,6 +16,7 @@ export class HelpButtonBuilderService {
             .setStyle(ButtonStyle.Danger);
     }
 
+    // eslint-disable-next-line no-unused-vars
     buildViewWebButton(trans: (key: string) => string): ButtonBuilder {
         return new ButtonBuilder()
             .setLabel(trans('button.viewWeb'))

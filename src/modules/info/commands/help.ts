@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, CommandInteraction, Client } from "zumito-framework/discord";
-import { Command, CommandArgDefinition, CommandChoiceDefinition, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters, EmojiFallback, ButtonPressedParams, ServiceContainer } from "zumito-framework";
+import { Command, CommandArgDefinition, CommandChoiceDefinition, CommandParameters, ZumitoFramework, CommandType, SelectMenuParameters, ButtonPressedParams, ServiceContainer } from "zumito-framework";
 import { HelpEmbedBuilderService } from "../services/embedBuilder/HelpEmbedBuilderService.js";
 import { HelpButtonBuilderService } from "../services/actionRow/HelpButtonBuilderService.js";
 import { HelpSelectMenuBuilderService } from "../services/actionRow/HelpSelectMenuBuilderService.js";
@@ -31,16 +31,22 @@ export class Help extends Command {
     userPermissions = [];
     type = CommandType.any;
 
-    constructor(
-        private client = ServiceContainer.getService(Client),
-        private framework = ServiceContainer.getService(ZumitoFramework),
-        private embedBuilderService = ServiceContainer.getService(HelpEmbedBuilderService),
-        private buttonBuilderService = ServiceContainer.getService(HelpButtonBuilderService),
-        private selectMenuBuilderService = ServiceContainer.getService(HelpSelectMenuBuilderService)
-    ) {
+    client: Client;
+    framework: ZumitoFramework;
+    embedBuilderService: HelpEmbedBuilderService;
+    buttonBuilderService: HelpButtonBuilderService;
+    selectMenuBuilderService: HelpSelectMenuBuilderService;
+
+    constructor() {
         super();
+        this.client = ServiceContainer.getService(Client);
+        this.framework = ServiceContainer.getService(ZumitoFramework);
+        this.embedBuilderService = ServiceContainer.getService(HelpEmbedBuilderService);
+        this.buttonBuilderService = ServiceContainer.getService(HelpButtonBuilderService);
+        this.selectMenuBuilderService = ServiceContainer.getService(HelpSelectMenuBuilderService);
     }
 
+    // eslint-disable-next-line no-unused-vars
     private async buildButtonRow(trans: (key: string) => string): Promise<ActionRowBuilder<ButtonBuilder>> {
         const closeButton = await this.buttonBuilderService.buildCloseButton();
         const viewWebButton = this.buttonBuilderService.buildViewWebButton(trans);
