@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "tsx ./node_modules/zumito-framework/dist/launcher.js",
-    "dev": "DEBUG=true npm run start"
+    "dev": "DEBUG=true tsx ./node_modules/zumito-framework/dist/launcher.js",
+    "env:encrypt": "openssl enc -aes-256-cbc -salt -pbkdf2 -in .env -out .env.enc",
+    "env:decrypt": "openssl enc -aes-256-cbc -d -pbkdf2 -in .env.enc -out .env"
   },
   "repository": {
     "type": "git",
